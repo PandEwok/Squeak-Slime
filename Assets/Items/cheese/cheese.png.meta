@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: bd74cffa5dcd54c4a9890ae8d8fd8edd
+guid: b4406742829cb7c4ba97e4ae22f2d282
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 368543389579951487
-    second: slime_0
+      213: -4470592730861715767
+    second: cheese_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: slime_0
+      name: cheese_0
       rect:
         serializedVersion: 2
-        x: 19
-        y: 77
-        width: 230
-        height: 101
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f7d3b3c92445d1500800000000000000
-      internalID: 368543389579951487
+      spriteID: 9ce3b85f89345f1c0800000000000000
+      internalID: -4470592730861715767
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      slime_0: 368543389579951487
+      cheese_0: -4470592730861715767
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
