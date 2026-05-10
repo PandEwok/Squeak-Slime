@@ -6,15 +6,21 @@ using UnityEngine.UI;
 
 public class Stats_System : MonoBehaviour
 {
-    public int health;
+    public int originalHealth;
     public int damage;
     public int defense;
     public GameObject damagePF;
+    Vector3 originalPos;
+    Color originalColor;
+    int health;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        originalPos = transform.localPosition;
+        //originalColor = this.gameObject.GetComponent<SpriteRenderer>().color;
+        originalColor = Color.white;
+        health = originalHealth;
     }
 
     // Update is called once per frame
@@ -27,7 +33,6 @@ public class Stats_System : MonoBehaviour
     {
         float shakeDuration = 0.4f;
         float shakeMagnitude = 0.08f;
-        Vector3 originalPos = transform.localPosition;
         float elapsed = 0.0f;
         while (elapsed < shakeDuration)
         {
@@ -43,7 +48,7 @@ public class Stats_System : MonoBehaviour
     private IEnumerator dmgShade()
     {
         SpriteRenderer img = GetComponentInChildren<SpriteRenderer>();
-        Color originalColor = new Color(1f, 1f, 1f, 1f);
+        
         Color targetColor = new Color(1f, 0f, 0f, 0.8f);
         float duration = 0.15f;
         float elapsed = 0f;
@@ -63,7 +68,7 @@ public class Stats_System : MonoBehaviour
         img.color = originalColor;
     }
 
-    public void TakeDamage(int damageAmount)
+    public void takeDamage(int damageAmount)
     {
         int effectiveDamage = Mathf.Max(damageAmount - defense, 0);
         health -= effectiveDamage;
@@ -76,10 +81,11 @@ public class Stats_System : MonoBehaviour
         float randomYOffset = UnityEngine.Random.Range(-0.5f, 0.5f);
         spawnPos.y += randomYOffset;
 
+
         StartCoroutine(dmgShake());
         StartCoroutine(dmgShade());
 
-        newDmgDisplay = Instantiate(damagePF, spawnPos, Quaternion.identity, GameObject.FindAnyObjectByType<Canvas>().transform);
+        newDmgDisplay = Instantiate(damagePF, spawnPos, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
         newDmgDisplay.GetComponent<TextMeshProUGUI>().SetText(effectiveDamage.ToString());
 
         Debug.Log($"{gameObject.name} took {effectiveDamage} damage. Remaining health: {health}");
@@ -88,5 +94,12 @@ public class Stats_System : MonoBehaviour
         {
             /*Die();*/
         }
+    }
+
+    public void heal(int healAmount)
+    {
+        health += healAmount;
+        health = Mathf.Min(health, originalHealth);
+        Debug.Log($"{gameObject.name} healed for {healAmount}. Current health: {health}");
     }
 }

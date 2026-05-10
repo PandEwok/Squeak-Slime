@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public class Combat_Logic : MonoBehaviour
 {
     bool playerTurn = true;
+    bool switchingTurns = false;
 
     /*public Stats_System playerStats;*/
     public List<GameObject> enemiesToSpawn;
@@ -15,14 +16,21 @@ public class Combat_Logic : MonoBehaviour
 
     List<GameObject> enemies = new List<GameObject>();
 
+    UnityEngine.UI.Button[] UI_Buttons;
+
     public void switchTurn()
     {
         Debug.Log("Switching turns...");
+        switchingTurns = true;
         StartCoroutine(SwitchTurnCoroutine());
     }
 
     public void playerAttack()
     {
+        foreach (UnityEngine.UI.Button button in UI_Buttons)
+        {
+            button.interactable = false;
+        }
         if (enemies.Count > 0)
         {
             GameObject targetEnemy = enemies[0];
@@ -32,7 +40,7 @@ public class Combat_Logic : MonoBehaviour
                 int damageAmount = 20; // Example damage value
                 int randomDmgOffset = Random.Range(-2, 3);
                 damageAmount += randomDmgOffset;
-                enemyStats.TakeDamage(damageAmount);
+                enemyStats.takeDamage(damageAmount);
                 Debug.Log($"Player attacked {targetEnemy.name} for {damageAmount} damage.");
             }
         }
@@ -43,6 +51,14 @@ public class Combat_Logic : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         playerTurn = !playerTurn;
+        switchingTurns = false;
+        if (playerTurn)
+        {
+            foreach (UnityEngine.UI.Button button in UI_Buttons)
+            {
+                button.interactable = true;
+            }
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -52,30 +68,28 @@ public class Combat_Logic : MonoBehaviour
         {
             enemies.Add( Instantiate(enemiesToSpawn[i], EnemyPositions[i].transform.position, Quaternion.identity, this.transform) );
         }
+        UI_Buttons = GameObject.Find("PAction_Bar").GetComponentsInChildren<UnityEngine.UI.Button>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerTurn)
+        if (playerTurn && !switchingTurns)
         {
             /*Debug.Log("Player's turn");*/
         }
-        else {
+        else if (!switchingTurns) {
             /*Debug.Log("Enemy's turn");*/
+
+            
 
             // All enemies attack player
             foreach (GameObject enemy in enemies)
             {
-                Stats_System enemyStats = enemy.GetComponent<Stats_System>();
-                if (enemyStats != null)
+                Enemy_AI enemyAI = enemy.GetComponent<Enemy_AI>();
+                if (enemyAI != null)
                 {
-                    int damageAmount = enemyStats.damage;
-                    int randomDmgOffset = Random.Range(-2, 3);
-                    damageAmount += randomDmgOffset;
-                    // Assuming playerStats is defined and accessible
-                    // playerStats.TakeDamage(damageAmount);
-                    Debug.Log($"Enemy {enemy.name} attacked player for {damageAmount} damage.");
+                    enemyAI.playTurn(enemy);
                 }
             }
 

@@ -1,0 +1,27 @@
+
+.selector {
+    opacity: 0;
+    flex-grow: 0;
+    background-image: url("selector.png");
+    background-size: contain;
+    height: 32px;
+    width: 70px;
+    scale: 1;
+    align-items: stretch;
+    justify-content: flex-start;
+    align-content: auto;
+    aspect-ratio: auto;
+    -unity-slice-type: sliced;
+    -unity-background-scale-mode: scale-and-crop;
+    background-position-x: center;
+    background-position-y: center;
+    min-width: auto;
+}
+
+.ActionMenuButton:hover .selector {
+    opacity: 1;
+}
+
+.ActionMenuButton:focus .selector {
+    opacity: 1;
+}

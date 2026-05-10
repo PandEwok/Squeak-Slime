@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7247814359904931912}
   - component: {fileID: 6071632828497526513}
+  - component: {fileID: -672226796281280321}
   m_Layer: 0
   m_Name: Enemy_PF
   m_TagString: Untagged
@@ -45,10 +46,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588fa43f259fbd74d96ee1d9516568e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  health: 40
+  originalHealth: 40
   damage: 5
   defense: 10
   damagePF: {fileID: 254843135583981822, guid: 560e1bfb2a4706e45a82ebfb18aa849e, type: 3}
+--- !u!114 &-672226796281280321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5090310822546844051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d98691122b63f458cd9e776f6efc3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &7696234160017508083
 GameObject:
   m_ObjectHideFlags: 0
