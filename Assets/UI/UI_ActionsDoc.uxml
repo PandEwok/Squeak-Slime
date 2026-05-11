@@ -1,14 +1,20 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/ActionMenu.uss?fileID=7433441132597879392&amp;guid=0a15015b45e476445b456d5f57780a6c&amp;type=3#ActionMenu"/>
-    <ui:VisualElement picking-mode="Ignore" class="ActionMenuHover" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/UI/ActionMenuBG.png?fileID=2800000&amp;guid=c3e06bc0f1a0a6f40941703b9f64602a&amp;type=3#ActionMenuBG&quot;); justify-content: space-evenly; align-content: center; position: absolute; top: 84px; left: 144px; height: 147px; width: 103px;">
-        <ui:Button text="Attack&#10;" name="Attack" class="ActionMenuButton" style="background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; color: rgb(255, 255, 255); font-size: 20px;">
-            <ui:VisualElement picking-mode="Ignore" class="selector"/>
+    <ui:VisualElement picking-mode="Ignore" name="MainContainer" class="ActionMenuHover" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/UI/ActionMenuBG.png?fileID=2800000&amp;guid=c3e06bc0f1a0a6f40941703b9f64602a&amp;type=3#ActionMenuBG&quot;); justify-content: space-evenly; align-content: center; position: absolute; top: 84px; left: 144px; height: 147px; width: 103px;">
+        <ui:Button text="Attack&#10;" name="Attack" class="ActionMenuButton1 button" style="background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+            <ui:VisualElement picking-mode="Ignore" name="AttackSelector" class="selector"/>
         </ui:Button>
-        <ui:Button text="Items&#10;" name="Items" class="ActionMenuButton" style="background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; color: rgb(255, 255, 255); font-size: 20px;">
-            <ui:VisualElement picking-mode="Ignore" class="selector"/>
+        <ui:Button text="Items&#10;" name="Items" class="ActionMenuButton1 button" style="background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+            <ui:VisualElement picking-mode="Ignore" name="ItemsSelector" class="selector"/>
         </ui:Button>
-        <ui:Button text="Skills&#10;" name="Skills" class="ActionMenuButton" style="background-color: rgba(188, 188, 188, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; color: rgb(255, 255, 255); font-size: 20px;">
-            <ui:VisualElement picking-mode="Ignore" class="selector"/>
+        <ui:Button text="Skills&#10;" name="Skills" class="ActionMenuButton1 button" style="background-color: rgba(188, 188, 188, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+            <ui:VisualElement picking-mode="Ignore" name="SkillsSelector" class="selector"/>
+        </ui:Button>
+        <ui:Button text="Front&#10;" name="AttackFront" class="ActionMenuButton2 button" style="background-color: rgba(188, 188, 188, 0); color: rgb(255, 255, 255); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; font-size: 20px;">
+            <ui:VisualElement picking-mode="Ignore" name="AttackFrontSelector" class="selector"/>
+        </ui:Button>
+        <ui:Button text="Above&#10;" name="AttackUp" class="ActionMenuButton2 button" style="background-color: rgba(188, 188, 188, 0); color: rgb(255, 255, 255); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; font-size: 20px;">
+            <ui:VisualElement picking-mode="Ignore" name="AttackUpSelector" class="selector"/>
         </ui:Button>
     </ui:VisualElement>
 </ui:UXML>

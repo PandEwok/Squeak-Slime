@@ -1,8 +1,7 @@
-
 .selector {
     opacity: 0;
     flex-grow: 0;
-    background-image: url("selector.png");
+    background-image: url("project://database/Assets/UI/selector.png?fileID=21300000&guid=2a24550d21479604687813e1b0e52e8b&type=3#selector");
     background-size: contain;
     height: 32px;
     width: 70px;
@@ -18,10 +17,27 @@
     min-width: auto;
 }
 
-.ActionMenuButton:hover .selector {
+.ActionMenuButton1:hover .selector {
     opacity: 1;
 }
 
-.ActionMenuButton:focus .selector {
+.ActionMenuButton2:hover .selector {
     opacity: 1;
+}
+
+/*.ActionMenuButton1:focus .selector {
+    opacity: 1;
+}*/
+
+.ActionMenuButton1 {
+    display: flex;
+}
+
+.button {
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+}
+
+.ActionMenuButton2 {
+    display: none;
 }

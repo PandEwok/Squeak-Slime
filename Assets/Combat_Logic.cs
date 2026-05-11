@@ -14,7 +14,7 @@ public class Combat_Logic : MonoBehaviour
     public List<GameObject> enemiesToSpawn;
     public List<GameObject> EnemyPositions;
 
-    List<GameObject> enemies = new List<GameObject>();
+    public List<GameObject> enemies = new List<GameObject>();
 
     GameObject player;
 
@@ -46,7 +46,7 @@ public class Combat_Logic : MonoBehaviour
                 Debug.Log($"Player attacked {targetEnemy.name} for {damageAmount} damage.");
             }
         }
-        switchTurn();
+        //switchTurn();
     }
 
     private IEnumerator SwitchTurnCoroutine()
@@ -64,7 +64,7 @@ public class Combat_Logic : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         player = GameObject.FindWithTag("Player");
 
