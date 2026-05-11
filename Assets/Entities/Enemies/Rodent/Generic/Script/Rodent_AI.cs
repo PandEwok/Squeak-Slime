@@ -1,25 +1,16 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.Threading.Tasks;
 
 public class Rodent_AI : Enemy_AI
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public async override Task playTurn(GameObject target)
     {
+        await closeAttack(target);
+    }
+    public override void attack(GameObject target) {
         
-    }
-
-    public override void playTurn(GameObject target)
-    {
-        attack(target);
-    }
-    void attack(GameObject target) {
         Stats_System targetStats = target.GetComponent<Stats_System>();
 
         if (targetStats != null)

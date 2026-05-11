@@ -16,6 +16,8 @@ public class Combat_Logic : MonoBehaviour
 
     List<GameObject> enemies = new List<GameObject>();
 
+    GameObject player;
+
     UnityEngine.UI.Button[] UI_Buttons;
 
     public void switchTurn()
@@ -49,7 +51,7 @@ public class Combat_Logic : MonoBehaviour
 
     private IEnumerator SwitchTurnCoroutine()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
         playerTurn = !playerTurn;
         switchingTurns = false;
         if (playerTurn)
@@ -64,6 +66,8 @@ public class Combat_Logic : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
+
         for (int i = 0; i < enemiesToSpawn.Count; i++)
         {
             enemies.Add( Instantiate(enemiesToSpawn[i], EnemyPositions[i].transform.position, Quaternion.identity, this.transform) );
@@ -78,22 +82,26 @@ public class Combat_Logic : MonoBehaviour
         {
             /*Debug.Log("Player's turn");*/
         }
-        else if (!switchingTurns) {
+        else if (!playerTurn && !switchingTurns) {
             /*Debug.Log("Enemy's turn");*/
 
-            
-
-            // All enemies attack player
-            foreach (GameObject enemy in enemies)
-            {
-                Enemy_AI enemyAI = enemy.GetComponent<Enemy_AI>();
-                if (enemyAI != null)
-                {
-                    enemyAI.playTurn(enemy);
-                }
-            }
-
-            switchTurn();
+            switchingTurns = true;
+            EnemyTurnSequence();
         }
     }
+
+    public async void EnemyTurnSequence()
+    {
+        foreach (GameObject enemy in enemies)
+        {
+            Enemy_AI enemyAI = enemy.GetComponent<Enemy_AI>();
+            if (enemyAI != null)
+            {
+                await enemyAI.playTurn(player); // ATTENDRE la fin du tour de cet ennemi
+            }
+        }
+
+        switchTurn();
+    }
+
 }
