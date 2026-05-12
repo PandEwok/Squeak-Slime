@@ -23,6 +23,7 @@ public class ActionBarScript : MonoBehaviour
         var Skills = root.Q<Button>("Skills");
         var Defend = root.Q<Button>("Defend");
         var CancelP1 = root.Q<Button>("CancelToPage1");
+        
         page1 = root.Query<VisualElement>(className: "ActionMenuButton1").ToList();
         page2 = root.Query<VisualElement>(className: "ActionMenuButton2").ToList();
         Attack?.RegisterCallback<ClickEvent>(ev => AttackClicked());
@@ -34,8 +35,10 @@ public class ActionBarScript : MonoBehaviour
         //Position de depart du slime
         originalPosition = player.transform.position;
 
-        var confirmAttackBtn = root.Q<Button>("AttackFront");
-        confirmAttackBtn?.RegisterCallback<ClickEvent>(ev => AttackFrontClicked());
+        var AttackFront = root.Q<Button>("AttackFront");
+        var AttackUp = root.Q<Button>("AttackUp");
+        AttackFront?.RegisterCallback<ClickEvent>(ev => AttackFrontClicked());
+        AttackUp?.RegisterCallback<ClickEvent>(ev => AttackUpClicked());
 
     }
 
@@ -76,19 +79,19 @@ public class ActionBarScript : MonoBehaviour
     private void AttackFrontClicked()
     {
         Debug.Log("Confirm Attack button clicked!");
-        // 1. Récupérer l'ennemi en premiere position (temporaire avant les fleches)
+        
         if (combatLogic.enemies.Count > 0)
         {
             GameObject target = combatLogic.enemies[currentEnemyTargetIndex];
 
             //Debut de l'attaque
-            StartCoroutine(AttackSequence(target));
+            StartCoroutine(AttackFrontSequence(target));
             ToggleUiVisibility(false);
         }
         Debug.Log(combatLogic.enemies.Count);
     }
 
-    private IEnumerator AttackSequence(GameObject target)
+    private IEnumerator AttackFrontSequence(GameObject target)
     {
         Vector3 enemyPos = target.transform.position;
         Vector3 direction = (enemyPos - originalPosition).normalized;
@@ -98,7 +101,7 @@ public class ActionBarScript : MonoBehaviour
 
         // ALLER
         float elapsed = 0;
-        float duration = 0.8f;
+        float duration = 0.6f;
         while (elapsed < duration)
         {
             player.transform.position = Vector3.Lerp(originalPosition, targetPos, elapsed / duration);
@@ -126,13 +129,94 @@ public class ActionBarScript : MonoBehaviour
             yield return null;
         }
 
+        FinalizeAttack();
+    }
+
+    private void AttackUpClicked()
+    {
+        Debug.Log("Attack Up button clicked!");
+        if (combatLogic.enemies.Count > 0)
+        {
+            GameObject target = combatLogic.enemies[currentEnemyTargetIndex];
+            ToggleUiVisibility(false);
+            StartCoroutine(AttackJumpSequence(target));
+        }
+    }
+
+    private IEnumerator AttackJumpSequence(GameObject target)
+    {
+        Vector3 startPos = originalPosition;
+        Vector3 enemyPos = target.transform.position;
+        Vector3 direction = (enemyPos - startPos).normalized;
+
+        
+        float prepDistance = 3.0f; //Fin deplacement avant le saut
+        Vector3 prepPos = enemyPos - (direction * prepDistance);
+        Vector3 arrivalPos = enemyPos;
+
+        float duration = 0.6f;
+        float elapsed = 0;
+
+        //APPROCHE
+        while (elapsed < duration)
+        {
+            player.transform.position = Vector3.Lerp(startPos, prepPos, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        //SAUT
+        elapsed = 0;
+        float jumpHeight = 4.0f;
+        float jumpDuration = 0.5f;
+
+        while (elapsed < jumpDuration)
+        {
+            float t = elapsed / jumpDuration;
+
+            //Mouvement horizontal
+            Vector3 currentPos = Vector3.Lerp(prepPos, enemyPos, t);
+
+            //Courbe
+            float height = Mathf.Sin(Mathf.PI * t) * jumpHeight;
+            currentPos.y += height;
+
+            player.transform.position = currentPos;
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        //DEGATS
+        player.transform.position = enemyPos;
+        var enemyStats = target.GetComponent<Stats_System>();
+        if (enemyStats != null)
+        {
+            enemyStats.takeDamage(20);
+        }
+        yield return new WaitForSeconds(0.3f);
+
+        //RETOUR
+        elapsed = 0;
+        Vector3 impactPos = player.transform.position;
+        while (elapsed < duration)
+        {
+            player.transform.position = Vector3.Lerp(impactPos, startPos, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        FinalizeAttack();
+
+    }
+
+    private void FinalizeAttack()
+    {
         player.transform.position = originalPosition;
         ToggleUiVisibility(true);
         TogglePage2Visibility(false);
         ToggleCancelToPage1Visibility(false);
         TogglePage1Visibility(true);
     }
-
     private void ToggleUiVisibility(bool mustDisplay)
     {
         if (mustDisplay) 
