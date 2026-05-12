@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
@@ -12,6 +13,10 @@ public class Enemy_AI : MonoBehaviour
     Vector2 basePos;
     Vector2 pos;
     float securityTimer = 0;
+
+    protected List<float> dmgBuffs = new List<float>();
+    protected List<float> defBuffs = new List<float>();
+    protected List<int> dmgBuffTimers = new List<int>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,7 +35,7 @@ public class Enemy_AI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         securityTimer += Time.deltaTime;
         pos = getPos();
@@ -47,8 +52,25 @@ public class Enemy_AI : MonoBehaviour
         }
     }
 
+    public void newTurnCount()
+    {
+        for (int i = 0; i < dmgBuffTimers.Count; i++)
+        {
+            if (dmgBuffTimers[i] <= 0)
+            {
+                dmgBuffTimers.RemoveAt(i);
+                dmgBuffs.RemoveAt(i);
+                i--;
+            }
+            else
+            {
+                dmgBuffTimers[i]--;
+            }
+        }
+    }
+
     public async virtual Task playTurn(GameObject target) {
-        Debug.Log($"{this.gameObject.name} played their turn, but no action was defined.");
+        newTurnCount();
     }
     public virtual void attack(GameObject target)
     {

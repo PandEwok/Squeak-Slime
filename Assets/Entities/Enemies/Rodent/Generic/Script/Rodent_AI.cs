@@ -7,7 +7,7 @@ public class Rodent_AI : Enemy_AI
 
     public async override Task playTurn(GameObject target)
     {
-        await closeAttack(target);
+        await base.playTurn(target);
     }
     public override void attack(GameObject target) {
         
@@ -18,8 +18,19 @@ public class Rodent_AI : Enemy_AI
             int damageAmount = GetComponent<Stats_System>().damage;
             int randomDmgOffset = Random.Range(-2, 3);
             damageAmount += randomDmgOffset;
+            float finalDamage = damageAmount;
+            foreach (float buff in dmgBuffs)
+            {
+                finalDamage += (damageAmount * buff);
+            }
+            damageAmount = Mathf.RoundToInt(finalDamage);
             targetStats.takeDamage(damageAmount);
             Debug.Log($"{this.gameObject.name} attacked {target.name} for {damageAmount} damage.");
         }
+    }
+
+    public override void Update()
+    {
+        base.Update();
     }
 }
