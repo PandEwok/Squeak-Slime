@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 using System.Collections;
-
+using UnityEngine.InputSystem;
 
 public class ActionBarScript : MonoBehaviour
 {
@@ -12,6 +12,7 @@ public class ActionBarScript : MonoBehaviour
     private List<VisualElement> page2;
     [SerializeField] private Combat_Logic combatLogic;
     [SerializeField] private GameObject player;
+    [SerializeField] private GameObject projectile;
     private int currentEnemyTargetIndex = 0;
     private Vector3 originalPosition;
 
@@ -109,12 +110,36 @@ public class ActionBarScript : MonoBehaviour
             yield return null;
         }
 
+        player.transform.position = targetPos;
+
+        float qteWindow = 0.2f;
+        float qteElapsed = 0f;
+        bool hasCrit = false;
+        int baseDamage = 20;
+
+
+        while (qteElapsed < qteWindow)
+        {
+            //Clic gauche souris
+            if (Pointer.current.press.wasPressedThisFrame)
+            {
+                hasCrit = true;
+                Debug.Log("Coup Critique");
+                break; 
+            }
+
+            qteElapsed += Time.deltaTime;
+            yield return null;
+        }
+
         // DEGATS
         var enemyStats = target.GetComponent<Stats_System>();
         if (enemyStats != null)
         {
             Debug.Log($"Inflige des dégâts à {target.name}");
-            target.GetComponent<Stats_System>().takeDamage(20);
+            int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
+
+            target.GetComponent<Stats_System>().takeDamage(finalDamage);
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -165,14 +190,31 @@ public class ActionBarScript : MonoBehaviour
             yield return null;
         }
 
-        //SAUT
+        //LANCER
+        GameObject projectileToThrow = Instantiate(projectile, prepPos, Quaternion.identity);
         elapsed = 0;
         float jumpHeight = 4.0f;
         float jumpDuration = 0.5f;
+        bool hasCrit = false;
+        bool qteWindowOpen = false;
 
         while (elapsed < jumpDuration)
         {
             float t = elapsed / jumpDuration;
+
+            if (t >= 0.6f && !hasCrit)
+            {
+                if (!qteWindowOpen)
+                {
+                    qteWindowOpen = true;
+                }
+
+                if (Pointer.current.press.wasPressedThisFrame)
+                {
+                    hasCrit = true;
+                    Debug.Log("Coup critique");
+                }
+            }
 
             //Mouvement horizontal
             Vector3 currentPos = Vector3.Lerp(prepPos, enemyPos, t);
@@ -181,18 +223,26 @@ public class ActionBarScript : MonoBehaviour
             float height = Mathf.Sin(Mathf.PI * t) * jumpHeight;
             currentPos.y += height;
 
-            player.transform.position = currentPos;
+            if(projectileToThrow != null)
+            {
+                projectileToThrow.transform.position = currentPos;
+            }
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
         //DEGATS
-        player.transform.position = enemyPos;
+        if(projectileToThrow != null)
+        {
+            Destroy(projectileToThrow);
+        }
         var enemyStats = target.GetComponent<Stats_System>();
         if (enemyStats != null)
         {
-            enemyStats.takeDamage(20);
+            int baseDamage = 20;
+            int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
+            enemyStats.takeDamage(finalDamage);
         }
         yield return new WaitForSeconds(0.3f);
 
