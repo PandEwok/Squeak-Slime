@@ -1,10 +1,8 @@
 .selector {
     opacity: 0;
     flex-grow: 0;
-    background-image: url("project://database/Assets/UI/selector.png?fileID=21300000&guid=2a24550d21479604687813e1b0e52e8b&type=3#selector");
+    background-image: url("project://database/Assets/UI/selectorV3.png?fileID=21300000&guid=cb17b0f77b994c244aa1ab141fd0c796&type=3#selectorV3");
     background-size: contain;
-    height: 32px;
-    width: 70px;
     scale: 1;
     align-items: stretch;
     justify-content: flex-start;
@@ -16,6 +14,8 @@
     background-position-y: center;
     min-width: auto;
     align-self: center;
+    width: 140px;
+    height: 50px;
 }
 
 .ActionMenuButton1:hover .selector {
@@ -25,15 +25,17 @@
 .ActionMenuButton2:hover .selector {
     opacity: 1;
 }
+
 .cancelToPage1:hover .selector {
     opacity: 1;
 }
+
 .ActionMenuButton1 {
     display: flex;
 }
 
 .button {
-    font-size: 20px;
+    font-size: 35px;
     color: rgb(255, 255, 255);
 }
 
