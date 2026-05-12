@@ -21,11 +21,15 @@ public class ActionBarScript : MonoBehaviour
         var Attack = root.Q<Button>("Attack");
         var Items = root.Q<Button>("Items");
         var Skills = root.Q<Button>("Skills");
+        var Defend = root.Q<Button>("Defend");
+        var CancelP1 = root.Q<Button>("CancelToPage1");
         page1 = root.Query<VisualElement>(className: "ActionMenuButton1").ToList();
         page2 = root.Query<VisualElement>(className: "ActionMenuButton2").ToList();
         Attack?.RegisterCallback<ClickEvent>(ev => AttackClicked());
         Items?.RegisterCallback<ClickEvent>(ev => ItemsClicked());
         Skills?.RegisterCallback<ClickEvent>(ev => SkillsClicked());
+        Defend?.RegisterCallback<ClickEvent>(ev => DefendClicked());
+        CancelP1?.RegisterCallback<ClickEvent>(ev => CancelToPage1());
 
         //Position de depart du slime
         originalPosition = player.transform.position;
@@ -39,6 +43,7 @@ public class ActionBarScript : MonoBehaviour
     {
         Debug.Log("Attack button clicked!");
         TogglePage1Visibility(false);
+        ToggleCancelToPage1Visibility(true);
         TogglePage2Visibility(true);
 
     }
@@ -46,13 +51,28 @@ public class ActionBarScript : MonoBehaviour
     {
         Debug.Log("Items button clicked!");
         TogglePage1Visibility(false);
+        ToggleCancelToPage1Visibility(true);
     }
     private void SkillsClicked()
     {
         Debug.Log("Skills button clicked!");
         TogglePage1Visibility(false);
+        ToggleCancelToPage1Visibility(true);
     }
 
+    private void DefendClicked()
+    {
+        Debug.Log("Defend button clicked!");
+        TogglePage1Visibility(false);
+        ToggleCancelToPage1Visibility(true);
+    }
+    private void CancelToPage1()
+    {
+        Debug.Log("Cancel Attack button clicked!");
+        TogglePage2Visibility(false);
+        ToggleCancelToPage1Visibility(false);
+        TogglePage1Visibility(true);
+    }
     private void AttackFrontClicked()
     {
         Debug.Log("Confirm Attack button clicked!");
@@ -109,6 +129,7 @@ public class ActionBarScript : MonoBehaviour
         player.transform.position = originalPosition;
         ToggleUiVisibility(true);
         TogglePage2Visibility(false);
+        ToggleCancelToPage1Visibility(false);
         TogglePage1Visibility(true);
     }
 
@@ -148,6 +169,22 @@ public class ActionBarScript : MonoBehaviour
             else
             {
                 element.style.display = DisplayStyle.None;
+            }
+        }
+    }
+
+    private void ToggleCancelToPage1Visibility(bool mustDisplay)
+    {
+        var cancelBtn = root.Q<Button>("CancelToPage1");
+        if (cancelBtn != null)
+        {
+            if (mustDisplay)
+            {
+                cancelBtn.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                cancelBtn.style.display = DisplayStyle.None;
             }
         }
     }

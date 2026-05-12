@@ -15,6 +15,7 @@
     background-position-x: center;
     background-position-y: center;
     min-width: auto;
+    align-self: center;
 }
 
 .ActionMenuButton1:hover .selector {
@@ -24,11 +25,9 @@
 .ActionMenuButton2:hover .selector {
     opacity: 1;
 }
-
-/*.ActionMenuButton1:focus .selector {
+.cancelToPage1:hover .selector {
     opacity: 1;
-}*/
-
+}
 .ActionMenuButton1 {
     display: flex;
 }
@@ -39,5 +38,9 @@
 }
 
 .ActionMenuButton2 {
+    display: none;
+}
+
+.cancelToPage1 {
     display: none;
 }
