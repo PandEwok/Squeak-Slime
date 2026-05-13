@@ -12,13 +12,14 @@ public class ActionBarScript : MonoBehaviour
     private List<VisualElement> page2;
     [SerializeField] private Combat_Logic combatLogic;
     [SerializeField] private GameObject player;
-    [SerializeField] private GameObject projectile;
+    private playerScript playerS;
     private int playerAttack;
     private int currentEnemyTargetIndex = 0;
     private Vector3 originalPosition;
 
     private void Start()
     {
+        playerS = player.GetComponent<playerScript>();
         playerAttack = player.GetComponent<Stats_System>().damage;
         root = uiDocument.rootVisualElement;
         var Attack = root.Q<Button>("Attack");
@@ -35,8 +36,7 @@ public class ActionBarScript : MonoBehaviour
         Defend?.RegisterCallback<ClickEvent>(ev => DefendClicked());
         CancelP1?.RegisterCallback<ClickEvent>(ev => CancelToPage1());
 
-        //Position de depart du slime
-        originalPosition = player.transform.position;
+        
 
         var AttackFront = root.Q<Button>("AttackFront");
         var AttackUp = root.Q<Button>("AttackUp");
@@ -88,76 +88,12 @@ public class ActionBarScript : MonoBehaviour
             GameObject target = combatLogic.enemies[currentEnemyTargetIndex];
 
             //Debut de l'attaque
-            StartCoroutine(AttackFrontSequence(target));
+            StartCoroutine(playerS.AttackFrontSequence(target));
             ToggleUiVisibility(false);
         }
         Debug.Log(combatLogic.enemies.Count);
     }
 
-    private IEnumerator AttackFrontSequence(GameObject target)
-    {
-        Vector3 enemyPos = target.transform.position;
-        Vector3 direction = (enemyPos - originalPosition).normalized;
-        float stopDistance = 2.5f;
-
-        Vector3 targetPos = enemyPos - (direction * stopDistance);
-
-        // ALLER
-        float elapsed = 0;
-        float duration = 0.6f;
-        while (elapsed < duration)
-        {
-            player.transform.position = Vector3.Lerp(originalPosition, targetPos, elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        player.transform.position = targetPos;
-
-        float qteWindow = 0.2f;
-        float qteElapsed = 0f;
-        bool hasCrit = false;
-        int baseDamage = playerAttack;
-
-
-        while (qteElapsed < qteWindow)
-        {
-            //Clic gauche souris
-            if (Pointer.current.press.wasPressedThisFrame)
-            {
-                hasCrit = true;
-                Debug.Log("Coup Critique");
-                break; 
-            }
-
-            qteElapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        // DEGATS
-        var enemyStats = target.GetComponent<Stats_System>();
-        if (enemyStats != null)
-        {
-            Debug.Log($"Inflige des dégâts à {target.name}");
-            int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
-
-            target.GetComponent<Stats_System>().takeDamage(finalDamage);
-            yield return new WaitForSeconds(0.5f);
-        }
-
-        // RETOUR
-        elapsed = 0;
-        while (elapsed < duration)
-        {
-            player.transform.position = Vector3.Lerp(targetPos, originalPosition, elapsed / duration);
-            Debug.DrawLine(originalPosition, targetPos, Color.red);
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        FinalizeAttack();
-    }
 
     private void AttackUpClicked()
     {
@@ -166,104 +102,14 @@ public class ActionBarScript : MonoBehaviour
         {
             GameObject target = combatLogic.enemies[currentEnemyTargetIndex];
             ToggleUiVisibility(false);
-            StartCoroutine(AttackJumpSequence(target));
+            StartCoroutine(playerS.AttackJumpSequence(target));
         }
     }
 
-    private IEnumerator AttackJumpSequence(GameObject target)
+    
+
+    public void FinalizeAttack()
     {
-        Vector3 startPos = originalPosition;
-        Vector3 enemyPos = target.transform.position;
-        Vector3 direction = (enemyPos - startPos).normalized;
-
-        
-        float prepDistance = 10f; //Fin deplacement avant le lancer
-        Vector3 prepPos = enemyPos - (direction * prepDistance);
-        Vector3 arrivalPos = enemyPos;
-
-        float duration = 0.6f;
-        float elapsed = 0;
-
-        //APPROCHE
-        while (elapsed < duration)
-        {
-            player.transform.position = Vector3.Lerp(startPos, prepPos, elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        //LANCER
-        GameObject projectileToThrow = Instantiate(projectile, prepPos, Quaternion.identity);
-        elapsed = 0;
-        float jumpHeight = 4.0f;
-        float jumpDuration = 0.5f;
-        bool hasCrit = false;
-        bool qteWindowOpen = false;
-
-        while (elapsed < jumpDuration)
-        {
-            float t = elapsed / jumpDuration;
-
-            if (t >= 0.6f && !hasCrit)
-            {
-                if (!qteWindowOpen)
-                {
-                    qteWindowOpen = true;
-                }
-
-                if (Pointer.current.press.wasPressedThisFrame)
-                {
-                    hasCrit = true;
-                    Debug.Log("Coup critique");
-                }
-            }
-
-            //Mouvement horizontal
-            Vector3 currentPos = Vector3.Lerp(prepPos, enemyPos, t);
-
-            //Courbe
-            float height = Mathf.Sin(Mathf.PI * t) * jumpHeight;
-            currentPos.y += height;
-
-            if(projectileToThrow != null)
-            {
-                projectileToThrow.transform.position = currentPos;
-            }
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        //DEGATS
-        if(projectileToThrow != null)
-        {
-            Destroy(projectileToThrow);
-        }
-        var enemyStats = target.GetComponent<Stats_System>();
-        if (enemyStats != null)
-        {
-            int baseDamage = playerAttack;
-            int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
-            enemyStats.takeDamage(finalDamage);
-        }
-        yield return new WaitForSeconds(0.3f);
-
-        //RETOUR
-        elapsed = 0;
-        Vector3 impactPos = player.transform.position;
-        while (elapsed < duration)
-        {
-            player.transform.position = Vector3.Lerp(impactPos, startPos, elapsed / duration);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-        FinalizeAttack();
-
-    }
-
-    private void FinalizeAttack()
-    {
-        player.transform.position = originalPosition;
         ToggleUiVisibility(true);
         TogglePage2Visibility(false);
         ToggleCancelToPage1Visibility(false);
