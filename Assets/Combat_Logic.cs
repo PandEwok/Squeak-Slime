@@ -46,7 +46,7 @@ public class Combat_Logic : MonoBehaviour
                 Debug.Log($"Player attacked {targetEnemy.name} for {damageAmount} damage.");
             }
         }
-        //switchTurn();
+        switchTurn();
     }
 
     private IEnumerator SwitchTurnCoroutine()
