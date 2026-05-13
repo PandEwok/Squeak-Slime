@@ -175,7 +175,7 @@ public class ActionBarScript : MonoBehaviour
         Vector3 direction = (enemyPos - startPos).normalized;
 
         
-        float prepDistance = 10f; //Fin deplacement avant le saut
+        float prepDistance = 10f; //Fin deplacement avant le lancer
         Vector3 prepPos = enemyPos - (direction * prepDistance);
         Vector3 arrivalPos = enemyPos;
 
