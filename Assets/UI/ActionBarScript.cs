@@ -13,11 +13,13 @@ public class ActionBarScript : MonoBehaviour
     [SerializeField] private Combat_Logic combatLogic;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject projectile;
+    private int playerAttack;
     private int currentEnemyTargetIndex = 0;
     private Vector3 originalPosition;
 
     private void Start()
     {
+        playerAttack = player.GetComponent<Stats_System>().damage;
         root = uiDocument.rootVisualElement;
         var Attack = root.Q<Button>("Attack");
         var Items = root.Q<Button>("Items");
@@ -115,7 +117,7 @@ public class ActionBarScript : MonoBehaviour
         float qteWindow = 0.2f;
         float qteElapsed = 0f;
         bool hasCrit = false;
-        int baseDamage = 20;
+        int baseDamage = playerAttack;
 
 
         while (qteElapsed < qteWindow)
@@ -240,7 +242,7 @@ public class ActionBarScript : MonoBehaviour
         var enemyStats = target.GetComponent<Stats_System>();
         if (enemyStats != null)
         {
-            int baseDamage = 20;
+            int baseDamage = playerAttack;
             int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
             enemyStats.takeDamage(finalDamage);
         }
