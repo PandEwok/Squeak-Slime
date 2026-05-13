@@ -119,27 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &89538184 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 91313049762936789, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
-  m_PrefabInstance: {fileID: 530607042}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &89538188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 89538184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 588fa43f259fbd74d96ee1d9516568e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Stats_System
-  originalHealth: 40
-  damage: 10
-  defense: 5
-  damagePF: {fileID: 254843135583981822, guid: 560e1bfb2a4706e45a82ebfb18aa849e, type: 3}
 --- !u!1 &125506702
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,13 +358,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2869874463627789092, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
+      propertyPath: combatLogic
+      value: 
+      objectReference: {fileID: 1044752080}
     - target: {fileID: 4796742365421089812, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 4796742365421089812, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4796742365421089812, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -419,13 +402,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9019346817883205249, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
+      propertyPath: combatLogic
+      value: 
+      objectReference: {fileID: 1044752080}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 91313049762936789, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 89538188}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
 --- !u!1001 &578268205
 PrefabInstance:
@@ -3462,15 +3446,15 @@ PrefabInstance:
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemiesToSpawn.Array.data[0]'
       value: 
-      objectReference: {fileID: 6014539821598933902, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
+      objectReference: {fileID: 5618129864621201268, guid: 2605f548356ca14469b9e7bc464ea829, type: 3}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemiesToSpawn.Array.data[1]'
       value: 
-      objectReference: {fileID: 6014539821598933902, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
+      objectReference: {fileID: 5618129864621201268, guid: 2605f548356ca14469b9e7bc464ea829, type: 3}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemiesToSpawn.Array.data[2]'
       value: 
-      objectReference: {fileID: 6014539821598933902, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
+      objectReference: {fileID: 5618129864621201268, guid: 2605f548356ca14469b9e7bc464ea829, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

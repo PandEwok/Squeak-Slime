@@ -14,7 +14,7 @@ public class Combat_Logic : MonoBehaviour
     public List<GameObject> enemiesToSpawn;
     public List<GameObject> EnemyPositions;
 
-    List<GameObject> enemies = new List<GameObject>();
+    public List<GameObject> enemies = new List<GameObject>();
 
     GameObject player;
 
@@ -64,7 +64,7 @@ public class Combat_Logic : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         player = GameObject.FindWithTag("Player");
 
@@ -81,6 +81,9 @@ public class Combat_Logic : MonoBehaviour
         if (playerTurn && !switchingTurns)
         {
             /*Debug.Log("Player's turn");*/
+
+            // Wait for player input to attack or use an ability, then call playerAttack() or similar methods
+            // switchTurn() will be called at the end of the player's action to switch to the enemy's turn
         }
         else if (!playerTurn && !switchingTurns) {
             /*Debug.Log("Enemy's turn");*/
