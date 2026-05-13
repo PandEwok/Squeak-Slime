@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Combat_Logic : MonoBehaviour
 {
+    [SerializeField] private GameObject actionUI;
     bool playerTurn = true;
     bool switchingTurns = false;
 
@@ -60,6 +61,7 @@ public class Combat_Logic : MonoBehaviour
             {
                 button.interactable = true;
             }
+            actionUI.GetComponent<ActionBarScript>().FinalizeAttack();
         }
     }
 

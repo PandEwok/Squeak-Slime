@@ -81,8 +81,9 @@ public class playerScript : MonoBehaviour
             yield return null;
         }
 
-        actionUI.FinalizeAttack();
+        //actionUI.FinalizeAttack();
         transform.position = originalPosition;
+        combatLogic.switchTurn();
     }
 
     public IEnumerator AttackJumpSequence(GameObject target)
@@ -172,8 +173,9 @@ public class playerScript : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-        actionUI.FinalizeAttack();
+        //actionUI.FinalizeAttack();
         transform.position = originalPosition;
+        combatLogic.switchTurn();
 
     }
 }
