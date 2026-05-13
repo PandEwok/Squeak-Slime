@@ -8,5 +8,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Dev/Diego/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Dev/Amy/MainMenu.unity
+    guid: f3748e6390b4bb64299dc6c38b7ac093
+  - enabled: 1
+    path: Assets/Scenes/Dev/Amy/SampleScene 1.unity
+    guid: 18af14980fadd3d4d95ca4370831ad3c
+  - enabled: 1
+    path: Assets/Scenes/Dev/Amy/HubScene.unity
+    guid: eca15cfaec6106d49b5cde376cc2daa4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
