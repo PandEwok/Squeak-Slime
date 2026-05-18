@@ -18,6 +18,22 @@ public class Enemy_AI : MonoBehaviour
     protected List<float> defBuffs = new List<float>();
     protected List<int> dmgBuffTimers = new List<int>();
 
+    public GameObject powerEffect;
+    public float empowerStrenght = 0.5f;
+    protected int empowerDelay = 0;
+    protected bool empowered = false;
+    protected float particleSpawnTimer = 0;
+
+
+    public void actionEmpower(float empowerAmount = 0.5f)
+    {
+        empowerDelay = 2; // Empower lasts for 2 turns
+        dmgBuffs.Add(empowerAmount);
+        dmgBuffTimers.Add(empowerDelay); // Empower lasts for 2 turns
+    }
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,8 +53,10 @@ public class Enemy_AI : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
+        particleSpawnTimer += Time.deltaTime;
         securityTimer += Time.deltaTime;
         pos = getPos();
+
 
         if (isMoving && moveTarget != null && moveStart != null) {
             //Debug.Log($"moving to {moveTarget}");
@@ -48,6 +66,18 @@ public class Enemy_AI : MonoBehaviour
             if (Vector2.Distance(getPos(), moveTarget) < 0.001f) {
                 isMoving = false;
                 setPos(moveTarget);
+            }
+        }
+
+        empowered = (empowerDelay > 0);
+        if (empowered && particleSpawnTimer > 0.1f)
+        {
+            particleSpawnTimer = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                float randomX = Random.Range(-0.6f, 0.6f);
+                float randomY = Random.Range(-0.25f, 0.25f);
+                Instantiate(powerEffect, this.transform.position + new Vector3(randomX, -0.2f + randomY, 0), Quaternion.identity, this.transform);
             }
         }
     }
@@ -71,7 +101,13 @@ public class Enemy_AI : MonoBehaviour
 
     public async virtual Task playTurn(GameObject target) {
         newTurnCount();
+
+        if (empowerDelay > 0)
+        {
+            empowerDelay--;
+        }
     }
+
     public virtual void attack(GameObject target)
     {
         Debug.Log($"{this.gameObject.name} tried to attack {target.name}, but no attack was defined.");

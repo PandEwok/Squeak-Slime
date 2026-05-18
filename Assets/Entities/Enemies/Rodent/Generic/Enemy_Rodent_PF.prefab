@@ -86,3 +86,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fcf3d7c5ffb4f4daffb818d0715db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Rodent_AI
+  powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
+  empowerStrenght: 0.5

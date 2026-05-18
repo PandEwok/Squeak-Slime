@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -51,7 +52,7 @@ public class Combat_Logic : MonoBehaviour
 
     private IEnumerator SwitchTurnCoroutine()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         playerTurn = !playerTurn;
         switchingTurns = false;
         if (playerTurn)
@@ -93,6 +94,11 @@ public class Combat_Logic : MonoBehaviour
         }
     }
 
+    public IEnumerator waitDelay(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+    }
+
     public async void EnemyTurnSequence()
     {
         foreach (GameObject enemy in enemies)
@@ -101,6 +107,10 @@ public class Combat_Logic : MonoBehaviour
             if (enemyAI != null)
             {
                 await enemyAI.playTurn(player); // ATTENDRE la fin du tour de cet ennemi
+                if (enemy != enemies[enemies.Count - 1])
+                {
+                    await Task.Delay((int)(1f * 1000));
+                }
             }
         }
 
