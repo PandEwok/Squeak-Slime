@@ -368,7 +368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4796742365421089812, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: -0.65
       objectReference: {fileID: 0}
     - target: {fileID: 4796742365421089812, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -402,6 +402,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5495809573807834236, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
+      propertyPath: m_Pivot
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9019346817883205249, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
       propertyPath: combatLogic
       value: 
@@ -409,7 +413,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5779913152474330352, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
 --- !u!1001 &578268205
 PrefabInstance:
