@@ -7,7 +7,7 @@ public class HubManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("SampleScene 1");
+        SceneManager.LoadScene("SampleScene 2");
     }
 
     public void OpenUpgrades()
