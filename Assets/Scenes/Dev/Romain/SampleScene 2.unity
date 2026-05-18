@@ -554,6 +554,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &882638740 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5779913152474330352, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
+  m_PrefabInstance: {fileID: 4717334810013365807}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &908702948
 GameObject:
   m_ObjectHideFlags: 0
@@ -3528,6 +3533,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: actionUI
+      value: 
+      objectReference: {fileID: 882638740}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: EnemyPositions.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -3550,15 +3559,15 @@ PrefabInstance:
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemiesToSpawn.Array.data[0]'
       value: 
-      objectReference: {fileID: 5090310822546844051, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      objectReference: {fileID: 5618129864621201268, guid: 2605f548356ca14469b9e7bc464ea829, type: 3}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemiesToSpawn.Array.data[1]'
       value: 
-      objectReference: {fileID: 5090310822546844051, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      objectReference: {fileID: 5618129864621201268, guid: 2605f548356ca14469b9e7bc464ea829, type: 3}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemiesToSpawn.Array.data[2]'
       value: 
-      objectReference: {fileID: 5090310822546844051, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      objectReference: {fileID: 5618129864621201268, guid: 2605f548356ca14469b9e7bc464ea829, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3620,6 +3629,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7287142252520868612, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
+      propertyPath: defense
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9019346817883205249, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 7668710729188587511, guid: af852a2e06c4b6b4fb8ad7884a537402, type: 3}
     - target: {fileID: 9019346817883205249, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
       propertyPath: combatLogic
       value: 
@@ -3627,7 +3644,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5779913152474330352, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 74b53511f37dee34db50ae1f843a80d7, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
