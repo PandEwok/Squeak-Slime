@@ -1,7 +1,7 @@
 .selector {
     opacity: 0;
     flex-grow: 0;
-    background-image: url("project://database/Assets/UI/selectorV3.png?fileID=21300000&guid=cb17b0f77b994c244aa1ab141fd0c796&type=3#selectorV3");
+    background-image: url("project://database/Assets/UI/selector.png?fileID=21300000&guid=cb17b0f77b994c244aa1ab141fd0c796&type=3#selector");
     background-size: contain;
     scale: 1;
     align-items: stretch;
@@ -26,12 +26,16 @@
     opacity: 1;
 }
 
+.ActionMenuButton3:hover .selector {
+    opacity: 1;
+}
+
 .cancelToPage1:hover .selector {
     opacity: 1;
 }
 
 .ActionMenuButton1 {
-    display: flex;
+    display: none;
 }
 
 .button {
@@ -45,4 +49,22 @@
 
 .cancelToPage1 {
     display: none;
+}
+
+.ActionMenuButton3 {
+    display: flex;
+    font-size: 36px;
+    background-position-x: center;
+    -unity-text-align: middle-left;
+}
+
+.Item {
+    width: 40px;
+    height: auto;
+    background-position-x: center;
+}
+
+.ItemQtt {
+    font-size: 29px;
+    margin-right: 0;
 }
