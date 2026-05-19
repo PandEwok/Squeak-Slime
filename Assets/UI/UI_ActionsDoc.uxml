@@ -39,7 +39,19 @@
             <ui:Label text="X99" name="PepperDefQuantity" class="ItemQtt"/>
             <ui:VisualElement picking-mode="Ignore" name="PepperDefSelector" class="selector" style="position: absolute; top: 13px; left: 11px; height: 57px; width: 190px;"/>
         </ui:Button>
-        <ui:Button text="Cancel&#10;" name="CancelToPage1" class="button cancelToPage1" style="background-color: rgba(188, 188, 188, 0); color: rgb(255, 255, 255); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; display: flex;">
+        <ui:Button text="Bite" name="Bite" class="button ActionMenuButton4" style="background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+            <ui:VisualElement picking-mode="Ignore" name="BiteSelector" class="selector"/>
+        </ui:Button>
+        <ui:Button text="Fracture" name="Fracture" class="button ActionMenuButton4" style="background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+            <ui:VisualElement picking-mode="Ignore" name="FractureSelector" class="selector" style="width: 152px;"/>
+        </ui:Button>
+        <ui:Button text="Fireball" name="Fireball" class="button ActionMenuButton4" style="background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+            <ui:VisualElement picking-mode="Ignore" name="FireballSelector" class="selector" style="width: 146px;"/>
+        </ui:Button>
+        <ui:Button text="Absorption" name="Absorption" class="button ActionMenuButton4" style="background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+            <ui:VisualElement picking-mode="Ignore" name="AbsorptionSelector" class="selector" style="width: 191px;"/>
+        </ui:Button>
+        <ui:Button text="Cancel&#10;" name="CancelToPage1" class="button cancelToPage1" style="background-color: rgba(188, 188, 188, 0); color: rgb(255, 255, 255); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; opacity: 1;">
             <ui:VisualElement picking-mode="Ignore" name="CancelToPage1Selector" class="selector"/>
         </ui:Button>
     </ui:VisualElement>

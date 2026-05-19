@@ -30,12 +30,17 @@
     opacity: 1;
 }
 
-.cancelToPage1:hover .selector {
+.ActionMenuButton4:hover .selector {
     opacity: 1;
 }
 
+.cancelToPage1:hover .selector {
+    opacity: 1;
+    display: flex;
+}
+
 .ActionMenuButton1 {
-    display: none;
+    display: flex;
 }
 
 .button {
@@ -49,10 +54,11 @@
 
 .cancelToPage1 {
     display: none;
+    opacity: 0;
 }
 
 .ActionMenuButton3 {
-    display: flex;
+    display: none;
     font-size: 36px;
     background-position-x: center;
     -unity-text-align: middle-left;
@@ -67,4 +73,9 @@
 .ItemQtt {
     font-size: 29px;
     margin-right: 0;
+}
+
+.ActionMenuButton4 {
+    display: none;
+    opacity: 1;
 }

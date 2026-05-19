@@ -11,6 +11,7 @@ public class ActionBarScript : MonoBehaviour
     private List<VisualElement> page1;
     private List<VisualElement> page2;
     private List<VisualElement> page3;
+    private List<VisualElement> page4;
     [SerializeField] private Combat_Logic combatLogic;
     [SerializeField] private GameObject player;
     private playerScript playerS;
@@ -57,9 +58,14 @@ public class ActionBarScript : MonoBehaviour
         var Banana = root.Q<Button>("Banana");
         var PepperAtt = root.Q<Button>("PepperAtt");
         var PepperDef = root.Q<Button>("PepperDef");
+        var Bite = root.Q<Button>("Bite");
+        var Fracture = root.Q<Button>("Fracture");
+        var Fireball = root.Q<Button>("Fireball");
+        var Absorption = root.Q<Button>("Absorption");
         page1 = root.Query<VisualElement>(className: "ActionMenuButton1").ToList();
         page2 = root.Query<VisualElement>(className: "ActionMenuButton2").ToList();
         page3 = root.Query<VisualElement>(className: "ActionMenuButton3").ToList();
+        page4 = root.Query<VisualElement>(className: "ActionMenuButton4").ToList();
         Attack?.RegisterCallback<ClickEvent>(ev => AttackClicked());
         Items?.RegisterCallback<ClickEvent>(ev => ItemsClicked());
         Skills?.RegisterCallback<ClickEvent>(ev => SkillsClicked());
@@ -71,11 +77,10 @@ public class ActionBarScript : MonoBehaviour
         Banana?.RegisterCallback<ClickEvent>(ev => UseBanana());
         PepperAtt?.RegisterCallback<ClickEvent>(ev => UsePepperAtt());
         PepperDef?.RegisterCallback<ClickEvent>(ev => UsePepperDef());
-
-
-
-
-
+        Bite?.RegisterCallback<ClickEvent>(ev => UseBite());
+        Fracture?.RegisterCallback<ClickEvent>(ev => UseFracture());
+        Fireball?.RegisterCallback<ClickEvent>(ev => UseFireball());
+        Absorption?.RegisterCallback<ClickEvent>(ev => UseAbsorption());
     }
 
 
@@ -125,6 +130,7 @@ public class ActionBarScript : MonoBehaviour
     {
         Debug.Log("Skills button clicked!");
         TogglePage1Visibility(false);
+        TogglePage4Visibility(true);
         ToggleCancelToPage1Visibility(true);
     }
 
@@ -139,6 +145,7 @@ public class ActionBarScript : MonoBehaviour
         Debug.Log("Cancel Attack button clicked!");
         TogglePage2Visibility(false);
         TogglePage3Visibility(false);
+        TogglePage4Visibility(false);
         ToggleCancelToPage1Visibility(false);
         TogglePage1Visibility(true);
     }
@@ -169,6 +176,26 @@ public class ActionBarScript : MonoBehaviour
         }
     }
 
+    private void UseBite()
+    {
+        Debug.Log("Use Bite button clicked!");
+    }
+
+    private void UseFracture()
+    {
+        Debug.Log("Use Fracture button clicked!");
+    }
+
+    private void UseFireball()
+    {
+        Debug.Log("Use Fireball button clicked!");
+    }
+
+    private void UseAbsorption()
+    {
+        Debug.Log("Use Absorption button clicked!");
+    }
+
 
 
     public void FinalizeAttack()
@@ -176,6 +203,7 @@ public class ActionBarScript : MonoBehaviour
         ToggleUiVisibility(true);
         TogglePage2Visibility(false);
         TogglePage3Visibility(false);
+        TogglePage4Visibility(false);
         ToggleCancelToPage1Visibility(false);
         TogglePage1Visibility(true);
     }
@@ -233,6 +261,20 @@ public class ActionBarScript : MonoBehaviour
             }
         }
     }
+    private void TogglePage4Visibility(bool mustDisplay)
+    {
+        foreach(var element in page4)
+        {
+            if (mustDisplay)
+            {
+                element.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                element.style.display = DisplayStyle.None;
+            }
+        }
+    }
     private void ToggleCancelToPage1Visibility(bool mustDisplay)
     {
         var cancelBtn = root.Q<Button>("CancelToPage1");
@@ -249,6 +291,7 @@ public class ActionBarScript : MonoBehaviour
         }
     }
 
+    
     private void UseCheese()
     {
         Debug.Log("Use Cheese button clicked!");
