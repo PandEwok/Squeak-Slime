@@ -40,19 +40,24 @@
             <ui:VisualElement picking-mode="Ignore" name="PepperDefSelector" class="selector" style="position: absolute; top: 13px; left: 11px; height: 57px; width: 190px;"/>
         </ui:Button>
         <ui:Button text="Bite" name="Bite" class="button ActionMenuButton4">
+            <ui:Label text="5 PS" name="BiteCost" class="ItemQtt" style="flex-direction: column;"/>
             <ui:VisualElement picking-mode="Ignore" name="BiteSelector" class="selector"/>
         </ui:Button>
         <ui:Button text="Fracture" name="Fracture" class="button ActionMenuButton4">
+            <ui:Label text="7 PS" name="FractureCost" class="ItemQtt" style="flex-direction: column;"/>
             <ui:VisualElement picking-mode="Ignore" name="FractureSelector" class="selector" style="width: 152px;"/>
         </ui:Button>
         <ui:Button text="Fireball" name="Fireball" class="button ActionMenuButton4">
+            <ui:Label text="12 PS" name="FireballCost" class="ItemQtt" style="flex-direction: column;"/>
             <ui:VisualElement picking-mode="Ignore" name="FireballSelector" class="selector" style="width: 146px;"/>
         </ui:Button>
         <ui:Button text="Absorption" name="Absorption" class="button ActionMenuButton4">
+            <ui:Label text="10 PS&#10;" name="AbsorptionCost" class="ItemQtt" style="flex-direction: column;"/>
             <ui:VisualElement picking-mode="Ignore" name="AbsorptionSelector" class="selector" style="width: 191px;"/>
         </ui:Button>
         <ui:Button text="Cancel&#10;" name="CancelToPage1" class="button cancelToPage1" style="color: rgb(255, 255, 255); opacity: 1;">
             <ui:VisualElement picking-mode="Ignore" name="CancelToPage1Selector" class="selector"/>
         </ui:Button>
+        <ui:Label text="" name="Description" style="font-size: 23px; color: rgb(255, 255, 255); background-color: rgba(0, 0, 0, 0.5); -unity-text-outline-width: 0; -unity-text-outline-color: rgb(0, 0, 0); opacity: 1; -unity-text-align: upper-center; visibility: visible; display: flex; min-height: 60px; white-space: normal;"/>
     </ui:VisualElement>
 </ui:UXML>

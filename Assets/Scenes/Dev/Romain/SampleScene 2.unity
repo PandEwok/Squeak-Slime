@@ -3653,6 +3653,86 @@ PrefabInstance:
       propertyPath: combatLogic
       value: 
       objectReference: {fileID: 1044752080}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[0].itemId
+      value: Cheese
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[1].itemId
+      value: Banana
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[2].itemId
+      value: PepperAtt
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[3].itemId
+      value: PepperDef
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[4].itemId
+      value: Bite
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[5].itemId
+      value: Fireball
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[6].itemId
+      value: Fragmentation
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[7].itemId
+      value: Absorption
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[0].descriptionText
+      value: Restores 50 HP
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[1].descriptionText
+      value: Restores 50 SP
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[2].descriptionText
+      value: Makes attacks more powerful during 3 turns
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[3].descriptionText
+      value: Makes you take less damage during 3 turns
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[4].descriptionText
+      value: 'A skill that deals 50% more damages
+
+        than basic attacks. Makes
+        enemies bleed. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[5].descriptionText
+      value: 'A fireball that attacks all your opponent
+
+        and burns them.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[6].descriptionText
+      value: 'A powerful attack that oversteps
+
+        the armor of the target that
+        can''t
+
+        do anything during 1 turn. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: itemDescriptions.Array.data[7].descriptionText
+      value: 'Your next attacks will heal you
+
+        50% of the damages you inflict. '
+      objectReference: {fileID: 0}
     - target: {fileID: 8567076734609327451, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: m_Name
       value: Player

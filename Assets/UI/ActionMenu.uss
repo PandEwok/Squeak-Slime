@@ -41,6 +41,7 @@
 
 .ActionMenuButton1 {
     display: flex;
+    opacity: 1;
 }
 
 .button {
@@ -79,4 +80,7 @@
 .ActionMenuButton4 {
     display: none;
     opacity: 1;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    -unity-text-align: middle-left;
 }

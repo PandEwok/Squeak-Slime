@@ -23,6 +23,14 @@ public class ActionBarScript : MonoBehaviour
     private Label bananaQtyLabel;
     private Label pepperAttQtyLabel;
     private Label pepperDefQtyLabel;
+    [System.Serializable] public struct ItemDescription
+    {
+        public string itemId;
+        [TextArea(2, 4)]
+        public string descriptionText;
+    }
+    [SerializeField] private List<ItemDescription> itemDescriptions;
+    private Label descriptionDisplayLabel;
 
     private void Awake()
     {
@@ -41,6 +49,8 @@ public class ActionBarScript : MonoBehaviour
         pepperDefQtyLabel = root.Q<Label>("PepperDefQuantity");
 
         UpdateInventoryUI();
+
+        descriptionDisplayLabel = root.Q<Label>("Description");
     }
 
 
@@ -74,13 +84,29 @@ public class ActionBarScript : MonoBehaviour
         AttackFront?.RegisterCallback<ClickEvent>(ev => AttackFrontClicked());
         AttackUp?.RegisterCallback<ClickEvent>(ev => AttackUpClicked());
         Cheese?.RegisterCallback<ClickEvent>(ev => UseCheese());
+        Cheese?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Cheese"));
+        Cheese?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         Banana?.RegisterCallback<ClickEvent>(ev => UseBanana());
+        Banana?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Banana"));
+        Banana?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         PepperAtt?.RegisterCallback<ClickEvent>(ev => UsePepperAtt());
+        PepperAtt?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("PepperAtt"));
+        PepperAtt?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         PepperDef?.RegisterCallback<ClickEvent>(ev => UsePepperDef());
+        PepperDef?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("PepperDef"));
+        PepperDef?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         Bite?.RegisterCallback<ClickEvent>(ev => UseBite());
+        Bite?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Bite"));
+        Bite?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         Fracture?.RegisterCallback<ClickEvent>(ev => UseFracture());
+        Fracture?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Fracture"));
+        Fracture?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         Fireball?.RegisterCallback<ClickEvent>(ev => UseFireball());
+        Fireball?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Fireball"));
+        Fireball?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         Absorption?.RegisterCallback<ClickEvent>(ev => UseAbsorption());
+        Absorption?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Absorption"));
+        Absorption?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
     }
 
 
@@ -347,4 +373,26 @@ public class ActionBarScript : MonoBehaviour
             playerS.switchingTurn();
         }
     }
+
+    public void ShowDescription(string id)
+    {
+        if (descriptionDisplayLabel == null) return;
+
+        if (string.IsNullOrEmpty(id))
+        {
+            descriptionDisplayLabel.style.visibility = Visibility.Hidden;
+            return;
+        }
+
+        foreach (var item in itemDescriptions)
+        {
+            if (item.itemId == id)
+            {
+                descriptionDisplayLabel.text = item.descriptionText;
+                descriptionDisplayLabel.style.visibility = Visibility.Visible;
+                return;
+            }
+        }
+    }
 }
+
