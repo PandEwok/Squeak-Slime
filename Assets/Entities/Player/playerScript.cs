@@ -8,16 +8,58 @@ using UnityEngine.InputSystem;
 public class playerScript : MonoBehaviour
 {
     public Combat_Logic combatLogic;
-    public List<BaseItem> inventory;
     Vector3 originalPosition;
     private Stats_System stats;
     private ActionBarScript actionUI;
     [SerializeField] private GameObject projectile;
+    public int originalSP = 100;
+    public int SP = 100;
+    public GameObject attackBoostEffect;
+    public GameObject defenseBoostEffect;
+    public float attackBoostStrenght = 0.5f;
+    public float defenseBoostStrenght = 0.5f;
+    public int baseDamage = 0;
+    public int baseDefense = 0;
+    protected int empowerDelay = 0;
+    protected int defenseBuffDelay = 0;
+    protected bool empowered = false;
+    protected bool defenseBuffed = false;
+    protected float particleSpawnTimer = 0;
     private void Start()
     {
         actionUI = transform.Find("ActionMenu").GetComponent<ActionBarScript>();
         stats = GetComponent<Stats_System>();
         originalPosition = transform.position;
+        baseDamage = stats.damage;
+        baseDefense = stats.defense;
+    }
+
+    private void Update()
+    {
+        particleSpawnTimer += Time.deltaTime;
+
+        empowered = (empowerDelay > 0);
+        if (empowered && particleSpawnTimer > 0.1f)
+        {
+            particleSpawnTimer = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                float randomX = Random.Range(-0.6f, 0.6f);
+                float randomY = Random.Range(-0.25f, 0.25f);
+                Instantiate(attackBoostEffect, this.transform.position + new Vector3(randomX, -0.2f + randomY, 0), Quaternion.identity, this.transform);
+            }
+        }
+        defenseBuffed = (defenseBuffDelay > 0);
+        if(defenseBuffed && particleSpawnTimer > 0.1f)
+        {
+            particleSpawnTimer = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                float randomX = Random.Range(-0.6f, 0.6f);
+                float randomY = Random.Range(-0.25f, 0.25f);
+                Instantiate(defenseBoostEffect, this.transform.position + new Vector3(randomX, -0.2f + randomY, 0), Quaternion.identity, this.transform);
+            }
+        }
     }
     public IEnumerator AttackFrontSequence(GameObject target)
     {
@@ -65,6 +107,7 @@ public class playerScript : MonoBehaviour
         {
             Debug.Log($"Inflige des dégâts à {target.name}");
             int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
+            
 
             target.GetComponent<Stats_System>().takeDamage(finalDamage);
             yield return new WaitForSeconds(0.5f);
@@ -83,7 +126,7 @@ public class playerScript : MonoBehaviour
 
         //actionUI.FinalizeAttack();
         transform.position = originalPosition;
-        combatLogic.switchTurn();
+        switchingTurn();
     }
 
     public IEnumerator AttackJumpSequence(GameObject target)
@@ -175,7 +218,58 @@ public class playerScript : MonoBehaviour
         }
         //actionUI.FinalizeAttack();
         transform.position = originalPosition;
-        combatLogic.switchTurn();
+        switchingTurn();
 
+    }
+
+    public void healPlayer(int healAmount)
+    {
+        stats.heal(healAmount);
+    }
+
+    public void restoreSP(int spAmount)
+    {
+        SP += spAmount;
+        SP = Mathf.Min(SP, originalSP);
+        Debug.Log($"{gameObject.name} healed for {spAmount}. Current health: {SP}");
+    }
+
+    public void actionEmpower()
+    {
+        empowerDelay = 4;
+    }
+    public void actionDefenseBuff()
+    {
+        defenseBuffDelay = 4;
+    }
+    public void switchingTurn()
+    {
+        if (empowerDelay > 0)
+        {
+            empowerDelay--;
+        }
+        if (defenseBuffDelay > 0)
+        {
+            defenseBuffDelay--;
+        }
+        empowered = (empowerDelay > 0);
+        if (empowered)
+        {
+            stats.damage = baseDamage + (int)(baseDamage * attackBoostStrenght);
+        }
+        else
+        {
+            stats.damage = baseDamage;
+        }
+        defenseBuffed = (defenseBuffDelay > 0);
+        if (defenseBuffed)
+        {
+            stats.defense = baseDefense + (int)(baseDefense * defenseBoostStrenght);
+        }
+        else
+        {
+            stats.defense = baseDefense;
+        }
+        combatLogic.switchTurn();
     }
 }

@@ -1,26 +1,63 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/ActionMenu.uss?fileID=7433441132597879392&amp;guid=0a15015b45e476445b456d5f57780a6c&amp;type=3#ActionMenu"/>
-    <ui:VisualElement picking-mode="Ignore" name="MainContainer" class="ActionMenuHover" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/UI/ActionMenuBG.png?fileID=2800000&amp;guid=c3e06bc0f1a0a6f40941703b9f64602a&amp;type=3#ActionMenuBG&quot;); justify-content: space-evenly; align-content: center; position: absolute; top: 108px; left: 395px; align-items: stretch; height: 300px; width: 200px;">
-        <ui:Button text="Attack&#10;" name="Attack" class="ActionMenuButton1 button" style="background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+    <ui:VisualElement picking-mode="Ignore" name="MainContainer" class="ActionMenuHover" style="flex-grow: 0; background-image: none; justify-content: space-evenly; align-content: center; position: absolute; top: 8px; left: 431px; align-items: stretch; height: 422px; width: 335px; opacity: 1;">
+        <ui:Button text="Attack&#10;" name="Attack" class="ActionMenuButton1 button">
             <ui:VisualElement picking-mode="Ignore" name="AttackSelector" class="selector"/>
         </ui:Button>
-        <ui:Button text="Defend&#10;" name="Defend" class="ActionMenuButton1 button" style="background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+        <ui:Button text="Defend&#10;" name="Defend" class="ActionMenuButton1 button">
             <ui:VisualElement picking-mode="Ignore" name="DefendSelector" class="selector"/>
         </ui:Button>
-        <ui:Button text="Items&#10;" name="Items" class="ActionMenuButton1 button" style="background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+        <ui:Button text="Items&#10;" name="Items" class="ActionMenuButton1 button">
             <ui:VisualElement picking-mode="Ignore" name="ItemsSelector" class="selector"/>
         </ui:Button>
-        <ui:Button text="Skills&#10;" name="Skills" class="ActionMenuButton1 button" style="background-color: rgba(188, 188, 188, 0); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+        <ui:Button text="Skills&#10;" name="Skills" class="ActionMenuButton1 button">
             <ui:VisualElement picking-mode="Ignore" name="SkillsSelector" class="selector"/>
         </ui:Button>
-        <ui:Button text="Melee" name="AttackFront" class="ActionMenuButton2 button" style="background-color: rgba(188, 188, 188, 0); color: rgb(255, 255, 255); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+        <ui:Button text="Melee" name="AttackFront" class="ActionMenuButton2 button" style="color: rgb(255, 255, 255);">
             <ui:VisualElement picking-mode="Ignore" name="AttackFrontSelector" class="selector"/>
         </ui:Button>
-        <ui:Button text="Ranged" name="AttackUp" class="ActionMenuButton2 button" style="background-color: rgba(188, 188, 188, 0); color: rgb(255, 255, 255); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+        <ui:Button text="Ranged" name="AttackUp" class="ActionMenuButton2 button" style="color: rgb(255, 255, 255);">
             <ui:VisualElement picking-mode="Ignore" name="AttackUpSelector" class="selector"/>
         </ui:Button>
-        <ui:Button text="Cancel&#10;" name="CancelToPage1" class="button cancelToPage1" style="background-color: rgba(188, 188, 188, 0); color: rgb(255, 255, 255); border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+        <ui:Button text="Cheese&#10;" name="Cheese" class="button ActionMenuButton3" style="color: rgb(255, 255, 255); flex-direction: row-reverse;">
+            <ui:Image name="CheeseSprite" source="project://database/Assets/Items/Sprites/cheese.png?fileID=2800000&amp;guid=b4406742829cb7c4ba97e4ae22f2d282&amp;type=3#cheese" class="Item"/>
+            <ui:Label text="X99" name="CheeseQuantity" class="ItemQtt"/>
+            <ui:VisualElement picking-mode="Ignore" name="CheeseSelector" class="selector" style="flex-direction: column; transform-origin: center; position: absolute; align-self: auto; top: 23px; left: 12px; height: 43px; width: 137px;"/>
+        </ui:Button>
+        <ui:Button text="Banana" name="Banana" class="button ActionMenuButton3" style="color: rgb(255, 255, 255); flex-direction: row-reverse;">
+            <ui:Image name="BananaSprite" source="project://database/Assets/Items/Sprites/banana.png?fileID=2800000&amp;guid=2e3f90f5c8cf5f442acfbd5c9de546f2&amp;type=3#banana" class="Item"/>
+            <ui:Label text="X99" name="BananaQuantity" class="ItemQtt"/>
+            <ui:VisualElement picking-mode="Ignore" name="BananaSelector" class="selector" style="position: absolute; top: 17px; left: 9px;"/>
+        </ui:Button>
+        <ui:Button text="PepperAtt" name="PepperAtt" class="button ActionMenuButton3" style="color: rgb(255, 255, 255); flex-direction: row-reverse;">
+            <ui:Image name="PepperAttSprite" source="project://database/Assets/Items/Sprites/poivronAtt.png?fileID=2800000&amp;guid=7d8563e11dc88f240ac573b054c723a2&amp;type=3#poivronAtt" class="Item"/>
+            <ui:Label text="X99" name="PepperAttQuantity" class="ItemQtt"/>
+            <ui:VisualElement picking-mode="Ignore" name="PepperAttSelector" class="selector" style="position: absolute; top: 16px; left: 14px; height: 54px; width: 185px;"/>
+        </ui:Button>
+        <ui:Button text="PepperDef" name="PepperDef" class="button ActionMenuButton3" style="color: rgb(255, 255, 255); flex-direction: row-reverse;">
+            <ui:Image name="PepperDefSprite" source="project://database/Assets/Items/Sprites/poivronDef.png?fileID=2800000&amp;guid=037adab9eaaff2b429999314a72ceec2&amp;type=3#poivronDef" class="Item"/>
+            <ui:Label text="X99" name="PepperDefQuantity" class="ItemQtt"/>
+            <ui:VisualElement picking-mode="Ignore" name="PepperDefSelector" class="selector" style="position: absolute; top: 13px; left: 11px; height: 57px; width: 190px;"/>
+        </ui:Button>
+        <ui:Button text="Bite" name="Bite" class="button ActionMenuButton4">
+            <ui:Label text="5 PS" name="BiteCost" class="ItemQtt" style="flex-direction: column;"/>
+            <ui:VisualElement picking-mode="Ignore" name="BiteSelector" class="selector"/>
+        </ui:Button>
+        <ui:Button text="Fracture" name="Fracture" class="button ActionMenuButton4">
+            <ui:Label text="7 PS" name="FractureCost" class="ItemQtt" style="flex-direction: column;"/>
+            <ui:VisualElement picking-mode="Ignore" name="FractureSelector" class="selector" style="width: 152px;"/>
+        </ui:Button>
+        <ui:Button text="Fireball" name="Fireball" class="button ActionMenuButton4">
+            <ui:Label text="12 PS" name="FireballCost" class="ItemQtt" style="flex-direction: column;"/>
+            <ui:VisualElement picking-mode="Ignore" name="FireballSelector" class="selector" style="width: 146px;"/>
+        </ui:Button>
+        <ui:Button text="Absorption" name="Absorption" class="button ActionMenuButton4">
+            <ui:Label text="10 PS&#10;" name="AbsorptionCost" class="ItemQtt" style="flex-direction: column;"/>
+            <ui:VisualElement picking-mode="Ignore" name="AbsorptionSelector" class="selector" style="width: 191px;"/>
+        </ui:Button>
+        <ui:Button text="Cancel&#10;" name="CancelToPage1" class="button cancelToPage1" style="color: rgb(255, 255, 255); opacity: 1;">
             <ui:VisualElement picking-mode="Ignore" name="CancelToPage1Selector" class="selector"/>
         </ui:Button>
+        <ui:Label text="" name="Description" style="font-size: 23px; color: rgb(255, 255, 255); background-color: rgba(0, 0, 0, 0.5); -unity-text-outline-width: 0; -unity-text-outline-color: rgb(0, 0, 0); opacity: 1; -unity-text-align: upper-center; visibility: hidden; display: flex; min-height: 60px; white-space: normal;"/>
     </ui:VisualElement>
 </ui:UXML>

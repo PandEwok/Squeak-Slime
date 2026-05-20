@@ -25,11 +25,11 @@ public class Enemy_AI : MonoBehaviour
     protected float particleSpawnTimer = 0;
 
 
-    public void actionEmpower(float empowerAmount = 0.5f)
+    public void actionEmpower(float empowerAmount = 0.5f, int delay = 2)
     {
-        empowerDelay = 2; // Empower lasts for 2 turns
+        empowerDelay = delay + 1; // Empower lasts for 2 turns
         dmgBuffs.Add(empowerAmount);
-        dmgBuffTimers.Add(empowerDelay); // Empower lasts for 2 turns
+        dmgBuffTimers.Add(empowerDelay);
     }
 
 
@@ -70,6 +70,7 @@ public class Enemy_AI : MonoBehaviour
         }
 
         empowered = (empowerDelay > 0);
+        //Debug.Log($"{this.gameObject.name} empower delay: {empowerDelay}, empowered: {empowered}");
         if (empowered && particleSpawnTimer > 0.1f)
         {
             particleSpawnTimer = 0;
@@ -84,6 +85,7 @@ public class Enemy_AI : MonoBehaviour
 
     public void newTurnCount()
     {
+        empowerDelay = Mathf.Max(0, empowerDelay - 1);
         for (int i = 0; i < dmgBuffTimers.Count; i++)
         {
             if (dmgBuffTimers[i] <= 0)
@@ -100,12 +102,12 @@ public class Enemy_AI : MonoBehaviour
     }
 
     public async virtual Task playTurn(GameObject target) {
-        newTurnCount();
-
-        if (empowerDelay > 0)
+        
+        /*if (empowerDelay > 0)
         {
             empowerDelay--;
-        }
+        }*/
+        newTurnCount();
     }
 
     public virtual void attack(GameObject target)

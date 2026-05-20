@@ -12,7 +12,7 @@ public class Stats_System : MonoBehaviour
     public GameObject damagePF;
     Vector3 originalPos;
     Color originalColor;
-    int health;
+    public int health;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
