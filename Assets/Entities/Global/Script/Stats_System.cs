@@ -21,7 +21,7 @@ public class Stats_System : MonoBehaviour
     {
         originalPos = transform.localPosition;
         //originalColor = this.gameObject.GetComponent<SpriteRenderer>().color;
-        originalColor = Color.white;
+        originalColor = gameObject.GetComponentInChildren<SpriteRenderer>().color;
         health = originalHealth;
     }
 
