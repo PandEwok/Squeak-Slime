@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8186267000441511099}
   - component: {fileID: 507790801270497167}
   - component: {fileID: 3707221164572005520}
+  - component: {fileID: 4908311747191874675}
   m_Layer: 5
   m_Name: ActionMenu
   m_TagString: Untagged
@@ -71,7 +72,50 @@ MonoBehaviour:
   uiDocument: {fileID: 507790801270497167}
   combatLogic: {fileID: 0}
   player: {fileID: 8567076734609327451}
-  itemDescriptions: []
+  itemDescriptions:
+  - itemId: Cheese
+    descriptionText: Restores 50 HP
+  - itemId: Banana
+    descriptionText: Restores 50 SP
+  - itemId: PepperAtt
+    descriptionText: Makes attacks more powerful during 3 turns
+  - itemId: PepperDef
+    descriptionText: Makes you take less damage during 3 turns
+  - itemId: Bite
+    descriptionText: 'A skill that deals 50% more damages
+
+      than basic attacks.
+      Makes enemies bleed. '
+  - itemId: Fireball
+    descriptionText: 'A fireball that attacks all your opponent
+
+      and burns
+      them.'
+  - itemId: Fragmentation
+    descriptionText: 'A powerful attack that oversteps
+
+      the armor of the target
+      that can''t
+
+      do anything during 1 turn. '
+  - itemId: Absorption
+    descriptionText: 'Your next attacks will heal you
+
+      50% of the damages you
+      inflict. '
+--- !u!210 &4908311747191874675
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2886613892715260993}
+  m_Enabled: 1
+  m_SortingLayerID: -235429883
+  m_SortingLayer: 2
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &5023061393286063755
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,7 +262,7 @@ MonoBehaviour:
   attackBoostEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   defenseBoostEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
   attackBoostStrenght: 0.5
-  defenseBoostStrenght: 0.5
+  defenseBoostStrenght: 1
   baseDamage: 0
   baseDefense: 0
 --- !u!114 &3077587344446119393
@@ -234,7 +278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
   cheeseInv: 10
-  bananaInv: 0
+  bananaInv: 10
   pepperAttInv: 10
   pepperDefInv: 10
 --- !u!114 &3315146261300418188
@@ -251,6 +295,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Stats_System
   originalHealth: 100
   damage: 25
-  defense: 50
+  defense: 2
   damagePF: {fileID: 254843135583981822, guid: 560e1bfb2a4706e45a82ebfb18aa849e, type: 3}
   health: 0
