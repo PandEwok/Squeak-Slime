@@ -23,6 +23,10 @@ public class ActionBarScript : MonoBehaviour
     private Label bananaQtyLabel;
     private Label pepperAttQtyLabel;
     private Label pepperDefQtyLabel;
+    private bool isSelectingEnnemy = false;
+    private int targetCount = 0;
+    enum AttackType {MELEE, RANGED, NONE};
+    AttackType attackType = AttackType.NONE;
     [System.Serializable] public struct ItemDescription
     {
         public string itemId;
@@ -110,7 +114,54 @@ public class ActionBarScript : MonoBehaviour
         Absorption?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
     }
 
+    private void Update()
+    {
+        foreach(var enemy in combatLogic.enemies)
+        {
+            enemy.GetComponent<Enemy_AI>().deselect();
+        }
+        if (isSelectingEnnemy)
+        {
+            combatLogic.enemies[targetCount].GetComponent<Enemy_AI>().select();
+            if(Keyboard.current != null && Keyboard.current.tabKey.wasPressedThisFrame)
+            {
+                if(targetCount >= combatLogic.enemies.Count - 1)
+                {
+                    targetCount = 0;
+                }
+                else
+                {
+                    targetCount++;
+                }
+            }
+        if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
+        {
+            if (combatLogic.enemies.Count > 0)
+            {
+                GameObject target = combatLogic.enemies[targetCount];
 
+
+                
+                if (attackType == AttackType.MELEE)
+                {
+                    StartCoroutine(playerS.AttackFrontSequence(target));
+                    isSelectingEnnemy = false;
+                    attackType = AttackType.NONE;
+                    ToggleUiVisibility(false);
+                }
+                else if (attackType == AttackType.RANGED)
+                {
+                    StartCoroutine(playerS.AttackJumpSequence(target));
+                    isSelectingEnnemy = false;
+                    attackType = AttackType.NONE;
+                    ToggleUiVisibility(false);
+                }
+              
+            }
+        }
+
+        }
+    }
     public void UpdateInventoryUI()
     {
         int currentCheese = playerInventory.cheeseInv;
@@ -181,29 +232,19 @@ public class ActionBarScript : MonoBehaviour
     }
     private void AttackFrontClicked()
     {
+        isSelectingEnnemy = true;
         Debug.Log("Confirm Attack button clicked!");
 
-        if (combatLogic.enemies.Count > 0)
-        {
-            GameObject target = combatLogic.enemies[currentEnemyTargetIndex];
-
-            //Debut de l'attaque
-            StartCoroutine(playerS.AttackFrontSequence(target));
-            ToggleUiVisibility(false);
-        }
-        Debug.Log(combatLogic.enemies.Count);
+        attackType = AttackType.MELEE;
     }
 
 
     private void AttackUpClicked()
     {
+        isSelectingEnnemy = true;
         Debug.Log("Attack Up button clicked!");
-        if (combatLogic.enemies.Count > 0)
-        {
-            GameObject target = combatLogic.enemies[currentEnemyTargetIndex];
-            ToggleUiVisibility(false);
-            StartCoroutine(playerS.AttackJumpSequence(target));
-        }
+
+        attackType = AttackType.RANGED;
     }
 
     private void UseBite()
