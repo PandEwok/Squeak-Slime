@@ -244,14 +244,6 @@ public class playerScript : MonoBehaviour
     }
     public void switchingTurn()
     {
-        if (empowerDelay > 0)
-        {
-            empowerDelay--;
-        }
-        if (defenseBuffDelay > 0)
-        {
-            defenseBuffDelay--;
-        }
         empowered = (empowerDelay > 0);
         if (empowered)
         {
@@ -273,6 +265,18 @@ public class playerScript : MonoBehaviour
         combatLogic.switchTurn();
     }
 
+    public void decreaseBoosts()
+    {
+        if (empowerDelay > 0)
+        {
+            empowerDelay--;
+        }
+        if (defenseBuffDelay > 0)
+        {
+            defenseBuffDelay--;
+        }
+        
+    }
     public IEnumerator TriggerDefenseQTE(float windowDuration)
     {
         stats.blocking = false;
