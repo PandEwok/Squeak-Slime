@@ -3115,6 +3115,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+--- !u!1 &1421792718 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2886613892715260993, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+  m_PrefabInstance: {fileID: 1421792717}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1568003578
 GameObject:
   m_ObjectHideFlags: 0
@@ -3429,7 +3434,7 @@ PrefabInstance:
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: actionUI
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1421792718}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: EnemyPositions.Array.size
       value: 3

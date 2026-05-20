@@ -17,6 +17,7 @@ public class Enemy_AI : MonoBehaviour
     protected List<float> dmgBuffs = new List<float>();
     protected List<float> defBuffs = new List<float>();
     protected List<int> dmgBuffTimers = new List<int>();
+    protected List<int> defBuffTimers = new List<int>();
 
     public GameObject powerEffect;
     public float empowerStrenght = 0.5f;
@@ -24,12 +25,57 @@ public class Enemy_AI : MonoBehaviour
     protected bool empowered = false;
     protected float particleSpawnTimer = 0;
 
+    bool selected = false;
 
-    public void actionEmpower(float empowerAmount = 0.5f, int delay = 2)
+
+    void setArrow(bool value) {
+        transform.Find("SelectArrow").gameObject.SetActive(value);
+    }
+
+    private void Awake()
+    {
+        setArrow(false);
+    }
+
+    public void select()
+    {
+        selected = true;
+        setArrow(true);
+    }
+
+    public void deselect()
+    {
+        selected = false;
+        setArrow(false);
+    }
+
+    public bool isSelected()
+    {
+        return selected;
+    }
+
+
+    public enum EmpowerType
+    {
+        DAMAGE,
+        DEFENSE
+    }
+
+
+    public void actionEmpower(float empowerAmount = 0.5f, int delay = 2, EmpowerType type = EmpowerType.DAMAGE)
     {
         empowerDelay = delay + 1; // Empower lasts for 2 turns
-        dmgBuffs.Add(empowerAmount);
-        dmgBuffTimers.Add(empowerDelay);
+
+        if (type == EmpowerType.DEFENSE)
+        {
+            defBuffs.Add(empowerAmount);
+            defBuffTimers.Add(empowerDelay);
+        }
+        else if (type == EmpowerType.DAMAGE)
+        {
+            dmgBuffs.Add(empowerAmount);
+            dmgBuffTimers.Add(empowerDelay);
+        }
     }
 
 
@@ -99,10 +145,23 @@ public class Enemy_AI : MonoBehaviour
                 dmgBuffTimers[i]--;
             }
         }
+        for (int i = 0; i < defBuffTimers.Count; i++)
+        {
+            if (defBuffTimers[i] <= 0)
+            {
+                defBuffTimers.RemoveAt(i);
+                defBuffTimers.RemoveAt(i);
+                i--;
+            }
+            else
+            {
+                defBuffTimers[i]--;
+            }
+        }
     }
 
-    public async virtual Task playTurn(GameObject target) {
-        
+    public async virtual Task playTurn(GameObject target)
+    {
         /*if (empowerDelay > 0)
         {
             empowerDelay--;
