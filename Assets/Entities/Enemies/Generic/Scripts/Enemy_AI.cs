@@ -17,19 +17,67 @@ public class Enemy_AI : MonoBehaviour
     protected List<float> dmgBuffs = new List<float>();
     protected List<float> defBuffs = new List<float>();
     protected List<int> dmgBuffTimers = new List<int>();
+    protected List<int> defBuffTimers = new List<int>();
 
     public GameObject powerEffect;
     public float empowerStrenght = 0.5f;
     protected int empowerDelay = 0;
     protected bool empowered = false;
     protected float particleSpawnTimer = 0;
+    GameObject player;
+    playerScript playerCombat;
+
+    bool selected = false;
 
 
-    public void actionEmpower(float empowerAmount = 0.5f, int delay = 2)
+    void setArrow(bool value) {
+        transform.Find("SelectArrow").gameObject.SetActive(value);
+    }
+
+    private void Awake()
+    {
+        setArrow(false);
+    }
+
+    public void select()
+    {
+        selected = true;
+        setArrow(true);
+    }
+
+    public void deselect()
+    {
+        selected = false;
+        setArrow(false);
+    }
+
+    public bool isSelected()
+    {
+        return selected;
+    }
+
+
+    public enum EmpowerType
+    {
+        DAMAGE,
+        DEFENSE
+    }
+
+
+    public void actionEmpower(float empowerAmount = 0.5f, int delay = 2, EmpowerType type = EmpowerType.DAMAGE)
     {
         empowerDelay = delay + 1; // Empower lasts for 2 turns
-        dmgBuffs.Add(empowerAmount);
-        dmgBuffTimers.Add(empowerDelay);
+
+        if (type == EmpowerType.DEFENSE)
+        {
+            defBuffs.Add(empowerAmount);
+            defBuffTimers.Add(empowerDelay);
+        }
+        else if (type == EmpowerType.DAMAGE)
+        {
+            dmgBuffs.Add(empowerAmount);
+            dmgBuffTimers.Add(empowerDelay);
+        }
     }
 
 
@@ -99,10 +147,23 @@ public class Enemy_AI : MonoBehaviour
                 dmgBuffTimers[i]--;
             }
         }
+        for (int i = 0; i < defBuffTimers.Count; i++)
+        {
+            if (defBuffTimers[i] <= 0)
+            {
+                defBuffTimers.RemoveAt(i);
+                defBuffTimers.RemoveAt(i);
+                i--;
+            }
+            else
+            {
+                defBuffTimers[i]--;
+            }
+        }
     }
 
-    public async virtual Task playTurn(GameObject target) {
-        
+    public async virtual Task playTurn(GameObject target)
+    {
         /*if (empowerDelay > 0)
         {
             empowerDelay--;
@@ -134,6 +195,20 @@ public class Enemy_AI : MonoBehaviour
             }
         });
         ///
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerCombat = player.GetComponent<playerScript>();
+
+        if (player.GetComponent<playerScript>() != null)
+        {
+            Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f));
+            await Task.Delay((int)secToMili(0.4f));
+
+            await Task.Delay((int)secToMili(0.1f));
+        }
+        else
+        {
+            await Task.Delay((int)secToMili(0.3f));
+        }
 
         await Task.Delay((int)secToMili(0.3f));
         attack(target);

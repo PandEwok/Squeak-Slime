@@ -36,6 +36,7 @@ public class ActionBarScript : MonoBehaviour
     {
         playerS = player.GetComponent<playerScript>();
         playerAttack = player.GetComponent<Stats_System>().damage;
+
         playerInventory = player.GetComponent<PlayerInventory>();
     }
     private void OnEnable()
@@ -164,7 +165,10 @@ public class ActionBarScript : MonoBehaviour
     {
         Debug.Log("Defend button clicked!");
         TogglePage1Visibility(false);
-        ToggleCancelToPage1Visibility(true);
+        ToggleUiVisibility(false);
+        player.GetComponent<Stats_System>().defending = true;
+        playerS.switchingTurn();
+        
     }
     private void CancelToPage1()
     {
@@ -256,6 +260,10 @@ public class ActionBarScript : MonoBehaviour
             {
                 element.style.display = DisplayStyle.None;
             }
+        }
+        if (mustDisplay)
+        {
+            playerS.decreaseBoosts();
         }
     }
     private void TogglePage2Visibility(bool mustDisplay)

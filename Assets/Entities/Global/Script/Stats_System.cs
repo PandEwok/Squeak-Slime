@@ -13,6 +13,8 @@ public class Stats_System : MonoBehaviour
     Vector3 originalPos;
     Color originalColor;
     public int health;
+    [HideInInspector] public bool blocking = false;
+    [HideInInspector] public bool defending = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -71,6 +73,14 @@ public class Stats_System : MonoBehaviour
     public void takeDamage(int damageAmount)
     {
         int effectiveDamage = Mathf.Max(damageAmount - defense, 0);
+        if(blocking)
+        {
+            effectiveDamage /= 2;
+        }
+        if (defending)
+        {
+            effectiveDamage /= 2;
+        }
         health -= effectiveDamage;
 
         GameObject newDmgDisplay;

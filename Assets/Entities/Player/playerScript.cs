@@ -244,14 +244,6 @@ public class playerScript : MonoBehaviour
     }
     public void switchingTurn()
     {
-        if (empowerDelay > 0)
-        {
-            empowerDelay--;
-        }
-        if (defenseBuffDelay > 0)
-        {
-            defenseBuffDelay--;
-        }
         empowered = (empowerDelay > 0);
         if (empowered)
         {
@@ -271,5 +263,38 @@ public class playerScript : MonoBehaviour
             stats.defense = baseDefense;
         }
         combatLogic.switchTurn();
+    }
+
+    public void decreaseBoosts()
+    {
+        if (empowerDelay > 0)
+        {
+            empowerDelay--;
+        }
+        if (defenseBuffDelay > 0)
+        {
+            defenseBuffDelay--;
+        }
+        
+    }
+    public IEnumerator TriggerDefenseQTE(float windowDuration)
+    {
+        stats.blocking = false;
+        float elapsed = 0f;
+
+        Debug.Log("Def QTE");
+
+        while (elapsed < windowDuration)
+        {
+            if (Pointer.current.press.wasPressedThisFrame)
+            {
+                stats.blocking = true;
+                Debug.Log("Blocked!");
+                break;
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
     }
 }
