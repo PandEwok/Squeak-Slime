@@ -272,4 +272,25 @@ public class playerScript : MonoBehaviour
         }
         combatLogic.switchTurn();
     }
+
+    public IEnumerator TriggerDefenseQTE(float windowDuration)
+    {
+        stats.blocking = false;
+        float elapsed = 0f;
+
+        Debug.Log("Def QTE");
+
+        while (elapsed < windowDuration)
+        {
+            if (Pointer.current.press.wasPressedThisFrame)
+            {
+                stats.blocking = true;
+                Debug.Log("Blocked!");
+                break;
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
 }
