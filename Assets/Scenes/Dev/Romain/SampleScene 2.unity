@@ -3666,7 +3666,7 @@ PrefabInstance:
       objectReference: {fileID: 1044752080}
     - target: {fileID: 1203428539494268273, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: defenseBoostStrenght
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: bananaInv

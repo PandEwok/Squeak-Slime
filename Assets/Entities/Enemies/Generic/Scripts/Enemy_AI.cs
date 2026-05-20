@@ -24,6 +24,8 @@ public class Enemy_AI : MonoBehaviour
     protected int empowerDelay = 0;
     protected bool empowered = false;
     protected float particleSpawnTimer = 0;
+    GameObject player;
+    playerScript playerCombat;
 
     bool selected = false;
 
@@ -193,6 +195,20 @@ public class Enemy_AI : MonoBehaviour
             }
         });
         ///
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerCombat = player.GetComponent<playerScript>();
+
+        if (player.GetComponent<playerScript>() != null)
+        {
+            Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f));
+            await Task.Delay((int)secToMili(0.4f));
+
+            await Task.Delay((int)secToMili(0.1f));
+        }
+        else
+        {
+            await Task.Delay((int)secToMili(0.3f));
+        }
 
         await Task.Delay((int)secToMili(0.3f));
         attack(target);
