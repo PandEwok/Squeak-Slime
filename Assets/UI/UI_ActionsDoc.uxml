@@ -58,6 +58,6 @@
         <ui:Button text="Cancel&#10;" name="CancelToPage1" class="button cancelToPage1" style="color: rgb(255, 255, 255); opacity: 1;">
             <ui:VisualElement picking-mode="Ignore" name="CancelToPage1Selector" class="selector"/>
         </ui:Button>
-        <ui:Label text="" name="Description" style="font-size: 23px; color: rgb(255, 255, 255); background-color: rgba(0, 0, 0, 0.5); -unity-text-outline-width: 0; -unity-text-outline-color: rgb(0, 0, 0); opacity: 1; -unity-text-align: upper-center; visibility: visible; display: flex; min-height: 60px; white-space: normal;"/>
+        <ui:Label text="" name="Description" style="font-size: 23px; color: rgb(255, 255, 255); background-color: rgba(0, 0, 0, 0.5); -unity-text-outline-width: 0; -unity-text-outline-color: rgb(0, 0, 0); opacity: 1; -unity-text-align: upper-center; visibility: hidden; display: flex; min-height: 60px; white-space: normal;"/>
     </ui:VisualElement>
 </ui:UXML>
