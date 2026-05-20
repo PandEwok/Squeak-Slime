@@ -1810,6 +1810,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   currentFloor: 1
   currentStage: 1
+  collectedItems: []
+  allCurrencies:
+  - {fileID: 11400000, guid: e2ed30f2626d83a4e961571d06b94cd2, type: 2}
+  - {fileID: 11400000, guid: b6c93144143954c4b85399cc6ad9eb4b, type: 2}
 --- !u!4 &1887630204
 Transform:
   m_ObjectHideFlags: 0

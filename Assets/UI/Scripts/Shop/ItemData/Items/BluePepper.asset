@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf3e8962fc26d447959f531df5d642b, type: 3}
   m_Name: BluePepper
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemData
-  itemName: 
+  itemName: DEF Pepper
   itemIcon: {fileID: -7414543132534328891, guid: 577027a890001cc4195a93fc9937a126, type: 3}
   defaultColor: {r: 0, g: 0.77702403, b: 1, a: 1}

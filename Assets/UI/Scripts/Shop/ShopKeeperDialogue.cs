@@ -55,4 +55,17 @@ public class ShopkeeperDialogue : MonoBehaviour
         // Set the coroutine to null so the player can click the button again
         typingCoroutine = null;
     }
+
+    // Call this from the ShopManager when a transaction succeeds!
+    public void SayThankYou(string thankYouMessage)
+    {
+        // If the shopkeeper is currently typing a line, stop it so lines don't overlap
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+        }
+
+        // Run the typewriter effect with the custom thank you message
+        typingCoroutine = StartCoroutine(TypeWriterEffect(thankYouMessage));
+    }
 }
