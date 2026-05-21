@@ -304,7 +304,7 @@ public class ActionBarScript : MonoBehaviour
     }
     private void ToggleUiVisibility(bool mustDisplay)
     {
-        if (mustDisplay)
+        if (mustDisplay && player.GetComponent<Stats_System>().health > 0)
         {
             root.style.display = DisplayStyle.Flex;
         }

@@ -121,6 +121,11 @@ public class Combat_Logic : MonoBehaviour
             if (enemyAI != null)
             {
                 await enemyAI.playTurn(player); // ATTENDRE la fin du tour de cet ennemi
+                if(player.GetComponent<Stats_System>().health <= 0)
+                {
+                    Debug.Log("Player has been defeated!");
+                    return;
+                }
                 if (enemy != enemies[enemies.Count - 1])
                 {
                     await Task.Delay((int)(1f * 1000));
