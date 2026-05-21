@@ -61,7 +61,7 @@ public class playerScript : MonoBehaviour
             }
         }
     }
-    public IEnumerator AttackFrontSequence(GameObject target)
+    public IEnumerator AttackFrontSequence(GameObject target, float boost)
     {
         Vector3 enemyPos = target.transform.position;
         Vector3 direction = (enemyPos - originalPosition).normalized;
@@ -84,7 +84,7 @@ public class playerScript : MonoBehaviour
         float qteWindow = 0.2f;
         float qteElapsed = 0f;
         bool hasCrit = false;
-        int baseDamage = stats.damage;
+        int baseDamage = (int)(stats.damage + (stats.damage * boost));
 
 
         while (qteElapsed < qteWindow)
@@ -129,7 +129,7 @@ public class playerScript : MonoBehaviour
         switchingTurn();
     }
 
-    public IEnumerator AttackJumpSequence(GameObject target)
+    public IEnumerator AttackJumpSequence(GameObject target, float boost)
     {
         Vector3 startPos = originalPosition;
         Vector3 enemyPos = target.transform.position;
@@ -201,7 +201,7 @@ public class playerScript : MonoBehaviour
         var enemyStats = target.GetComponent<Stats_System>();
         if (enemyStats != null)
         {
-            int baseDamage = stats.damage;
+            int baseDamage = (int)(stats.damage + (stats.damage * boost));
             int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
             enemyStats.takeDamage(finalDamage, false); 
         }
@@ -224,7 +224,8 @@ public class playerScript : MonoBehaviour
 
     public IEnumerator AttackBiteSequence(GameObject target)
     {
-        yield return AttackFrontSequence(target);
+        
+        yield return AttackFrontSequence(target, 0.5f);
         target.GetComponent<Stats_System>().makeBleeding();
     }
 
