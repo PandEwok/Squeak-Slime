@@ -17,12 +17,15 @@ public class ActionBarScript : MonoBehaviour
     private playerScript playerS;
     private PlayerInventory playerInventory;
     private int playerAttack;
-    private int currentEnemyTargetIndex = 0;
     private Vector3 originalPosition;
     private Label cheeseQtyLabel;
     private Label bananaQtyLabel;
     private Label pepperAttQtyLabel;
     private Label pepperDefQtyLabel;
+    private bool isSelectingEnnemy = false;
+    private int targetCount = 0;
+    enum AttackType {MELEE, RANGED, BITE, NONE};
+    AttackType attackType = AttackType.NONE;
     [System.Serializable] public struct ItemDescription
     {
         public string itemId;
@@ -110,7 +113,67 @@ public class ActionBarScript : MonoBehaviour
         Absorption?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
     }
 
+    private void Update()
+    {
+        foreach(var enemy in combatLogic.enemies)
+        {
+            enemy.GetComponent<Enemy_AI>().deselect();
+        }
+        if (isSelectingEnnemy)
+        {
+            combatLogic.enemies[targetCount].GetComponent<Enemy_AI>().select();
+            if(Keyboard.current != null && Keyboard.current.tabKey.wasPressedThisFrame)
+            {
+                if(targetCount >= combatLogic.enemies.Count - 1)
+                {
+                    targetCount = 0;
+                }
+                else
+                {
+                    targetCount++;
+                }
+            }
+        if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
+        {
+            if (combatLogic.enemies.Count > 0)
+            {
+                GameObject target = combatLogic.enemies[targetCount];
 
+
+                
+                if (attackType == AttackType.MELEE)
+                {
+                    StartCoroutine(playerS.AttackFrontSequence(target, 0));
+                    isSelectingEnnemy = false;
+                    attackType = AttackType.NONE;
+                    ToggleUiVisibility(false);
+                }
+                else if (attackType == AttackType.RANGED)
+                {
+                    StartCoroutine(playerS.AttackJumpSequence(target, 0));
+                    isSelectingEnnemy = false;
+                    attackType = AttackType.NONE;
+                    ToggleUiVisibility(false);
+                }
+                else if (attackType == AttackType.BITE)
+                {
+                    isSelectingEnnemy = false;
+                    attackType = AttackType.NONE;
+                    ToggleUiVisibility(false);
+                    playerS.SP -= 5;
+                    if (playerS.SP < 0)
+                    {
+                        playerS.SP = 0;
+                    }
+                    StartCoroutine(playerS.AttackBiteSequence(target));
+                    
+                }
+              
+            }
+        }
+
+        }
+    }
     public void UpdateInventoryUI()
     {
         int currentCheese = playerInventory.cheeseInv;
@@ -181,34 +244,36 @@ public class ActionBarScript : MonoBehaviour
     }
     private void AttackFrontClicked()
     {
+        isSelectingEnnemy = true;
         Debug.Log("Confirm Attack button clicked!");
 
-        if (combatLogic.enemies.Count > 0)
-        {
-            GameObject target = combatLogic.enemies[currentEnemyTargetIndex];
-
-            //Debut de l'attaque
-            StartCoroutine(playerS.AttackFrontSequence(target));
-            ToggleUiVisibility(false);
-        }
-        Debug.Log(combatLogic.enemies.Count);
+        attackType = AttackType.MELEE;
     }
 
 
     private void AttackUpClicked()
     {
+        isSelectingEnnemy = true;
         Debug.Log("Attack Up button clicked!");
-        if (combatLogic.enemies.Count > 0)
-        {
-            GameObject target = combatLogic.enemies[currentEnemyTargetIndex];
-            ToggleUiVisibility(false);
-            StartCoroutine(playerS.AttackJumpSequence(target));
-        }
+
+        attackType = AttackType.RANGED;
     }
 
     private void UseBite()
     {
-        Debug.Log("Use Bite button clicked!");
+        if (playerS.SP < 5)
+        {
+            Debug.Log("Not enough SP to use Bite!");
+            return;
+        }
+        else
+        {
+            isSelectingEnnemy = true;
+            Debug.Log("Use Bite button clicked!");
+
+            attackType = AttackType.BITE;
+            
+        }
     }
 
     private void UseFracture()
@@ -245,6 +310,11 @@ public class ActionBarScript : MonoBehaviour
         }
         else
         {
+            TogglePage1Visibility(true);
+            TogglePage2Visibility(false);
+            TogglePage3Visibility(false);
+            TogglePage4Visibility(false);
+            ToggleCancelToPage1Visibility(false);
             root.style.display = DisplayStyle.None;
         }
     }
@@ -264,6 +334,9 @@ public class ActionBarScript : MonoBehaviour
         if (mustDisplay)
         {
             playerS.decreaseBoosts();
+            playerS.applyStatus();
+
+
         }
     }
     private void TogglePage2Visibility(bool mustDisplay)

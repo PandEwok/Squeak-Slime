@@ -7,6 +7,17 @@ public class PlayerInventory : MonoBehaviour
     public int bananaInv = 0;
     public int pepperAttInv = 0;
     public int pepperDefInv = 0;
+    public enum TeethType
+    {
+        Normal,
+        Magic,
+        Golem,
+        Mutant
+    }
+    public int qty_teeth = 0;
+    public int qty_magic_teeth = 0;
+    public int qty_golem_teeth = 0;
+    public int qty_mutant_teeth = 0;
 
     public void addCheese(int amount)
     {
@@ -75,4 +86,77 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    public void AddTeeth(TeethType type, int amount)
+    {
+        switch (type)
+        {
+            case TeethType.Normal:
+                qty_teeth += amount;
+                if (qty_teeth > 99)
+                {
+                    qty_teeth = 99;
+                }
+                break;
+            case TeethType.Magic:
+                qty_magic_teeth += amount;
+                if (qty_magic_teeth > 99)
+                {
+                    qty_magic_teeth = 99;
+                }
+                break;
+            case TeethType.Golem:
+                qty_golem_teeth += amount;
+                if (qty_golem_teeth > 99)
+                {
+                    qty_golem_teeth = 99;
+                }
+                break;
+            case TeethType.Mutant:
+                qty_mutant_teeth += amount;
+                if (qty_mutant_teeth > 99)
+                {
+                    qty_mutant_teeth = 99;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void RemoveTeeth(TeethType type, int amount)
+    {
+        switch (type)
+        {
+            case TeethType.Normal:
+                qty_teeth -= amount;
+                if (qty_teeth < 0)
+                {
+                    qty_teeth = 0;
+                }
+                break;
+            case TeethType.Magic:
+                qty_magic_teeth -= amount;
+                if (qty_magic_teeth < 0)
+                {
+                    qty_magic_teeth = 0;
+                }
+                break;
+            case TeethType.Golem:
+                qty_golem_teeth -= amount;
+                if (qty_golem_teeth < 0)
+                {
+                    qty_golem_teeth = 0;
+                }
+                break;
+            case TeethType.Mutant:
+                qty_mutant_teeth -= amount;
+                if (qty_mutant_teeth < 0)
+                {
+                    qty_mutant_teeth = 0;
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

@@ -6,7 +6,7 @@ public class ShopAnimation : MonoBehaviour
 
     // Changing the name slightly to 'isShopOpen' prevents future confusion!
     // Set this to true if your shop starts visible on screen, or false if it starts hidden.
-    private bool isShopOpen = true;
+    private bool isShopOpen = false;
 
     // Removed the parameter from the parentheses!
     public void ToggleShop()

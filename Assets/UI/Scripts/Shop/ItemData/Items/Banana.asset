@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf3e8962fc26d447959f531df5d642b, type: 3}
   m_Name: Banana
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemData
-  itemName: 
+  itemName: Banana
   itemIcon: {fileID: -7477641686685662164, guid: 11c27f7eb5f80d948b36747c2894783d, type: 3}
   defaultColor: {r: 0.9963192, g: 1, b: 0, a: 1}

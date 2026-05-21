@@ -298,3 +298,5 @@ MonoBehaviour:
   defense: 2
   damagePF: {fileID: 254843135583981822, guid: 560e1bfb2a4706e45a82ebfb18aa849e, type: 3}
   health: 0
+  blocking: 0
+  defending: 0

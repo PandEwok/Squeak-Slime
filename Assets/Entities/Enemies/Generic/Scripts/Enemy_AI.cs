@@ -98,12 +98,20 @@ public class Enemy_AI : MonoBehaviour
         return newPos;
     }
 
+
     // Update is called once per frame
     public virtual void Update()
     {
         particleSpawnTimer += Time.deltaTime;
         securityTimer += Time.deltaTime;
         pos = getPos();
+
+
+        if (gameObject.GetComponent<Stats_System>().health <= 0)
+        {
+
+            GameObject.Find("CombatLogic").GetComponent<Combat_Logic>().removeEnemy(this.gameObject);
+        }
 
 
         if (isMoving && moveTarget != null && moveStart != null) {
@@ -160,6 +168,7 @@ public class Enemy_AI : MonoBehaviour
                 defBuffTimers[i]--;
             }
         }
+        GetComponent<Stats_System>().bleed();
     }
 
     public async virtual Task playTurn(GameObject target)

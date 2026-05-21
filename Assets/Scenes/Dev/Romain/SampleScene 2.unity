@@ -3673,6 +3673,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3315146261300418188, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: bloodPF
+      value: 
+      objectReference: {fileID: 2114382830776690554, guid: 1cda0815d43215f40b41c548b80fc810, type: 3}
+    - target: {fileID: 3315146261300418188, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: defense
       value: 2
       objectReference: {fileID: 0}

@@ -22,6 +22,18 @@ public class Combat_Logic : MonoBehaviour
 
     UnityEngine.UI.Button[] UI_Buttons;
 
+
+    public void removeEnemy(GameObject enemy)
+    {
+        int index = enemies.IndexOf(enemy);
+        if (index != -1)
+        {
+            EnemyPositions.RemoveAt(index);
+            enemies.RemoveAt(index);
+        }
+        Destroy(enemy);
+    }
+
     public void switchTurn()
     {
         Debug.Log("Switching turns...");
@@ -44,7 +56,7 @@ public class Combat_Logic : MonoBehaviour
                 int damageAmount = 20; // Example damage value
                 int randomDmgOffset = Random.Range(-2, 3);
                 damageAmount += randomDmgOffset;
-                enemyStats.takeDamage(damageAmount);
+                enemyStats.takeDamage(damageAmount, false);
                 Debug.Log($"Player attacked {targetEnemy.name} for {damageAmount} damage.");
             }
         }
