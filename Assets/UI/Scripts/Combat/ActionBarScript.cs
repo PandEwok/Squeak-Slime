@@ -14,7 +14,7 @@ public class ActionBarScript : MonoBehaviour
     private List<VisualElement> page4;
     [SerializeField] private Combat_Logic combatLogic;
     [SerializeField] private GameObject player;
-    private playerScript playerS;
+    private PlayerScript playerS;
     private PlayerInventory playerInventory;
     private int playerAttack;
     private Vector3 originalPosition;
@@ -37,7 +37,7 @@ public class ActionBarScript : MonoBehaviour
 
     private void Awake()
     {
-        playerS = player.GetComponent<playerScript>();
+        playerS = player.GetComponent<PlayerScript>();
         playerAttack = player.GetComponent<Stats_System>().damage;
 
         playerInventory = player.GetComponent<PlayerInventory>();
@@ -304,7 +304,7 @@ public class ActionBarScript : MonoBehaviour
     }
     private void ToggleUiVisibility(bool mustDisplay)
     {
-        if (mustDisplay && player.GetComponent<Stats_System>().health > 0)
+        if (mustDisplay && player.GetComponent<Stats_System>().health > 0 && combatLogic.enemies.Count > 0)
         {
             root.style.display = DisplayStyle.Flex;
         }

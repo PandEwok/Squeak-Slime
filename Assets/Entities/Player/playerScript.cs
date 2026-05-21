@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class playerScript : MonoBehaviour
+public class PlayerScript : MonoBehaviour
 {
     public Combat_Logic combatLogic;
     Vector3 originalPosition;
@@ -25,6 +25,7 @@ public class playerScript : MonoBehaviour
     protected bool empowered = false;
     protected bool defenseBuffed = false;
     protected float particleSpawnTimer = 0;
+    [HideInInspector] public bool hasWon = false;
     private void Start()
     {
         actionUI = transform.Find("ActionMenu").GetComponent<ActionBarScript>();
@@ -36,28 +37,31 @@ public class playerScript : MonoBehaviour
 
     private void Update()
     {
-        particleSpawnTimer += Time.deltaTime;
+        if (!hasWon)
+        {
+            particleSpawnTimer += Time.deltaTime;
 
-        empowered = (empowerDelay > 0);
-        if (empowered && particleSpawnTimer > 0.1f)
-        {
-            particleSpawnTimer = 0;
-            for (int i = 0; i < 4; i++)
+            empowered = (empowerDelay > 0);
+            if (empowered && particleSpawnTimer > 0.1f)
             {
-                float randomX = Random.Range(-0.6f, 0.6f);
-                float randomY = Random.Range(-0.25f, 0.25f);
-                Instantiate(attackBoostEffect, this.transform.position + new Vector3(randomX, -0.2f + randomY, 0), Quaternion.identity, this.transform);
+                particleSpawnTimer = 0;
+                for (int i = 0; i < 4; i++)
+                {
+                    float randomX = Random.Range(-0.6f, 0.6f);
+                    float randomY = Random.Range(-0.25f, 0.25f);
+                    Instantiate(attackBoostEffect, this.transform.position + new Vector3(randomX, -0.2f + randomY, 0), Quaternion.identity, this.transform);
+                }
             }
-        }
-        defenseBuffed = (defenseBuffDelay > 0);
-        if(defenseBuffed && particleSpawnTimer > 0.1f)
-        {
-            particleSpawnTimer = 0;
-            for (int i = 0; i < 4; i++)
+            defenseBuffed = (defenseBuffDelay > 0);
+            if (defenseBuffed && particleSpawnTimer > 0.1f)
             {
-                float randomX = Random.Range(-0.6f, 0.6f);
-                float randomY = Random.Range(-0.25f, 0.25f);
-                Instantiate(defenseBoostEffect, this.transform.position + new Vector3(randomX, -0.2f + randomY, 0), Quaternion.identity, this.transform);
+                particleSpawnTimer = 0;
+                for (int i = 0; i < 4; i++)
+                {
+                    float randomX = Random.Range(-0.6f, 0.6f);
+                    float randomY = Random.Range(-0.25f, 0.25f);
+                    Instantiate(defenseBoostEffect, this.transform.position + new Vector3(randomX, -0.2f + randomY, 0), Quaternion.identity, this.transform);
+                }
             }
         }
     }
@@ -226,7 +230,10 @@ public class playerScript : MonoBehaviour
     {
         
         yield return AttackFrontSequence(target, 0.5f);
-        target.GetComponent<Stats_System>().makeBleeding();
+        if(target != null)
+        { 
+            target.GetComponent<Stats_System>().makeBleeding(); 
+        }
     }
 
     public void healPlayer(int healAmount)

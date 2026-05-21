@@ -139,10 +139,10 @@ public class Stats_System : MonoBehaviour
     }
     public void bleed()
     {
-        Debug.Log($"{gameObject.name} is bleeding.");
         isBleeding = (bleedingTimer > 0);
         if(isBleeding)
         {
+            Debug.Log($"{gameObject.name} is bleeding.");
             takeDamage(bleedDamage, true);
             bleedingTimer--;
         }

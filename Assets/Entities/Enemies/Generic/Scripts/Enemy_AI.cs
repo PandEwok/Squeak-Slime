@@ -25,7 +25,7 @@ public class Enemy_AI : MonoBehaviour
     protected bool empowered = false;
     protected float particleSpawnTimer = 0;
     GameObject player;
-    playerScript playerCombat;
+    PlayerScript playerCombat;
 
     bool selected = false;
 
@@ -205,9 +205,9 @@ public class Enemy_AI : MonoBehaviour
         });
         ///
         player = GameObject.FindGameObjectWithTag("Player");
-        playerCombat = player.GetComponent<playerScript>();
+        playerCombat = player.GetComponent<PlayerScript>();
 
-        if (player.GetComponent<playerScript>() != null)
+        if (player.GetComponent<PlayerScript>() != null)
         {
             Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f));
             await Task.Delay((int)secToMili(0.4f));
