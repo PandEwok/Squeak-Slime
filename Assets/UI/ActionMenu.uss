@@ -18,7 +18,7 @@
     height: 50px;
 }
 
-.ActionMenuButton1:hover .selector {
+/*.ActionMenuButton1:hover .selector {
     opacity: 1;
 }
 
@@ -38,7 +38,10 @@
     opacity: 1;
     display: flex;
 }
-
+*/
+.button:hover {
+    background-color: rgba(0, 0, 126, 1);
+}
 .ActionMenuButton1 {
     display: flex;
     opacity: 1;
