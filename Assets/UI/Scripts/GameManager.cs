@@ -1,9 +1,28 @@
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
-    // The "Singleton" instance that other scripts can see
-    //public static GameManager Instance { get; private set; }
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<GameManager>();
+                if (_instance == null)
+                {
+                    GameObject tempGO = new GameObject("Runtime_GameManager (Editor Test)");
+                    _instance = tempGO.AddComponent<GameManager>();
+                    DontDestroyOnLoad(tempGO);
+                    Debug.LogWarning("GameManager was missing! Created a temporary test manager.");
+                }
+            }
+            return _instance;
+        }
+    }
 
     [Header("Global Progression State")]
     public int currentFloor = 1;
@@ -11,59 +30,33 @@ public class GameManager : MonoBehaviour
     private const int maxStages = 6;
     private const int maxFloors = 4;
 
-    public static GameManager Instance
-    {
-        get
-        {
-            // If a script asks for the GameManager but it doesn't exist yet...
-            if (_instance == null)
-            {
-                // Create a brand new invisible GameObject and attach the GameManager to it automatically
-                GameObject go = new GameObject("Runtime_GameManager");
-                _instance = go.AddComponent<GameManager>();
-            }
-            return _instance;
-        }
-    }
-    private static GameManager _instance;
+    [Header("Player Inventory")]
+    public List<ShopItemData> collectedItems = new List<ShopItemData>();
 
-    /*    void Awake()
-        {
-            // Setup the Singleton and make sure it doesn't get destroyed between scenes
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }*/
+    // ==========================================
+    // NEW: TRACKING ASSETS FOR CHEATS
+    // ==========================================
+    [Header("Cheat Setup")]
+    [Tooltip("Drag your Ordinary Tooth, Golem Tooth, etc. here so the cheat loop can find them!")]
+    public List<CurrencyData> allCurrencies;
+
+    private Dictionary<CurrencyData, int> wallet = new Dictionary<CurrencyData, int>();
 
     void Awake()
     {
         if (_instance == null)
-        {
             _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
         else if (_instance != this)
-        {
             Destroy(gameObject);
-        }
     }
 
-    // Call this whenever the player beats a combat stage!
+    // ==========================================
+    // PROGRESSION SYSTEM
+    // ==========================================
     public void AdvanceStage()
     {
         currentStage++;
-
-        if (currentStage > maxStages)
-        {
-            AdvanceFloor();
-        }
-
+        if (currentStage > maxStages) AdvanceFloor();
         Debug.Log($"Advanced! Now on Floor {currentFloor}, Stage {currentStage}");
     }
 
@@ -71,11 +64,66 @@ public class GameManager : MonoBehaviour
     {
         currentStage = 1;
         currentFloor++;
+        if (currentFloor > maxFloors) Debug.Log("Game Cleared!");
+    }
 
-        if (currentFloor > maxFloors)
+    // ==========================================
+    // WALLET & INVENTORY SYSTEM
+    // ==========================================
+    public void AddCurrency(CurrencyData currencyType, int amount)
+    {
+        if (wallet.ContainsKey(currencyType))
+            wallet[currencyType] += amount;
+        else
+            wallet.Add(currencyType, amount);
+
+        Debug.Log($"[Wallet Update] +{amount} {currencyType.currencyName}. Total Balance: {wallet[currencyType]}");
+    }
+
+    public bool TrySpendCurrency(CurrencyData currencyType, int cost)
+    {
+        if (wallet.ContainsKey(currencyType) && wallet[currencyType] >= cost)
         {
-            Debug.Log("Game Cleared! You beat the final floor!");
-            // Handle victory screen or reset game here
+            wallet[currencyType] -= cost;
+            Debug.Log($"[Wallet Update] Spent {cost} {currencyType.currencyName}. Remaining: {wallet[currencyType]}");
+            return true;
+        }
+        return false;
+    }
+
+    public void AddItemToInventory(ShopItemData newItem)
+    {
+        collectedItems.Add(newItem);
+        Debug.Log($"*** ADDED TO INVENTORY: {newItem.itemName} ***");
+    }
+
+    // ==========================================
+    // THE CHEAT SYSTEMS
+    // ==========================================
+    void Update()
+    {
+        // Keyboard trigger
+        if (Keyboard.current != null && Keyboard.current.mKey.wasPressedThisFrame)
+        {
+            GiveAllCurrenciesCheat();
+        }
+    }
+
+    // This makes a clickable action menu appear when you right-click the script component in the Inspector!
+    [ContextMenu("Cheat Menu/Give 100 of All Teeth")]
+    public void GiveAllCurrenciesCheat()
+    {
+        if (allCurrencies == null || allCurrencies.Count == 0)
+        {
+            Debug.LogWarning("[Cheat Failed] You need to drag your tooth assets into the 'All Currencies' list on the GameManager component first!");
+            return;
+        }
+
+        Debug.Log("<color=gold><b>[CHEAT INJECTED] Adding 100 units to all available teeth!</b></color>");
+
+        foreach (CurrencyData currency in allCurrencies)
+        {
+            AddCurrency(currency, 100);
         }
     }
 }

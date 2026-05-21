@@ -3,6 +3,42 @@ using System.Collections.Generic;
 
 public class ShopManager : MonoBehaviour
 {
+    [Header("Shopkeeper Interaction")]
+    public ShopkeeperDialogue shopkeeperScript;
+
+    [Tooltip("Add a few variations of thank you text!")]
+    public List<string> thankYouLines = new List<string> {
+        "Thanks for the purchase!",
+        "Pleasure doing business with ya!",
+        "Use it well!"
+    };
+
+    [Tooltip("Add a few variations of lines for when the player is too broke!")]
+    public List<string> brokeLines = new List<string> {
+        "No teeth? Aw, sadly I don't give credit.",
+        "Come back when you're a little bit... richer."
+    };
+
+    [Header("Modular Petting Settings")]
+    [Range(0f, 1f)]
+    [Tooltip("Percentage chance for a good outcome (e.g., 0.75 = 75%)")]
+    public float winChance = 0.75f;
+    public int goodOutcomeDiscount = -1;
+    public int minBadPenalty = 1;
+    public int maxBadPenalty = 3;
+
+    [Header("Petting Visuals (Colors)")]
+    public Color goodOutcomeColor = Color.green;
+    public Color badOutcomeColor = Color.red;
+
+    [Header("Petting Dialogue Customization")]
+    public List<string> happyPetLines = new List<string> { "*Purr*... Discounts for you!", "Aha! That's the spot." };
+    public List<string> angryPetLines = new List<string> { "Don't touch the merchandise! Prices are up!", "Hey! Hands to yourself!" };
+
+    [Header("Continuous Petting Dialogue (Cosmetic Only!)")]
+    public List<string> followUpGoodLines = new List<string> { "Alright, you're pushing it now.", "Hey, stop it! I already gave you a discount!" };
+    public List<string> followUpBadLines = new List<string> { "I already told you to back off!", "Seriously, I'm going to bite you if you don't stop." };
+
     [Header("UI & Prefab Connections")]
     public Transform shopContainer;
     public GameObject shopItemPrefab;
@@ -11,7 +47,6 @@ public class ShopManager : MonoBehaviour
     public List<ShopItemData> itemCatalog;
 
     [Header("The Global Currency Catalog")]
-    [Tooltip("Drag ALL your tooth assets here (Ordinary, Golem, Mutant, etc.)")]
     public List<CurrencyData> globalCurrencies;
 
     [Header("Global Shop Layout Luck Settings")]
@@ -21,6 +56,10 @@ public class ShopManager : MonoBehaviour
 
     private const int totalStagesPerFloor = 6;
     private List<ShopItemData> spawnedItemsThisShop = new List<ShopItemData>();
+    private List<ShopItemUI> activeUISlots = new List<ShopItemUI>();
+
+    private int totalTimesPetted = 0;
+    private bool wasFirstPetGood = false;
 
     void Start()
     {
@@ -29,44 +68,34 @@ public class ShopManager : MonoBehaviour
 
     void GenerateProgressionShop()
     {
-        // 1. Read live numbers easily from global tracker
         int globalFloor = GameManager.Instance.currentFloor;
         int globalStage = GameManager.Instance.currentStage;
 
-        // Visual layout resets
         foreach (Transform child in shopContainer) Destroy(child.gameObject);
         spawnedItemsThisShop.Clear();
+        activeUISlots.Clear();
 
-        // 2. Gather only the currencies that are unlocked up to this floor
+        totalTimesPetted = 0;
+        wasFirstPetGood = false;
+
         List<CurrencyData> unlockedCurrencies = FilterCurrenciesByFloor(globalFloor);
-        if (unlockedCurrencies.Count == 0)
-        {
-            Debug.LogError("No currencies found matching Floor " + globalFloor);
-            return;
-        }
+        if (unlockedCurrencies.Count == 0) return;
 
-        // 3. Calculate slot size using the luck algorithm
         int slotsToSpawn = CalculateShopSize(globalStage);
         if (slotsToSpawn > itemCatalog.Count) slotsToSpawn = itemCatalog.Count;
 
-        // 4. Generate the unique, dynamic slots
         for (int i = 0; i < slotsToSpawn; i++)
         {
             CreateAutomatedSlot(unlockedCurrencies, globalFloor);
         }
     }
 
-    // Filters our global list to only pull teeth that are allowed on this floor
     List<CurrencyData> FilterCurrenciesByFloor(int currentFloor)
     {
         List<CurrencyData> filtered = new List<CurrencyData>();
         foreach (CurrencyData currency in globalCurrencies)
         {
-            // If we are on Floor 2, this grabs Rank 1 (Ordinary) and Rank 2 (Golem)
-            if (currency.toothRank <= currentFloor)
-            {
-                filtered.Add(currency);
-            }
+            if (currency.toothRank <= currentFloor) filtered.Add(currency);
         }
         return filtered;
     }
@@ -75,12 +104,7 @@ public class ShopManager : MonoBehaviour
     {
         float progressPercentage = (float)(stage - 1) / (totalStagesPerFloor - 1);
         int currentMaxPossible = stage1MaxSlots;
-
-        if (Random.value < progressPercentage)
-        {
-            currentMaxPossible += extraMaxSlotsAtEnd;
-        }
-
+        if (Random.value < progressPercentage) currentMaxPossible += extraMaxSlotsAtEnd;
         return Random.Range(absoluteMinSlots, currentMaxPossible + 1);
     }
 
@@ -88,7 +112,6 @@ public class ShopManager : MonoBehaviour
     {
         if (itemCatalog.Count == 0) return;
 
-        // 1. Roll a unique item (Prevents duplicates)
         ShopItemData randomItem = null;
         while (randomItem == null)
         {
@@ -100,36 +123,104 @@ public class ShopManager : MonoBehaviour
             }
         }
 
-        // 2. Pick a random unlocked currency
         CurrencyData randomCurrency = availableCurrencies[Random.Range(0, availableCurrencies.Count)];
+        int floorDifference = currentFloor - randomCurrency.toothRank;
 
-        // 3. DYNAMIC INFLATION MATH
-        // Deduce price based on how many floors have passed since this tooth was introduced!
-        int floorDifference = currentFloor - randomCurrency.toothRank; // e.g., On Floor 2, Ordinary (Rank 1) difference is 1.
-
-        // Base price for a brand-new tooth rank is always 1 to 3
         int baseMinPrice = 1;
         int baseMaxPrice = 3;
-
-        // For every floor that passes, shift the price boundaries up!
-        // Floor 1 Ordinary: Diff 0 -> Min (1 + 0) to Max (3 + 0) = 1-3
-        // Floor 2 Ordinary: Diff 1 -> Min (1 + 1) to Max (3 + 2) = 2-5
-        // Floor 3 Ordinary: Diff 2 -> Min (1 + 2) to Max (3 + 4) = 3-7
         int calculatedMin = baseMinPrice + floorDifference;
-        int calculatedMax = baseMaxPrice + (floorDifference * 2); // Max grows slightly faster for higher inflation!
+        int calculatedMax = baseMaxPrice + (floorDifference * 2);
 
         int finalPrice = Random.Range(calculatedMin, calculatedMax + 1);
 
-        // 4. Instantiate UI
         GameObject newSlot = Instantiate(shopItemPrefab, shopContainer);
         ShopItemUI uiScript = newSlot.GetComponent<ShopItemUI>();
 
-        uiScript.SetupShopItem(
-            randomItem.itemIcon,
-            randomItem.defaultColor,
-            finalPrice,
-            randomCurrency.currencyIcon,
-            randomCurrency.defaultColor
-        );
+        uiScript.SetupShopItem(randomItem, finalPrice, randomCurrency, this);
+        activeUISlots.Add(uiScript);
+    }
+
+    public void AttemptPurchase(ShopItemUI slotUI, ShopItemData item, int price, CurrencyData currency)
+    {
+        Debug.Log($"Attempting to buy {item.itemName} for {price} {currency.currencyName}s...");
+
+        // FIX: If the item is FREE (0), instantly bypass TrySpendCurrency entirely!
+        bool isFreeItem = (price == 0);
+
+        if (isFreeItem || GameManager.Instance.TrySpendCurrency(currency, price))
+        {
+            // SUCCESSFUL TRANSACTION!
+            GameManager.Instance.AddItemToInventory(item);
+            slotUI.MarkAsSold();
+
+            if (shopkeeperScript != null && thankYouLines.Count > 0)
+            {
+                string randomLine = thankYouLines[Random.Range(0, thankYouLines.Count)];
+                shopkeeperScript.SayThankYou(randomLine);
+            }
+        }
+        else
+        {
+            // TRANSACTION DECLINED!
+            slotUI.PlayBrokeFeedback();
+
+            if (shopkeeperScript != null && brokeLines.Count > 0)
+            {
+                string randomBrokeLine = brokeLines[Random.Range(0, brokeLines.Count)];
+                shopkeeperScript.SayThankYou(randomBrokeLine);
+            }
+        }
+    }
+
+    public void PetTheShopkeeper()
+    {
+        if (activeUISlots.Count == 0) return;
+
+        totalTimesPetted++;
+
+        if (totalTimesPetted == 1)
+        {
+            float roll = Random.value;
+            int priceModifier = 0;
+            Color permanentPetColor;
+
+            if (roll <= winChance)
+            {
+                wasFirstPetGood = true;
+                priceModifier = goodOutcomeDiscount;
+                permanentPetColor = goodOutcomeColor;
+            }
+            else
+            {
+                wasFirstPetGood = false;
+                priceModifier = Random.Range(minBadPenalty, maxBadPenalty + 1);
+                permanentPetColor = badOutcomeColor;
+            }
+
+            foreach (ShopItemUI slot in activeUISlots)
+            {
+                if (slot.purchaseButton.interactable)
+                {
+                    slot.ModifyPriceByPetting(priceModifier, permanentPetColor);
+                }
+            }
+
+            if (shopkeeperScript != null)
+            {
+                string lineToSay = wasFirstPetGood
+                    ? happyPetLines[Random.Range(0, happyPetLines.Count)]
+                    : angryPetLines[Random.Range(0, angryPetLines.Count)];
+
+                shopkeeperScript.SayThankYou(lineToSay);
+            }
+        }
+        else
+        {
+            if (shopkeeperScript != null)
+            {
+                string lineToSay = wasFirstPetGood ? followUpGoodLines[Random.Range(0, followUpGoodLines.Count)] : followUpBadLines[Random.Range(0, followUpBadLines.Count)];
+                shopkeeperScript.SayThankYou(lineToSay);
+            }
+        }
     }
 }
