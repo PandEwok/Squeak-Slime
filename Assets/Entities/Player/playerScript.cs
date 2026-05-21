@@ -109,7 +109,7 @@ public class playerScript : MonoBehaviour
             int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
             
 
-            target.GetComponent<Stats_System>().takeDamage(finalDamage);
+            target.GetComponent<Stats_System>().takeDamage(finalDamage, false);
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -203,7 +203,7 @@ public class playerScript : MonoBehaviour
         {
             int baseDamage = stats.damage;
             int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
-            enemyStats.takeDamage(finalDamage);
+            enemyStats.takeDamage(finalDamage, false); 
         }
         yield return new WaitForSeconds(0.3f);
 
@@ -220,6 +220,12 @@ public class playerScript : MonoBehaviour
         transform.position = originalPosition;
         switchingTurn();
 
+    }
+
+    public IEnumerator AttackBiteSequence(GameObject target)
+    {
+        yield return AttackFrontSequence(target);
+        target.GetComponent<Stats_System>().makeBleeding();
     }
 
     public void healPlayer(int healAmount)
@@ -276,6 +282,10 @@ public class playerScript : MonoBehaviour
             defenseBuffDelay--;
         }
         
+    }
+    public void applyStatus()
+    {
+        stats.bleed();
     }
     public IEnumerator TriggerDefenseQTE(float windowDuration)
     {

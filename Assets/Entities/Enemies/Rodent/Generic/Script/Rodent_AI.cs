@@ -24,7 +24,7 @@ public class Rodent_AI : Enemy_AI
                 finalDamage += (damageAmount * buff);
             }
             damageAmount = Mathf.RoundToInt(finalDamage);
-            targetStats.takeDamage(damageAmount);
+            targetStats.takeDamage(damageAmount, false);
             Debug.Log($"{this.gameObject.name} attacked {target.name} for {damageAmount} damage.");
         }
     }

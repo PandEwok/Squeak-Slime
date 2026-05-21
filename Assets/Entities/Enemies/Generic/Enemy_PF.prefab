@@ -51,9 +51,14 @@ MonoBehaviour:
   damage: 5
   defense: 10
   damagePF: {fileID: 254843135583981822, guid: 560e1bfb2a4706e45a82ebfb18aa849e, type: 3}
+  bloodPF: {fileID: 2114382830776690554, guid: 1cda0815d43215f40b41c548b80fc810, type: 3}
   health: 0
   blocking: 0
   defending: 0
+  isBleeding: 0
+  bleedDamage: 5
+  bleedingDuration: 3
+  bleedingTimer: 0
 --- !u!114 &-672226796281280321
 MonoBehaviour:
   m_ObjectHideFlags: 0

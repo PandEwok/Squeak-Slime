@@ -44,7 +44,7 @@ public class Combat_Logic : MonoBehaviour
                 int damageAmount = 20; // Example damage value
                 int randomDmgOffset = Random.Range(-2, 3);
                 damageAmount += randomDmgOffset;
-                enemyStats.takeDamage(damageAmount);
+                enemyStats.takeDamage(damageAmount, false);
                 Debug.Log($"Player attacked {targetEnemy.name} for {damageAmount} damage.");
             }
         }

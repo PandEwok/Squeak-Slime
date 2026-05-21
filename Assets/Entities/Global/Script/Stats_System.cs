@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,11 +11,16 @@ public class Stats_System : MonoBehaviour
     public int damage;
     public int defense;
     public GameObject damagePF;
+    public GameObject bloodPF;
     Vector3 originalPos;
     Color originalColor;
     public int health;
     [HideInInspector] public bool blocking = false;
     [HideInInspector] public bool defending = false;
+    public bool isBleeding = false;
+    public int bleedDamage = 5;
+    public int bleedingDuration = 3;
+    public int bleedingTimer = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -70,16 +76,24 @@ public class Stats_System : MonoBehaviour
         img.color = originalColor;
     }
 
-    public void takeDamage(int damageAmount)
+    public void takeDamage(int damageAmount, bool isBleedingDamage)
     {
-        int effectiveDamage = Mathf.Max(damageAmount - defense, 0);
-        if(blocking)
+        int effectiveDamage = 0;
+        if (isBleedingDamage)
         {
-            effectiveDamage /= 2;
+            effectiveDamage = damageAmount;
         }
-        if (defending)
+        else
         {
-            effectiveDamage /= 2;
+            effectiveDamage = Mathf.Max(damageAmount - defense, 0);
+            if(blocking)
+            {
+                effectiveDamage /= 2;
+            }
+            if (defending)
+            {
+                effectiveDamage /= 2;
+            }
         }
         health -= effectiveDamage;
 
@@ -111,5 +125,32 @@ public class Stats_System : MonoBehaviour
         health += healAmount;
         health = Mathf.Min(health, originalHealth);
         Debug.Log($"{gameObject.name} healed for {healAmount}. Current health: {health}");
+    }
+    public void bleed()
+    {
+        Debug.Log($"{gameObject.name} is bleeding.");
+        isBleeding = (bleedingTimer > 0);
+        if(isBleeding)
+        {
+            takeDamage(bleedDamage, true);
+            bleedingTimer--;
+        }
+    }
+    public void makeBleeding()
+    {
+        if(!isBleeding)
+        {
+            isBleeding = true;
+            if(CompareTag("Player"))
+            { 
+                Instantiate(bloodPF, this.transform.position + new Vector3(-0.75f, this.transform.position.y + 1.25f, 0), Quaternion.identity, this.transform);
+            }
+            else
+            {
+                Instantiate(bloodPF, this.transform.position, Quaternion.identity, this.transform);
+            }
+
+        }
+        bleedingTimer = bleedingDuration;
     }
 }

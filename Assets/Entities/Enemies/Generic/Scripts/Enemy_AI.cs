@@ -160,6 +160,7 @@ public class Enemy_AI : MonoBehaviour
                 defBuffTimers[i]--;
             }
         }
+        GetComponent<Stats_System>().bleed();
     }
 
     public async virtual Task playTurn(GameObject target)
