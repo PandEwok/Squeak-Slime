@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class Stats_System : MonoBehaviour
 {
+    private GameObject gameOverUI;
     public int originalHealth;
     public int damage;
     public int defense;
@@ -29,6 +30,15 @@ public class Stats_System : MonoBehaviour
         //originalColor = this.gameObject.GetComponent<SpriteRenderer>().color;
         originalColor = gameObject.GetComponentInChildren<SpriteRenderer>().color;
         health = originalHealth;
+        if (gameObject.CompareTag("Player"))
+        {
+            gameOverUI = GameObject.FindWithTag("GameOverUI");
+
+            if (gameOverUI == null)
+            {
+                Debug.LogError("Erreur: UI de gameOver introuvable");
+            }
+        }
     }
 
     // Update is called once per frame
@@ -114,9 +124,10 @@ public class Stats_System : MonoBehaviour
 
         Debug.Log($"{gameObject.name} took {effectiveDamage} damage. Remaining health: {health}");
 
-        if (health <= 0)
+        if (health <= 0 && this.CompareTag("Player"))
         {
-            /*Die();*/
+            Debug.Log("Player has died. Game Over.");
+            gameOverUI.GetComponent<UI_GameoverScript>().ToggleGameOverUiVisibility(true);
         }
     }
 
@@ -128,10 +139,10 @@ public class Stats_System : MonoBehaviour
     }
     public void bleed()
     {
-        Debug.Log($"{gameObject.name} is bleeding.");
         isBleeding = (bleedingTimer > 0);
         if(isBleeding)
         {
+            Debug.Log($"{gameObject.name} is bleeding.");
             takeDamage(bleedDamage, true);
             bleedingTimer--;
         }
