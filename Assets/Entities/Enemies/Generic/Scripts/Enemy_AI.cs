@@ -98,6 +98,13 @@ public class Enemy_AI : MonoBehaviour
         return newPos;
     }
 
+    protected virtual int dropTeeth()
+    {
+        int teethDropped = Random.Range(1, 4);
+        player.GetComponent<PlayerInventory>().qty_teeth += teethDropped;
+        return teethDropped;
+    }
+
 
     // Update is called once per frame
     public virtual void Update()
@@ -109,7 +116,7 @@ public class Enemy_AI : MonoBehaviour
 
         if (gameObject.GetComponent<Stats_System>().health <= 0)
         {
-
+            dropTeeth();
             GameObject.Find("CombatLogic").GetComponent<Combat_Logic>().removeEnemy(this.gameObject);
         }
 
