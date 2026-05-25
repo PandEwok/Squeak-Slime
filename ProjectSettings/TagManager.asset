@@ -6,6 +6,9 @@ TagManager:
   tags:
   - UI
   - Canvas
+  - GameOverUI
+  - VictoryUI
+  - CombatLogic
   layers:
   - Default
   - TransparentFX

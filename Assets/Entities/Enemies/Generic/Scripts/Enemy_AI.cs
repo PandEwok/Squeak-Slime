@@ -25,7 +25,7 @@ public class Enemy_AI : MonoBehaviour
     protected bool empowered = false;
     protected float particleSpawnTimer = 0;
     GameObject player;
-    playerScript playerCombat;
+    PlayerScript playerCombat;
 
     bool selected = false;
 
@@ -98,6 +98,13 @@ public class Enemy_AI : MonoBehaviour
         return newPos;
     }
 
+    protected virtual int dropTeeth()
+    {
+        int teethDropped = Random.Range(1, 4);
+        player.GetComponent<PlayerInventory>().qty_teeth += teethDropped;
+        return teethDropped;
+    }
+
 
     // Update is called once per frame
     public virtual void Update()
@@ -109,7 +116,7 @@ public class Enemy_AI : MonoBehaviour
 
         if (gameObject.GetComponent<Stats_System>().health <= 0)
         {
-
+            dropTeeth();
             GameObject.Find("CombatLogic").GetComponent<Combat_Logic>().removeEnemy(this.gameObject);
         }
 
@@ -205,9 +212,9 @@ public class Enemy_AI : MonoBehaviour
         });
         ///
         player = GameObject.FindGameObjectWithTag("Player");
-        playerCombat = player.GetComponent<playerScript>();
+        playerCombat = player.GetComponent<PlayerScript>();
 
-        if (player.GetComponent<playerScript>() != null)
+        if (player.GetComponent<PlayerScript>() != null)
         {
             Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f));
             await Task.Delay((int)secToMili(0.4f));
