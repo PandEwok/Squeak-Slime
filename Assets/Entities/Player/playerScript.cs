@@ -26,6 +26,8 @@ public class PlayerScript : MonoBehaviour
     protected bool defenseBuffed = false;
     protected float particleSpawnTimer = 0;
     [HideInInspector] public bool hasWon = false;
+    public GameObject gameOverUI;
+    public GameObject victoryUI;
     private void Start()
     {
         actionUI = transform.Find("ActionMenu").GetComponent<ActionBarScript>();
@@ -33,6 +35,8 @@ public class PlayerScript : MonoBehaviour
         originalPosition = transform.position;
         baseDamage = stats.damage;
         baseDefense = stats.defense;
+        gameOverUI.SetActive(false);
+        victoryUI.SetActive(false);
     }
 
     private void Update()
@@ -314,5 +318,17 @@ public class PlayerScript : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
+    }
+
+    public void gameOver()
+    {
+        gameOverUI.SetActive(true);
+        gameOverUI.GetComponent<UI_GameoverScript>().ToggleGameOverUiVisibility(true);
+    }
+
+    public void victory()
+    {
+        victoryUI.SetActive(true);
+        victoryUI.GetComponent<UI_VictoryScript>().ToggleVictoryUiVisibility(true);
     }
 }
