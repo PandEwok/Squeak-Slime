@@ -166,7 +166,7 @@ public class ShopManager : MonoBehaviour
             PlayerInventory playerInv = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>();
             if (playerInv != null)
             {
-                playerInv.AddItem(item.itemId, 1);
+                //playerInv.AddItem(item.itemId, 1);
             }
 
             slotUI.MarkAsSold();

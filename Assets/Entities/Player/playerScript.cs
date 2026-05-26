@@ -28,6 +28,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public bool hasWon = false;
     public GameObject gameOverUI;
     public GameObject victoryUI;
+    public GameObject actionMenu;
     private void Start()
     {
         actionUI = transform.Find("ActionMenu").GetComponent<ActionBarScript>();
@@ -115,7 +116,7 @@ public class PlayerScript : MonoBehaviour
         {
             Debug.Log($"Inflige des dégâts à {target.name}");
             int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
-            
+
 
             target.GetComponent<Stats_System>().takeDamage(finalDamage, false);
             yield return new WaitForSeconds(0.5f);
@@ -211,7 +212,7 @@ public class PlayerScript : MonoBehaviour
         {
             int baseDamage = (int)(stats.damage + (stats.damage * boost));
             int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
-            enemyStats.takeDamage(finalDamage, false); 
+            enemyStats.takeDamage(finalDamage, false);
         }
         yield return new WaitForSeconds(0.3f);
 
@@ -232,11 +233,11 @@ public class PlayerScript : MonoBehaviour
 
     public IEnumerator AttackBiteSequence(GameObject target)
     {
-        
+
         yield return AttackFrontSequence(target, 0.5f);
-        if(target != null)
-        { 
-            target.GetComponent<Stats_System>().makeBleeding(); 
+        if (target != null)
+        {
+            target.GetComponent<Stats_System>().makeBleeding();
         }
     }
 
@@ -260,7 +261,6 @@ public class PlayerScript : MonoBehaviour
     {
         defenseBuffDelay = 4;
     }
-
     public void switchingTurn()
     {
         empowered = (empowerDelay > 0);
@@ -294,7 +294,7 @@ public class PlayerScript : MonoBehaviour
         {
             defenseBuffDelay--;
         }
-        
+
     }
     public void applyStatus()
     {
@@ -324,12 +324,14 @@ public class PlayerScript : MonoBehaviour
     public void gameOver()
     {
         gameOverUI.SetActive(true);
+        actionMenu.SetActive(false);
         gameOverUI.GetComponent<UI_GameoverScript>().ToggleGameOverUiVisibility(true);
     }
 
     public void victory()
     {
         victoryUI.SetActive(true);
-        victoryUI.GetComponent<UI_VictoryScript>().ToggleVictoryUiVisibility(true);
+        actionMenu.SetActive(false);
+        victoryUI.GetComponent<UI_GameoverScript>().ToggleGameOverUiVisibility(true);
     }
 }
