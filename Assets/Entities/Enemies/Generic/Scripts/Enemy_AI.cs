@@ -106,20 +106,10 @@ public class Enemy_AI : MonoBehaviour
     {
         int teethDropped = Random.Range(1, 4);
 
-        // SAFE GUARD: Find the player if we haven't already!
-        if (player == null)
+        PlayerInventory inv = player.GetComponent<PlayerInventory>();
+        if (inv != null)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
-
-        if (player != null)
-        {
-            // Clean, modernized approach using your new inventory method!
-            PlayerInventory inv = player.GetComponent<PlayerInventory>();
-            if (inv != null)
-            {
-                inv.AddTeeth(PlayerInventory.TeethType.Normal, teethDropped);
-            }
+            inv.AddTeeth(PlayerInventory.TeethType.Normal, teethDropped);
         }
 
         return teethDropped;
@@ -136,7 +126,7 @@ public class Enemy_AI : MonoBehaviour
 
         if (gameObject.GetComponent<Stats_System>().health <= 0)
         {
-            dropTeeth();
+            if (player != null) { dropTeeth(); }
             GameObject.Find("CombatLogic").GetComponent<Combat_Logic>().removeEnemy(this.gameObject);
         }
 
