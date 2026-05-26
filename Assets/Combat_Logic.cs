@@ -19,7 +19,7 @@ public class Combat_Logic : MonoBehaviour
     public List<GameObject> enemies = new List<GameObject>();
 
     public GameObject player;
-    UnityEngine.UI.Button[] UI_Buttons;
+    //UnityEngine.UI.Button[] UI_Buttons;
 
 
     public void removeEnemy(GameObject enemy)
@@ -48,10 +48,6 @@ public class Combat_Logic : MonoBehaviour
 
     public void playerAttack()
     {
-        foreach (UnityEngine.UI.Button button in UI_Buttons)
-        {
-            button.interactable = false;
-        }
         if (enemies.Count > 0)
         {
             GameObject targetEnemy = enemies[0];
@@ -75,10 +71,6 @@ public class Combat_Logic : MonoBehaviour
         switchingTurns = false;
         if (playerTurn)
         {
-            foreach (UnityEngine.UI.Button button in UI_Buttons)
-            {
-                button.interactable = true;
-            }
             actionUI.GetComponent<ActionBarScript>().FinalizeAttack();
         }
     }
@@ -92,7 +84,7 @@ public class Combat_Logic : MonoBehaviour
         {
             enemies.Add( Instantiate(enemiesToSpawn[i], EnemyPositions[i].transform.position, Quaternion.identity, this.transform) );
         }
-        UI_Buttons = GameObject.Find("PAction_Bar").GetComponentsInChildren<UnityEngine.UI.Button>();
+        // UI_Buttons = GameObject.Find("PAction_Bar").GetComponentsInChildren<UnityEngine.UI.Button>();
     }
 
     // Update is called once per frame
@@ -106,7 +98,7 @@ public class Combat_Logic : MonoBehaviour
             // switchTurn() will be called at the end of the player's action to switch to the enemy's turn
         }
         else if (!playerTurn && !switchingTurns) {
-            /*Debug.Log("Enemy's turn");*/
+            /* Enemy turn */
 
             switchingTurns = true;
             EnemyTurnSequence();
