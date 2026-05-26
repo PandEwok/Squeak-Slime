@@ -11,11 +11,11 @@ public class Hedgehog_AI : Rodent_AI
         Debug.Log($"{this.gameObject.name} action choice: {actionChoice} (empower delay: {empowerDelay})");
         if (empowerDelay <= 0)
         {
-            actionChoiceChance = 65; // 65% chance to empower if not currently empowered
+            actionChoiceChance = 85; // 85% chance to empower if not currently empowered
         }
         if (actionChoice < actionChoiceChance)
         {
-            actionEmpower(empowerStrenght);
+            actionEmpower(empowerStrenght, 3, 1, EmpowerType.DEFENSE);
         }
         else
         {

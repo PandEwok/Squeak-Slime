@@ -40,7 +40,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 81.13}
+  m_SizeDelta: {x: 84, y: 156.76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7083298587585382706
 CanvasRenderer:
@@ -98,7 +98,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: -50
+  m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -118,10 +118,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8460fb9c7ceb34544b5170be68210fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemUI
+  currentDynamicPrice: 0
   itemImage: {fileID: 4728956744669710087}
   priceText: {fileID: 7346883992936209205}
   currencyImage: {fileID: 6956759379139692589}
   purchaseButton: {fileID: 239708663863433851}
+  shakeMagnitude: 12
+  shakeDuration: 0.25
+  brokenFlashColor: {r: 1, g: 0.35, b: 0.35, a: 1}
 --- !u!114 &239708663863433851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +217,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 60, y: 60}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8531037127492277634
 CanvasRenderer:
@@ -347,8 +351,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -427,7 +431,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 84.3, y: 0}
+  m_SizeDelta: {x: 156, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9080854654510977138
 CanvasRenderer:
@@ -503,7 +507,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 134.03, y: 0}
+  m_SizeDelta: {x: 141.2, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1427094302130463027
 MonoBehaviour:
