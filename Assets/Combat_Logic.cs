@@ -18,8 +18,7 @@ public class Combat_Logic : MonoBehaviour
 
     public List<GameObject> enemies = new List<GameObject>();
 
-    GameObject player;
-    GameObject victoryUI;
+    public GameObject player;
     UnityEngine.UI.Button[] UI_Buttons;
 
 
@@ -35,7 +34,7 @@ public class Combat_Logic : MonoBehaviour
         if (enemies.Count == 0)
         {
             Debug.Log("All enemies defeated! Victory!");
-            victoryUI.GetComponent<UI_VictoryScript>().ToggleVictoryUiVisibility(true);
+            player.GetComponent<PlayerScript>().victory();
             player.SetActive(false);
         }
     }
@@ -88,7 +87,6 @@ public class Combat_Logic : MonoBehaviour
     void Awake()
     {
         player = GameObject.FindWithTag("Player");
-        victoryUI = GameObject.FindWithTag("VictoryUI");
 
         for (int i = 0; i < enemiesToSpawn.Count; i++)
         {
