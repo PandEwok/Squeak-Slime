@@ -30,11 +30,11 @@ public class ShopItemUI : MonoBehaviour
     private TextAlignmentOptions originalAlignment;
 
     // Hidden variables to remember what this slot is selling
-    private ShopItemData myItemData;
+    private ItemData myItemData;
     private CurrencyData myCurrencyData;
     private ShopManager myManager;
 
-    public void SetupShopItem(ShopItemData item, int price, CurrencyData currency, ShopManager manager)
+    public void SetupShopItem(ItemData item, int price, CurrencyData currency, ShopManager manager)
     {
         if (itemImage == null || priceText == null || currencyImage == null || purchaseButton == null)
         {

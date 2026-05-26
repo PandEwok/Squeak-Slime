@@ -260,6 +260,7 @@ public class PlayerScript : MonoBehaviour
     {
         defenseBuffDelay = 4;
     }
+
     public void switchingTurn()
     {
         empowered = (empowerDelay > 0);

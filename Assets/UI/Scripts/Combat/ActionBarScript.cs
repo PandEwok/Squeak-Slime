@@ -6,6 +6,33 @@ using UnityEngine.InputSystem;
 
 public class ActionBarScript : MonoBehaviour
 {
+
+    // ==========================================
+    // MODULAR SYSTEM MEMORY
+    // ==========================================
+    private ItemData pendingModularAction = null;
+
+
+    [Header("Collaboration & Testing Toggle")]
+    [Tooltip("Check this to test the new modular system. Leave unchecked to use the old hardcoded logic.")]
+    public bool useModularItemSystem = false;
+
+    [Header("Modular Action Assets (Items)")]
+    public ItemData cheeseAsset;
+    public ItemData bananaAsset;
+    public ItemData pepperAttAsset;
+    public ItemData pepperDefAsset;
+
+    [Header("Modular Action Assets (Skills)")]
+    public ItemData biteSkillAsset;
+    public ItemData fireballSkillAsset;
+    public ItemData fragmentationSkillAsset;
+    public ItemData absorptionSkillAsset;
+
+    // Memory variable to remember which skill you clicked before picking an enemy
+    private ItemData pendingModularSkill = null;
+
+
     [SerializeField] private UIDocument uiDocument;
     private VisualElement root;
     private List<VisualElement> page1;
@@ -24,9 +51,10 @@ public class ActionBarScript : MonoBehaviour
     private Label pepperDefQtyLabel;
     private bool isSelectingEnnemy = false;
     private int targetCount = 0;
-    enum AttackType {MELEE, RANGED, BITE, NONE};
+    enum AttackType { MELEE, RANGED, BITE, MODULAR, NONE };
     AttackType attackType = AttackType.NONE;
-    [System.Serializable] public struct ItemDescription
+    [System.Serializable]
+    public struct ItemDescription
     {
         public string itemId;
         [TextArea(2, 4)]
@@ -115,16 +143,18 @@ public class ActionBarScript : MonoBehaviour
 
     private void Update()
     {
-        foreach(var enemy in combatLogic.enemies)
+        foreach (var enemy in combatLogic.enemies)
         {
             enemy.GetComponent<Enemy_AI>().deselect();
         }
+
         if (isSelectingEnnemy)
         {
             combatLogic.enemies[targetCount].GetComponent<Enemy_AI>().select();
-            if(Keyboard.current != null && Keyboard.current.tabKey.wasPressedThisFrame)
+
+            if (Keyboard.current != null && Keyboard.current.tabKey.wasPressedThisFrame)
             {
-                if(targetCount >= combatLogic.enemies.Count - 1)
+                if (targetCount >= combatLogic.enemies.Count - 1)
                 {
                     targetCount = 0;
                 }
@@ -133,45 +163,67 @@ public class ActionBarScript : MonoBehaviour
                     targetCount++;
                 }
             }
-        if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
-        {
-            if (combatLogic.enemies.Count > 0)
+
+            // This is the line that got accidentally deleted!
+            if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
             {
-                GameObject target = combatLogic.enemies[targetCount];
+                if (combatLogic.enemies.Count > 0)
+                {
+                    GameObject target = combatLogic.enemies[targetCount];
 
-
-                
-                if (attackType == AttackType.MELEE)
-                {
-                    StartCoroutine(playerS.AttackFrontSequence(target, 0));
-                    isSelectingEnnemy = false;
-                    attackType = AttackType.NONE;
-                    ToggleUiVisibility(false);
-                }
-                else if (attackType == AttackType.RANGED)
-                {
-                    StartCoroutine(playerS.AttackJumpSequence(target, 0));
-                    isSelectingEnnemy = false;
-                    attackType = AttackType.NONE;
-                    ToggleUiVisibility(false);
-                }
-                else if (attackType == AttackType.BITE)
-                {
-                    isSelectingEnnemy = false;
-                    attackType = AttackType.NONE;
-                    ToggleUiVisibility(false);
-                    playerS.SP -= 5;
-                    if (playerS.SP < 0)
+                    // ==========================================
+                    // FIRE MODULAR SKILL SCRIPT
+                    // ==========================================
+                    if (attackType == AttackType.MODULAR && pendingModularAction != null)
                     {
-                        playerS.SP = 0;
-                    }
-                    StartCoroutine(playerS.AttackBiteSequence(target));
-                    
-                }
-              
-            }
-        }
+                        isSelectingEnnemy = false;
+                        attackType = AttackType.NONE;
+                        ToggleUiVisibility(false);
 
+                        // Deduct SP
+                        // Deduct SP
+                        playerS.SP -= pendingModularAction.spCost;
+                        if (playerS.SP < 0) playerS.SP = 0;
+
+                        // Trigger the custom script plugged into your ItemData!
+                        if (pendingModularAction.specialEffectLogic != null)
+                        {
+                            pendingModularAction.specialEffectLogic.ExecuteEffect(player.gameObject, target);
+                        }
+
+                        pendingModularAction = null; // Clear memory
+                    }
+                    // ==========================================
+                    // LEGACY FIRE SCRIPT
+                    // ==========================================
+                    else if (attackType == AttackType.MELEE)
+                    {
+                        StartCoroutine(playerS.AttackFrontSequence(target, 0));
+                        isSelectingEnnemy = false;
+                        attackType = AttackType.NONE;
+                        ToggleUiVisibility(false);
+                    }
+                    else if (attackType == AttackType.RANGED)
+                    {
+                        StartCoroutine(playerS.AttackJumpSequence(target, 0));
+                        isSelectingEnnemy = false;
+                        attackType = AttackType.NONE;
+                        ToggleUiVisibility(false);
+                    }
+                    else if (attackType == AttackType.BITE)
+                    {
+                        isSelectingEnnemy = false;
+                        attackType = AttackType.NONE;
+                        ToggleUiVisibility(false);
+                        playerS.SP -= 5;
+                        if (playerS.SP < 0)
+                        {
+                            playerS.SP = 0;
+                        }
+                        StartCoroutine(playerS.AttackBiteSequence(target));
+                    }
+                }
+            }
         }
     }
     public void UpdateInventoryUI()
@@ -231,7 +283,7 @@ public class ActionBarScript : MonoBehaviour
         ToggleUiVisibility(false);
         player.GetComponent<Stats_System>().defending = true;
         playerS.switchingTurn();
-        
+
     }
     private void CancelToPage1()
     {
@@ -261,18 +313,38 @@ public class ActionBarScript : MonoBehaviour
 
     private void UseBite()
     {
-        if (playerS.SP < 5)
+        // ==========================================
+        // NEW MODULAR BITE
+        // ==========================================
+        if (useModularItemSystem && biteSkillAsset != null)
         {
-            Debug.Log("Not enough SP to use Bite!");
-            return;
+            if (playerS.SP < biteSkillAsset.spCost) // (You could even change this to biteSkillAsset.spCost in the future!)
+            {
+                Debug.Log("Not enough SP to use Bite!");
+                return;
+            }
+
+            isSelectingEnnemy = true;
+            pendingModularAction = biteSkillAsset; // Save the asset to memory!
+            attackType = AttackType.MODULAR; // Tell the Update loop to use the modular logic
+            Debug.Log($"Use Modular Skill clicked: {biteSkillAsset.itemName}");
         }
+        // ==========================================
+        // LEGACY CODE
+        // ==========================================
         else
         {
-            isSelectingEnnemy = true;
-            Debug.Log("Use Bite button clicked!");
-
-            attackType = AttackType.BITE;
-            
+            if (playerS.SP < 5)
+            {
+                Debug.Log("Not enough SP to use Bite!");
+                return;
+            }
+            else
+            {
+                isSelectingEnnemy = true;
+                Debug.Log("Use Bite button clicked!");
+                attackType = AttackType.BITE;
+            }
         }
     }
 
@@ -370,7 +442,7 @@ public class ActionBarScript : MonoBehaviour
     }
     private void TogglePage4Visibility(bool mustDisplay)
     {
-        foreach(var element in page4)
+        foreach (var element in page4)
         {
             if (mustDisplay)
             {
@@ -398,60 +470,120 @@ public class ActionBarScript : MonoBehaviour
         }
     }
 
-    
+
     private void UseCheese()
     {
         Debug.Log("Use Cheese button clicked!");
-        if (playerInventory.cheeseInv > 0)
+        if (useModularItemSystem && cheeseAsset != null)
         {
-            playerInventory.removeCheese(1);
-            playerS.healPlayer(50);
-            UpdateInventoryUI();
-            FinalizeAttack();
-            ToggleUiVisibility(false);
-            playerS.switchingTurn();
+            if (playerInventory.GetItemQuantity(cheeseAsset.itemId) > 0)
+            {
+                playerInventory.RemoveItem(cheeseAsset.itemId, 1);
+                playerS.healPlayer(cheeseAsset.effectValue); // Reads the dynamic stat from your asset!
+                UpdateInventoryUI();
+                FinalizeAttack();
+                ToggleUiVisibility(false);
+                playerS.switchingTurn();
+            }
+        }
+        else // 
+        {
+            if (playerInventory.cheeseInv > 0)
+            {
+                playerInventory.removeCheese(1);
+                playerS.healPlayer(50);
+                UpdateInventoryUI();
+                FinalizeAttack();
+                ToggleUiVisibility(false);
+                playerS.switchingTurn();
+            }
         }
     }
 
     private void UseBanana()
     {
         Debug.Log("Use Banana button clicked!");
-        if (playerInventory.bananaInv > 0)
+        if (useModularItemSystem && bananaAsset != null)
         {
-            playerInventory.removeBanana(1);
-            playerS.restoreSP(50);
-            UpdateInventoryUI();
-            FinalizeAttack();
-            ToggleUiVisibility(false);
-            playerS.switchingTurn();
+            if (playerInventory.GetItemQuantity(bananaAsset.itemId) > 0)
+            {
+                playerInventory.RemoveItem(bananaAsset.itemId, 1);
+                playerS.restoreSP(bananaAsset.effectValue); // Reads the dynamic stat from your asset!
+                UpdateInventoryUI();
+                FinalizeAttack();
+                ToggleUiVisibility(false);
+                playerS.switchingTurn();
+            }
+        }
+        else // LEGACY CODE
+        {
+            if (playerInventory.bananaInv > 0)
+            {
+                playerInventory.removeBanana(1);
+                playerS.restoreSP(50);
+                UpdateInventoryUI();
+                FinalizeAttack();
+                ToggleUiVisibility(false);
+                playerS.switchingTurn();
+            }
         }
     }
 
     private void UsePepperAtt()
     {
         Debug.Log("Use Pepper Attack button clicked!");
-        if (playerInventory.pepperAttInv > 0)
+        if (useModularItemSystem && pepperAttAsset != null)
         {
-            playerInventory.removePepperAtt(1);
-            playerS.actionEmpower();
-            UpdateInventoryUI();
-            FinalizeAttack();
-            ToggleUiVisibility(false);
-            playerS.switchingTurn();
+            if (playerInventory.GetItemQuantity(pepperAttAsset.itemId) > 0)
+            {
+                playerInventory.RemoveItem(pepperAttAsset.itemId, 1);
+                playerS.actionEmpower();
+                UpdateInventoryUI();
+                FinalizeAttack();
+                ToggleUiVisibility(false);
+                playerS.switchingTurn();
+            }
+        }
+        else // LEGACY CODE
+        {
+            if (playerInventory.pepperAttInv > 0)
+            {
+                playerInventory.removePepperAtt(1);
+                playerS.actionEmpower();
+                UpdateInventoryUI();
+                FinalizeAttack();
+                ToggleUiVisibility(false);
+                playerS.switchingTurn();
+            }
         }
     }
 
     private void UsePepperDef()
     {
         Debug.Log("Use Pepper Defense button clicked!");
-        if (playerInventory.pepperDefInv > 0)
+        if (useModularItemSystem && pepperDefAsset != null)
         {
-            playerInventory.removePepperDef(1);
-            playerS.actionDefenseBuff();
-            UpdateInventoryUI();
-            FinalizeAttack();
-            ToggleUiVisibility(false);
-            playerS.switchingTurn();
+            if (playerInventory.GetItemQuantity(pepperDefAsset.itemId) > 0)
+            {
+                playerInventory.RemoveItem(pepperDefAsset.itemId, 1);
+                playerS.actionDefenseBuff(); // <-- Just empty parentheses!
+                UpdateInventoryUI();
+                FinalizeAttack();
+                ToggleUiVisibility(false);
+                playerS.switchingTurn();
+            }
+        }
+        else // LEGACY CODE
+        {
+            if (playerInventory.pepperDefInv > 0)
+            {
+                playerInventory.removePepperDef(1);
+                playerS.actionDefenseBuff();
+                UpdateInventoryUI();
+                FinalizeAttack();
+                ToggleUiVisibility(false);
+                playerS.switchingTurn();
+            }
         }
     }
 
@@ -465,15 +597,48 @@ public class ActionBarScript : MonoBehaviour
             return;
         }
 
-        foreach (var item in itemDescriptions)
+        // ==========================================
+        // NEW MODULAR DESCRIPTIONS
+        // ==========================================
+        if (useModularItemSystem)
         {
-            if (item.itemId == id)
+            string newText = "Description missing!";
+
+            // Match the ID to our new assets and pull the description directly!
+
+            // --- ITEMS ---
+            if (id == "Cheese" && cheeseAsset != null) newText = cheeseAsset.itemDescription;
+            else if (id == "Banana" && bananaAsset != null) newText = bananaAsset.itemDescription;
+            else if (id == "PepperAtt" && pepperAttAsset != null) newText = pepperAttAsset.itemDescription;
+            else if (id == "PepperDef" && pepperDefAsset != null) newText = pepperDefAsset.itemDescription;
+
+            // --- SKILLS ---
+            else if (id == "Bite" && biteSkillAsset != null) newText = biteSkillAsset.itemDescription;
+            else if (id == "Fracture" && fragmentationSkillAsset != null) newText = fragmentationSkillAsset.itemDescription;
+            else if (id == "Fireball" && fireballSkillAsset != null) newText = fireballSkillAsset.itemDescription;
+            else if (id == "Absorption" && absorptionSkillAsset != null) newText = absorptionSkillAsset.itemDescription;
+
+            // Note: You will need to add assets for Fracture, Fireball, etc., at the top of your script 
+            // and add their 'else if' lines here once you make them!
+
+            descriptionDisplayLabel.text = newText;
+            descriptionDisplayLabel.style.visibility = Visibility.Visible;
+            return;
+        }
+        // ==========================================
+        // OLD CODE
+        // ==========================================
+        else
+        {
+            foreach (var item in itemDescriptions)
             {
-                descriptionDisplayLabel.text = item.descriptionText;
-                descriptionDisplayLabel.style.visibility = Visibility.Visible;
-                return;
+                if (item.itemId == id)
+                {
+                    descriptionDisplayLabel.text = item.descriptionText;
+                    descriptionDisplayLabel.style.visibility = Visibility.Visible;
+                    return;
+                }
             }
         }
     }
 }
-

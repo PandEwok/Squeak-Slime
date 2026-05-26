@@ -105,7 +105,23 @@ public class Enemy_AI : MonoBehaviour
     protected virtual int dropTeeth()
     {
         int teethDropped = Random.Range(1, 4);
-        player.GetComponent<PlayerInventory>().qty_teeth += teethDropped;
+
+        // SAFE GUARD: Find the player if we haven't already!
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+
+        if (player != null)
+        {
+            // Clean, modernized approach using your new inventory method!
+            PlayerInventory inv = player.GetComponent<PlayerInventory>();
+            if (inv != null)
+            {
+                inv.AddTeeth(PlayerInventory.TeethType.Normal, teethDropped);
+            }
+        }
+
         return teethDropped;
     }
 
