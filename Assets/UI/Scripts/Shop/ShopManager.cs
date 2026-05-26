@@ -6,23 +6,11 @@ public class ShopManager : MonoBehaviour
     [Header("Shopkeeper Interaction")]
     public ShopkeeperDialogue shopkeeperScript;
 
-    [Tooltip("Add a few variations of thank you text!")]
-    public List<string> thankYouLines = new List<string> {
-        "Thanks for the purchase!",
-        "Pleasure doing business with ya!",
-        "Use it well!"
-    };
-
-    [Tooltip("Add a few variations of lines for when the player is too broke!")]
-    public List<string> brokeLines = new List<string> {
-        "No teeth? Aw, sadly I don't give credit.",
-        "Come back when you're a little bit... richer."
-    };
+    public List<string> thankYouLines = new List<string> { "Thanks!", "Pleasure doing business!" };
+    public List<string> brokeLines = new List<string> { "No teeth? No deal." };
 
     [Header("Modular Petting Settings")]
-    [Range(0f, 1f)]
-    [Tooltip("Percentage chance for a good outcome (e.g., 0.75 = 75%)")]
-    public float winChance = 0.75f;
+    [Range(0f, 1f)] public float winChance = 0.75f;
     public int goodOutcomeDiscount = -1;
     public int minBadPenalty = 1;
     public int maxBadPenalty = 3;
@@ -32,19 +20,19 @@ public class ShopManager : MonoBehaviour
     public Color badOutcomeColor = Color.red;
 
     [Header("Petting Dialogue Customization")]
-    public List<string> happyPetLines = new List<string> { "*Purr*... Discounts for you!", "Aha! That's the spot." };
-    public List<string> angryPetLines = new List<string> { "Don't touch the merchandise! Prices are up!", "Hey! Hands to yourself!" };
+    public List<string> happyPetLines = new List<string> { "*Purr*... Discounts!" };
+    public List<string> angryPetLines = new List<string> { "Hands off! Inflation time!" };
 
     [Header("Continuous Petting Dialogue (Cosmetic Only!)")]
-    public List<string> followUpGoodLines = new List<string> { "Alright, you're pushing it now.", "Hey, stop it! I already gave you a discount!" };
-    public List<string> followUpBadLines = new List<string> { "I already told you to back off!", "Seriously, I'm going to bite you if you don't stop." };
+    public List<string> followUpGoodLines = new List<string> { "Stop it, you already got your discount!" };
+    public List<string> followUpBadLines = new List<string> { "Keep touching me and see what happens." };
 
     [Header("UI & Prefab Connections")]
     public Transform shopContainer;
     public GameObject shopItemPrefab;
 
-    [Header("The Item Catalog (Constant)")]
-    public List<ShopItemData> itemCatalog;
+    [Header("The Item Catalog (Now using the updated Unified Items!)")]
+    public List<ItemData> itemCatalog;
 
     [Header("The Global Currency Catalog")]
     public List<CurrencyData> globalCurrencies;
@@ -55,7 +43,7 @@ public class ShopManager : MonoBehaviour
     public int extraMaxSlotsAtEnd = 1;
 
     private const int totalStagesPerFloor = 6;
-    private List<ShopItemData> spawnedItemsThisShop = new List<ShopItemData>();
+    private List<ItemData> spawnedItemsThisShop = new List<ItemData>();
     private List<ShopItemUI> activeUISlots = new List<ShopItemUI>();
 
     private int totalTimesPetted = 0;
@@ -81,12 +69,28 @@ public class ShopManager : MonoBehaviour
         List<CurrencyData> unlockedCurrencies = FilterCurrenciesByFloor(globalFloor);
         if (unlockedCurrencies.Count == 0) return;
 
+        // 1. Roll the initial size based on stage progression
         int slotsToSpawn = CalculateShopSize(globalStage);
-        if (slotsToSpawn > itemCatalog.Count) slotsToSpawn = itemCatalog.Count;
+
+        // =========================================================================
+        // CRITICAL SAFETY CLAMP: Fixes the Infinite Loop Freeze!
+        // =========================================================================
+        if (itemCatalog == null || itemCatalog.Count == 0)
+        {
+            Debug.LogError("[ShopManager] CRITICAL: Your Item Catalog list is empty in the inspector! Cannot spawn shop slots.");
+            return;
+        }
+
+        // If the shop wants 4 slots but you only have 3 items total, force it down to 3!
+        if (slotsToSpawn > itemCatalog.Count)
+        {
+            slotsToSpawn = itemCatalog.Count;
+        }
+        // =========================================================================
 
         for (int i = 0; i < slotsToSpawn; i++)
         {
-            CreateAutomatedSlot(unlockedCurrencies, globalFloor);
+            CreateAutomatedSlot(unlockedCurrencies, globalFloor, globalStage);
         }
     }
 
@@ -108,14 +112,14 @@ public class ShopManager : MonoBehaviour
         return Random.Range(absoluteMinSlots, currentMaxPossible + 1);
     }
 
-    void CreateAutomatedSlot(List<CurrencyData> availableCurrencies, int currentFloor)
+    void CreateAutomatedSlot(List<CurrencyData> availableCurrencies, int currentFloor, int currentStage)
     {
         if (itemCatalog.Count == 0) return;
 
-        ShopItemData randomItem = null;
+        ItemData randomItem = null;
         while (randomItem == null)
         {
-            ShopItemData rolledItem = itemCatalog[Random.Range(0, itemCatalog.Count)];
+            ItemData rolledItem = itemCatalog[Random.Range(0, itemCatalog.Count)];
             if (!spawnedItemsThisShop.Contains(rolledItem))
             {
                 randomItem = rolledItem;
@@ -124,14 +128,26 @@ public class ShopManager : MonoBehaviour
         }
 
         CurrencyData randomCurrency = availableCurrencies[Random.Range(0, availableCurrencies.Count)];
+
+        // =========================================================================
+        // UNIFIED ECONOMY PRICING FORMULA
+        // =========================================================================
+        // 1. Teeth Type Tier vs Current Floor Impact
         int floorDifference = currentFloor - randomCurrency.toothRank;
 
-        int baseMinPrice = 1;
-        int baseMaxPrice = 3;
-        int calculatedMin = baseMinPrice + floorDifference;
-        int calculatedMax = baseMaxPrice + (floorDifference * 2);
+        // 2. Stage Progression Impact (creep prices up slightly every 2 stages)
+        int stagePriceCreep = Mathf.FloorToInt(currentStage / 2f);
 
+        // 3. Assemble dynamic values
+        int baseMinPrice = 1 + stagePriceCreep;
+        int baseMaxPrice = 3 + stagePriceCreep;
+
+        int calculatedMin = Mathf.Max(1, baseMinPrice + floorDifference);
+        int calculatedMax = Mathf.Max(calculatedMin, baseMaxPrice + (floorDifference * 2));
+
+        // 4. Final generation roll before petting modifications occur
         int finalPrice = Random.Range(calculatedMin, calculatedMax + 1);
+        // =========================================================================
 
         GameObject newSlot = Instantiate(shopItemPrefab, shopContainer);
         ShopItemUI uiScript = newSlot.GetComponent<ShopItemUI>();
@@ -140,34 +156,32 @@ public class ShopManager : MonoBehaviour
         activeUISlots.Add(uiScript);
     }
 
-    public void AttemptPurchase(ShopItemUI slotUI, ShopItemData item, int price, CurrencyData currency)
+    public void AttemptPurchase(ShopItemUI slotUI, ItemData item, int price, CurrencyData currency)
     {
-        Debug.Log($"Attempting to buy {item.itemName} for {price} {currency.currencyName}s...");
-
-        // FIX: If the item is FREE (0), instantly bypass TrySpendCurrency entirely!
         bool isFreeItem = (price == 0);
 
         if (isFreeItem || GameManager.Instance.TrySpendCurrency(currency, price))
         {
-            // SUCCESSFUL TRANSACTION!
-            GameManager.Instance.AddItemToInventory(item);
+            // Give the player the item modularly via ID!
+            PlayerInventory playerInv = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>();
+            if (playerInv != null)
+            {
+                playerInv.AddItem(item.itemId, 1);
+            }
+
             slotUI.MarkAsSold();
 
             if (shopkeeperScript != null && thankYouLines.Count > 0)
             {
-                string randomLine = thankYouLines[Random.Range(0, thankYouLines.Count)];
-                shopkeeperScript.SayThankYou(randomLine);
+                shopkeeperScript.SayThankYou(thankYouLines[Random.Range(0, thankYouLines.Count)]);
             }
         }
         else
         {
-            // TRANSACTION DECLINED!
             slotUI.PlayBrokeFeedback();
-
             if (shopkeeperScript != null && brokeLines.Count > 0)
             {
-                string randomBrokeLine = brokeLines[Random.Range(0, brokeLines.Count)];
-                shopkeeperScript.SayThankYou(randomBrokeLine);
+                shopkeeperScript.SayThankYou(brokeLines[Random.Range(0, brokeLines.Count)]);
             }
         }
     }
@@ -207,10 +221,7 @@ public class ShopManager : MonoBehaviour
 
             if (shopkeeperScript != null)
             {
-                string lineToSay = wasFirstPetGood
-                    ? happyPetLines[Random.Range(0, happyPetLines.Count)]
-                    : angryPetLines[Random.Range(0, angryPetLines.Count)];
-
+                string lineToSay = wasFirstPetGood ? happyPetLines[Random.Range(0, happyPetLines.Count)] : angryPetLines[Random.Range(0, angryPetLines.Count)];
                 shopkeeperScript.SayThankYou(lineToSay);
             }
         }

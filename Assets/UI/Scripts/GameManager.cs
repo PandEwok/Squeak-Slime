@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     private const int maxFloors = 4;
 
     [Header("Player Inventory")]
-    public List<ShopItemData> collectedItems = new List<ShopItemData>();
+    public List<ItemData> collectedItems = new List<ItemData>();
 
     // ==========================================
     // NEW: TRACKING ASSETS FOR CHEATS
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public void AddItemToInventory(ShopItemData newItem)
+    public void AddItemToInventory(ItemData newItem)
     {
         collectedItems.Add(newItem);
         Debug.Log($"*** ADDED TO INVENTORY: {newItem.itemName} ***");
