@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d134cd4fae70484a846a7d3f2995504, type: 3}
   m_Name: BiteSkill
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  actionType: 0
-  itemId: 
-  itemName: 
-  itemDescription: 
+  actionType: 1
+  itemId: Bite
+  itemName: Bite
+  itemDescription: 'A skill that deals 50% more damages
+
+    than basic attacks.
+    Makes enemies bleed. '
   effectValue: 50
   itemIcon: {fileID: 0}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   maxStackCapacity: 99
-  spCost: 0
-  specialEffectLogic: {fileID: 0}
+  spCost: 5
+  specialEffectLogic: {fileID: 11400000, guid: 040f21dd7c767cc49b32ef1ec1802633, type: 2}
