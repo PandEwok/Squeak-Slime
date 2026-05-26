@@ -15,13 +15,14 @@ public class Enemy_AI : MonoBehaviour
     float securityTimer = 0;
 
     protected List<float> dmgBuffs = new List<float>();
-    protected List<float> defBuffs = new List<float>();
+    public List<float> defBuffs = new List<float>();
     protected List<int> dmgBuffTimers = new List<int>();
     protected List<int> defBuffTimers = new List<int>();
 
     public GameObject powerEffect;
     public float empowerStrenght = 0.5f;
     protected int empowerDelay = 0;
+    protected int empowerDuration = 0;
     protected bool empowered = false;
     protected float particleSpawnTimer = 0;
     GameObject player;
@@ -64,19 +65,20 @@ public class Enemy_AI : MonoBehaviour
     }
 
 
-    public void actionEmpower(float empowerAmount = 0.5f, int delay = 2, EmpowerType type = EmpowerType.DAMAGE)
+    public void actionEmpower(float empowerAmount = 0.5f, int delay = 2, int duration = 2, EmpowerType type = EmpowerType.DAMAGE)
     {
         empowerDelay = delay + 1; // Empower lasts for 2 turns
+        empowerDuration = duration + 1;
 
         if (type == EmpowerType.DEFENSE)
         {
             defBuffs.Add(empowerAmount);
-            defBuffTimers.Add(empowerDelay);
+            defBuffTimers.Add(empowerDuration);
         }
         else if (type == EmpowerType.DAMAGE)
         {
             dmgBuffs.Add(empowerAmount);
-            dmgBuffTimers.Add(empowerDelay);
+            dmgBuffTimers.Add(empowerDuration);
         }
     }
 
@@ -86,6 +88,8 @@ public class Enemy_AI : MonoBehaviour
     void Start()
     {
         basePos = getPos();
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerCombat = player.GetComponent<PlayerScript>();
     }
 
     Vector2 getPos()
@@ -132,7 +136,7 @@ public class Enemy_AI : MonoBehaviour
             }
         }
 
-        empowered = (empowerDelay > 0);
+        empowered = (empowerDuration > 0);
         //Debug.Log($"{this.gameObject.name} empower delay: {empowerDelay}, empowered: {empowered}");
         if (empowered && particleSpawnTimer > 0.1f)
         {
@@ -149,6 +153,7 @@ public class Enemy_AI : MonoBehaviour
     public void newTurnCount()
     {
         empowerDelay = Mathf.Max(0, empowerDelay - 1);
+        empowerDuration = Mathf.Max(0, empowerDuration - 1);
         for (int i = 0; i < dmgBuffTimers.Count; i++)
         {
             if (dmgBuffTimers[i] <= 0)
@@ -211,8 +216,6 @@ public class Enemy_AI : MonoBehaviour
             }
         });
         ///
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerCombat = player.GetComponent<PlayerScript>();
 
         if (player.GetComponent<PlayerScript>() != null)
         {

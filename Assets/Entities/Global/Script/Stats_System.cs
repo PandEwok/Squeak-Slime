@@ -96,7 +96,9 @@ public class Stats_System : MonoBehaviour
         else
         {
             effectiveDamage = Mathf.Max(damageAmount - defense, 0);
-            if(blocking)
+            this.GetComponent<Enemy_AI>()?.defBuffs.ForEach(buff => effectiveDamage -= Mathf.RoundToInt(damageAmount * buff));
+
+            if (blocking)
             {
                 effectiveDamage /= 2;
             }
