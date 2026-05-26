@@ -3748,6 +3748,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5344278282749506209, guid: 59b72153b98933844992b0e135943d60, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3812,6 +3816,10 @@ PrefabInstance:
       propertyPath: victoryUI
       value: 
       objectReference: {fileID: 44415868}
+    - target: {fileID: 8122225356381043036, guid: 99199afaa2ed3d740b0375d8921547e9, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3829,8 +3837,8 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 517382486}
   - {fileID: 2126071251}
-  - {fileID: 1903217631616085308}
-  - {fileID: 986103427}
   - {fileID: 2019344786}
-  - {fileID: 2842163836171981285}
+  - {fileID: 986103427}
+  - {fileID: 1903217631616085308}
   - {fileID: 7151789786892330732}
+  - {fileID: 2842163836171981285}

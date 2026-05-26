@@ -148,6 +148,7 @@ public class ActionBarScript : MonoBehaviour
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
+                        
                     }
                     else if (attackType == AttackType.RANGED)
                     {
@@ -169,6 +170,7 @@ public class ActionBarScript : MonoBehaviour
                         StartCoroutine(playerS.AttackBiteSequence(target));
 
                     }
+                    targetCount = 0;
 
                 }
             }
