@@ -10,7 +10,6 @@ public class PlayerScript : MonoBehaviour
     public Combat_Logic combatLogic;
     Vector3 originalPosition;
     private Stats_System stats;
-    private ActionBarScript actionUI;
     [SerializeField] private GameObject projectile;
     public int originalSP = 100;
     public int SP = 100;
@@ -29,9 +28,9 @@ public class PlayerScript : MonoBehaviour
     public GameObject gameOverUI;
     public GameObject victoryUI;
     public GameObject actionMenu;
+    public GameObject qteWarning;
     private void Start()
     {
-        actionUI = transform.Find("ActionMenu").GetComponent<ActionBarScript>();
         stats = GetComponent<Stats_System>();
         originalPosition = transform.position;
         baseDamage = stats.damage;
@@ -95,7 +94,7 @@ public class PlayerScript : MonoBehaviour
         bool hasCrit = false;
         int baseDamage = (int)(stats.damage + (stats.damage * boost));
 
-
+        showQTE(true);
         while (qteElapsed < qteWindow)
         {
             //Clic gauche souris
@@ -109,7 +108,7 @@ public class PlayerScript : MonoBehaviour
             qteElapsed += Time.deltaTime;
             yield return null;
         }
-
+        showQTE(false);
         // DEGATS
         var enemyStats = target.GetComponent<Stats_System>();
         if (enemyStats != null)
@@ -133,7 +132,6 @@ public class PlayerScript : MonoBehaviour
             yield return null;
         }
 
-        //actionUI.FinalizeAttack();
         transform.position = originalPosition;
         switchingTurn();
     }
@@ -177,6 +175,7 @@ public class PlayerScript : MonoBehaviour
                 if (!qteWindowOpen)
                 {
                     qteWindowOpen = true;
+                    showQTE(true);
                 }
 
                 if (Pointer.current.press.wasPressedThisFrame)
@@ -185,9 +184,13 @@ public class PlayerScript : MonoBehaviour
                     Debug.Log("Coup critique");
                 }
             }
+            else
+            {
+                showQTE(false);
+            }
 
-            //Mouvement horizontal
-            Vector3 currentPos = Vector3.Lerp(prepPos, enemyPos, t);
+                //Mouvement horizontal
+                Vector3 currentPos = Vector3.Lerp(prepPos, enemyPos, t);
 
             //Courbe
             float height = Mathf.Sin(Mathf.PI * t) * jumpHeight;
@@ -225,7 +228,6 @@ public class PlayerScript : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-        //actionUI.FinalizeAttack();
         transform.position = originalPosition;
         switchingTurn();
 
@@ -310,7 +312,7 @@ public class PlayerScript : MonoBehaviour
         float elapsed = 0f;
 
         Debug.Log("Def QTE");
-
+        showQTE(true);
         while (elapsed < windowDuration)
         {
             if (Pointer.current.press.wasPressedThisFrame)
@@ -323,6 +325,7 @@ public class PlayerScript : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
+        showQTE(false);
     }
 
     public void gameOver()
@@ -337,5 +340,18 @@ public class PlayerScript : MonoBehaviour
         victoryUI.SetActive(true);
         actionMenu.SetActive(false);
         victoryUI.GetComponent<UI_VictoryScript>().ToggleVictoryUiVisibility(true);
+    }
+
+    public void showQTE(bool mustDisplay)
+    {
+        if (mustDisplay)
+        {
+            qteWarning.SetActive(true);
+            //Faudra mettre un son
+        }
+        else
+        {
+            qteWarning.SetActive(false);
+        }
     }
 }
