@@ -25,6 +25,7 @@ public class ActionBarScript : MonoBehaviour
     private bool isSelectingEnnemy = false;
     private int targetCount = 0;
     private bool confirmedAttack = false;
+
     enum AttackType { MELEE, RANGED, BITE, NONE };
     AttackType attackType = AttackType.NONE;
     [System.Serializable]
@@ -320,6 +321,10 @@ public class ActionBarScript : MonoBehaviour
         if (mustDisplay && player.GetComponent<Stats_System>().health > 0 && combatLogic.enemies.Count > 0)
         {
             root.style.display = DisplayStyle.Flex;
+            playerS.decreaseBoosts();
+            playerS.applyAttackBoost();
+            playerS.applyStatus();
+
         }
         else
         {
@@ -344,13 +349,6 @@ public class ActionBarScript : MonoBehaviour
             {
                 element.style.display = DisplayStyle.None;
             }
-        }
-        if (mustDisplay)
-        {
-            playerS.decreaseBoosts();
-            playerS.applyStatus();
-
-
         }
     }
     private void TogglePage2Visibility(bool mustDisplay)
@@ -442,7 +440,7 @@ public class ActionBarScript : MonoBehaviour
             playerInventory.removeCheese(1);
             playerS.healPlayer(50);
             UpdateInventoryUI();
-            FinalizeAttack();
+            //FinalizeAttack();
             ToggleUiVisibility(false);
             playerS.switchingTurn();
         }
@@ -456,7 +454,7 @@ public class ActionBarScript : MonoBehaviour
             playerInventory.removeBanana(1);
             playerS.restoreSP(50);
             UpdateInventoryUI();
-            FinalizeAttack();
+            //FinalizeAttack();
             ToggleUiVisibility(false);
             playerS.switchingTurn();
         }
@@ -470,7 +468,7 @@ public class ActionBarScript : MonoBehaviour
             playerInventory.removePepperAtt(1);
             playerS.actionEmpower();
             UpdateInventoryUI();
-            FinalizeAttack();
+            //FinalizeAttack();
             ToggleUiVisibility(false);
             playerS.switchingTurn();
         }
@@ -484,7 +482,7 @@ public class ActionBarScript : MonoBehaviour
             playerInventory.removePepperDef(1);
             playerS.actionDefenseBuff();
             UpdateInventoryUI();
-            FinalizeAttack();
+            //FinalizeAttack();
             ToggleUiVisibility(false);
             playerS.switchingTurn();
         }

@@ -259,19 +259,11 @@ public class PlayerScript : MonoBehaviour
     }
     public void actionDefenseBuff()
     {
-        defenseBuffDelay = 4;
+        defenseBuffDelay = 3;
     }
     public void switchingTurn()
     {
-        empowered = (empowerDelay > 0);
-        if (empowered)
-        {
-            stats.damage = baseDamage + (int)(baseDamage * attackBoostStrenght);
-        }
-        else
-        {
-            stats.damage = baseDamage;
-        }
+       
         defenseBuffed = (defenseBuffDelay > 0);
         if (defenseBuffed)
         {
@@ -283,12 +275,24 @@ public class PlayerScript : MonoBehaviour
         }
         combatLogic.switchTurn();
     }
-
+    public void applyAttackBoost()
+    {
+        empowered = (empowerDelay > 0);
+        if (empowered)
+        {
+            stats.damage = baseDamage + (int)(baseDamage * attackBoostStrenght);
+        }
+        else
+        {
+            stats.damage = baseDamage;
+        }
+    }
     public void decreaseBoosts()
     {
         if (empowerDelay > 0)
         {
             empowerDelay--;
+            Debug.Log($"[BOOST ATK] Diminution ! Nouveau délai : {empowerDelay}");
         }
         if (defenseBuffDelay > 0)
         {
