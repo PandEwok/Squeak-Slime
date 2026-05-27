@@ -332,6 +332,6 @@ public class PlayerScript : MonoBehaviour
     {
         victoryUI.SetActive(true);
         actionMenu.SetActive(false);
-        victoryUI.GetComponent<UI_GameoverScript>().ToggleGameOverUiVisibility(true);
+        victoryUI.GetComponent<UI_VictoryScript>().ToggleVictoryUiVisibility(true);
     }
 }

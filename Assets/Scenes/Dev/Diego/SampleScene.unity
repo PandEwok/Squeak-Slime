@@ -2961,6 +2961,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1393979735}
     - target: {fileID: 1203428539494268273, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: actionMenu
+      value: 
+      objectReference: {fileID: 1421792718}
+    - target: {fileID: 1203428539494268273, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: gameOverUI
       value: 
       objectReference: {fileID: 1239824043}
@@ -2968,6 +2972,10 @@ PrefabInstance:
       propertyPath: combatLogic
       value: 
       objectReference: {fileID: 1044752080}
+    - target: {fileID: 3315146261300418188, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: damage
+      value: 800
+      objectReference: {fileID: 0}
     - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: combatLogic
       value: 
