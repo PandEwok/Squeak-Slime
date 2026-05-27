@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/ActionMenu.uss?fileID=7433441132597879392&amp;guid=0a15015b45e476445b456d5f57780a6c&amp;type=3#ActionMenu"/>
+    <Style src="project://database/Assets/UI/Combat/ActionMenu.uss?fileID=7433441132597879392&amp;guid=0a15015b45e476445b456d5f57780a6c&amp;type=3#ActionMenu"/>
     <ui:VisualElement picking-mode="Ignore" name="MainContainer" class="ActionMenuHover" style="flex-grow: 0; background-image: none; justify-content: space-evenly; align-content: center; position: absolute; top: 8px; left: 431px; align-items: stretch; height: 422px; width: 335px; opacity: 1;">
         <ui:Button text="Attack&#10;" name="Attack" class="ActionMenuButton1 button">
             <ui:VisualElement picking-mode="Ignore" name="AttackSelector" class="selector"/>
@@ -54,6 +54,9 @@
         <ui:Button text="Absorption" name="Absorption" class="button ActionMenuButton4">
             <ui:Label text="10 PS&#10;" name="AbsorptionCost" class="ItemQtt" style="flex-direction: column;"/>
             <ui:VisualElement picking-mode="Ignore" name="AbsorptionSelector" class="selector" style="width: 191px;"/>
+        </ui:Button>
+        <ui:Button text="Confirm" name="Confirm" class="button" style="color: rgb(255, 255, 255); opacity: 1; display: none;">
+            <ui:VisualElement picking-mode="Ignore" name="CancelToPage1Selector" class="selector"/>
         </ui:Button>
         <ui:Button text="Cancel&#10;" name="CancelToPage1" class="button cancelToPage1" style="color: rgb(255, 255, 255); opacity: 1;">
             <ui:VisualElement picking-mode="Ignore" name="CancelToPage1Selector" class="selector"/>

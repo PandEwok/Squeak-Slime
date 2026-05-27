@@ -24,6 +24,7 @@ public class ActionBarScript : MonoBehaviour
     private Label pepperDefQtyLabel;
     private bool isSelectingEnnemy = false;
     private int targetCount = 0;
+    private bool confirmedAttack = false;
     enum AttackType { MELEE, RANGED, BITE, NONE };
     AttackType attackType = AttackType.NONE;
     [System.Serializable]
@@ -77,6 +78,7 @@ public class ActionBarScript : MonoBehaviour
         var Fracture = root.Q<Button>("Fracture");
         var Fireball = root.Q<Button>("Fireball");
         var Absorption = root.Q<Button>("Absorption");
+        var Confirm = root.Q<Button>("Confirm");
         page1 = root.Query<VisualElement>(className: "ActionMenuButton1").ToList();
         page2 = root.Query<VisualElement>(className: "ActionMenuButton2").ToList();
         page3 = root.Query<VisualElement>(className: "ActionMenuButton3").ToList();
@@ -112,6 +114,7 @@ public class ActionBarScript : MonoBehaviour
         Absorption?.RegisterCallback<ClickEvent>(ev => UseAbsorption());
         Absorption?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Absorption"));
         Absorption?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
+        Confirm?.RegisterCallback<ClickEvent>(ev => ConfirmPressed());
     }
 
     private void Update()
@@ -134,7 +137,7 @@ public class ActionBarScript : MonoBehaviour
                     targetCount++;
                 }
             }
-            if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
+            if (confirmedAttack)
             {
                 if (combatLogic.enemies.Count > 0)
                 {
@@ -171,6 +174,7 @@ public class ActionBarScript : MonoBehaviour
 
                     }
                     targetCount = 0;
+                    confirmedAttack = false;
 
                 }
             }
@@ -244,6 +248,9 @@ public class ActionBarScript : MonoBehaviour
         TogglePage4Visibility(false);
         ToggleCancelToPage1Visibility(false);
         TogglePage1Visibility(true);
+        isSelectingEnnemy = false;
+        attackType = AttackType.NONE;
+        targetCount = 0;
     }
     private void AttackFrontClicked()
     {
@@ -251,6 +258,7 @@ public class ActionBarScript : MonoBehaviour
         Debug.Log("Confirm Attack button clicked!");
 
         attackType = AttackType.MELEE;
+        ToggleConfirmVisibility(true);
     }
 
 
@@ -260,6 +268,7 @@ public class ActionBarScript : MonoBehaviour
         Debug.Log("Attack Up button clicked!");
 
         attackType = AttackType.RANGED;
+        ToggleConfirmVisibility(true);
     }
 
     private void UseBite()
@@ -275,6 +284,7 @@ public class ActionBarScript : MonoBehaviour
             Debug.Log("Use Bite button clicked!");
 
             attackType = AttackType.BITE;
+            ToggleConfirmVisibility(true);
 
         }
     }
@@ -328,6 +338,7 @@ public class ActionBarScript : MonoBehaviour
             if (mustDisplay)
             {
                 element.style.display = DisplayStyle.Flex;
+                ToggleConfirmVisibility(false);
             }
             else
             {
@@ -349,6 +360,7 @@ public class ActionBarScript : MonoBehaviour
             if (mustDisplay)
             {
                 element.style.display = DisplayStyle.Flex;
+                ToggleConfirmVisibility(false);
             }
             else
             {
@@ -364,6 +376,7 @@ public class ActionBarScript : MonoBehaviour
             if (mustDisplay)
             {
                 element.style.display = DisplayStyle.Flex;
+                ToggleConfirmVisibility(false);
             }
             else
             {
@@ -378,6 +391,7 @@ public class ActionBarScript : MonoBehaviour
             if (mustDisplay)
             {
                 element.style.display = DisplayStyle.Flex;
+                ToggleConfirmVisibility(false);
             }
             else
             {
@@ -401,7 +415,25 @@ public class ActionBarScript : MonoBehaviour
         }
     }
 
-
+    private void ToggleConfirmVisibility(bool mustDisplay)
+    {
+        var confirmBtn = root.Q<Button>("Confirm");
+        if (confirmBtn != null)
+        {
+            if (mustDisplay)
+            {
+                confirmBtn.style.display = DisplayStyle.Flex;
+                TogglePage1Visibility(false);
+                TogglePage2Visibility(false);
+                TogglePage3Visibility(false);
+                TogglePage4Visibility(false);
+            }
+            else
+            {
+                confirmBtn.style.display = DisplayStyle.None;
+            }
+        }
+    }
     private void UseCheese()
     {
         Debug.Log("Use Cheese button clicked!");
@@ -477,5 +509,12 @@ public class ActionBarScript : MonoBehaviour
                 return;
             }
         }
+    }
+
+    private void ConfirmPressed()
+    {
+        Debug.Log("Confirm button clicked!");
+        confirmedAttack = true;
+        ToggleConfirmVisibility(false);
     }
 }
