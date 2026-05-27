@@ -1,0 +1,9 @@
+:root {
+}
+
+.grade {
+    font-size: 74px;
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    -unity-font-definition: url("project://database/Assets/Fonts/Engcomica.otf?fileID=12800000&guid=96c649ca54c11d540adde8d787c59125&type=3#Engcomica");
+}

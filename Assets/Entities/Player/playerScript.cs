@@ -29,6 +29,20 @@ public class PlayerScript : MonoBehaviour
     public GameObject victoryUI;
     public GameObject actionMenu;
     public GameObject qteWarning;
+    private GradeScript gradeScript;
+
+    private void Awake()
+    {
+        Transform gradeTransform = transform.Find("GradeDisplay");
+        if (gradeTransform != null)
+        {
+            gradeScript = gradeTransform.GetComponent<GradeScript>();
+        }
+        else
+        {
+            Debug.LogError("GradeDisplay object not found as a child of the player.");
+        }
+    }
     private void Start()
     {
         stats = GetComponent<Stats_System>();
@@ -110,6 +124,10 @@ public class PlayerScript : MonoBehaviour
         }
         showQTE(false);
         // DEGATS
+        if (hasCrit)
+        {
+            StartCoroutine(gradeScript.gradeDisplay(GradeScript.Grade.Excellent, true));
+        }
         var enemyStats = target.GetComponent<Stats_System>();
         if (enemyStats != null)
         {
@@ -181,12 +199,9 @@ public class PlayerScript : MonoBehaviour
                 if (Pointer.current.press.wasPressedThisFrame)
                 {
                     hasCrit = true;
+                    showQTE(false);
                     Debug.Log("Coup critique");
                 }
-            }
-            else
-            {
-                showQTE(false);
             }
 
                 //Mouvement horizontal
@@ -204,7 +219,7 @@ public class PlayerScript : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
+        showQTE(false);
         //DEGATS
         if (projectileToThrow != null)
         {
@@ -216,6 +231,10 @@ public class PlayerScript : MonoBehaviour
             int baseDamage = (int)(stats.damage + (stats.damage * boost));
             int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
             enemyStats.takeDamage(finalDamage, false);
+        }
+        if(hasCrit)
+        {
+            StartCoroutine(gradeScript.gradeDisplay(GradeScript.Grade.Excellent, true));
         }
         yield return new WaitForSeconds(0.3f);
 
