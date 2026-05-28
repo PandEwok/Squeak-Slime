@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4724662228590154988, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
+      propertyPath: defense
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4724662228590154988, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
+      propertyPath: originalHealth
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 6014539821598933902, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
       propertyPath: m_Name
       value: Enemy_Hedgehog
@@ -59,14 +67,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6014539821598933902, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2577683051922231579}
+      addedObject: {fileID: -2923067117242023933}
   m_SourcePrefab: {fileID: 100100000, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
 --- !u!1 &5618129864621201268 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6014539821598933902, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
   m_PrefabInstance: {fileID: 2197874547004937466}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2577683051922231579
+--- !u!114 &-2923067117242023933
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,8 +83,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5618129864621201268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39217f67695758147b0f5d1dcec23ac6, type: 3}
+  m_Script: {fileID: 11500000, guid: e29abd4a1468976449342df884623563, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::Hedgehog_AI
+  defBuffs: []
   powerEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
-  empowerStrenght: 0.5
+  empowerStrenght: 0.25

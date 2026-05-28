@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5704740562825809857
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4092460090806911490, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092460090806911490, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 507ee0e0c6bba2744b64e85b719fec0a, type: 3}
+    - target: {fileID: 5090310822546844051, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_Name
+      value: Enemy_Magic_PF
+      objectReference: {fileID: 0}
+    - target: {fileID: 6757758960022685112, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 6757758960022685112, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 7247814359904931912, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7247814359904931912, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7247814359904931912, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7247814359904931912, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7247814359904931912, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7247814359904931912, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7247814359904931912, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7247814359904931912, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7247814359904931912, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7247814359904931912, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: -672226796281280321, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5090310822546844051, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1367794830996746562}
+  m_SourcePrefab: {fileID: 100100000, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+--- !u!1 &688810947057657426 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5090310822546844051, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+  m_PrefabInstance: {fileID: 5704740562825809857}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1367794830996746562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688810947057657426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ae5b5cdebb891341a0d0e5322374b85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'

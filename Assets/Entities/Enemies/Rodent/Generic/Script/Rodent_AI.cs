@@ -16,7 +16,7 @@ public class Rodent_AI : Enemy_AI
         if (targetStats != null)
         {
             int damageAmount = GetComponent<Stats_System>().damage;
-            int randomDmgOffset = Random.Range(-2, 3);
+            int randomDmgOffset = Random.Range(-1, 2);
             damageAmount += randomDmgOffset;
             float finalDamage = damageAmount;
             foreach (float buff in dmgBuffs)

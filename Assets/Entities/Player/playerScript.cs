@@ -10,7 +10,6 @@ public class PlayerScript : MonoBehaviour
     public Combat_Logic combatLogic;
     Vector3 originalPosition;
     private Stats_System stats;
-    private ActionBarScript actionUI;
     [SerializeField] private GameObject projectile;
     public int originalSP = 100;
     public int SP = 100;
@@ -28,10 +27,43 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public bool hasWon = false;
     public GameObject gameOverUI;
     public GameObject victoryUI;
-    public GameObject actionMenu;
+    private GameObject actionMenu;
+    private GameObject qteWarning;
+    private GradeScript gradeScript;
+
+    private void Awake()
+    {
+        Transform gradeTransform = transform.Find("GradeDisplay");
+        Transform actionTransform = transform.Find("ActionMenu");
+        Transform qteWarningTransform = transform.Find("QTEWarning");
+        if (gradeTransform != null)
+        {
+            gradeScript = gradeTransform.GetComponent<GradeScript>();
+            
+        }
+        else
+        {
+            Debug.LogError("GradeDisplay object not found as a child of the player.");
+        }
+        if (actionTransform != null)
+        {
+            actionMenu = actionTransform.gameObject;
+        }
+        else
+        {
+            Debug.LogError("ActionMenu object not found as a child of the player.");
+        }
+        if (qteWarningTransform != null)
+        {
+            qteWarning = qteWarningTransform.gameObject;
+        }
+        else
+        {
+            Debug.LogError("QTE Warning object not found as a child of the player.");
+        }
+    }
     private void Start()
     {
-        actionUI = transform.Find("ActionMenu").GetComponent<ActionBarScript>();
         stats = GetComponent<Stats_System>();
         originalPosition = transform.position;
         baseDamage = stats.damage;
@@ -95,7 +127,7 @@ public class PlayerScript : MonoBehaviour
         bool hasCrit = false;
         int baseDamage = (int)(stats.damage + (stats.damage * boost));
 
-
+        showQTE(true);
         while (qteElapsed < qteWindow)
         {
             //Clic gauche souris
@@ -109,8 +141,12 @@ public class PlayerScript : MonoBehaviour
             qteElapsed += Time.deltaTime;
             yield return null;
         }
-
+        showQTE(false);
         // DEGATS
+        if (hasCrit)
+        {
+            DisplayGrade(GradeScript.Grade.Excellent, true);
+        }
         var enemyStats = target.GetComponent<Stats_System>();
         if (enemyStats != null)
         {
@@ -133,7 +169,6 @@ public class PlayerScript : MonoBehaviour
             yield return null;
         }
 
-        //actionUI.FinalizeAttack();
         transform.position = originalPosition;
         switchingTurn();
     }
@@ -177,17 +212,19 @@ public class PlayerScript : MonoBehaviour
                 if (!qteWindowOpen)
                 {
                     qteWindowOpen = true;
+                    showQTE(true);
                 }
 
                 if (Pointer.current.press.wasPressedThisFrame)
                 {
                     hasCrit = true;
+                    showQTE(false);
                     Debug.Log("Coup critique");
                 }
             }
 
-            //Mouvement horizontal
-            Vector3 currentPos = Vector3.Lerp(prepPos, enemyPos, t);
+                //Mouvement horizontal
+                Vector3 currentPos = Vector3.Lerp(prepPos, enemyPos, t);
 
             //Courbe
             float height = Mathf.Sin(Mathf.PI * t) * jumpHeight;
@@ -201,7 +238,7 @@ public class PlayerScript : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
+        showQTE(false);
         //DEGATS
         if (projectileToThrow != null)
         {
@@ -214,6 +251,10 @@ public class PlayerScript : MonoBehaviour
             int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
             enemyStats.takeDamage(finalDamage, false);
         }
+        if(hasCrit)
+        {
+            DisplayGrade(GradeScript.Grade.Excellent, true);
+        }
         yield return new WaitForSeconds(0.3f);
 
         //RETOUR
@@ -225,7 +266,6 @@ public class PlayerScript : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-        //actionUI.FinalizeAttack();
         transform.position = originalPosition;
         switchingTurn();
 
@@ -233,7 +273,6 @@ public class PlayerScript : MonoBehaviour
 
     public IEnumerator AttackBiteSequence(GameObject target)
     {
-
         yield return AttackFrontSequence(target, 0.5f);
         if (target != null)
         {
@@ -259,19 +298,11 @@ public class PlayerScript : MonoBehaviour
     }
     public void actionDefenseBuff()
     {
-        defenseBuffDelay = 4;
+        defenseBuffDelay = 3;
     }
     public void switchingTurn()
     {
-        empowered = (empowerDelay > 0);
-        if (empowered)
-        {
-            stats.damage = baseDamage + (int)(baseDamage * attackBoostStrenght);
-        }
-        else
-        {
-            stats.damage = baseDamage;
-        }
+       
         defenseBuffed = (defenseBuffDelay > 0);
         if (defenseBuffed)
         {
@@ -283,12 +314,24 @@ public class PlayerScript : MonoBehaviour
         }
         combatLogic.switchTurn();
     }
-
+    public void applyAttackBoost()
+    {
+        empowered = (empowerDelay > 0);
+        if (empowered)
+        {
+            stats.damage = baseDamage + (int)(baseDamage * attackBoostStrenght);
+        }
+        else
+        {
+            stats.damage = baseDamage;
+        }
+    }
     public void decreaseBoosts()
     {
         if (empowerDelay > 0)
         {
             empowerDelay--;
+            Debug.Log($"[BOOST ATK] Diminution ! Nouveau délai : {empowerDelay}");
         }
         if (defenseBuffDelay > 0)
         {
@@ -306,7 +349,7 @@ public class PlayerScript : MonoBehaviour
         float elapsed = 0f;
 
         Debug.Log("Def QTE");
-
+        showQTE(true);
         while (elapsed < windowDuration)
         {
             if (Pointer.current.press.wasPressedThisFrame)
@@ -319,6 +362,12 @@ public class PlayerScript : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
+        showQTE(false);
+        if (stats.blocking)
+        {
+            DisplayGrade(GradeScript.Grade.Excellent, true);
+        }
+
     }
 
     public void gameOver()
@@ -332,6 +381,27 @@ public class PlayerScript : MonoBehaviour
     {
         victoryUI.SetActive(true);
         actionMenu.SetActive(false);
-        victoryUI.GetComponent<UI_GameoverScript>().ToggleGameOverUiVisibility(true);
+        victoryUI.GetComponent<UI_VictoryScript>().ToggleVictoryUiVisibility(true);
+    }
+
+    public void showQTE(bool mustDisplay)
+    {
+        if (mustDisplay)
+        {
+            qteWarning.SetActive(true);
+            //Faudra mettre un son
+        }
+        else
+        {
+            qteWarning.SetActive(false);
+        }
+    }
+    public void DisplayGrade(GradeScript.Grade grade, bool display)
+    {
+        if (gradeScript != null)
+        {
+            gradeScript.gameObject.SetActive(true);
+            StartCoroutine(gradeScript.gradeDisplay(grade, display));
+        }
     }
 }

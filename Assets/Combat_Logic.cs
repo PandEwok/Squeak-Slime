@@ -17,6 +17,7 @@ public class Combat_Logic : MonoBehaviour
     public List<GameObject> EnemyPositions;
 
     public List<GameObject> enemies = new List<GameObject>();
+    private List<GameObject> enemiesToDestroy = new List<GameObject>();
 
     public GameObject player;
     //UnityEngine.UI.Button[] UI_Buttons;
@@ -25,12 +26,21 @@ public class Combat_Logic : MonoBehaviour
     public void removeEnemy(GameObject enemy)
     {
         int index = enemies.IndexOf(enemy);
-        if (index != -1)
+
+        if (playerTurn)
         {
-            EnemyPositions.RemoveAt(index);
-            enemies.RemoveAt(index);
+            if (index != -1)
+            {
+                EnemyPositions.RemoveAt(index);
+                enemies.RemoveAt(index);
+            }
+            Destroy(enemy);
         }
-        Destroy(enemy);
+        else {
+            enemy.SetActive(false);
+            enemiesToDestroy.Add(enemy);
+        }
+
         if (enemies.Count == 0)
         {
             Debug.Log("All enemies defeated! Victory!");
@@ -72,6 +82,12 @@ public class Combat_Logic : MonoBehaviour
         if (playerTurn)
         {
             actionUI.GetComponent<ActionBarScript>().FinalizeAttack();
+
+            foreach (GameObject enemy in enemiesToDestroy)
+            {
+                enemiesToDestroy.Remove(enemy);
+                removeEnemy(enemy);
+            }
         }
     }
 

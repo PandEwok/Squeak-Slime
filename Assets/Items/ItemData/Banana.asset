@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d134cd4fae70484a846a7d3f2995504, type: 3}
   m_Name: Banana
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  actionType: 0
   itemId: Banana
   itemName: Banana
   itemDescription: Restores 5 SP.
-  itemIcon: {fileID: -7477641686685662164, guid: 11c27f7eb5f80d948b36747c2894783d, type: 3}
-  defaultColor: {r: 0.9830424, g: 1, b: 0, a: 1}
-  effectType: 1
   effectValue: 5
+  itemIcon: {fileID: -7477641686685662164, guid: 11c27f7eb5f80d948b36747c2894783d, type: 3}
+  defaultColor: {r: 1, g: 1, b: 0, a: 1}
   maxStackCapacity: 99
+  spCost: 0
+  specialEffectLogic: {fileID: 0}

@@ -15,7 +15,7 @@ public class Hedgehog_AI : Rodent_AI
         }
         if (actionChoice < actionChoiceChance)
         {
-            actionEmpower(empowerStrenght, 3, 1, EmpowerType.DEFENSE);
+            actionEmpower(EmpowerType.DEFENSE, empowerStrenght, 3, 1);
         }
         else
         {

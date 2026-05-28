@@ -1,7 +1,7 @@
 .selector {
     opacity: 0;
     flex-grow: 0;
-    background-image: url("project://database/Assets/UI/selector.png?fileID=21300000&guid=cb17b0f77b994c244aa1ab141fd0c796&type=3#selector");
+    background-image: url("project://database/Assets/UI/Combat/selector.png?fileID=21300000&guid=cb17b0f77b994c244aa1ab141fd0c796&type=3#selector");
     background-size: contain;
     scale: 1;
     align-items: stretch;
@@ -18,30 +18,10 @@
     height: 50px;
 }
 
-/*.ActionMenuButton1:hover .selector {
-    opacity: 1;
-}
-
-.ActionMenuButton2:hover .selector {
-    opacity: 1;
-}
-
-.ActionMenuButton3:hover .selector {
-    opacity: 1;
-}
-
-.ActionMenuButton4:hover .selector {
-    opacity: 1;
-}
-
-.cancelToPage1:hover .selector {
-    opacity: 1;
-    display: flex;
-}
-*/
 .button:hover {
-    background-color: rgba(0, 0, 126, 1);
+    background-color: rgb(0, 0, 126);
 }
+
 .ActionMenuButton1 {
     display: flex;
     opacity: 1;
@@ -51,6 +31,7 @@
     font-size: 35px;
     color: rgb(255, 255, 255);
     background-color: rgba(0, 0, 0, 0.5);
+    -unity-font-definition: url("project://database/Assets/Fonts/Engcomica.otf?fileID=12800000&guid=96c649ca54c11d540adde8d787c59125&type=3#Engcomica");
 }
 
 .ActionMenuButton2 {

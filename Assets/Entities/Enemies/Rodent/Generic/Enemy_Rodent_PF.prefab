@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: defense
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 6071632828497526513, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: originalHealth
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 6757758960022685112, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
       propertyPath: m_LocalPosition.y
       value: 3.98
@@ -98,5 +102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fcf3d7c5ffb4f4daffb818d0715db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Rodent_AI
+  defBuffs: []
   powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   empowerStrenght: 0.5

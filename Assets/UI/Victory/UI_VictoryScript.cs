@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class UI_VictoryScript : MonoBehaviour
@@ -9,24 +7,32 @@ public class UI_VictoryScript : MonoBehaviour
     [SerializeField] private UIDocument uiDocument;
     private VisualElement root;
     private VisualElement victoryScreen;
+    private Button goToLobbyButton;
 
+
+    private void Awake()
+    {
+        if(uiDocument == null)
+        {
+            uiDocument = GetComponent<UIDocument>();
+        }
+    }
     private void OnEnable()
     {
-        
-        uiDocument = GetComponent<UIDocument>();
+        if (uiDocument == null) return;
+
         root = uiDocument.rootVisualElement;
-        victoryScreen = root.Q<VisualElement>("VictoryScreen");
-        
+        if(root != null)
+        {
+            victoryScreen = root.Q<VisualElement>("VictoryScreen");
+            goToLobbyButton = root.Q<Button>("ExitButtonV");
+
+            if (goToLobbyButton != null) goToLobbyButton.clicked += GoToLobbyV;
+        }
     }
 
-    private void Start()
-    {
-        var goToLobbyButton = root.Q<Button>("ExitButtonV");
-        goToLobbyButton?.RegisterCallback<ClickEvent>(ev => GoToLobbyV());
-    }
 
-
-    private void GoToLobbyV()
+    public void GoToLobbyV()
     {
         Debug.Log("Exit button pressed in Victory UI");
 #if UNITY_EDITOR
@@ -38,15 +44,16 @@ public class UI_VictoryScript : MonoBehaviour
 
     public void ToggleVictoryUiVisibility(bool mustDisplay)
     {
+        if(victoryScreen == null) {return; }
         if (mustDisplay)
         {
-            gameOverUi.SetActive(false);
+            if(gameOverUi != null) gameOverUi.SetActive(false);
             victoryScreen.style.display = DisplayStyle.Flex;
 
         }
         else
         {
-            gameOverUi.SetActive(true);
+            if(gameOverUi != null) gameOverUi.SetActive(true);
             victoryScreen.style.display = DisplayStyle.None;
         }
     }
