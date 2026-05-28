@@ -345,6 +345,9 @@ public class PlayerScript : MonoBehaviour
             yield return null;
         }
         showQTE(false);
+        if(stats.blocking)
+            StartCoroutine(gradeScript.gradeDisplay(GradeScript.Grade.Excellent, true));
+
     }
 
     public void gameOver()

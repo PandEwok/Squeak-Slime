@@ -39,20 +39,20 @@ public class GradeScript : MonoBehaviour
             {
                 case Grade.Excellent:
                     Debug.Log("Displaying Excellent grade");
-                    excellent.style.visibility = Visibility.Visible;
+                    excellent.style.display = DisplayStyle.Flex;
                     yield return new WaitForSeconds(displayDuration);
                     Debug.Log("Hiding Excellent grade");
-                    excellent.style.visibility = Visibility.Hidden;
+                    excellent.style.display = DisplayStyle.None;
                     break;
                 case Grade.Missed:
-                    missed.style.visibility = Visibility.Visible;
+                    missed.style.display = DisplayStyle.Flex;
                     yield return new WaitForSeconds(displayDuration);
-                    missed.style.visibility = Visibility.Hidden;
+                    missed.style.display = DisplayStyle.None;
                     break;
                 case Grade.Critical:
-                    critical.style.visibility = Visibility.Visible;
+                    critical.style.display = DisplayStyle.Flex;
                     yield return new WaitForSeconds(displayDuration);
-                    critical.style.visibility = Visibility.Hidden;
+                    critical.style.display = DisplayStyle.None;
                     break;
                 default:
                     break;
@@ -63,13 +63,13 @@ public class GradeScript : MonoBehaviour
             switch (grade)
             {
                 case Grade.Excellent:
-                    excellent.style.visibility = Visibility.Hidden;
+                    excellent.style.display = DisplayStyle.None;
                     break;
                 case Grade.Missed:
-                    missed.style.visibility = Visibility.Hidden;
+                    missed.style.display = DisplayStyle.None;
                     break;
                 case Grade.Critical:
-                    critical.style.visibility = Visibility.Hidden;
+                    critical.style.display = DisplayStyle.None;
                     break;
                 default:
                     break;
@@ -80,15 +80,15 @@ public class GradeScript : MonoBehaviour
     {
         if (mustDisplay)
         {
-            excellent.style.visibility = Visibility.Visible;
-            missed.style.visibility = Visibility.Visible;
-            critical.style.visibility = Visibility.Visible;
+            excellent.style.display = DisplayStyle.Flex;
+            missed.style.display = DisplayStyle.Flex;
+            critical.style.display = DisplayStyle.Flex;
         }
         else
         {
-            excellent.style.visibility = Visibility.Hidden;
-            missed.style.visibility = Visibility.Hidden;
-            critical.style.visibility = Visibility.Hidden;
+            excellent.style.display = DisplayStyle.None;
+            missed.style.display = DisplayStyle.None;
+            critical.style.display = DisplayStyle.None;
         }
 
     }
