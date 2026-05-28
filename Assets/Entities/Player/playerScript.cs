@@ -27,20 +27,39 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public bool hasWon = false;
     public GameObject gameOverUI;
     public GameObject victoryUI;
-    public GameObject actionMenu;
-    public GameObject qteWarning;
+    private GameObject actionMenu;
+    private GameObject qteWarning;
     private GradeScript gradeScript;
 
     private void Awake()
     {
         Transform gradeTransform = transform.Find("GradeDisplay");
+        Transform actionTransform = transform.Find("ActionMenu");
+        Transform qteWarningTransform = transform.Find("QTEWarning");
         if (gradeTransform != null)
         {
             gradeScript = gradeTransform.GetComponent<GradeScript>();
+            
         }
         else
         {
             Debug.LogError("GradeDisplay object not found as a child of the player.");
+        }
+        if (actionTransform != null)
+        {
+            actionMenu = actionTransform.gameObject;
+        }
+        else
+        {
+            Debug.LogError("ActionMenu object not found as a child of the player.");
+        }
+        if (qteWarningTransform != null)
+        {
+            qteWarning = qteWarningTransform.gameObject;
+        }
+        else
+        {
+            Debug.LogError("QTE Warning object not found as a child of the player.");
         }
     }
     private void Start()

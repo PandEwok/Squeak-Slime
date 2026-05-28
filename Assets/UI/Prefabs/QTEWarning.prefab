@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6094372433401025744}
   - component: {fileID: 917838759125416815}
   m_Layer: 0
-  m_Name: QTE Warning
+  m_Name: QTEWarning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
