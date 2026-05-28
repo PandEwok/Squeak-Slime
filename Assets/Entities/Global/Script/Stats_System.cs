@@ -92,7 +92,17 @@ public class Stats_System : MonoBehaviour
         else
         {
             effectiveDamage = Mathf.Max(damageAmount - defense, 0);
-            this.GetComponent<Enemy_AI>()?.defBuffs.ForEach(buff => effectiveDamage -= Mathf.RoundToInt(damageAmount * buff));
+            Enemy_AI enemyAI = this.gameObject.GetComponent<Enemy_AI>();
+            if (enemyAI != null)
+            {
+                foreach (float buff in enemyAI.defBuffs)
+                {
+                    float buffReduction = damageAmount * buff;
+                    effectiveDamage -= Mathf.RoundToInt(buffReduction);
+                }
+                effectiveDamage = Mathf.Max(effectiveDamage, 0);
+            }
+            //this.GetComponent<Enemy_AI>()?.defBuffs.ForEach(buff => effectiveDamage -= Mathf.RoundToInt(damageAmount * buff));
 
             if (blocking)
             {

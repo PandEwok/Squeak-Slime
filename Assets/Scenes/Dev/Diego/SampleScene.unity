@@ -2974,7 +2974,15 @@ PrefabInstance:
       objectReference: {fileID: 1044752080}
     - target: {fileID: 3315146261300418188, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: damage
-      value: 800
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315146261300418188, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: defense
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315146261300418188, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: originalHealth
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: combatLogic
@@ -3480,7 +3488,7 @@ PrefabInstance:
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemiesToSpawn.Array.data[2]'
       value: 
-      objectReference: {fileID: 5618129864621201268, guid: 2605f548356ca14469b9e7bc464ea829, type: 3}
+      objectReference: {fileID: 2645622162307157329, guid: 91845316c0b41524380014ff6b9028af, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

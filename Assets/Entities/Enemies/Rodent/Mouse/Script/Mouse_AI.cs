@@ -6,21 +6,7 @@ public class Mouse_AI : Rodent_AI
 {
     public async override Task playTurn(GameObject target)
     {
-        int actionChoiceChance = 0;
-        int actionChoice = Random.Range(0, 100);
-        Debug.Log($"{this.gameObject.name} action choice: {actionChoice} (empower delay: {empowerDelay})");
-        if (empowerDelay <= 0)
-        {
-            actionChoiceChance = 65; // 65% chance to empower if not currently empowered
-        }
-        if (actionChoice < actionChoiceChance)
-        {
-            actionEmpower(empowerStrenght);
-        }
-        else
-        {
-            await closeAttack(target);
-        }
+        await closeAttack(target);
 
         await base.playTurn(target);
     }

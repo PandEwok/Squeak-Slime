@@ -65,10 +65,11 @@ public class Enemy_AI : MonoBehaviour
     }
 
 
-    public void actionEmpower(float empowerAmount = 0.5f, int delay = 2, int duration = 2, EmpowerType type = EmpowerType.DAMAGE)
+    public void actionEmpower(EmpowerType type, float empowerAmount = 0.5f, int delay = 2, int duration = 2)
     {
         empowerDelay = delay + 1; // Empower lasts for 2 turns
         empowerDuration = duration + 1;
+        Debug.Log($"type is {type}");
 
         if (type == EmpowerType.DEFENSE)
         {
@@ -178,7 +179,7 @@ public class Enemy_AI : MonoBehaviour
             if (defBuffTimers[i] <= 0)
             {
                 defBuffTimers.RemoveAt(i);
-                defBuffTimers.RemoveAt(i);
+                defBuffs.RemoveAt(i);
                 i--;
             }
             else
@@ -257,7 +258,14 @@ public class Enemy_AI : MonoBehaviour
         ///
     }
 
-    float secToMili(float seconds) {
+    public async Task distanceAttack(GameObject target)
+    {
+        await Task.Delay((int)secToMili(0.2f));
+        attack(target);
+    }
+
+
+    protected float secToMili(float seconds) {
         return seconds * 1000;
     }
 }

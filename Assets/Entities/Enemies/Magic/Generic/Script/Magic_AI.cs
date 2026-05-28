@@ -2,15 +2,16 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Threading.Tasks;
 
-public class Rodent_AI : Enemy_AI
+public class Magic_AI : Enemy_AI
 {
-
     public async override Task playTurn(GameObject target)
     {
         await base.playTurn(target);
     }
-    public override void attack(GameObject target) {
-        
+
+    public override void attack(GameObject target)
+    {
+
         Stats_System targetStats = target.GetComponent<Stats_System>();
 
         if (targetStats != null)

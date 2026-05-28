@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d37096d211e2436499912e741cd83467
+guid: 507ee0e0c6bba2744b64e85b719fec0a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1271000964075119010
-    second: Mouse_Sprite_0
+      213: -1103838353319765163
+    second: Cochon_dinde_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,11 +46,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  alignment: 9
+  spritePivot: {x: 0.48, y: 0.21}
   spritePixelsToUnits: 230
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -96,40 +96,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mouse_Sprite_0
+      name: Cochon_dinde_0
       rect:
         serializedVersion: 2
-        x: 582
-        y: 200
-        width: 711
-        height: 722
-      alignment: 9
-      pivot: {x: 0.5, y: 0.08}
+        x: 479
+        y: 188
+        width: 962
+        height: 707
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2a160ec84a083a110800000000000000
-      internalID: 1271000964075119010
+      spriteID: 55b5ce4bdd06ea0f0800000000000000
+      internalID: -1103838353319765163
       vertices: []
       indices: 
       edges: []
@@ -138,8 +125,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: f2a56e8c3c230f148a49ce9cc23d18e6
-    internalID: 0
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Mouse_Sprite_0: 1271000964075119010
+      Cochon_dinde_0: -1103838353319765163
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

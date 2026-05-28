@@ -233,7 +233,6 @@ public class PlayerScript : MonoBehaviour
 
     public IEnumerator AttackBiteSequence(GameObject target)
     {
-
         yield return AttackFrontSequence(target, 0.5f);
         if (target != null)
         {

@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4724662228590154988, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
+      propertyPath: damage
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5196022952998350757, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 5196022952998350757, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.9
+      objectReference: {fileID: 0}
     - target: {fileID: 6014539821598933902, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
       propertyPath: m_Name
       value: Enemy_Mouse
@@ -78,5 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39217f67695758147b0f5d1dcec23ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  defBuffs: []
   powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   empowerStrenght: 0.5

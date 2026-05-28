@@ -2,7 +2,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Threading.Tasks;
 
-public class Hedgehog_AI : Rodent_AI
+public class Dormouse : Rodent_AI
 {
     public async override Task playTurn(GameObject target)
     {
@@ -11,15 +11,21 @@ public class Hedgehog_AI : Rodent_AI
         Debug.Log($"{this.gameObject.name} action choice: {actionChoice} (empower delay: {empowerDelay})");
         if (empowerDelay <= 0)
         {
-            actionChoiceChance = 85; // 85% chance to empower if not currently empowered
+            actionChoiceChance = 95; // 85% chance to empower if not currently empowered
         }
         if (actionChoice < actionChoiceChance)
         {
-            actionEmpower(EmpowerType.DEFENSE, empowerStrenght, 3, 1);
+            await Task.Run(() =>
+            {
+                actionEmpower(EmpowerType.DAMAGE, 1.2f, 2, 0);
+            });
+            
+            await distanceAttack(target);
         }
         else
         {
-            await closeAttack(target);
+            
+            await distanceAttack(target);
         }
 
         await base.playTurn(target);
