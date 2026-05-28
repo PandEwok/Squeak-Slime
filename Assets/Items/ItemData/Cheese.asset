@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d134cd4fae70484a846a7d3f2995504, type: 3}
   m_Name: Cheese
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  actionType: 0
   itemId: Cheese
   itemName: Cheese
   itemDescription: Restores 50 HP.
-  itemIcon: {fileID: 4265844099315561324, guid: 768d82c5ba527fe41964d1c8eccd2e0c, type: 3}
-  defaultColor: {r: 0.9830424, g: 1, b: 0, a: 1}
-  effectType: 0
   effectValue: 50
+  itemIcon: {fileID: 4265844099315561324, guid: 768d82c5ba527fe41964d1c8eccd2e0c, type: 3}
+  defaultColor: {r: 1, g: 0.856074, b: 0.23113209, a: 1}
   maxStackCapacity: 99
+  spCost: 0
+  specialEffectLogic: {fileID: 0}

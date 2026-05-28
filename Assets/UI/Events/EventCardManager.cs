@@ -1,0 +1,81 @@
+using UnityEngine;
+using TMPro;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using System.Collections; // Required for staggered coroutine
+
+public class EventCardManager : MonoBehaviour
+{
+    [Header("The Master Deck")]
+    public List<EventCardData> allPossibleCards = new List<EventCardData>();
+
+    [Header("UI Layout")]
+    public List<EventCardUI> activeCardSlots;
+    public TextMeshProUGUI globalTooltipText;
+
+    [Header("Deal Animation Settings")]
+    [Tooltip("How long it takes an individual card to finish its slide journey.")]
+    public float cardSlideDuration = 0.4f;
+
+    [Tooltip("The time delay wait window before dealing the next card.")]
+    public float delayBetweenCards = 0.15f;
+
+    [Tooltip("Smooth physics ease curve. Create a small hill at the end for a bouncy layout snap!")]
+    public AnimationCurve dealEaseCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    private void Start()
+    {
+        HideTooltip();
+
+        // Switch to calling our new animated sequence engine
+        StartCoroutine(AnimateCardDealingSequence());
+    }
+
+    public IEnumerator AnimateCardDealingSequence()
+    {
+        if (allPossibleCards.Count < 3)
+        {
+            Debug.LogError("You need at least 3 cards in your Master Deck!");
+            yield break;
+        }
+
+        // Shuffle deck logic
+        List<EventCardData> deckToShuffle = new List<EventCardData>(allPossibleCards);
+        for (int i = 0; i < deckToShuffle.Count; i++)
+        {
+            EventCardData temp = deckToShuffle[i];
+            int randomIndex = Random.Range(i, deckToShuffle.Count);
+            deckToShuffle[i] = deckToShuffle[randomIndex];
+            deckToShuffle[randomIndex] = temp;
+        }
+
+        // Deal with staggered animation timings
+        for (int i = 0; i < activeCardSlots.Count; i++)
+        {
+            if (activeCardSlots[i] == null) continue;
+
+            // Setup data, then immediately fire its slide sequence
+            activeCardSlots[i].SetupCard(deckToShuffle[i], this);
+            activeCardSlots[i].TriggerDealAnimation(cardSlideDuration, dealEaseCurve);
+
+            // Wait a tiny bit before dispensing the next physical card card slot
+            yield return new WaitForSeconds(delayBetweenCards);
+        }
+    }
+
+    public void ShowTooltip(string description) => globalTooltipText.text = description;
+    public void HideTooltip() => globalTooltipText.text = "";
+
+    public void SelectCard(EventCardData selectedCard)
+    {
+        Debug.Log($"Selected: {selectedCard.cardName}");
+        if (selectedCard.cardType == EventCardData.EventType.Nothing)
+        {
+            StartCoroutine(AnimateCardDealingSequence()); // Re-deal if "Nothing" card selected
+        }
+        else if (!string.IsNullOrEmpty(selectedCard.sceneToLoad))
+        {
+            SceneManager.LoadScene(selectedCard.sceneToLoad);
+        }
+    }
+}
