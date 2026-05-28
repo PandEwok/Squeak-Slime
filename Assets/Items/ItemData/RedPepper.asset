@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d134cd4fae70484a846a7d3f2995504, type: 3}
   m_Name: RedPepper
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  actionType: 0
   itemId: PepperAtt
   itemName: Red Pepper
   itemDescription: Temporarily raises the user's power.
-  itemIcon: {fileID: -7414543132534328891, guid: 577027a890001cc4195a93fc9937a126, type: 3}
-  defaultColor: {r: 0.9622642, g: 0, b: 0.057588164, a: 1}
-  effectType: 2
   effectValue: 25
+  itemIcon: {fileID: -7414543132534328891, guid: 577027a890001cc4195a93fc9937a126, type: 3}
+  defaultColor: {r: 1, g: 0, b: 0.062745094, a: 1}
   maxStackCapacity: 99
+  spCost: 0
+  specialEffectLogic: {fileID: 0}

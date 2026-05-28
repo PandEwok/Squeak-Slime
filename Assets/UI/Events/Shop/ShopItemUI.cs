@@ -124,19 +124,10 @@ public class ShopItemUI : MonoBehaviour
     {
         currentDynamicPrice = Mathf.Max(0, currentDynamicPrice + amount);
 
-        if (currentDynamicPrice == 0)
-        {
-            priceText.fontSize = 18f; // Scale down ONLY for FREE text
-            priceText.alignment = TextAlignmentOptions.Center;
-            priceText.text = "FREE";
-        }
-        else
-        {
             // NEW: Reverts perfectly back to your exact inspector layout settings!
             priceText.fontSize = originalFontSize;
             priceText.alignment = originalAlignment;
             priceText.text = currentDynamicPrice.ToString();
-        }
 
         permanentPriceColor = permanentColor;
         priceText.faceColor = permanentColor;
