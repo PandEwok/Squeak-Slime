@@ -22,14 +22,11 @@ public class GradeScript : MonoBehaviour
     {
         uiDocument = GetComponent<UIDocument>();
         root = uiDocument.rootVisualElement;
-    }
-
-    private void Start()
-    {
         excellent = root.Q<Label>("Excellent");
         missed = root.Q<Label>("Missed");
         critical = root.Q<Label>("Crit");
     }
+
     
     public IEnumerator gradeDisplay(Grade grade, bool mustDisplay)
     {
@@ -75,6 +72,7 @@ public class GradeScript : MonoBehaviour
                     break;
             }
         }
+        gameObject.SetActive(false);
     }
     public void allGradeDisplay(bool mustDisplay)
     {
@@ -90,8 +88,9 @@ public class GradeScript : MonoBehaviour
             missed.style.display = DisplayStyle.None;
             critical.style.display = DisplayStyle.None;
         }
-
+        gameObject.SetActive(false);
     }
+    
 }
 
 

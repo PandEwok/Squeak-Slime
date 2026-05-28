@@ -1,6 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Grade/USS_Grade.uss?fileID=7433441132597879392&amp;guid=9e13a7ad65f8df64fbea86e0990eb604&amp;type=3#USS_Grade"/>
-    <ui:VisualElement name="Root" focusable="false" picking-mode="Position" style="flex-grow: 1; position: absolute; height: 71px; top: 363px; width: 292px; left: 371px; bottom: 309px; right: 469px;">
+    <ui:VisualElement name="Root" focusable="false" picking-mode="Ignore" style="flex-grow: 1; position: absolute; height: 71px; top: 363px; width: 292px; left: 371px; bottom: 309px; right: 469px;">
         <ui:Label text="SLIME-TASTIC!" name="Excellent" picking-mode="Position" class="grade" style="color: rgb(255, 225, 71); display: none; visibility: visible;"/>
         <ui:Label text="CRIT!" name="Crit" picking-mode="Position" class="grade" style="color: rgb(255, 33, 0); display: none; visibility: visible;"/>
         <ui:Label text="MISSED!" name="Missed" picking-mode="Position" class="grade" style="color: rgb(243, 0, 255); display: none; visibility: visible;"/>

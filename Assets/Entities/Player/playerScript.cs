@@ -126,7 +126,7 @@ public class PlayerScript : MonoBehaviour
         // DEGATS
         if (hasCrit)
         {
-            StartCoroutine(gradeScript.gradeDisplay(GradeScript.Grade.Excellent, true));
+            DisplayGrade(GradeScript.Grade.Excellent, true);
         }
         var enemyStats = target.GetComponent<Stats_System>();
         if (enemyStats != null)
@@ -234,7 +234,7 @@ public class PlayerScript : MonoBehaviour
         }
         if(hasCrit)
         {
-            StartCoroutine(gradeScript.gradeDisplay(GradeScript.Grade.Excellent, true));
+            DisplayGrade(GradeScript.Grade.Excellent, true);
         }
         yield return new WaitForSeconds(0.3f);
 
@@ -345,8 +345,10 @@ public class PlayerScript : MonoBehaviour
             yield return null;
         }
         showQTE(false);
-        if(stats.blocking)
-            StartCoroutine(gradeScript.gradeDisplay(GradeScript.Grade.Excellent, true));
+        if (stats.blocking)
+        {
+            DisplayGrade(GradeScript.Grade.Excellent, true);
+        }
 
     }
 
@@ -374,6 +376,14 @@ public class PlayerScript : MonoBehaviour
         else
         {
             qteWarning.SetActive(false);
+        }
+    }
+    public void DisplayGrade(GradeScript.Grade grade, bool display)
+    {
+        if (gradeScript != null)
+        {
+            gradeScript.gameObject.SetActive(true);
+            StartCoroutine(gradeScript.gradeDisplay(grade, display));
         }
     }
 }
