@@ -1,49 +1,70 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class UI_GameoverScript : MonoBehaviour
 {
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private GameObject victoryUI;
+
     private VisualElement root;
     private VisualElement deathScreen;
+    private Button goToLobbyButton;
+
+    private void Awake()
+    {
+        if (uiDocument == null)
+        {
+            uiDocument = GetComponent<UIDocument>();
+        }
+    }
 
     private void OnEnable()
     {
-        uiDocument = GetComponent<UIDocument>();
+        if (uiDocument == null) return;
+
         root = uiDocument.rootVisualElement;
-        deathScreen = root.Q<VisualElement>("DeathScreen");
+        if (root != null)
+        {
+            deathScreen = root.Q<VisualElement>("DeathScreen");
+            goToLobbyButton = root.Q<Button>("ExitButtonGO");
+
+            if (goToLobbyButton != null)
+            {
+                goToLobbyButton.clicked += GoToLobbyG;
+            }
+        }
     }
 
-
-    private void Start()
+    private void OnDisable()
     {
-
-        var GoToLobbyButton = root.Q<Button>("ExitButtonGO");
-        GoToLobbyButton?.RegisterCallback<ClickEvent>(ev => GoToLobbyG());
+        if (goToLobbyButton != null)
+        {
+            goToLobbyButton.clicked -= GoToLobbyG;
+        }
     }
 
-    private void GoToLobbyG()
+    public void GoToLobbyG()
     {
+        Debug.Log("Bouton gameover pressé !");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-            Application.Quit();
+        Application.Quit();
 #endif
     }
 
     public void ToggleGameOverUiVisibility(bool mustDisplay)
     {
+        if (deathScreen == null) return;
+
         if (mustDisplay)
         {
-            victoryUI.SetActive(false);
+            if (victoryUI != null) victoryUI.SetActive(false);
             deathScreen.style.display = DisplayStyle.Flex;
         }
         else
         {
-            victoryUI.SetActive(true);
+            if (victoryUI != null) victoryUI.SetActive(true);
             deathScreen.style.display = DisplayStyle.None;
         }
     }
