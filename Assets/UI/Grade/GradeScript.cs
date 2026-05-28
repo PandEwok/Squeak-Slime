@@ -92,10 +92,6 @@ public class GradeScript : MonoBehaviour
         }
 
     }
-    void OnDisable()
-    {
-        Debug.LogError($"[ALERTE] GradeDisplay vient d'être DÉSACTIVÉ ! Pile au moment du bug.");
-    }
 }
 
 
