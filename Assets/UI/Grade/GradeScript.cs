@@ -28,7 +28,7 @@ public class GradeScript : MonoBehaviour
     }
 
     
-    public IEnumerator gradeDisplay(Grade grade, bool mustDisplay)
+    public IEnumerator GradeDisplay(Grade grade, bool mustDisplay)
     {
         if (mustDisplay)
         {

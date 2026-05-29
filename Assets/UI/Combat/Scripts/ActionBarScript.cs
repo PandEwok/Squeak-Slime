@@ -238,7 +238,7 @@ public class ActionBarScript : MonoBehaviour
         TogglePage1Visibility(false);
         ToggleUiVisibility(false);
         player.GetComponent<Stats_System>().defending = true;
-        playerS.switchingTurn();
+        playerS.SwitchingTurn();
 
     }
     private void CancelToPage1()
@@ -297,7 +297,22 @@ public class ActionBarScript : MonoBehaviour
 
     private void UseFireball()
     {
-        Debug.Log("Use Fireball button clicked!");
+        if (playerS.SP < 12)
+        {
+            Debug.Log("Not enough SP to use Fireball!");
+            return;
+        }
+        else
+        {
+            playerS.SP -= 12;
+            if (playerS.SP < 0)
+            {
+                playerS.SP = 0;
+            }
+            Debug.Log("Use Fireball button clicked!");
+            StartCoroutine(playerS.AttackFireSequence(combatLogic.enemies));
+            ToggleUiVisibility(false);
+        }
     }
 
     private void UseAbsorption()
@@ -321,9 +336,9 @@ public class ActionBarScript : MonoBehaviour
         if (mustDisplay && player.GetComponent<Stats_System>().health > 0 && combatLogic.enemies.Count > 0)
         {
             root.style.display = DisplayStyle.Flex;
-            playerS.decreaseBoosts();
-            playerS.applyAttackBoost();
-            playerS.applyStatus();
+            playerS.DecreaseBoosts();
+            playerS.ApplyAttackBoost();
+            StartCoroutine(player.GetComponent<Stats_System>().ApplyStatus());
 
         }
         else
@@ -438,11 +453,11 @@ public class ActionBarScript : MonoBehaviour
         if (playerInventory.cheeseInv > 0)
         {
             playerInventory.removeCheese(1);
-            playerS.healPlayer(50);
+            playerS.HealPlayer(50);
             UpdateInventoryUI();
             //FinalizeAttack();
             ToggleUiVisibility(false);
-            playerS.switchingTurn();
+            playerS.SwitchingTurn();
         }
     }
 
@@ -452,11 +467,11 @@ public class ActionBarScript : MonoBehaviour
         if (playerInventory.bananaInv > 0)
         {
             playerInventory.removeBanana(1);
-            playerS.restoreSP(50);
+            playerS.RestoreSP(50);
             UpdateInventoryUI();
             //FinalizeAttack();
             ToggleUiVisibility(false);
-            playerS.switchingTurn();
+            playerS.SwitchingTurn();
         }
     }
 
@@ -466,11 +481,11 @@ public class ActionBarScript : MonoBehaviour
         if (playerInventory.pepperAttInv > 0)
         {
             playerInventory.removePepperAtt(1);
-            playerS.actionEmpower();
+            playerS.ActionEmpower();
             UpdateInventoryUI();
             //FinalizeAttack();
             ToggleUiVisibility(false);
-            playerS.switchingTurn();
+            playerS.SwitchingTurn();
         }
     }
 
@@ -480,11 +495,11 @@ public class ActionBarScript : MonoBehaviour
         if (playerInventory.pepperDefInv > 0)
         {
             playerInventory.removePepperDef(1);
-            playerS.actionDefenseBuff();
+            playerS.ActionDefenseBuff();
             UpdateInventoryUI();
             //FinalizeAttack();
             ToggleUiVisibility(false);
-            playerS.switchingTurn();
+            playerS.SwitchingTurn();
         }
     }
 

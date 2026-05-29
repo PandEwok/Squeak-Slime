@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,15 +14,20 @@ public class Stats_System : MonoBehaviour
     public int defense;
     public GameObject damagePF;
     public GameObject bloodPF;
+    public GameObject firePF;
     Vector3 originalPos;
     Color originalColor;
     public int health;
     [HideInInspector] public bool blocking = false;
     [HideInInspector] public bool defending = false;
     public bool isBleeding = false;
+    public bool isOnFire = false;
     public int bleedDamage = 5;
+    public float fireDamage = 18; //Utilise pour calculer une proportion, n'inflige pas 18
     public int bleedingDuration = 3;
+    public int fireDuration = 3;
     public int bleedingTimer = 0;
+    public int fireTimer = 0;
     private GameObject player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -82,10 +88,10 @@ public class Stats_System : MonoBehaviour
         img.color = originalColor;
     }
 
-    public void takeDamage(int damageAmount, bool isBleedingDamage)
+    public void takeDamage(int damageAmount, bool isStatusDamage)
     {
         int effectiveDamage = 0;
-        if (isBleedingDamage)
+        if (isStatusDamage)
         {
             effectiveDamage = damageAmount;
         }
@@ -135,7 +141,7 @@ public class Stats_System : MonoBehaviour
         if (health <= 0 && this.CompareTag("Player"))
         {
             Debug.Log("Player has died. Game Over.");
-            player.GetComponent<PlayerScript>().gameOver();
+            player.GetComponent<PlayerScript>().GameOver();
         }
     }
 
@@ -145,7 +151,7 @@ public class Stats_System : MonoBehaviour
         health = Mathf.Min(health, originalHealth);
         Debug.Log($"{gameObject.name} healed for {healAmount}. Current health: {health}");
     }
-    public void bleed()
+    public void Bleed()
     {
         isBleeding = (bleedingTimer > 0);
         if(isBleeding)
@@ -155,7 +161,34 @@ public class Stats_System : MonoBehaviour
             bleedingTimer--;
         }
     }
-    public void makeBleeding()
+
+    public void Burn()
+    {
+        isOnFire = (fireTimer > 0);
+        if (isOnFire)
+        {
+            Debug.Log($"{gameObject.name} is on fire.");
+            int burnDamage = Mathf.RoundToInt(originalHealth / fireDamage);
+            takeDamage(burnDamage, true);
+            fireTimer--;
+        }
+    }
+
+    public IEnumerator ApplyStatus()
+    {
+        isBleeding = (bleedingTimer > 0);
+        if (isBleeding)
+        {
+            Bleed();
+            yield return new WaitForSeconds(1f);
+        }
+        isOnFire = (fireTimer > 0);
+        if (isOnFire)
+        {
+            Burn();
+        }
+    }
+    public void MakeBleeding()
     {
         if(!isBleeding)
         {
@@ -171,5 +204,21 @@ public class Stats_System : MonoBehaviour
 
         }
         bleedingTimer = bleedingDuration;
+    }
+    public void MakeBurned()
+    {
+        if (!isOnFire)
+        {
+            isOnFire = true;
+            if(CompareTag("Player"))
+            {
+                Instantiate(firePF, this.transform.position + new Vector3(-0.75f, this.transform.position.y + 1.25f, 0), Quaternion.identity, this.transform);
+            }
+            else
+            {
+                Instantiate(firePF, this.transform.position + new Vector3(1f, -0.25f, 0), Quaternion.identity, this.transform);
+            }
+        }
+        fireTimer = fireDuration;
     }
 }

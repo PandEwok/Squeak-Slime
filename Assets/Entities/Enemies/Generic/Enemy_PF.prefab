@@ -52,6 +52,7 @@ MonoBehaviour:
   defense: 10
   damagePF: {fileID: 254843135583981822, guid: 560e1bfb2a4706e45a82ebfb18aa849e, type: 3}
   bloodPF: {fileID: 2114382830776690554, guid: 1cda0815d43215f40b41c548b80fc810, type: 3}
+  firePF: {fileID: 6641741500042543266, guid: 455d860957c083f45ba4274448240134, type: 3}
   health: 0
   blocking: 0
   defending: 0
@@ -71,6 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3d98691122b63f458cd9e776f6efc3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  defBuffs: []
   powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   empowerStrenght: 0.5
 --- !u!1 &7696234160017508083

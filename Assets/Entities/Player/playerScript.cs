@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class PlayerScript : MonoBehaviour
     Vector3 originalPosition;
     private Stats_System stats;
     [SerializeField] private GameObject projectile;
+    [SerializeField] private GameObject fireball;
     public int originalSP = 100;
     public int SP = 100;
     public GameObject attackBoostEffect;
@@ -39,7 +41,6 @@ public class PlayerScript : MonoBehaviour
         if (gradeTransform != null)
         {
             gradeScript = gradeTransform.GetComponent<GradeScript>();
-            
         }
         else
         {
@@ -127,7 +128,7 @@ public class PlayerScript : MonoBehaviour
         bool hasCrit = false;
         int baseDamage = (int)(stats.damage + (stats.damage * boost));
 
-        showQTE(true);
+        ShowQTE(true);
         while (qteElapsed < qteWindow)
         {
             //Clic gauche souris
@@ -141,7 +142,7 @@ public class PlayerScript : MonoBehaviour
             qteElapsed += Time.deltaTime;
             yield return null;
         }
-        showQTE(false);
+        ShowQTE(false);
         // DEGATS
         if (hasCrit)
         {
@@ -170,7 +171,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         transform.position = originalPosition;
-        switchingTurn();
+        SwitchingTurn();
     }
 
     public IEnumerator AttackJumpSequence(GameObject target, float boost)
@@ -212,19 +213,19 @@ public class PlayerScript : MonoBehaviour
                 if (!qteWindowOpen)
                 {
                     qteWindowOpen = true;
-                    showQTE(true);
+                    ShowQTE(true);
                 }
 
                 if (Pointer.current.press.wasPressedThisFrame)
                 {
                     hasCrit = true;
-                    showQTE(false);
+                    ShowQTE(false);
                     Debug.Log("Coup critique");
                 }
             }
 
-                //Mouvement horizontal
-                Vector3 currentPos = Vector3.Lerp(prepPos, enemyPos, t);
+            //Mouvement horizontal
+            Vector3 currentPos = Vector3.Lerp(prepPos, enemyPos, t);
 
             //Courbe
             float height = Mathf.Sin(Mathf.PI * t) * jumpHeight;
@@ -238,7 +239,7 @@ public class PlayerScript : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-        showQTE(false);
+        ShowQTE(false);
         //DEGATS
         if (projectileToThrow != null)
         {
@@ -251,7 +252,7 @@ public class PlayerScript : MonoBehaviour
             int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
             enemyStats.takeDamage(finalDamage, false);
         }
-        if(hasCrit)
+        if (hasCrit)
         {
             DisplayGrade(GradeScript.Grade.Excellent, true);
         }
@@ -267,7 +268,7 @@ public class PlayerScript : MonoBehaviour
             yield return null;
         }
         transform.position = originalPosition;
-        switchingTurn();
+        SwitchingTurn();
 
     }
 
@@ -276,31 +277,131 @@ public class PlayerScript : MonoBehaviour
         yield return AttackFrontSequence(target, 0.5f);
         if (target != null)
         {
-            target.GetComponent<Stats_System>().makeBleeding();
+            target.GetComponent<Stats_System>().MakeBleeding();
         }
     }
 
-    public void healPlayer(int healAmount)
+    public IEnumerator AttackFireSequence(List<GameObject> targets)
+    {
+        //QTE
+        float chargeDuration = 2f;
+        float elapsedCharge = 0f;
+        int clickCount = 0;
+
+        Debug.Log("QTE entered");
+
+        ShowQTE(true);
+        while (elapsedCharge < chargeDuration)
+        {
+            if (Pointer.current.press.wasPressedThisFrame)
+            {
+                clickCount++;
+            }
+
+            elapsedCharge += Time.deltaTime;
+            yield return null;
+        }
+        ShowQTE(false);
+        Debug.Log($"Nb of clicks: {clickCount}");
+
+        //Securite
+        if (targets == null || targets.Count == 0)
+        {
+            Debug.LogWarning("Liste ennemie vide");
+            SwitchingTurn();
+            yield break;
+        }
+
+        // Calcul des degats
+        bool successed = clickCount >= 10;
+        int baseDamage = stats.damage;
+        int finalDamage = successed ? Mathf.RoundToInt(stats.damage * 1.5f) : 0;
+        if(!successed)
+        {
+            Debug.Log("QTE failed, no damage dealt.");
+            SwitchingTurn();
+            DisplayGrade(GradeScript.Grade.Missed, true);
+            yield break;
+        }
+        else { DisplayGrade(GradeScript.Grade.Excellent, true); }
+
+            //BDF
+            List<Coroutine> activeProjectiles = new List<Coroutine>();
+
+
+        foreach (GameObject enemy in targets)
+        {
+            if (enemy == null) continue;
+
+            Vector3 spawnPos = transform.position;
+
+            GameObject fb = Instantiate(fireball, spawnPos, Quaternion.identity);
+
+            Coroutine projMovement = StartCoroutine(MoveProjectileToTarget(fb, enemy, 10, finalDamage));
+            activeProjectiles.Add(projMovement);
+        }
+
+        foreach (Coroutine projRoutine in activeProjectiles)
+        {
+            yield return projRoutine;
+        }
+        
+        yield return new WaitForSeconds(0.5f);
+        SwitchingTurn();
+    }
+
+    private IEnumerator MoveProjectileToTarget(GameObject proj, GameObject target, float speed, int damage)
+    {
+        if (proj == null || target == null) yield break;
+
+        Stats_System enemyStats = target.GetComponent<Stats_System>();
+        float distanceThreshold = 0.2f;
+        Vector3 targetPos = target.transform.position;
+        while (proj != null && target != null)
+        {
+            proj.transform.position = Vector3.MoveTowards(proj.transform.position, targetPos, speed * Time.deltaTime);
+
+            if (Vector3.Distance(proj.transform.position, targetPos) <= distanceThreshold)
+            {
+                break;
+            }
+
+            yield return null;
+        }
+
+        //Impact
+        if (target != null && enemyStats != null)
+        {
+            enemyStats.takeDamage(damage, false);
+            enemyStats.MakeBurned();
+        }
+
+        if (proj != null)
+        {
+            Destroy(proj);
+        }
+    }
+    public void HealPlayer(int healAmount)
     {
         stats.heal(healAmount);
     }
 
-    public void restoreSP(int spAmount)
+    public void RestoreSP(int spAmount)
     {
         SP += spAmount;
         SP = Mathf.Min(SP, originalSP);
         Debug.Log($"{gameObject.name} healed for {spAmount}. Current health: {SP}");
     }
 
-    public void actionEmpower()
+    public void ActionEmpower()
     {
         empowerDelay = 4;
     }
-    public void actionDefenseBuff()
+    public void ActionDefenseBuff()
     {
         defenseBuffDelay = 3;
     }
-    public void switchingTurn()
+    public void SwitchingTurn()
     {
        
         defenseBuffed = (defenseBuffDelay > 0);
@@ -314,7 +415,7 @@ public class PlayerScript : MonoBehaviour
         }
         combatLogic.switchTurn();
     }
-    public void applyAttackBoost()
+    public void ApplyAttackBoost()
     {
         empowered = (empowerDelay > 0);
         if (empowered)
@@ -326,7 +427,7 @@ public class PlayerScript : MonoBehaviour
             stats.damage = baseDamage;
         }
     }
-    public void decreaseBoosts()
+    public void DecreaseBoosts()
     {
         if (empowerDelay > 0)
         {
@@ -339,17 +440,14 @@ public class PlayerScript : MonoBehaviour
         }
 
     }
-    public void applyStatus()
-    {
-        stats.bleed();
-    }
+    
     public IEnumerator TriggerDefenseQTE(float windowDuration)
     {
         stats.blocking = false;
         float elapsed = 0f;
 
         Debug.Log("Def QTE");
-        showQTE(true);
+        ShowQTE(true);
         while (elapsed < windowDuration)
         {
             if (Pointer.current.press.wasPressedThisFrame)
@@ -362,7 +460,7 @@ public class PlayerScript : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-        showQTE(false);
+        ShowQTE(false);
         if (stats.blocking)
         {
             DisplayGrade(GradeScript.Grade.Excellent, true);
@@ -370,21 +468,21 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    public void gameOver()
+    public void GameOver()
     {
         gameOverUI.SetActive(true);
         actionMenu.SetActive(false);
         gameOverUI.GetComponent<UI_GameoverScript>().ToggleGameOverUiVisibility(true);
     }
 
-    public void victory()
+    public void Victory()
     {
         victoryUI.SetActive(true);
         actionMenu.SetActive(false);
         victoryUI.GetComponent<UI_VictoryScript>().ToggleVictoryUiVisibility(true);
     }
 
-    public void showQTE(bool mustDisplay)
+    public void ShowQTE(bool mustDisplay)
     {
         if (mustDisplay)
         {
@@ -401,7 +499,7 @@ public class PlayerScript : MonoBehaviour
         if (gradeScript != null)
         {
             gradeScript.gameObject.SetActive(true);
-            StartCoroutine(gradeScript.gradeDisplay(grade, display));
+            StartCoroutine(gradeScript.GradeDisplay(grade, display));
         }
     }
 }

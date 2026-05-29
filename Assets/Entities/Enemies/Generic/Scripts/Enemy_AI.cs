@@ -187,7 +187,7 @@ public class Enemy_AI : MonoBehaviour
                 defBuffTimers[i]--;
             }
         }
-        GetComponent<Stats_System>().bleed();
+        StartCoroutine(GetComponent<Stats_System>().ApplyStatus());
     }
 
     public async virtual Task playTurn(GameObject target)
