@@ -38,12 +38,14 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private GameObject darkLightningPrefab;
     [SerializeField] private GameObject attackBoostEffect;
     [SerializeField] private GameObject defenseBoostEffect;
+    [HideInInspector] public SpriteRenderer sprite;
 
     private void Awake()
     {
         Transform gradeTransform = transform.Find("GradeDisplay");
         Transform actionTransform = transform.Find("ActionMenu");
         Transform qteWarningTransform = transform.Find("QTEWarning");
+        Transform spriteTransform = transform.Find("slime");
         if (gradeTransform != null)
         {
             gradeScript = gradeTransform.GetComponent<GradeScript>();
@@ -67,6 +69,14 @@ public class PlayerScript : MonoBehaviour
         else
         {
             Debug.LogError("QTE Warning object not found as a child of the player.");
+        }
+        if (spriteTransform != null)
+        {
+            sprite = spriteTransform.gameObject.GetComponent<SpriteRenderer>();
+        }
+        else
+        {
+            Debug.LogError("Sprite object not found as a child of the player.");
         }
     }
     private void Start()
@@ -161,7 +171,8 @@ public class PlayerScript : MonoBehaviour
             int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
 
 
-            target.GetComponent<Stats_System>().takeDamage(finalDamage, false);
+            int healthToAbsorb = target.GetComponent<Stats_System>().takeDamage(finalDamage, false);
+            AbsorbHealth(healthToAbsorb);
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -256,7 +267,8 @@ public class PlayerScript : MonoBehaviour
         {
             int baseDamage = (int)(stats.damage + (stats.damage * boost));
             int finalDamage = hasCrit ? Mathf.RoundToInt(baseDamage * 1.5f) : baseDamage;
-            enemyStats.takeDamage(finalDamage, false);
+            int healthToAbsorb = enemyStats.takeDamage(finalDamage, false);
+            AbsorbHealth(healthToAbsorb);
         }
         if (hasCrit)
         {
@@ -378,7 +390,8 @@ public class PlayerScript : MonoBehaviour
         //Impact
         if (target != null && enemyStats != null)
         {
-            enemyStats.takeDamage(damage, false);
+            int healthToAbsorb = enemyStats.takeDamage(damage, false);
+            AbsorbHealth(healthToAbsorb);
             enemyStats.MakeBurned();
         }
 
@@ -469,7 +482,8 @@ public class PlayerScript : MonoBehaviour
         if (enemyStats != null)
         {
             int finalDamage = hasQTESuccess ? Mathf.RoundToInt(stats.damage * 1.5f) : stats.damage;
-            enemyStats.takeDamage(finalDamage, true);
+            int healthToAbsorb = enemyStats.takeDamage(finalDamage, true);
+            AbsorbHealth(healthToAbsorb);
             //Etourdissement a mettre
         }
 
@@ -486,7 +500,14 @@ public class PlayerScript : MonoBehaviour
     {
         stats.heal(healAmount);
     }
-
+    public void AbsorbHealth(int damages)
+    {
+        if(stats.hasAbsorption)
+        {
+            int healAmount = Mathf.RoundToInt(damages * 0.5f);
+            HealPlayer(healAmount);
+        }
+    }
     public void RestoreSP(int spAmount)
     {
         SP += spAmount;

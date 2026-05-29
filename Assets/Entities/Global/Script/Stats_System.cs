@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using Unity.Mathematics;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,17 +18,21 @@ public class Stats_System : MonoBehaviour
     public GameObject firePF;
     Vector3 originalPos;
     Color originalColor;
+    [HideInInspector] public Color absorptionColor;
     public int health;
     [HideInInspector] public bool blocking = false;
     [HideInInspector] public bool defending = false;
     public bool isBleeding = false;
     public bool isOnFire = false;
+    public bool hasAbsorption = false;
     public int bleedDamage = 5;
     public float fireDamage = 18; //Utilise pour calculer une proportion, n'inflige pas 18
     public int bleedingDuration = 3;
     public int fireDuration = 3;
+    public int absorptionDuration = 3;
     public int bleedingTimer = 0;
     public int fireTimer = 0;
+    public int absorptionTimer = 0;
     private GameObject player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -36,6 +41,7 @@ public class Stats_System : MonoBehaviour
         originalPos = transform.localPosition;
         //originalColor = this.gameObject.GetComponent<SpriteRenderer>().color;
         originalColor = gameObject.GetComponentInChildren<SpriteRenderer>().color;
+        absorptionColor = new Color(1f, 0, 0, 1);
         health = originalHealth;
         if(this.CompareTag("Player"))
         {
@@ -74,21 +80,24 @@ public class Stats_System : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < duration)
         {
-            img.color = Color.Lerp(originalColor, targetColor, elapsed / duration);
+            if(!hasAbsorption) img.color = Color.Lerp(originalColor, targetColor, elapsed / duration);
+            else img.color = Color.Lerp(absorptionColor, targetColor, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
         }
         elapsed = 0f;
         while (elapsed < duration)
         {
-            img.color = Color.Lerp(targetColor, originalColor, elapsed / duration);
+            if(!hasAbsorption) img.color = Color.Lerp(targetColor, originalColor, elapsed / duration);
+            else img.color = Color.Lerp(targetColor, absorptionColor, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
         }
-        img.color = originalColor;
+        if (!hasAbsorption) img.color = originalColor;
+        else img.color = absorptionColor;
     }
 
-    public void takeDamage(int damageAmount, bool isStatusDamage)
+    public int takeDamage(int damageAmount, bool isStatusDamage)
     {
         int effectiveDamage = 0;
         if (isStatusDamage)
@@ -120,7 +129,6 @@ public class Stats_System : MonoBehaviour
             }
         }
         health -= effectiveDamage;
-
         GameObject newDmgDisplay;
 
         Vector3 spawnPos = new Vector3(this.transform.position.x, this.transform.position.y + 2);
@@ -143,6 +151,7 @@ public class Stats_System : MonoBehaviour
             Debug.Log("Player has died. Game Over.");
             player.GetComponent<PlayerScript>().GameOver();
         }
+        return effectiveDamage;
     }
 
     public void heal(int healAmount)
@@ -173,6 +182,21 @@ public class Stats_System : MonoBehaviour
             fireTimer--;
         }
     }
+    public void HandleAbsorptionColor()
+    {
+        SpriteRenderer img = GetComponentInChildren<SpriteRenderer>();
+        hasAbsorption = (absorptionTimer > 0);
+        if(hasAbsorption)
+        {
+            Debug.Log($"{gameObject.name} has absorption.");
+            img.color = absorptionColor;
+            absorptionTimer--;
+        }
+        else
+        {
+            img.color = originalColor;
+        }
+    }
 
     public IEnumerator ApplyStatus()
     {
@@ -187,6 +211,7 @@ public class Stats_System : MonoBehaviour
         {
             Burn();
         }
+        HandleAbsorptionColor();
     }
     public void MakeBleeding()
     {
@@ -220,5 +245,15 @@ public class Stats_System : MonoBehaviour
             }
         }
         fireTimer = fireDuration;
+    }
+    public void ActivateAbsorption()
+    {
+        if (!hasAbsorption)
+        {
+            hasAbsorption = true;
+            SpriteRenderer img = GetComponentInChildren<SpriteRenderer>();
+            img.color = absorptionColor;
+        }
+        absorptionTimer = absorptionDuration;
     }
 }

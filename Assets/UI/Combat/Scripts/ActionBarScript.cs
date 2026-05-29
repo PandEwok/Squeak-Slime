@@ -341,6 +341,22 @@ public class ActionBarScript : MonoBehaviour
     private void UseAbsorption()
     {
         Debug.Log("Use Absorption button clicked!");
+        if (playerS.SP < 10)
+        {
+            Debug.Log("Not enough SP to use Absorption!");
+            return;
+        }
+        else
+        {
+            playerS.SP -= 10;
+            if (playerS.SP < 0)
+            {
+                playerS.SP = 0;
+            }
+            player.GetComponent<Stats_System>().ActivateAbsorption();
+            playerS.SwitchingTurn();
+            ToggleUiVisibility(false);
+        }
     }
 
 
