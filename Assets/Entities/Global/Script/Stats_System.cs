@@ -220,11 +220,11 @@ public class Stats_System : MonoBehaviour
             isBleeding = true;
             if(CompareTag("Player"))
             { 
-                Instantiate(bloodPF, this.transform.position + new Vector3(-0.75f, this.transform.position.y + 1.25f, 0), Quaternion.identity, this.transform);
+                Instantiate(bloodPF, this.transform.position + new Vector3(-0.75f, 3, 0), Quaternion.identity, this.transform);
             }
             else
             {
-                Instantiate(bloodPF, this.transform.position, Quaternion.identity, this.transform);
+                Instantiate(bloodPF, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity, this.transform);
             }
 
         }
@@ -237,11 +237,11 @@ public class Stats_System : MonoBehaviour
             isOnFire = true;
             if(CompareTag("Player"))
             {
-                Instantiate(firePF, this.transform.position + new Vector3(-0.75f, this.transform.position.y + 1.25f, 0), Quaternion.identity, this.transform);
+                Instantiate(firePF, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity, this.transform);
             }
             else
             {
-                Instantiate(firePF, this.transform.position + new Vector3(1f, -0.25f, 0), Quaternion.identity, this.transform);
+                Instantiate(firePF, this.transform.position + new Vector3(0.5f, 3, 0), Quaternion.identity, this.transform);
             }
         }
         fireTimer = fireDuration;
