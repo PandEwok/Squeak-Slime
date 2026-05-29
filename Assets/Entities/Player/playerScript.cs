@@ -484,7 +484,7 @@ public class PlayerScript : MonoBehaviour
             int finalDamage = hasQTESuccess ? Mathf.RoundToInt(stats.damage * 1.5f) : stats.damage;
             int healthToAbsorb = enemyStats.takeDamage(finalDamage, true);
             AbsorbHealth(healthToAbsorb);
-            //Etourdissement a mettre
+            target.GetComponent<Stats_System>().MakeDizzy();
         }
 
         

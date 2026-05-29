@@ -16,6 +16,7 @@ public class Stats_System : MonoBehaviour
     public GameObject damagePF;
     public GameObject bloodPF;
     public GameObject firePF;
+    public GameObject dizzyPF;
     Vector3 originalPos;
     Color originalColor;
     [HideInInspector] public Color absorptionColor;
@@ -24,15 +25,21 @@ public class Stats_System : MonoBehaviour
     [HideInInspector] public bool defending = false;
     public bool isBleeding = false;
     public bool isOnFire = false;
+    public bool isDizzy = false;
     public bool hasAbsorption = false;
     public int bleedDamage = 5;
     public float fireDamage = 18; //Utilise pour calculer une proportion, n'inflige pas 18
     public int bleedingDuration = 3;
     public int fireDuration = 3;
     public int absorptionDuration = 3;
+    public int dizzyDuration = 1;
     public int bleedingTimer = 0;
     public int fireTimer = 0;
     public int absorptionTimer = 0;
+    public int dizzyTimer = 0;
+    private GameObject bleedingInstance;
+    private GameObject fireInstance;
+    private GameObject dizzyInstance;
     private GameObject player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -168,6 +175,10 @@ public class Stats_System : MonoBehaviour
             Debug.Log($"{gameObject.name} is bleeding.");
             takeDamage(bleedDamage, true);
             bleedingTimer--;
+            if(bleedingTimer <= 0 && bleedingInstance != null)
+            {
+                Destroy(bleedingInstance);
+            }
         }
     }
 
@@ -180,6 +191,24 @@ public class Stats_System : MonoBehaviour
             int burnDamage = Mathf.RoundToInt(originalHealth / fireDamage);
             takeDamage(burnDamage, true);
             fireTimer--;
+            if (fireTimer <= 0 && fireInstance != null)
+            {
+                Destroy(fireInstance);
+            }
+        }
+    }
+
+    public void Dizzyness()
+    {
+        isDizzy = (dizzyTimer > 0);
+        if (isDizzy)
+        {
+            Debug.Log($"{gameObject.name} is dizzy.");
+            dizzyTimer--;
+            if (dizzyTimer <= 0 && dizzyInstance != null)
+            {
+                Destroy(dizzyInstance);
+            }
         }
     }
     public void HandleAbsorptionColor()
@@ -211,6 +240,10 @@ public class Stats_System : MonoBehaviour
         {
             Burn();
         }
+        if (isDizzy)
+        {
+            Dizzyness();
+        }
         HandleAbsorptionColor();
     }
     public void MakeBleeding()
@@ -220,15 +253,15 @@ public class Stats_System : MonoBehaviour
             isBleeding = true;
             if(CompareTag("Player"))
             { 
-                Instantiate(bloodPF, this.transform.position + new Vector3(-0.75f, 3, 0), Quaternion.identity, this.transform);
+                bleedingInstance = Instantiate(bloodPF, this.transform.position + new Vector3(-0.75f, 3, 0), Quaternion.identity, this.transform);
             }
             else
             {
-                Instantiate(bloodPF, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity, this.transform);
+                bleedingInstance = Instantiate(bloodPF, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity, this.transform);
             }
 
         }
-        bleedingTimer = bleedingDuration;
+        bleedingTimer = bleedingDuration +1;
     }
     public void MakeBurned()
     {
@@ -237,14 +270,30 @@ public class Stats_System : MonoBehaviour
             isOnFire = true;
             if(CompareTag("Player"))
             {
-                Instantiate(firePF, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity, this.transform);
+                fireInstance = Instantiate(firePF, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity, this.transform);
             }
             else
             {
-                Instantiate(firePF, this.transform.position + new Vector3(0.5f, 3, 0), Quaternion.identity, this.transform);
+                fireInstance = Instantiate(firePF, this.transform.position + new Vector3(0.5f, 3, 0), Quaternion.identity, this.transform);
             }
         }
-        fireTimer = fireDuration;
+        fireTimer = fireDuration+1;
+    }
+    public void MakeDizzy()
+    {
+        if (!isDizzy)
+        {
+            isDizzy = true;
+            if (CompareTag("Player"))
+            {
+                dizzyInstance = Instantiate(dizzyPF, this.transform.position + new Vector3(-0.75f-0.5f, 3, 0), Quaternion.identity, this.transform);
+            }
+            else
+            {
+                dizzyInstance = Instantiate(dizzyPF, this.transform.position + new Vector3(-0.5f, 3, 0), Quaternion.identity, this.transform);
+            }
+        }
+        dizzyTimer = dizzyDuration + 1;
     }
     public void ActivateAbsorption()
     {
@@ -254,6 +303,6 @@ public class Stats_System : MonoBehaviour
             SpriteRenderer img = GetComponentInChildren<SpriteRenderer>();
             img.color = absorptionColor;
         }
-        absorptionTimer = absorptionDuration;
+        absorptionTimer = absorptionDuration + 1;
     }
 }
