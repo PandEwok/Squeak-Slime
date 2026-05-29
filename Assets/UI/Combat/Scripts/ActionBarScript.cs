@@ -26,7 +26,7 @@ public class ActionBarScript : MonoBehaviour
     private int targetCount = 0;
     private bool confirmedAttack = false;
 
-    enum AttackType { MELEE, RANGED, BITE, NONE };
+    enum AttackType { MELEE, RANGED, BITE, FRACTURE, NONE };
     AttackType attackType = AttackType.NONE;
     [System.Serializable]
     public struct ItemDescription
@@ -174,6 +174,18 @@ public class ActionBarScript : MonoBehaviour
                         StartCoroutine(playerS.AttackBiteSequence(target));
 
                     }
+                    else if (attackType == AttackType.FRACTURE)
+                    {
+                        isSelectingEnnemy = false;
+                        attackType = AttackType.NONE;
+                        ToggleUiVisibility(false);
+                        playerS.SP -= 7;
+                        if (playerS.SP < 0)
+                        {
+                            playerS.SP = 0;
+                        }
+                        StartCoroutine(playerS.AttackFractureSequence(target));
+                    }
                     targetCount = 0;
                     confirmedAttack = false;
 
@@ -292,7 +304,18 @@ public class ActionBarScript : MonoBehaviour
 
     private void UseFracture()
     {
-        Debug.Log("Use Fracture button clicked!");
+        if (playerS.SP < 7)
+        {
+            Debug.Log("Not enough SP to use Fracture!");
+            return;
+        }
+        else
+        {
+            isSelectingEnnemy = true;
+            Debug.Log("Use Fracture button clicked!");
+            attackType = AttackType.FRACTURE;
+            ToggleConfirmVisibility(true);
+        }
     }
 
     private void UseFireball()

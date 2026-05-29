@@ -8,15 +8,16 @@ using static UnityEngine.GraphicsBuffer;
 
 public class PlayerScript : MonoBehaviour
 {
-    public Combat_Logic combatLogic;
     Vector3 originalPosition;
+    [Header("Game scripts")]
+    public Combat_Logic combatLogic;
     private Stats_System stats;
+    [Header("Attack Prefabs")]
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject fireball;
+    [Header("Player only Stats")]
     public int originalSP = 100;
     public int SP = 100;
-    public GameObject attackBoostEffect;
-    public GameObject defenseBoostEffect;
     public float attackBoostStrenght = 0.5f;
     public float defenseBoostStrenght = 0.5f;
     public int baseDamage = 0;
@@ -27,11 +28,16 @@ public class PlayerScript : MonoBehaviour
     protected bool defenseBuffed = false;
     protected float particleSpawnTimer = 0;
     [HideInInspector] public bool hasWon = false;
+    [Header("UI Elements")]
     public GameObject gameOverUI;
     public GameObject victoryUI;
     private GameObject actionMenu;
     private GameObject qteWarning;
     private GradeScript gradeScript;
+    [Header("VFX Prefabs")]
+    [SerializeField] private GameObject darkLightningPrefab;
+    [SerializeField] private GameObject attackBoostEffect;
+    [SerializeField] private GameObject defenseBoostEffect;
 
     private void Awake()
     {
@@ -381,6 +387,101 @@ public class PlayerScript : MonoBehaviour
             Destroy(proj);
         }
     }
+
+    public IEnumerator AttackFractureSequence(GameObject target)
+    {
+        if (target == null || darkLightningPrefab == null) yield break;
+
+        Vector3 startPos = transform.position;
+        Vector3 endPos = target.transform.position;
+
+        float duration = 0.5f;
+        float elapsed = 0f;
+        bool hasQTESuccess = false;
+        Debug.Log("QTE entered");
+
+        ShowQTE(true);
+        while (elapsed < duration)
+        {
+            if (Pointer.current.press.wasPressedThisFrame)
+            {
+                hasQTESuccess = true;
+                elapsed = duration;
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        ShowQTE(false);
+        if(hasQTESuccess) { DisplayGrade(GradeScript.Grade.Excellent, true); }
+        GameObject lightningInstance = Instantiate(darkLightningPrefab, startPos, Quaternion.identity);
+
+        LineRenderer lightningLR = lightningInstance.GetComponent<LineRenderer>();
+
+        if (lightningLR == null)
+        {
+            Debug.LogError("Erreur: LR manquant sur l'effet Fracture");
+            Destroy(lightningInstance);
+            SwitchingTurn();
+            yield break;
+        }
+
+        int segmentsCount = 10;          //Qtt zigzags
+        float jitterAmount = 0.5f;       //Force des déviations
+        float propagationSpeed = 0.015f; //Vitesse entre chaque segment
+
+        List<Vector3> points = new List<Vector3>();
+        points.Add(startPos);
+
+        
+        Vector3 direction = (endPos - startPos).normalized;
+        float totalDistance = Vector3.Distance(startPos, endPos);
+        float segmentLength = totalDistance / segmentsCount;
+
+        Vector3 perpendicular = new Vector3(-direction.y, direction.x, 0f).normalized; //Axe deviation eclair
+
+        for (int i = 1; i < segmentsCount; i++)
+        {
+            Vector3 linearPos = startPos + direction * (segmentLength * i);
+
+            float randomOffset = Random.Range(-jitterAmount, jitterAmount);
+            Vector3 jitterPos = linearPos + perpendicular * randomOffset;
+
+            points.Add(jitterPos);
+        }
+
+        points.Add(endPos);
+
+        
+        lightningLR.positionCount = 1;
+        lightningLR.SetPosition(0, startPos);
+
+        for (int i = 1; i < points.Count; i++)
+        {
+            lightningLR.positionCount = i + 1;
+            lightningLR.SetPosition(i, points[i]);
+
+            yield return new WaitForSeconds(propagationSpeed);
+        }
+
+        //Impact
+        Stats_System enemyStats = target.GetComponent<Stats_System>();
+        if (enemyStats != null)
+        {
+            int finalDamage = hasQTESuccess ? Mathf.RoundToInt(stats.damage * 1.5f) : stats.damage;
+            enemyStats.takeDamage(finalDamage, true);
+            //Etourdissement a mettre
+        }
+
+        
+        yield return new WaitForSeconds(0.2f);
+
+        Destroy(lightningInstance);
+
+        yield return new WaitForSeconds(0.3f);
+        SwitchingTurn();
+    }
+
     public void HealPlayer(int healAmount)
     {
         stats.heal(healAmount);

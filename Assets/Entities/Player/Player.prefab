@@ -195,8 +195,6 @@ MonoBehaviour:
   fireball: {fileID: 4285521702272599874, guid: b772ebc56e267b94a8a355a146af87cb, type: 3}
   originalSP: 100
   SP: 100
-  attackBoostEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
-  defenseBoostEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
   attackBoostStrenght: 0.5
   defenseBoostStrenght: 0.5
   baseDamage: 0
@@ -204,6 +202,9 @@ MonoBehaviour:
   hasWon: 0
   gameOverUI: {fileID: 0}
   victoryUI: {fileID: 0}
+  darkLightningPrefab: {fileID: 1883039589254334048, guid: 07389f35622e6a94bbe9c852012f2ea0, type: 3}
+  attackBoostEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
+  defenseBoostEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
 --- !u!1001 &2747501983277139162
 PrefabInstance:
   m_ObjectHideFlags: 0
