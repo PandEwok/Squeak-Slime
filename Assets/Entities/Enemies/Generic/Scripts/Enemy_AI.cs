@@ -30,6 +30,9 @@ public class Enemy_AI : MonoBehaviour
 
     bool selected = false;
 
+    protected List<GameObject> enemies;
+    protected int ownIndex;
+
 
     void setArrow(bool value) {
         transform.Find("SelectArrow").gameObject.SetActive(value);
@@ -91,6 +94,9 @@ public class Enemy_AI : MonoBehaviour
         basePos = getPos();
         player = GameObject.FindGameObjectWithTag("Player");
         playerCombat = player.GetComponent<PlayerScript>();
+
+        enemies = GameObject.Find("CombatLogic").GetComponent<Combat_Logic>().enemies;
+        ownIndex = enemies.IndexOf(this.gameObject);
     }
 
     Vector2 getPos()
@@ -120,6 +126,8 @@ public class Enemy_AI : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
+        ownIndex = enemies.IndexOf(this.gameObject);
+
         particleSpawnTimer += Time.deltaTime;
         securityTimer += Time.deltaTime;
         pos = getPos();

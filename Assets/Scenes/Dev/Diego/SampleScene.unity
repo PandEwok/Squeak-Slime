@@ -315,7 +315,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -340,7 +340,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.26, z: -10}
+  m_LocalPosition: {x: 0, y: 1.31, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2978,7 +2978,7 @@ PrefabInstance:
       objectReference: {fileID: 1044752080}
     - target: {fileID: 3315146261300418188, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: damage
-      value: 12
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 3315146261300418188, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: defense
@@ -3113,7 +3113,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.26}
+  m_AnchoredPosition: {x: 0, y: 1.31}
   m_SizeDelta: {x: 1238.0001, y: 627}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1795588438
@@ -3484,11 +3484,11 @@ PrefabInstance:
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemiesToSpawn.Array.data[0]'
       value: 
-      objectReference: {fileID: 5618129864621201268, guid: 2605f548356ca14469b9e7bc464ea829, type: 3}
+      objectReference: {fileID: 6276577785578196762, guid: 156476ff35661204a8ed9e307aa4d606, type: 3}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemiesToSpawn.Array.data[1]'
       value: 
-      objectReference: {fileID: 5618129864621201268, guid: 28e7a76ffa89f85438e9c8d681299e9e, type: 3}
+      objectReference: {fileID: 7625482749620355038, guid: b918a25fac175c34c89683043f657551, type: 3}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemiesToSpawn.Array.data[2]'
       value: 

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6815573332675176776
+--- !u!1001 &6943439847729715596
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 688810947057657426, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
       propertyPath: m_Name
-      value: GuineaPig
+      value: Squirel
       objectReference: {fileID: 0}
-    - target: {fileID: 1975262410362024240, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
-      propertyPath: damage
-      value: 15
+    - target: {fileID: 1360982817108068985, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.04
       objectReference: {fileID: 0}
-    - target: {fileID: 1975262410362024240, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
-      propertyPath: defense
-      value: 7
+    - target: {fileID: 1360982817108068985, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.707
       objectReference: {fileID: 0}
     - target: {fileID: 3152000304185433993, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
       propertyPath: m_LocalPosition.x
@@ -60,6 +60,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8637932208960359875, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
+      propertyPath: m_Size.x
+      value: 8.347826
+      objectReference: {fileID: 0}
+    - target: {fileID: 8637932208960359875, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
+      propertyPath: m_Size.y
+      value: 4.695652
+      objectReference: {fileID: 0}
+    - target: {fileID: 8637932208960359875, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: af12a7d98a62e324fba7866447dea5cd, type: 3}
+    - target: {fileID: 8637932208960359875, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1367794830996746562, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
     m_RemovedGameObjects: []
@@ -67,25 +83,25 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 688810947057657426, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1384136470484327532}
+      addedObject: {fileID: -7033424063151054669}
   m_SourcePrefab: {fileID: 100100000, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
---- !u!1 &6276577785578196762 stripped
+--- !u!1 &7625482749620355038 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 688810947057657426, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
-  m_PrefabInstance: {fileID: 6815573332675176776}
+  m_PrefabInstance: {fileID: 6943439847729715596}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1384136470484327532
+--- !u!114 &-7033424063151054669
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6276577785578196762}
+  m_GameObject: {fileID: 7625482749620355038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fb34781637f1134688d29563f78c441, type: 3}
+  m_Script: {fileID: 11500000, guid: be6090da9f4a1b3459ec511c06884914, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::Squirel_AI
   defBuffs: []
-  powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
+  powerEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
   empowerStrenght: 0.5

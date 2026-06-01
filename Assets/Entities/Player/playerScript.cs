@@ -35,7 +35,7 @@ public class PlayerScript : MonoBehaviour
     {
         Transform gradeTransform = transform.Find("GradeDisplay");
         Transform actionTransform = transform.Find("ActionMenu");
-        Transform qteWarningTransform = transform.Find("QTEWarning");
+        Transform qteWarningTransform = transform.Find("QTE Warning");
         if (gradeTransform != null)
         {
             gradeScript = gradeTransform.GetComponent<GradeScript>();

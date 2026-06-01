@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7247814359904931912}
   - component: {fileID: 6071632828497526513}
   - component: {fileID: -672226796281280321}
+  - component: {fileID: 4460844942125317016}
   m_Layer: 0
   m_Name: Enemy_PF
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5090310822546844051}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.99, y: -0.39, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -71,8 +72,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3d98691122b63f458cd9e776f6efc3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  defBuffs: []
   powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   empowerStrenght: 0.5
+--- !u!210 &4460844942125317016
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5090310822546844051}
+  m_Enabled: 1
+  m_SortingLayerID: 792550937
+  m_SortingLayer: 1
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &7696234160017508083
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,8 +256,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: -235429883
-  m_SortingLayer: 2
+  m_SortingLayerID: 792550937
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 3f505b56fda40444b832a238e7a90fb8, type: 3}

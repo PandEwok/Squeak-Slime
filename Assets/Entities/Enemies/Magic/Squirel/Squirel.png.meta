@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 507ee0e0c6bba2744b64e85b719fec0a
+guid: af12a7d98a62e324fba7866447dea5cd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1103838353319765163
-    second: Cochon_dinde_0
+      213: 3226268437680868067
+    second: ecureuil_0
+  - first:
+      213: -1867623853387936789
+    second: ecureuil_1
+  - first:
+      213: -6818869434942059292
+    second: ecureuil_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -50,7 +56,7 @@ TextureImporter:
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 9
-  spritePivot: {x: 0.48, y: 0.21}
+  spritePivot: {x: 0.51, y: 0.25}
   spritePixelsToUnits: 230
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -96,17 +102,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cochon_dinde_0
+      name: ecureuil_0
       rect:
         serializedVersion: 2
-        x: 479
-        y: 188
-        width: 962
-        height: 707
+        x: 493
+        y: 622
+        width: 6
+        height: 7
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +134,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 55b5ce4bdd06ea0f0800000000000000
-      internalID: -1103838353319765163
+      spriteID: 3eac502fc0206cc20800000000000000
+      internalID: 3226268437680868067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecureuil_1
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 156
+        width: 902
+        height: 792
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: beb04cc100ed416e0800000000000000
+      internalID: -1867623853387936789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ecureuil_2
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 235
+        width: 66
+        height: 119
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ec828870628e51a0800000000000000
+      internalID: -6818869434942059292
       vertices: []
       indices: 
       edges: []
@@ -135,7 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Cochon_dinde_0: -1103838353319765163
+      ecureuil_0: 3226268437680868067
+      ecureuil_1: -1867623853387936789
+      ecureuil_2: -6818869434942059292
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
