@@ -441,6 +441,25 @@ public class PlayerScript : MonoBehaviour
 
     public IEnumerator AttackFractureSequence(GameObject target)
     {
+        bool hasFailedEarly = false;
+        float introDuration = 0.3f;
+        float introElapsed = 0f;
+
+        Debug.Log("Entering Fracture delay");
+
+        while (introElapsed < introDuration)
+        {
+            if (Pointer.current.press.wasPressedThisFrame)
+            {
+                Debug.Log("Fracture: QTE failed");
+                hasFailedEarly = true;
+                DisplayGrade(GradeScript.Grade.Missed, true);
+            }
+
+            introElapsed += Time.deltaTime;
+            yield return null;
+        }
+
         if (target == null || darkLightningPrefab == null) yield break;
 
         Vector3 startPos = transform.position;
@@ -451,19 +470,22 @@ public class PlayerScript : MonoBehaviour
         bool hasQTESuccess = false;
         Debug.Log("QTE entered");
 
-        ShowQTE(true);
-        while (elapsed < duration)
+        if (!hasFailedEarly)
         {
-            if (Pointer.current.press.wasPressedThisFrame)
+            ShowQTE(true);
+            while (elapsed < duration)
             {
-                hasQTESuccess = true;
-                elapsed = duration;
-            }
+                if (Pointer.current.press.wasPressedThisFrame)
+                {
+                    hasQTESuccess = true;
+                    elapsed = duration;
+                }
 
-            elapsed += Time.deltaTime;
-            yield return null;
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            ShowQTE(false);
         }
-        ShowQTE(false);
         if(hasQTESuccess) { DisplayGrade(GradeScript.Grade.Excellent, true); }
         GameObject lightningInstance = Instantiate(darkLightningPrefab, startPos, Quaternion.identity);
 
