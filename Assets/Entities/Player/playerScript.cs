@@ -131,35 +131,47 @@ public class PlayerScript : MonoBehaviour
         AudioManager.Instance.PlayLoopingSFX("Slime_Moving");
         float elapsed = 0;
         float duration = 0.6f;
+        bool hasFailedQTE = false;
         while (elapsed < duration)
         {
             transform.position = Vector3.Lerp(originalPosition, targetPos, elapsed / duration);
+            if (Pointer.current.press.wasPressedThisFrame)
+            {
+                hasFailedQTE = true;
+                Debug.Log("QTE Failed");
+                DisplayGrade(GradeScript.Grade.Missed, true);
+            }
             elapsed += Time.deltaTime;
             yield return null;
         }
         AudioManager.Instance.StopLoopingSFX();
         transform.position = targetPos;
 
+        
+        
         float qteWindow = 0.2f;
         float qteElapsed = 0f;
         bool hasCrit = false;
         int baseDamage = (int)(stats.damage + (stats.damage * boost));
-
-        ShowQTE(true);
-        while (qteElapsed < qteWindow)
+        
+        if (!hasFailedQTE)
         {
-            //Clic gauche souris
-            if (Pointer.current.press.wasPressedThisFrame)
+            ShowQTE(true);
+            while (qteElapsed < qteWindow)
             {
-                hasCrit = true;
-                Debug.Log("Coup Critique");
-                break;
-            }
+                //Clic gauche souris
+                if (Pointer.current.press.wasPressedThisFrame)
+                {
+                    hasCrit = true;
+                    Debug.Log("Coup Critique");
+                    break;
+                }
 
-            qteElapsed += Time.deltaTime;
-            yield return null;
-        }
+                qteElapsed += Time.deltaTime;
+                yield return null;
+            }
         ShowQTE(false);
+        }
         // DEGATS
         if (hasCrit)
         {
@@ -232,12 +244,21 @@ public class PlayerScript : MonoBehaviour
         float jumpDuration = 0.5f;
         bool hasCrit = false;
         bool qteWindowOpen = false;
+        bool hasFailedQTE = false;
 
         while (elapsed < jumpDuration)
         {
             float t = elapsed / jumpDuration;
-
-            if (t >= 0.6f && !hasCrit)
+            if (t < 0.6f && !hasCrit)
+            {
+                if(Pointer.current.press.wasPressedThisFrame)
+                {
+                    hasFailedQTE = true;
+                    Debug.Log("QTE Failed");
+                    DisplayGrade(GradeScript.Grade.Missed, true);
+                }
+            }
+            if (t >= 0.6f && !hasCrit && !hasFailedQTE)
             {
                 if (!qteWindowOpen)
                 {
@@ -245,7 +266,7 @@ public class PlayerScript : MonoBehaviour
                     ShowQTE(true);
                 }
 
-                if (Pointer.current.press.wasPressedThisFrame)
+                if (Pointer.current.press.wasPressedThisFrame && !hasFailedQTE)
                 {
                     hasCrit = true;
                     ShowQTE(false);

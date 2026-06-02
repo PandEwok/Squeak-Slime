@@ -381,6 +381,8 @@ public class ActionBarScript : MonoBehaviour
             root.style.display = DisplayStyle.Flex;
             playerS.DecreaseBoosts();
             playerS.ApplyAttackBoost();
+            Stats_System playerStats = player.GetComponent<Stats_System>();
+            playerStats.defending = false;
             StartCoroutine(player.GetComponent<Stats_System>().ApplyStatus());
 
         }
