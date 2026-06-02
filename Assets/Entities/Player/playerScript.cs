@@ -119,7 +119,7 @@ public class PlayerScript : MonoBehaviour
             }
         }
     }
-    public IEnumerator AttackFrontSequence(GameObject target, float boost)
+    public IEnumerator AttackFrontSequence(GameObject target, float boost, bool isBite)
     {
         Vector3 enemyPos = target.transform.position;
         Vector3 direction = (enemyPos - originalPosition).normalized;
@@ -128,6 +128,7 @@ public class PlayerScript : MonoBehaviour
         Vector3 targetPos = enemyPos - (direction * stopDistance);
 
         // ALLER
+        AudioManager.Instance.PlayLoopingSFX("Slime_Moving");
         float elapsed = 0;
         float duration = 0.6f;
         while (elapsed < duration)
@@ -136,7 +137,7 @@ public class PlayerScript : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
+        AudioManager.Instance.StopLoopingSFX();
         transform.position = targetPos;
 
         float qteWindow = 0.2f;
@@ -172,12 +173,21 @@ public class PlayerScript : MonoBehaviour
 
 
             int healthToAbsorb = target.GetComponent<Stats_System>().takeDamage(finalDamage, false);
-            AbsorbHealth(healthToAbsorb);
+            if(isBite)
+            {
+                AudioManager.Instance.PlaySFX("Player_Bite");
+            }
+            else
+            {
+                AudioManager.Instance.PlaySFX("Player_Melee");
+            }
+                AbsorbHealth(healthToAbsorb);
             yield return new WaitForSeconds(0.5f);
         }
 
         // RETOUR
         elapsed = 0;
+        AudioManager.Instance.PlayLoopingSFX("Slime_Moving");
         while (elapsed < duration)
         {
             transform.position = Vector3.Lerp(targetPos, originalPosition, elapsed / duration);
@@ -188,6 +198,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         transform.position = originalPosition;
+        AudioManager.Instance.StopLoopingSFX();
         SwitchingTurn();
     }
 
@@ -206,13 +217,14 @@ public class PlayerScript : MonoBehaviour
         float elapsed = 0;
 
         //APPROCHE
+        AudioManager.Instance.PlayLoopingSFX("Slime_Moving");
         while (elapsed < duration)
         {
             transform.position = Vector3.Lerp(startPos, prepPos, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
         }
-
+        AudioManager.Instance.StopLoopingSFX();
         //LANCER
         GameObject projectileToThrow = Instantiate(projectile, prepPos, Quaternion.identity);
         elapsed = 0;
@@ -262,6 +274,7 @@ public class PlayerScript : MonoBehaviour
         {
             Destroy(projectileToThrow);
         }
+        AudioManager.Instance.PlaySFX("Player_Proj_Impact");
         var enemyStats = target.GetComponent<Stats_System>();
         if (enemyStats != null)
         {
@@ -279,6 +292,7 @@ public class PlayerScript : MonoBehaviour
         //RETOUR
         elapsed = 0;
         Vector3 impactPos = transform.position;
+        AudioManager.Instance.PlayLoopingSFX("Slime_Moving");
         while (elapsed < duration)
         {
             transform.position = Vector3.Lerp(impactPos, startPos, elapsed / duration);
@@ -286,13 +300,14 @@ public class PlayerScript : MonoBehaviour
             yield return null;
         }
         transform.position = originalPosition;
+        AudioManager.Instance.StopLoopingSFX();
         SwitchingTurn();
 
     }
 
     public IEnumerator AttackBiteSequence(GameObject target)
     {
-        yield return AttackFrontSequence(target, 0.5f);
+        yield return AttackFrontSequence(target, 0.5f, true);
         if (target != null)
         {
             target.GetComponent<Stats_System>().MakeBleeding();
@@ -354,6 +369,7 @@ public class PlayerScript : MonoBehaviour
             Vector3 spawnPos = transform.position;
 
             GameObject fb = Instantiate(fireball, spawnPos, Quaternion.identity);
+            AudioManager.Instance.PlaySFX("FB");
 
             Coroutine projMovement = StartCoroutine(MoveProjectileToTarget(fb, enemy, 10, finalDamage));
             activeProjectiles.Add(projMovement);
@@ -399,6 +415,7 @@ public class PlayerScript : MonoBehaviour
         {
             Destroy(proj);
         }
+        AudioManager.Instance.PlaySFX("FB_Explosion");
     }
 
     public IEnumerator AttackFractureSequence(GameObject target)
@@ -609,7 +626,7 @@ public class PlayerScript : MonoBehaviour
         if (mustDisplay)
         {
             qteWarning.SetActive(true);
-            //Faudra mettre un son
+            AudioManager.Instance.PlaySFX("QTE");
         }
         else
         {

@@ -54,7 +54,11 @@ public class ActionBarScript : MonoBehaviour
         bananaQtyLabel = root.Q<Label>("BananaQuantity");
         pepperAttQtyLabel = root.Q<Label>("PepperAttQuantity");
         pepperDefQtyLabel = root.Q<Label>("PepperDefQuantity");
-
+        UQueryBuilder<Button> allButtons = root.Query<Button>();
+        allButtons.ForEach(button =>
+        {
+            button.clicked += () => PlayClickSound();
+        });
         UpdateInventoryUI();
 
         descriptionDisplayLabel = root.Q<Label>("Description");
@@ -148,7 +152,7 @@ public class ActionBarScript : MonoBehaviour
 
                     if (attackType == AttackType.MELEE)
                     {
-                        StartCoroutine(playerS.AttackFrontSequence(target, 0));
+                        StartCoroutine(playerS.AttackFrontSequence(target, 0, false));
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
@@ -568,5 +572,10 @@ public class ActionBarScript : MonoBehaviour
         Debug.Log("Confirm button clicked!");
         confirmedAttack = true;
         ToggleConfirmVisibility(false);
+    }
+
+    private void PlayClickSound()
+    {
+        AudioManager.Instance.PlaySFX("Button_Pressed");
     }
 }
