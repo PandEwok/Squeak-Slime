@@ -59,6 +59,11 @@ public class ActionBarScript : MonoBehaviour
             button.clicked += () => PlayClickSound();
         });
         descriptionDisplayLabel = root.Q<Label>("Description");
+        if (inventoryContainer is ScrollView scrollView)
+        {
+            scrollView.verticalScrollerVisibility = ScrollerVisibility.Hidden;
+            scrollView.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
+        }
     }
 
 
@@ -198,7 +203,8 @@ public class ActionBarScript : MonoBehaviour
             VisualElement icon = itemRow.Q<VisualElement>("ItemIcon");
             if (icon != null && item.itemIcon != null)
             {
-                icon.style.backgroundImage = new StyleBackground(item.itemIcon);
+                icon.style.backgroundImage = new StyleBackground(item.itemIcon.texture);
+                icon.style.unityBackgroundImageTintColor = item.defaultColor;
             }
 
             Button itemButton = itemRow.Q<Button>("ItemButton");

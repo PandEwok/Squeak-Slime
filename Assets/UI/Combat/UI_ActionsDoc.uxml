@@ -19,7 +19,7 @@
         <ui:Button text="Ranged" name="AttackUp" class="ActionMenuButton2 button" style="color: rgb(255, 255, 255);">
             <ui:VisualElement picking-mode="Ignore" name="AttackUpSelector" class="selector"/>
         </ui:Button>
-        <ui:ScrollView name="InventoryGrid"/>
+        <ui:ScrollView name="InventoryGrid" style="flex-grow: 1;"/>
         <ui:Button text="Bite" name="Bite" class="button ActionMenuButton4">
             <ui:Label text="5 PS" name="BiteCost" class="ItemQtt" style="flex-direction: column;"/>
             <ui:VisualElement picking-mode="Ignore" name="BiteSelector" class="selector"/>

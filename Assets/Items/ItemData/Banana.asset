@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Banana
   itemId: Banana
   itemDescription: Restores 5 SP.
-  itemIcon: {fileID: 21300000, guid: 2e3f90f5c8cf5f442acfbd5c9de546f2, type: 3}
+  itemIcon: {fileID: -7477641686685662164, guid: 11c27f7eb5f80d948b36747c2894783d, type: 3}
   defaultColor: {r: 1, g: 1, b: 0, a: 1}
   effectValue: 5
   effectDuration: 0

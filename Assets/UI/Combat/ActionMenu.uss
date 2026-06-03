@@ -68,3 +68,34 @@
     justify-content: flex-start;
     -unity-text-align: middle-left;
 }
+
+/*GRID*/
+
+/* 1. Le fond de la scrollbar (la grande piste grise) */
+#InventoryGrid .unity-scroller__high-button,
+#InventoryGrid .unity-scroller__low-button {
+    display: none; /* Masque les petites flèches triangles ringardes en haut et en bas */
+}
+
+#InventoryGrid .unity-scroller {
+    width: 10px; /* On la rend plus fine et discrète */
+    background-color: transparent; /* Supprime le fond gris moche */
+}
+
+#InventoryGrid .unity-repeat-button {
+    background-color: rgba(0, 0, 0, 0.15); /* Une piste très légèrement sombre et transparente */
+    border-width: 0;
+    border-radius: 5px; /* Arrondit les angles de la piste */
+}
+
+/* 2. Le "Thumb" (la poignée que le joueur attrape et fait glisser) */
+#InventoryGrid .unity-scroller__thumb {
+    background-color: #ffffff; /* Change la poignée en blanc pur (ou prend une couleur de ton UI) */
+    border-width: 0;
+    border-radius: 5px; /* Arrondit la poignée pour aller avec tes boutons */
+}
+
+/* Optionnel : Effet de survol sur la poignée */
+#InventoryGrid .unity-scroller__thumb:hover {
+    background-color: #e0e0e0; 
+}

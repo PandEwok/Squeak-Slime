@@ -6,6 +6,15 @@ using UnityEditor.Experimental.GraphView;
 public class PlayerInventory : MonoBehaviour
 {
     public Dictionary<ItemData, int> itemsPossessed = new Dictionary<ItemData, int>();
+    [System.Serializable]
+    public struct StartingItem
+    {
+        public ItemData item;
+        public int amount;
+    }
+
+    [Header("Configuration de l'Inventaire de Départ")]
+    [SerializeField] private List<StartingItem> startingInventory;
     public void AddItem(ItemData item, int amount)
     {
         if(itemsPossessed.ContainsKey(item))
@@ -20,6 +29,21 @@ public class PlayerInventory : MonoBehaviour
             itemsPossessed [item] -= amount;
             if (itemsPossessed[item] < 0) itemsPossessed.Remove(item);
         }
+    }
+    public void Awake()
+    {
+        if (startingInventory != null)
+        {
+            foreach (var starter in startingInventory)
+            {
+                if (starter.item != null && starter.amount > 0)
+                {
+                    AddItem(starter.item, starter.amount);
+                }
+            }
+        }
+
+        Debug.Log($"[Inventory] Initialisé avec {itemsPossessed.Count} types d'objets uniques.");
     }
     //public int cheeseInv = 0;
     //public int bananaInv = 0;

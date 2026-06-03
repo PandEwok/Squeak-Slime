@@ -13,4 +13,5 @@ public abstract class ItemData : ScriptableObject
 
 
     public abstract void UseItem(GameObject user);
+
 }
