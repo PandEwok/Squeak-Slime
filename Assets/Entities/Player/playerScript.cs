@@ -680,6 +680,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (gradeScript != null)
         {
+            gradeScript.StopAllCoroutines();
             gradeScript.gameObject.SetActive(true);
             StartCoroutine(gradeScript.GradeDisplay(grade, display));
         }
