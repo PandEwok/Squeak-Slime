@@ -100,9 +100,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1110862417886448359}
-  - component: {fileID: 1203428539494268273}
   - component: {fileID: 3077587344446119393}
   - component: {fileID: 3315146261300418188}
+  - component: {fileID: 1522636355711820040}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -129,33 +129,6 @@ Transform:
   - {fileID: 8264836557511806986}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1203428539494268273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8567076734609327451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 020d6cc7674eec54abf6b1f2ed991d7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::playerScript
-  combatLogic: {fileID: 0}
-  projectile: {fileID: 7668710729188587511, guid: af852a2e06c4b6b4fb8ad7884a537402, type: 3}
-  originalSP: 100
-  SP: 100
-  attackBoostEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
-  defenseBoostEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
-  attackBoostStrenght: 0.5
-  defenseBoostStrenght: 1
-  baseDamage: 0
-  baseDefense: 0
-  hasWon: 0
-  gameOverUI: {fileID: 0}
-  victoryUI: {fileID: 0}
-  actionMenu: {fileID: 2886613892715260993}
-  qteWarning: {fileID: 4969275292565051531}
 --- !u!114 &3077587344446119393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,17 +162,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Stats_System
   originalHealth: 100
-  damage: 25
+  damage: 10
   defense: 2
   damagePF: {fileID: 254843135583981822, guid: 560e1bfb2a4706e45a82ebfb18aa849e, type: 3}
   bloodPF: {fileID: 2114382830776690554, guid: 1cda0815d43215f40b41c548b80fc810, type: 3}
+  firePF: {fileID: 6641741500042543266, guid: 455d860957c083f45ba4274448240134, type: 3}
+  dizzyPF: {fileID: 7082761583480327981, guid: 4faee7cf16db2a04ca6173f6464106d1, type: 3}
+  absorptionColor: {r: 0, g: 0, b: 0, a: 0}
   health: 0
   blocking: 0
   defending: 0
   isBleeding: 0
+  isOnFire: 0
+  isDizzy: 0
+  hasAbsorption: 0
   bleedDamage: 5
+  fireDamage: 18
   bleedingDuration: 3
+  fireDuration: 3
+  absorptionDuration: 3
+  dizzyDuration: 1
   bleedingTimer: 0
+  fireTimer: 0
+  absorptionTimer: 0
+  dizzyTimer: 0
+--- !u!114 &1522636355711820040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8567076734609327451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 020d6cc7674eec54abf6b1f2ed991d7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
+  combatLogic: {fileID: 0}
+  projectile: {fileID: 7668710729188587511, guid: af852a2e06c4b6b4fb8ad7884a537402, type: 3}
+  fireball: {fileID: 4285521702272599874, guid: b772ebc56e267b94a8a355a146af87cb, type: 3}
+  originalSP: 100
+  SP: 100
+  attackBoostStrenght: 0.5
+  defenseBoostStrenght: 0.5
+  baseDamage: 0
+  baseDefense: 0
+  hasWon: 0
+  gameOverUI: {fileID: 0}
+  victoryUI: {fileID: 0}
+  darkLightningPrefab: {fileID: 1883039589254334048, guid: 07389f35622e6a94bbe9c852012f2ea0, type: 3}
+  attackBoostEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
+  defenseBoostEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
+  sprite: {fileID: 0}
 --- !u!1001 &2747501983277139162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -250,7 +264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7122302021266136145, guid: 322a2d8aa5b361a4aad0db8e42fa1a34, type: 3}
       propertyPath: m_Name
-      value: QTE Warning
+      value: QTEWarning
       objectReference: {fileID: 0}
     - target: {fileID: 7122302021266136145, guid: 322a2d8aa5b361a4aad0db8e42fa1a34, type: 3}
       propertyPath: m_IsActive
@@ -261,11 +275,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 322a2d8aa5b361a4aad0db8e42fa1a34, type: 3}
---- !u!1 &4969275292565051531 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7122302021266136145, guid: 322a2d8aa5b361a4aad0db8e42fa1a34, type: 3}
-  m_PrefabInstance: {fileID: 2747501983277139162}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8264836557511806986 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6094372433401025744, guid: 322a2d8aa5b361a4aad0db8e42fa1a34, type: 3}
@@ -279,6 +288,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1110862417886448359}
     m_Modifications:
+    - target: {fileID: 1856483947925614120, guid: 596885b819d833a49b5218f8d5309683, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3190003881698137824, guid: 596885b819d833a49b5218f8d5309683, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.97
@@ -332,11 +345,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 596885b819d833a49b5218f8d5309683, type: 3}
---- !u!1 &2886613892715260993 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8489582016523511322, guid: 596885b819d833a49b5218f8d5309683, type: 3}
-  m_PrefabInstance: {fileID: 6763946872071359067}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8186267000441511099 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3190003881698137824, guid: 596885b819d833a49b5218f8d5309683, type: 3}

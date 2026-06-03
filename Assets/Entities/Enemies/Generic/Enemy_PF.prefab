@@ -53,13 +53,26 @@ MonoBehaviour:
   defense: 10
   damagePF: {fileID: 254843135583981822, guid: 560e1bfb2a4706e45a82ebfb18aa849e, type: 3}
   bloodPF: {fileID: 2114382830776690554, guid: 1cda0815d43215f40b41c548b80fc810, type: 3}
+  firePF: {fileID: 6641741500042543266, guid: 455d860957c083f45ba4274448240134, type: 3}
+  dizzyPF: {fileID: 7082761583480327981, guid: 4faee7cf16db2a04ca6173f6464106d1, type: 3}
+  absorptionColor: {r: 0, g: 0, b: 0, a: 0}
   health: 0
   blocking: 0
   defending: 0
   isBleeding: 0
+  isOnFire: 0
+  isDizzy: 0
+  hasAbsorption: 0
   bleedDamage: 5
+  fireDamage: 18
   bleedingDuration: 3
+  fireDuration: 3
+  absorptionDuration: 3
+  dizzyDuration: 1
   bleedingTimer: 0
+  fireTimer: 0
+  absorptionTimer: 0
+  dizzyTimer: 0
 --- !u!114 &-672226796281280321
 MonoBehaviour:
   m_ObjectHideFlags: 0

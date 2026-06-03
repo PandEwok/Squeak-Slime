@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
 
 public class Enemy_AI : MonoBehaviour
@@ -200,7 +201,7 @@ public class Enemy_AI : MonoBehaviour
                 defBuffTimers[i]--;
             }
         }
-        GetComponent<Stats_System>().bleed();
+        StartCoroutine(GetComponent<Stats_System>().ApplyStatus());
     }
 
     public async virtual Task playTurn(GameObject target)
@@ -226,12 +227,18 @@ public class Enemy_AI : MonoBehaviour
         moveTarget = targetPos;
         moveStart = getPos();
         isMoving = true;
+        bool hasFailedQTE = false;
 
         securityTimer = 0;
         await Task.Run(() =>
         {
             while (Vector2.Distance(pos, moveTarget) > 0.001f)
             {
+                if (Pointer.current.press.wasPressedThisFrame)
+                {
+                    hasFailedQTE = true;
+                }
+
                 if (securityTimer > 10.0f) break;
             }
         });
@@ -239,8 +246,15 @@ public class Enemy_AI : MonoBehaviour
 
         if (player.GetComponent<PlayerScript>() != null)
         {
-            Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f));
-            await Task.Delay((int)secToMili(0.4f));
+            if(!hasFailedQTE)
+            { 
+                Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f)); 
+            }
+            else
+            {
+                playerCombat.DisplayGrade(GradeScript.Grade.Missed, true);
+            }
+                await Task.Delay((int)secToMili(0.4f));
 
             await Task.Delay((int)secToMili(0.1f));
         }

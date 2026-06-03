@@ -26,7 +26,7 @@ public class ActionBarScript : MonoBehaviour
     private int targetCount = 0;
     private bool confirmedAttack = false;
 
-    enum AttackType { MELEE, RANGED, BITE, NONE };
+    enum AttackType { MELEE, RANGED, BITE, FRACTURE, NONE };
     AttackType attackType = AttackType.NONE;
     [System.Serializable]
     public struct ItemDescription
@@ -54,7 +54,11 @@ public class ActionBarScript : MonoBehaviour
         bananaQtyLabel = root.Q<Label>("BananaQuantity");
         pepperAttQtyLabel = root.Q<Label>("PepperAttQuantity");
         pepperDefQtyLabel = root.Q<Label>("PepperDefQuantity");
-
+        UQueryBuilder<Button> allButtons = root.Query<Button>();
+        allButtons.ForEach(button =>
+        {
+            button.clicked += () => PlayClickSound();
+        });
         UpdateInventoryUI();
 
         descriptionDisplayLabel = root.Q<Label>("Description");
@@ -148,7 +152,7 @@ public class ActionBarScript : MonoBehaviour
 
                     if (attackType == AttackType.MELEE)
                     {
-                        StartCoroutine(playerS.AttackFrontSequence(target, 0));
+                        StartCoroutine(playerS.AttackFrontSequence(target, 0, false));
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
@@ -173,6 +177,18 @@ public class ActionBarScript : MonoBehaviour
                         }
                         StartCoroutine(playerS.AttackBiteSequence(target));
 
+                    }
+                    else if (attackType == AttackType.FRACTURE)
+                    {
+                        isSelectingEnnemy = false;
+                        attackType = AttackType.NONE;
+                        ToggleUiVisibility(false);
+                        playerS.SP -= 7;
+                        if (playerS.SP < 0)
+                        {
+                            playerS.SP = 0;
+                        }
+                        StartCoroutine(playerS.AttackFractureSequence(target));
                     }
                     targetCount = 0;
                     confirmedAttack = false;
@@ -238,7 +254,7 @@ public class ActionBarScript : MonoBehaviour
         TogglePage1Visibility(false);
         ToggleUiVisibility(false);
         player.GetComponent<Stats_System>().defending = true;
-        playerS.switchingTurn();
+        playerS.SwitchingTurn();
 
     }
     private void CancelToPage1()
@@ -292,17 +308,59 @@ public class ActionBarScript : MonoBehaviour
 
     private void UseFracture()
     {
-        Debug.Log("Use Fracture button clicked!");
+        if (playerS.SP < 7)
+        {
+            Debug.Log("Not enough SP to use Fracture!");
+            return;
+        }
+        else
+        {
+            isSelectingEnnemy = true;
+            Debug.Log("Use Fracture button clicked!");
+            attackType = AttackType.FRACTURE;
+            ToggleConfirmVisibility(true);
+        }
     }
 
     private void UseFireball()
     {
-        Debug.Log("Use Fireball button clicked!");
+        if (playerS.SP < 12)
+        {
+            Debug.Log("Not enough SP to use Fireball!");
+            return;
+        }
+        else
+        {
+            playerS.SP -= 12;
+            if (playerS.SP < 0)
+            {
+                playerS.SP = 0;
+            }
+            Debug.Log("Use Fireball button clicked!");
+            StartCoroutine(playerS.AttackFireSequence(combatLogic.enemies));
+            ToggleUiVisibility(false);
+        }
     }
 
     private void UseAbsorption()
     {
         Debug.Log("Use Absorption button clicked!");
+        if (playerS.SP < 10)
+        {
+            Debug.Log("Not enough SP to use Absorption!");
+            return;
+        }
+        else
+        {
+            playerS.SP -= 10;
+            if (playerS.SP < 0)
+            {
+                playerS.SP = 0;
+            }
+            player.GetComponent<Stats_System>().ActivateAbsorption();
+            playerS.SwitchingTurn();
+            ToggleUiVisibility(false);
+        }
     }
 
 
@@ -321,9 +379,11 @@ public class ActionBarScript : MonoBehaviour
         if (mustDisplay && player.GetComponent<Stats_System>().health > 0 && combatLogic.enemies.Count > 0)
         {
             root.style.display = DisplayStyle.Flex;
-            playerS.decreaseBoosts();
-            playerS.applyAttackBoost();
-            playerS.applyStatus();
+            playerS.DecreaseBoosts();
+            playerS.ApplyAttackBoost();
+            Stats_System playerStats = player.GetComponent<Stats_System>();
+            playerStats.defending = false;
+            StartCoroutine(player.GetComponent<Stats_System>().ApplyStatus());
 
         }
         else
@@ -438,11 +498,11 @@ public class ActionBarScript : MonoBehaviour
         if (playerInventory.cheeseInv > 0)
         {
             playerInventory.removeCheese(1);
-            playerS.healPlayer(50);
+            playerS.HealPlayer(50);
             UpdateInventoryUI();
             //FinalizeAttack();
             ToggleUiVisibility(false);
-            playerS.switchingTurn();
+            playerS.SwitchingTurn();
         }
     }
 
@@ -452,11 +512,11 @@ public class ActionBarScript : MonoBehaviour
         if (playerInventory.bananaInv > 0)
         {
             playerInventory.removeBanana(1);
-            playerS.restoreSP(50);
+            playerS.RestoreSP(50);
             UpdateInventoryUI();
             //FinalizeAttack();
             ToggleUiVisibility(false);
-            playerS.switchingTurn();
+            playerS.SwitchingTurn();
         }
     }
 
@@ -466,11 +526,11 @@ public class ActionBarScript : MonoBehaviour
         if (playerInventory.pepperAttInv > 0)
         {
             playerInventory.removePepperAtt(1);
-            playerS.actionEmpower();
+            playerS.ActionEmpower();
             UpdateInventoryUI();
             //FinalizeAttack();
             ToggleUiVisibility(false);
-            playerS.switchingTurn();
+            playerS.SwitchingTurn();
         }
     }
 
@@ -480,11 +540,11 @@ public class ActionBarScript : MonoBehaviour
         if (playerInventory.pepperDefInv > 0)
         {
             playerInventory.removePepperDef(1);
-            playerS.actionDefenseBuff();
+            playerS.ActionDefenseBuff();
             UpdateInventoryUI();
             //FinalizeAttack();
             ToggleUiVisibility(false);
-            playerS.switchingTurn();
+            playerS.SwitchingTurn();
         }
     }
 
@@ -514,5 +574,10 @@ public class ActionBarScript : MonoBehaviour
         Debug.Log("Confirm button clicked!");
         confirmedAttack = true;
         ToggleConfirmVisibility(false);
+    }
+
+    private void PlayClickSound()
+    {
+        AudioManager.Instance.PlaySFX("Button_Pressed");
     }
 }
