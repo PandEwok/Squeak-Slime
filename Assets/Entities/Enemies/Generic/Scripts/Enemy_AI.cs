@@ -124,7 +124,7 @@ public class Enemy_AI : MonoBehaviour
         PlayerInventory inv = player.GetComponent<PlayerInventory>();
         if (inv != null)
         {
-            inv.AddTeeth(PlayerInventory.TeethType.Normal, teethDropped);
+            //inv.AddTeeth(PlayerInventory.TeethType.Normal, teethDropped);
         }
 
         return teethDropped;

@@ -9,16 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d134cd4fae70484a846a7d3f2995504, type: 3}
-  m_Name: RedPepper
-  m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  actionType: 0
-  itemId: PepperAtt
+  m_Script: {fileID: 11500000, guid: 4b06c6b5f38c94f4dac1e2650d402951, type: 3}
+  m_Name: PepperAtt
+  m_EditorClassIdentifier: Assembly-CSharp::PepperAtt
   itemName: Red Pepper
+  itemId: PepperAtt
   itemDescription: Temporarily raises the user's power.
-  effectValue: 25
   itemIcon: {fileID: -7414543132534328891, guid: 577027a890001cc4195a93fc9937a126, type: 3}
-  defaultColor: {r: 1, g: 0, b: 0.062745094, a: 1}
+  defaultColor: {r: 1, g: 0, b: 0.0627451, a: 1}
+  effectValue: 0.5
+  effectDuration: 4
   maxStackCapacity: 99
-  spCost: 0
-  specialEffectLogic: {fileID: 0}

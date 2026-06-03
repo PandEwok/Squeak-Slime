@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Action Data", menuName = "Inventory/Action Data")]
-public class ItemData : ScriptableObject
+public class OldItemData : ScriptableObject
 {
     public enum ActionType { Item, Skill }
 

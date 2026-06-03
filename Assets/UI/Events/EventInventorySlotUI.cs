@@ -128,14 +128,14 @@ public class InventorySlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
             return;
         }
 
-        if (assignedItem.actionType == ItemData.ActionType.Item)
-        {
-            Debug.Log($"<color=green>[PLAYER STATS]</color> Consumed {assignedItem.itemName}! Restored {assignedItem.effectValue} HP.");
-        }
-        else if (assignedItem.actionType == ItemData.ActionType.Skill)
-        {
-            Debug.Log($"<color=cyan>[PLAYER STATS]</color> Cast {assignedItem.itemName}! Consumed {assignedItem.spCost} SP.");
-        }
+        //if (assignedItem.actionType == ItemData.ActionType.Item)
+        //{
+        //    Debug.Log($"<color=green>[PLAYER STATS]</color> Consumed {assignedItem.itemName}! Restored {assignedItem.effectValue} HP.");
+        //}
+        //else if (assignedItem.actionType == ItemData.ActionType.Skill)
+        //{
+        //    Debug.Log($"<color=cyan>[PLAYER STATS]</color> Cast {assignedItem.itemName}! Consumed {assignedItem.spCost} SP.");
+        //}
 
         if (mainController != null && mySlotIndex != -1)
         {

@@ -556,9 +556,9 @@ public class PlayerScript : MonoBehaviour
         SwitchingTurn();
     }
 
-    public void HealPlayer(int healAmount)
+    public void HealPlayer(float healAmount)
     {
-        stats.heal(healAmount);
+        stats.heal((int)healAmount);
     }
     public void AbsorbHealth(int damages)
     {
@@ -568,20 +568,22 @@ public class PlayerScript : MonoBehaviour
             HealPlayer(healAmount);
         }
     }
-    public void RestoreSP(int spAmount)
+    public void RestoreSP(float spAmount)
     {
-        SP += spAmount;
+        SP += (int)spAmount;
         SP = Mathf.Min(SP, originalSP);
         Debug.Log($"{gameObject.name} healed for {spAmount}. Current health: {SP}");
     }
 
-    public void ActionEmpower()
+    public void ActionEmpower(int duration, float effectValue)
     {
-        empowerDelay = 4;
+        empowerDelay = duration;
+        attackBoostStrenght = effectValue;
     }
-    public void ActionDefenseBuff()
+    public void ActionDefenseBuff(int duration, float effectValue)
     {
-        defenseBuffDelay = 3;
+       defenseBuffDelay = duration;
+        defenseBoostStrenght = effectValue;
     }
     public void SwitchingTurn()
     {
