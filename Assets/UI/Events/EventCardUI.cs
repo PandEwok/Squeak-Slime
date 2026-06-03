@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
-using System.Collections; // Required for slide coroutine timers
+using System.Collections;
 
 public class EventCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -14,12 +14,19 @@ public class EventCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private EventCardManager myManager;
     private RectTransform rectTransform;
 
-    // Track state to prevent clicking cards before they finish sliding up
+    // FIX 1: Make this a class variable so it's remembered globally
+    private Vector2 targetPosition;
     private bool isAnimating = false;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+
+        // FIX 2: Cache the exact (0,0) slot position you set in the editor right now!
+        targetPosition = rectTransform.anchoredPosition;
+
+        // FIX 3: Instantly banish the card way below the screen before the game even draws frame 1
+        rectTransform.anchoredPosition = new Vector2(targetPosition.x, -1500f);
     }
 
     public void SetupCard(EventCardData data, EventCardManager manager)
@@ -34,9 +41,6 @@ public class EventCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
     }
 
-    /// <summary>
-    /// Slides the card from a hidden low position up to its slot destination.
-    /// </summary>
     public void TriggerDealAnimation(float duration, AnimationCurve easeCurve)
     {
         StartCoroutine(DealAnimationRoutine(duration, easeCurve));
@@ -46,11 +50,9 @@ public class EventCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         isAnimating = true;
 
-        // 1. Snapshot where the layout group WANTS this card to sit normally
-        Vector2 targetPosition = Vector2.zero;
-
-        // 2. Drop it way below the screen to start out
-        Vector2 startingPosition = new Vector2(targetPosition.x, -1000f);
+        // FIX 4: We don't read anchoredPosition here anymore because it's already hidden!
+        // We use the clean 'targetPosition' we cached back in Awake.
+        Vector2 startingPosition = new Vector2(targetPosition.x, -1500f);
         rectTransform.anchoredPosition = startingPosition;
 
         float timer = 0f;
@@ -58,22 +60,19 @@ public class EventCardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         {
             timer += Time.deltaTime;
             float progress = timer / duration;
-
-            // Apply the physics ease curve to make it snap nicely
             float evaluatedProgress = easeCurve.Evaluate(progress);
 
-            // Interpolate position smoothly
+            // Smoothly slide from the basement up to its authentic slot home
             rectTransform.anchoredPosition = Vector2.Lerp(startingPosition, targetPosition, evaluatedProgress);
             yield return null;
         }
 
-        // Lock perfectly at final destination
         rectTransform.anchoredPosition = targetPosition;
         isAnimating = false;
     }
 
     // ==========================================
-    // SAFETY BLOCKS DURING ANIMATION
+    // SAFETY BLOCKS (Keep these the same)
     // ==========================================
     public void OnPointerEnter(PointerEventData eventData)
     {
