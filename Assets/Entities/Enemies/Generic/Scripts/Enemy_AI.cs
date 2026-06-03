@@ -67,6 +67,20 @@ public class Enemy_AI : MonoBehaviour
         DEFENSE
     }
 
+    public void addBuff(EmpowerType type, float amount, int duration)
+    {
+        if (type == EmpowerType.DEFENSE)
+        {
+            defBuffs.Add(amount);
+            defBuffTimers.Add(duration);
+        }
+        else if (type == EmpowerType.DAMAGE)
+        {
+            dmgBuffs.Add(amount);
+            dmgBuffTimers.Add(duration);
+        }
+    }
+
 
     public void actionEmpower(EmpowerType type, float empowerAmount = 0.5f, int delay = 2, int duration = 2)
     {
@@ -74,16 +88,7 @@ public class Enemy_AI : MonoBehaviour
         empowerDuration = duration + 1;
         Debug.Log($"type is {type}");
 
-        if (type == EmpowerType.DEFENSE)
-        {
-            defBuffs.Add(empowerAmount);
-            defBuffTimers.Add(empowerDuration);
-        }
-        else if (type == EmpowerType.DAMAGE)
-        {
-            dmgBuffs.Add(empowerAmount);
-            dmgBuffTimers.Add(empowerDuration);
-        }
+        addBuff(type, empowerAmount, duration);
     }
 
 

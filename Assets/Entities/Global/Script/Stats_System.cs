@@ -15,10 +15,10 @@ public class Stats_System : MonoBehaviour
     public GameObject bloodPF;
     Vector3 originalPos;
     Color originalColor;
-    public int health;
+    [HideInInspector] public int health;
     [HideInInspector] public bool blocking = false;
     [HideInInspector] public bool defending = false;
-    public bool isBleeding = false;
+    [HideInInspector] public bool isBleeding = false;
     public int bleedDamage = 5;
     public int bleedingDuration = 3;
     public int bleedingTimer = 0;
