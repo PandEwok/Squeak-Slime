@@ -34,6 +34,8 @@ public class Enemy_AI : MonoBehaviour
     protected List<GameObject> enemies;
     protected int ownIndex;
 
+    float delta = 0;
+
 
     void setArrow(bool value) {
         transform.Find("SelectArrow").gameObject.SetActive(value);
@@ -132,6 +134,8 @@ public class Enemy_AI : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
+        delta = Time.deltaTime;
+
         ownIndex = enemies.IndexOf(this.gameObject);
 
         particleSpawnTimer += Time.deltaTime;
@@ -287,6 +291,40 @@ public class Enemy_AI : MonoBehaviour
 
     public async Task distanceAttack(GameObject target)
     {
+        bool hasFailedQTE = false;
+        float elapsedTime = 0;
+
+        while (elapsedTime <= 0.2f)
+        {
+            if (Pointer.current.press.wasPressedThisFrame)
+            {
+                hasFailedQTE = true;
+                break; //attention animation
+            }
+
+            await Task.Yield();
+            elapsedTime += Time.deltaTime;
+        }
+
+        if (player.GetComponent<PlayerScript>() != null)
+        {
+            if (!hasFailedQTE)
+            {
+                Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f));
+            }
+            else
+            {
+                playerCombat.DisplayGrade(GradeScript.Grade.Missed, true);
+            }
+            await Task.Delay((int)secToMili(0.4f));
+
+            await Task.Delay((int)secToMili(0.1f));
+        }
+        else
+        {
+            await Task.Delay((int)secToMili(0.3f));
+        }
+
         await Task.Delay((int)secToMili(0.2f));
         attack(target);
     }
