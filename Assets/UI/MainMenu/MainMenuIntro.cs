@@ -36,15 +36,16 @@ public class MainMenuIntro : MonoBehaviour
         Vector2 graphicTarget = leftGraphic.anchoredPosition;
         Vector2 titleTarget = titleText.anchoredPosition;
 
-        // Toss elements off-screen relative to their anchors
-        playButton.anchoredPosition = new Vector2(1000f, playTarget.y);      // Right off-screen
+        playButton.anchoredPosition = new Vector2(1000f, playTarget.y);
         settingsButton.anchoredPosition = new Vector2(1000f, settingsTarget.y);
         quitButton.anchoredPosition = new Vector2(1000f, quitTarget.y);
-        leftGraphic.anchoredPosition = new Vector2(-1500f, graphicTarget.y); // Left off-screen
-        titleText.anchoredPosition = new Vector2(titleTarget.x, 500f);       // Top off-screen
+        leftGraphic.anchoredPosition = new Vector2(-1500f, graphicTarget.y);
+        titleText.anchoredPosition = new Vector2(titleTarget.x, 500f);
 
-        // Hide flash panel initially
+        // FIX 1: Turn off blocking on startup so the panel is completely ignored
         flashCanvasGroup.alpha = 0f;
+        flashCanvasGroup.blocksRaycasts = false;
+        flashCanvasGroup.interactable = false;
 
         yield return new WaitForSeconds(0.2f); // Quick breath before starting
 
@@ -91,17 +92,22 @@ public class MainMenuIntro : MonoBehaviour
     /// </summary>
     private IEnumerator FlashScreenRoutine()
     {
-        // Instantly full white blast
+        // FIX 2: Turn on blocking DURING the white flash (prevents accidental double clicks)
         flashCanvasGroup.alpha = 1f;
+        flashCanvasGroup.blocksRaycasts = true;
+        flashCanvasGroup.interactable = true;
 
         float timer = 0f;
         while (timer < flashDuration)
         {
             timer += Time.deltaTime;
-            // Linear fade out to transparent
             flashCanvasGroup.alpha = Mathf.Lerp(1f, 0f, timer / flashDuration);
             yield return null;
         }
+
+        // FIX 3: Turn blocking back OFF so players can click buttons again!
         flashCanvasGroup.alpha = 0f;
+        flashCanvasGroup.blocksRaycasts = false;
+        flashCanvasGroup.interactable = false;
     }
 }
