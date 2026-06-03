@@ -88,6 +88,7 @@ MonoBehaviour:
   defBuffs: []
   powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   empowerStrenght: 0.5
+  projectilePF: {fileID: 34378606086738509, guid: 90ab660e8a2aa814ebdb09ad7c382d01, type: 3}
 --- !u!210 &4460844942125317016
 SortingGroup:
   m_ObjectHideFlags: 0

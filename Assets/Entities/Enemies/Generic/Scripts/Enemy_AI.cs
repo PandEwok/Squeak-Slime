@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
@@ -35,6 +36,8 @@ public class Enemy_AI : MonoBehaviour
     protected int ownIndex;
 
     float delta = 0;
+
+    public GameObject projectilePF;
 
 
     void setArrow(bool value) {

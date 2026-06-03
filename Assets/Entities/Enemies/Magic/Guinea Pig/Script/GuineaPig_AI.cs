@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 public class GuineaPig_AI : Magic_AI
 {
+
     public async override Task playTurn(GameObject target)
     {
         int actionChoiceChance = 0;
@@ -20,10 +21,15 @@ public class GuineaPig_AI : Magic_AI
                 actionEmpower(EmpowerType.DAMAGE, 0.8f, 1, 0);
             });
 
+            GameObject projInstance = Instantiate(projectilePF, transform.position, Quaternion.identity, transform);
+            projInstance.GetComponent<EnemyProjectile>().Init(this.gameObject, target);
+
             await distanceAttack(target);
         }
         else
         {
+            GameObject projInstance = Instantiate(projectilePF, transform.position, Quaternion.identity, transform);
+            projInstance.GetComponent<EnemyProjectile>().Init(this.gameObject, target);
 
             await distanceAttack(target);
         }
