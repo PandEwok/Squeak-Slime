@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d134cd4fae70484a846a7d3f2995504, type: 3}
-  m_Name: BluePepper
+  m_Name: New Action Data 4
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  actionType: 1
-  itemId: PepperDef
-  itemName: Blue Pepper
-  itemDescription: Temporarily raises the user's defense.
-  effectValue: 25
-  itemIcon: {fileID: -7414543132534328891, guid: 577027a890001cc4195a93fc9937a126, type: 3}
-  defaultColor: {r: 0, g: 0.49598122, b: 0.9607843, a: 1}
+  actionType: 0
+  itemId: 
+  itemName: 
+  itemDescription: 
+  effectValue: 50
+  itemIcon: {fileID: 0}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
   maxStackCapacity: 99
   spCost: 0
   specialEffectLogic: {fileID: 0}
