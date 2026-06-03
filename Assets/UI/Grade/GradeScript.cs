@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using static GradeScript;
 
 public class GradeScript : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class GradeScript : MonoBehaviour
     private Label excellent;
     private Label missed;
     private Label critical;
-    [HideInInspector] public float displayDuration = 3f;
+    private float displayDuration = 1f;
     public enum Grade
     {
         Excellent,
@@ -27,33 +28,28 @@ public class GradeScript : MonoBehaviour
         critical = root.Q<Label>("Crit");
     }
 
-    
-    public IEnumerator gradeDisplay(Grade grade, bool mustDisplay)
+
+    public IEnumerator GradeDisplay(Grade grade, bool mustDisplay)
     {
+        allGradeDisplay(false);
         if (mustDisplay)
         {
             switch (grade)
             {
                 case Grade.Excellent:
-                    Debug.Log("Displaying Excellent grade");
                     excellent.style.display = DisplayStyle.Flex;
-                    yield return new WaitForSeconds(displayDuration);
-                    Debug.Log("Hiding Excellent grade");
-                    excellent.style.display = DisplayStyle.None;
                     break;
                 case Grade.Missed:
                     missed.style.display = DisplayStyle.Flex;
-                    yield return new WaitForSeconds(displayDuration);
-                    missed.style.display = DisplayStyle.None;
                     break;
                 case Grade.Critical:
                     critical.style.display = DisplayStyle.Flex;
-                    yield return new WaitForSeconds(displayDuration);
-                    critical.style.display = DisplayStyle.None;
                     break;
                 default:
                     break;
             }
+            yield return new WaitForSeconds(displayDuration);
+            allGradeDisplay(false);
         }
         else
         {
@@ -88,9 +84,13 @@ public class GradeScript : MonoBehaviour
             missed.style.display = DisplayStyle.None;
             critical.style.display = DisplayStyle.None;
         }
-        gameObject.SetActive(false);
+
     }
-    
+    public void StartCoroutine(Grade grade, bool display)
+    {
+    StartCoroutine(GradeDisplay(grade, display));
+    }
+
 }
 
 

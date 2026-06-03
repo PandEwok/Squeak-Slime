@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
 
 public class Enemy_AI : MonoBehaviour
@@ -29,6 +30,11 @@ public class Enemy_AI : MonoBehaviour
     PlayerScript playerCombat;
 
     bool selected = false;
+
+    protected List<GameObject> enemies;
+    protected int ownIndex;
+
+    float delta = 0;
 
 
     void setArrow(bool value) {
@@ -64,6 +70,20 @@ public class Enemy_AI : MonoBehaviour
         DEFENSE
     }
 
+    public void addBuff(EmpowerType type, float amount, int duration)
+    {
+        if (type == EmpowerType.DEFENSE)
+        {
+            defBuffs.Add(amount);
+            defBuffTimers.Add(duration);
+        }
+        else if (type == EmpowerType.DAMAGE)
+        {
+            dmgBuffs.Add(amount);
+            dmgBuffTimers.Add(duration);
+        }
+    }
+
 
     public void actionEmpower(EmpowerType type, float empowerAmount = 0.5f, int delay = 2, int duration = 2)
     {
@@ -71,16 +91,7 @@ public class Enemy_AI : MonoBehaviour
         empowerDuration = duration + 1;
         Debug.Log($"type is {type}");
 
-        if (type == EmpowerType.DEFENSE)
-        {
-            defBuffs.Add(empowerAmount);
-            defBuffTimers.Add(empowerDuration);
-        }
-        else if (type == EmpowerType.DAMAGE)
-        {
-            dmgBuffs.Add(empowerAmount);
-            dmgBuffTimers.Add(empowerDuration);
-        }
+        addBuff(type, empowerAmount, duration);
     }
 
 
@@ -91,6 +102,9 @@ public class Enemy_AI : MonoBehaviour
         basePos = getPos();
         player = GameObject.FindGameObjectWithTag("Player");
         playerCombat = player.GetComponent<PlayerScript>();
+
+        enemies = GameObject.Find("CombatLogic").GetComponent<Combat_Logic>().enemies;
+        ownIndex = enemies.IndexOf(this.gameObject);
     }
 
     Vector2 getPos()
@@ -120,6 +134,10 @@ public class Enemy_AI : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
+        delta = Time.deltaTime;
+
+        ownIndex = enemies.IndexOf(this.gameObject);
+
         particleSpawnTimer += Time.deltaTime;
         securityTimer += Time.deltaTime;
         pos = getPos();
@@ -187,7 +205,7 @@ public class Enemy_AI : MonoBehaviour
                 defBuffTimers[i]--;
             }
         }
-        GetComponent<Stats_System>().bleed();
+        StartCoroutine(GetComponent<Stats_System>().ApplyStatus());
     }
 
     public async virtual Task playTurn(GameObject target)
@@ -213,12 +231,18 @@ public class Enemy_AI : MonoBehaviour
         moveTarget = targetPos;
         moveStart = getPos();
         isMoving = true;
+        bool hasFailedQTE = false;
 
         securityTimer = 0;
         await Task.Run(() =>
         {
             while (Vector2.Distance(pos, moveTarget) > 0.001f)
             {
+                if (Pointer.current.press.wasPressedThisFrame)
+                {
+                    hasFailedQTE = true;
+                }
+
                 if (securityTimer > 10.0f) break;
             }
         });
@@ -226,8 +250,15 @@ public class Enemy_AI : MonoBehaviour
 
         if (player.GetComponent<PlayerScript>() != null)
         {
-            Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f));
-            await Task.Delay((int)secToMili(0.4f));
+            if(!hasFailedQTE)
+            { 
+                Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f)); 
+            }
+            else
+            {
+                playerCombat.DisplayGrade(GradeScript.Grade.Missed, true);
+            }
+                await Task.Delay((int)secToMili(0.4f));
 
             await Task.Delay((int)secToMili(0.1f));
         }
@@ -260,6 +291,40 @@ public class Enemy_AI : MonoBehaviour
 
     public async Task distanceAttack(GameObject target)
     {
+        bool hasFailedQTE = false;
+        float elapsedTime = 0;
+
+        while (elapsedTime <= 0.2f)
+        {
+            if (Pointer.current.press.wasPressedThisFrame)
+            {
+                hasFailedQTE = true;
+                break; //attention animation
+            }
+
+            await Task.Yield();
+            elapsedTime += Time.deltaTime;
+        }
+
+        if (player.GetComponent<PlayerScript>() != null)
+        {
+            if (!hasFailedQTE)
+            {
+                Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f));
+            }
+            else
+            {
+                playerCombat.DisplayGrade(GradeScript.Grade.Missed, true);
+            }
+            await Task.Delay((int)secToMili(0.4f));
+
+            await Task.Delay((int)secToMili(0.1f));
+        }
+        else
+        {
+            await Task.Delay((int)secToMili(0.3f));
+        }
+
         await Task.Delay((int)secToMili(0.2f));
         attack(target);
     }

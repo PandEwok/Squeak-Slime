@@ -435,31 +435,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8567076734609327451, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
   m_PrefabInstance: {fileID: 1903217631616085308}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &890441202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 890441197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 020d6cc7674eec54abf6b1f2ed991d7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
-  combatLogic: {fileID: 1044752080}
-  projectile: {fileID: 7668710729188587511, guid: af852a2e06c4b6b4fb8ad7884a537402, type: 3}
-  originalSP: 100
-  SP: 100
-  attackBoostEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
-  defenseBoostEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
-  attackBoostStrenght: 0.5
-  defenseBoostStrenght: 0.5
-  baseDamage: 0
-  baseDefense: 0
-  hasWon: 0
-  gameOverUI: {fileID: 2008886624}
-  victoryUI: {fileID: 1052438338}
 --- !u!1 &977222308
 GameObject:
   m_ObjectHideFlags: 0
@@ -3531,6 +3506,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 831087043188574043, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1110862417886448359, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7
@@ -3571,142 +3550,68 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1203428539494268273, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: combatLogic
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: victoryUI
       value: 
-      objectReference: {fileID: 1044752080}
-    - target: {fileID: 1203428539494268273, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: defenseBoostStrenght
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: bananaInv
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: qty_golem_teeth
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3315146261300418188, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: bloodPF
+      objectReference: {fileID: 1052438338}
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: gameOverUI
       value: 
-      objectReference: {fileID: 2114382830776690554, guid: 1cda0815d43215f40b41c548b80fc810, type: 3}
-    - target: {fileID: 3315146261300418188, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: defense
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      objectReference: {fileID: 2008886624}
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: combatLogic
       value: 
       objectReference: {fileID: 1044752080}
     - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[0].itemId
-      value: Cheese
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[1].itemId
-      value: Banana
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[2].itemId
-      value: PepperAtt
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[3].itemId
-      value: PepperDef
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[4].itemId
-      value: Bite
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[5].itemId
-      value: Fireball
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[6].itemId
-      value: Fragmentation
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[7].itemId
-      value: Absorption
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[0].descriptionText
-      value: Restores 50 HP
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[1].descriptionText
-      value: Restores 50 SP
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[2].descriptionText
-      value: Makes attacks more powerful during 3 turns
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[3].descriptionText
-      value: Makes you take less damage during 3 turns
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[4].descriptionText
-      value: 'A skill that deals 50% more damages
-
-        than basic attacks. Makes
-        enemies bleed. '
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[5].descriptionText
-      value: 'A fireball that attacks all your opponent
-
-        and burns them.'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[6].descriptionText
-      value: 'A powerful attack that oversteps
-
-        the armor of the target that
-        can''t
-
-        do anything during 1 turn. '
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: itemDescriptions.Array.data[7].descriptionText
-      value: 'Your next attacks will heal you
-
-        50% of the damages you inflict. '
-      objectReference: {fileID: 0}
-    - target: {fileID: 4908311747191874675, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4969275292565051531, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: m_Name
-      value: QTEWarning
-      objectReference: {fileID: 0}
-    - target: {fileID: 4969275292565051531, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: combatLogic
+      value: 
+      objectReference: {fileID: 1044752080}
+    - target: {fileID: 7584880515457097585, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: displayDuration
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8567076734609327451, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1203428539494268273, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8567076734609327451, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 5023061393286063755, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 890441202}
+      addedObject: {fileID: 1903217631616085310}
     - targetCorrespondingSourceObject: {fileID: 2886613892715260993, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+--- !u!1 &1903217631616085309 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5023061393286063755, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+  m_PrefabInstance: {fileID: 1903217631616085308}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1903217631616085310
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903217631616085309}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1567d127814d7b54ba69dd3b16523f13, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1978654140787321106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3770,6 +3675,63 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
+--- !u!1001 &7013640499805955287
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.30014
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.58081
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7735029698625227493, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -3783,3 +3745,4 @@ SceneRoots:
   - {fileID: 986103427}
   - {fileID: 1903217631616085308}
   - {fileID: 1978654140787321106}
+  - {fileID: 7013640499805955287}
