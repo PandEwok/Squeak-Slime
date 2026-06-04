@@ -3563,8 +3563,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1044752080}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingInventory.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[0].tooth
+      value: 
+      objectReference: {fileID: 11400000, guid: ddd024126f98ca3488e52790c634d7f0, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[0].amount
+      value: 82
       objectReference: {fileID: 0}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingInventory.Array.data[0].item
@@ -3583,6 +3595,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0f3b913957e4dc34b8c255ee7a7fdcc1, type: 2}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingInventory.Array.data[4].item
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f3b913957e4dc34b8c255ee7a7fdcc1, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingInventory.Array.data[0].amount
       value: 10
       objectReference: {fileID: 0}
@@ -3596,6 +3612,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingInventory.Array.data[3].amount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingInventory.Array.data[4].amount
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
