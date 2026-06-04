@@ -214,7 +214,7 @@ public class PlayerScript : MonoBehaviour
         SwitchingTurn();
     }
 
-    public IEnumerator AttackJumpSequence(GameObject target, float boost)
+    public IEnumerator AttackRangedSequence(GameObject target, float boost)
     {
         Vector3 startPos = originalPosition;
         Vector3 enemyPos = target.transform.position;
@@ -237,6 +237,8 @@ public class PlayerScript : MonoBehaviour
             yield return null;
         }
         AudioManager.Instance.StopLoopingSFX();
+        AudioManager.Instance.PlaySFX("Player_Prepare_Proj");
+        yield return new WaitForSeconds(0.3f);
         //LANCER
         GameObject projectileToThrow = Instantiate(projectile, prepPos, Quaternion.identity);
         elapsed = 0;
@@ -245,7 +247,7 @@ public class PlayerScript : MonoBehaviour
         bool hasCrit = false;
         bool qteWindowOpen = false;
         bool hasFailedQTE = false;
-
+        AudioManager.Instance.PlaySFX("Player_Proj_Moving");
         while (elapsed < jumpDuration)
         {
             float t = elapsed / jumpDuration;
@@ -488,7 +490,7 @@ public class PlayerScript : MonoBehaviour
         }
         if(hasQTESuccess) { DisplayGrade(GradeScript.Grade.Excellent, true); }
         GameObject lightningInstance = Instantiate(darkLightningPrefab, startPos, Quaternion.identity);
-
+        AudioManager.Instance.PlaySFX("Fracture");
         LineRenderer lightningLR = lightningInstance.GetComponent<LineRenderer>();
 
         if (lightningLR == null)
@@ -501,7 +503,7 @@ public class PlayerScript : MonoBehaviour
 
         int segmentsCount = 10;          //Qtt zigzags
         float jitterAmount = 0.5f;       //Force des déviations
-        float propagationSpeed = 0.015f; //Vitesse entre chaque segment
+        float propagationSpeed = 0.025f; //Vitesse entre chaque segment
 
         List<Vector3> points = new List<Vector3>();
         points.Add(startPos);

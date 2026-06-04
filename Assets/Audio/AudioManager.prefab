@@ -60,10 +60,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 739e36b55a29e784b86f3ef7eedec88a, type: 3}
     volume: 0.5
   - name: Player_Proj_Impact
-    clip: {fileID: 8300000, guid: 13d7abece2c45ff4ea0b5429f5e00c34, type: 3}
+    clip: {fileID: 8300000, guid: 23e5030dd74e9c3489bd510570b25cb3, type: 3}
     volume: 1
   - name: QTE
-    clip: {fileID: 8300000, guid: 6d5389a2a99ee3349a901f793cb75cb3, type: 3}
+    clip: {fileID: 8300000, guid: aaedb7a4f7ff5354d8b183a4c6f0da44, type: 3}
     volume: 0.5
   - name: Slime_Moving
     clip: {fileID: 8300000, guid: a11c9a0f13325cb4895497faab08a949, type: 3}
@@ -71,6 +71,15 @@ MonoBehaviour:
   - name: Button_Pressed
     clip: {fileID: 8300000, guid: 001679d460a0e5645a89e9aad7dc09be, type: 3}
     volume: 0.5
+  - name: Player_Proj_Moving
+    clip: {fileID: 8300000, guid: 4c36c2072d0ad1a408e6c78056bd8f22, type: 3}
+    volume: 0.5
+  - name: Player_Prepare_Proj
+    clip: {fileID: 8300000, guid: a65c69115459cd84c9b243990da1cb30, type: 3}
+    volume: 0.5
+  - name: Fracture
+    clip: {fileID: 8300000, guid: 8b67f06f65d5a8a49b81ad94e34a793b, type: 3}
+    volume: 1
   sfxSource: {fileID: 7455365996537922425}
   loopSfxSource: {fileID: 7438998512016560997}
 --- !u!82 &7455365996537922425

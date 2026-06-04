@@ -148,7 +148,7 @@ public class ActionBarScript : MonoBehaviour
                     }
                     else if (attackType == AttackType.RANGED)
                     {
-                        StartCoroutine(playerS.AttackJumpSequence(target, 0));
+                        StartCoroutine(playerS.AttackRangedSequence(target, 0));
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
