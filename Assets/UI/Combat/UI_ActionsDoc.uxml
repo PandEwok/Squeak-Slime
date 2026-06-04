@@ -1,47 +1,27 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Combat/ActionMenu.uss?fileID=7433441132597879392&amp;guid=0a15015b45e476445b456d5f57780a6c&amp;type=3#ActionMenu"/>
     <ui:VisualElement picking-mode="Ignore" name="MainContainer" class="ActionMenuHover" style="flex-grow: 0; background-image: none; justify-content: space-evenly; align-content: center; position: absolute; top: 8px; left: 431px; align-items: stretch; height: 422px; width: 335px; opacity: 1;">
-        <ui:Button text="Attack&#10;" name="Attack" class="ActionMenuButton1 button">
-            <ui:VisualElement picking-mode="Ignore" name="AttackSelector" class="selector"/>
-        </ui:Button>
-        <ui:Button text="Defend&#10;" name="Defend" class="ActionMenuButton1 button">
-            <ui:VisualElement picking-mode="Ignore" name="DefendSelector" class="selector"/>
-        </ui:Button>
-        <ui:Button text="Items&#10;" name="Items" class="ActionMenuButton1 button">
-            <ui:VisualElement picking-mode="Ignore" name="ItemsSelector" class="selector"/>
-        </ui:Button>
-        <ui:Button text="Skills&#10;" name="Skills" class="ActionMenuButton1 button">
-            <ui:VisualElement picking-mode="Ignore" name="SkillsSelector" class="selector"/>
-        </ui:Button>
-        <ui:Button text="Melee" name="AttackFront" class="ActionMenuButton2 button" style="color: rgb(255, 255, 255);">
-            <ui:VisualElement picking-mode="Ignore" name="AttackFrontSelector" class="selector"/>
-        </ui:Button>
-        <ui:Button text="Ranged" name="AttackUp" class="ActionMenuButton2 button" style="color: rgb(255, 255, 255);">
-            <ui:VisualElement picking-mode="Ignore" name="AttackUpSelector" class="selector"/>
-        </ui:Button>
-        <ui:ScrollView name="InventoryGrid" style="flex-grow: 1;"/>
+        <ui:Button text="Attack&#10;" name="Attack" class="ActionMenuButton1 button"/>
+        <ui:Button text="Defend&#10;" name="Defend" class="ActionMenuButton1 button"/>
+        <ui:Button text="Items&#10;" name="Items" class="ActionMenuButton1 button"/>
+        <ui:Button text="Skills&#10;" name="Skills" class="ActionMenuButton1 button"/>
+        <ui:Button text="Melee" name="AttackFront" class="ActionMenuButton2 button" style="color: rgb(255, 255, 255);"/>
+        <ui:Button text="Ranged" name="AttackUp" class="ActionMenuButton2 button" style="color: rgb(255, 255, 255);"/>
+        <ui:ScrollView name="InventoryGrid" style="flex-grow: 1; margin-right: 0; display: none;"/>
         <ui:Button text="Bite" name="Bite" class="button ActionMenuButton4">
             <ui:Label text="5 PS" name="BiteCost" class="ItemQtt" style="flex-direction: column;"/>
-            <ui:VisualElement picking-mode="Ignore" name="BiteSelector" class="selector"/>
         </ui:Button>
         <ui:Button text="Fracture" name="Fracture" class="button ActionMenuButton4">
             <ui:Label text="7 PS" name="FractureCost" class="ItemQtt" style="flex-direction: column;"/>
-            <ui:VisualElement picking-mode="Ignore" name="FractureSelector" class="selector" style="width: 152px;"/>
         </ui:Button>
         <ui:Button text="Fireball" name="Fireball" class="button ActionMenuButton4">
             <ui:Label text="12 PS" name="FireballCost" class="ItemQtt" style="flex-direction: column;"/>
-            <ui:VisualElement picking-mode="Ignore" name="FireballSelector" class="selector" style="width: 146px;"/>
         </ui:Button>
         <ui:Button text="Absorption" name="Absorption" class="button ActionMenuButton4">
             <ui:Label text="10 PS&#10;" name="AbsorptionCost" class="ItemQtt" style="flex-direction: column;"/>
-            <ui:VisualElement picking-mode="Ignore" name="AbsorptionSelector" class="selector" style="width: 191px;"/>
         </ui:Button>
-        <ui:Button text="Confirm" name="Confirm" class="button" style="color: rgb(255, 255, 255); opacity: 1; display: none;">
-            <ui:VisualElement picking-mode="Ignore" name="CancelToPage1Selector" class="selector"/>
-        </ui:Button>
-        <ui:Button text="Cancel&#10;" name="CancelToPage1" class="button cancelToPage1" style="color: rgb(255, 255, 255); opacity: 1;">
-            <ui:VisualElement picking-mode="Ignore" name="CancelToPage1Selector" class="selector"/>
-        </ui:Button>
+        <ui:Button text="Confirm" name="Confirm" class="button" style="color: rgb(255, 255, 255); opacity: 1; display: none;"/>
+        <ui:Button text="Cancel&#10;" name="CancelToPage1" class="button cancelToPage1" style="color: rgb(255, 255, 255); opacity: 1;"/>
         <ui:Label text="" name="Description" style="font-size: 23px; color: rgb(255, 255, 255); background-color: rgba(0, 0, 0, 0.5); -unity-text-outline-width: 0; -unity-text-outline-color: rgb(0, 0, 0); opacity: 1; -unity-text-align: upper-center; visibility: hidden; display: flex; min-height: 60px; white-space: normal;"/>
     </ui:VisualElement>
 </ui:UXML>

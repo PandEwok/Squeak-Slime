@@ -1,9 +1,10 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Button text="&#10;" name="ItemButton" style="flex-direction: row; justify-content: space-between; align-items: center; background-color: rgba(0, 0, 0, 0.5); -unity-text-outline-color: rgb(255, 255, 255); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px;">
-        <ui:Label text="Name" name="ItemName" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Engcomica.otf?fileID=12800000&amp;guid=96c649ca54c11d540adde8d787c59125&amp;type=3#Engcomica&quot;); font-size: 27px; color: rgb(255, 255, 255);"/>
+    <Style src="project://database/Assets/UI/Combat/ItemRowTemplate.uss?fileID=7433441132597879392&amp;guid=149644ebaa4e1394794fc28aedef6cd0&amp;type=3#ItemRowTemplate"/>
+    <ui:Button text="&#10;" name="ItemButton" class="button" style="flex-direction: row; justify-content: space-between; align-items: center; -unity-text-outline-color: rgb(255, 255, 255); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; margin-left: 4px; margin-right: 4px; height: 74px; width: 327px;">
+        <ui:Label text="Name" name="ItemName" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Engcomica.otf?fileID=12800000&amp;guid=96c649ca54c11d540adde8d787c59125&amp;type=3#Engcomica&quot;); font-size: 30px; color: rgb(255, 255, 255);"/>
         <ui:VisualElement name="RightContainer" style="flex-grow: 0; flex-direction: row; align-items: center; height: 60px; flex-shrink: 0; margin-left: auto; width: 224px; justify-content: flex-end;">
             <ui:VisualElement name="ItemIcon" style="flex-grow: 0; -unity-text-outline-color: rgb(255, 255, 255); -unity-text-outline-width: 0; width: 90px; height: 50px; -unity-background-scale-mode: scale-to-fit; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; flex-shrink: 0; background-image: none;"/>
-            <ui:Label text="x99&#10;" name="ItemCount" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Engcomica.otf?fileID=12800000&amp;guid=96c649ca54c11d540adde8d787c59125&amp;type=3#Engcomica&quot;); font-size: 27px; color: rgb(255, 255, 255);"/>
+            <ui:Label text="x99&#10;" name="ItemCount" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Engcomica.otf?fileID=12800000&amp;guid=96c649ca54c11d540adde8d787c59125&amp;type=3#Engcomica&quot;); font-size: 36px; color: rgb(255, 255, 255);"/>
         </ui:VisualElement>
     </ui:Button>
 </ui:UXML>

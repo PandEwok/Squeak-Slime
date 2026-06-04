@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class ActionBarScript : MonoBehaviour
 {
+    [SerializeField] private StyleSheet itemRowStyleSheet;
     [Header("Dynamic Inventory Settings")]
     [SerializeField] private VisualTreeAsset itemRowTemplate;
     private ScrollView inventoryContainer;
@@ -106,6 +107,7 @@ public class ActionBarScript : MonoBehaviour
         Absorption?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Absorption"));
         Absorption?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         Confirm?.RegisterCallback<ClickEvent>(ev => ConfirmPressed());
+
     }
 
     private void Update()
@@ -196,7 +198,10 @@ public class ActionBarScript : MonoBehaviour
             int count = pair.Value;
 
             VisualElement itemRow = itemRowTemplate.Instantiate();
-
+            if (itemRowStyleSheet != null)
+            {
+                itemRow.styleSheets.Add(itemRowStyleSheet);
+            }
             itemRow.Q<Label>("ItemName").text = item.itemName;
             itemRow.Q<Label>("ItemCount").text = "X" + count.ToString();
 
@@ -231,9 +236,8 @@ public class ActionBarScript : MonoBehaviour
     {
         Debug.Log("Attack button clicked!");
         TogglePage1Visibility(false);
-        ToggleCancelToPage1Visibility(true);
         TogglePage2Visibility(true);
-
+        ToggleCancelToPage1Visibility(true);
     }
     private void ItemsClicked()
     {
@@ -495,61 +499,6 @@ public class ActionBarScript : MonoBehaviour
             }
         }
     }
-    //private void UseCheese()
-    //{
-    //    Debug.Log("Use Cheese button clicked!");
-    //    if (playerInventory.cheeseInv > 0)
-    //    {
-    //        playerInventory.removeCheese(1);
-    //        playerS.HealPlayer(50);
-    //        UpdateInventoryUI();
-    //        //FinalizeAttack();
-    //        ToggleUiVisibility(false);
-    //        playerS.SwitchingTurn();
-    //    }
-    //}
-
-    //private void UseBanana()
-    //{
-    //    Debug.Log("Use Banana button clicked!");
-    //    if (playerInventory.bananaInv > 0)
-    //    {
-    //        playerInventory.removeBanana(1);
-    //        playerS.RestoreSP(50);
-    //        UpdateInventoryUI();
-    //        //FinalizeAttack();
-    //        ToggleUiVisibility(false);
-    //        playerS.SwitchingTurn();
-    //    }
-    //}
-
-    //private void UsePepperAtt()
-    //{
-    //    Debug.Log("Use Pepper Attack button clicked!");
-    //    if (playerInventory.pepperAttInv > 0)
-    //    {
-    //        playerInventory.removePepperAtt(1);
-    //        playerS.ActionEmpower();
-    //        UpdateInventoryUI();
-    //        //FinalizeAttack();
-    //        ToggleUiVisibility(false);
-    //        playerS.SwitchingTurn();
-    //    }
-    //}
-
-    //private void UsePepperDef()
-    //{
-    //    Debug.Log("Use Pepper Defense button clicked!");
-    //    if (playerInventory.pepperDefInv > 0)
-    //    {
-    //        playerInventory.removePepperDef(1);
-    //        playerS.ActionDefenseBuff();
-    //        UpdateInventoryUI();
-    //        //FinalizeAttack();
-    //        ToggleUiVisibility(false);
-    //        playerS.SwitchingTurn();
-    //    }
-    //}
 
     public void ShowDescription(string id)
     {
@@ -570,6 +519,8 @@ public class ActionBarScript : MonoBehaviour
                 return;
             }
         }
+        descriptionDisplayLabel.text = id;
+        descriptionDisplayLabel.style.visibility = Visibility.Visible;
     }
 
     private void ConfirmPressed()
