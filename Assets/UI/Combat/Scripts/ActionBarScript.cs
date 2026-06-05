@@ -16,16 +16,15 @@ public class ActionBarScript : MonoBehaviour
     private List<VisualElement> page2;
     private List<VisualElement> page3;
     private List<VisualElement> page4;
+    private Button Skills;
+    private Button Bite;
+    private Button Fracture;
+    private Button Fireball;
+    private Button Absorption;
     [SerializeField] private Combat_Logic combatLogic;
     [SerializeField] private GameObject player;
     private PlayerScript playerS;
     private PlayerInventory playerInventory;
-    private int playerAttack;
-    private Vector3 originalPosition;
-    private Label cheeseQtyLabel;
-    private Label bananaQtyLabel;
-    private Label pepperAttQtyLabel;
-    private Label pepperDefQtyLabel;
     private bool isSelectingEnnemy = false;
     private int targetCount = 0;
     private bool confirmedAttack = false;
@@ -45,7 +44,6 @@ public class ActionBarScript : MonoBehaviour
     private void Awake()
     {
         playerS = player.GetComponent<PlayerScript>();
-        playerAttack = player.GetComponent<Stats_System>().damage;
 
         playerInventory = player.GetComponent<PlayerInventory>();
     }
@@ -73,15 +71,15 @@ public class ActionBarScript : MonoBehaviour
 
         var Attack = root.Q<Button>("Attack");
         var Items = root.Q<Button>("Items");
-        var Skills = root.Q<Button>("Skills");
         var Defend = root.Q<Button>("Defend");
         var CancelP1 = root.Q<Button>("CancelToPage1");
         var AttackFront = root.Q<Button>("AttackFront");
         var AttackUp = root.Q<Button>("AttackUp");
-        var Bite = root.Q<Button>("Bite");
-        var Fracture = root.Q<Button>("Fracture");
-        var Fireball = root.Q<Button>("Fireball");
-        var Absorption = root.Q<Button>("Absorption");
+        Skills = root.Q<Button>("Skills");
+        Bite = root.Q<Button>("Bite");
+        Fracture = root.Q<Button>("Fracture");
+        Fireball = root.Q<Button>("Fireball");
+        Absorption = root.Q<Button>("Absorption");
         var Confirm = root.Q<Button>("Confirm");
         page1 = root.Query<VisualElement>(className: "ActionMenuButton1").ToList();
         page2 = root.Query<VisualElement>(className: "ActionMenuButton2").ToList();
@@ -107,7 +105,14 @@ public class ActionBarScript : MonoBehaviour
         Absorption?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Absorption"));
         Absorption?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         Confirm?.RegisterCallback<ClickEvent>(ev => ConfirmPressed());
-
+        if (playerS.DoesHaveAnySkill())
+        {
+            Skills.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            Skills.style.display = DisplayStyle.None;
+        }
     }
 
     private void Update()
@@ -411,6 +416,10 @@ public class ActionBarScript : MonoBehaviour
             {
                 element.style.display = DisplayStyle.Flex;
                 ToggleConfirmVisibility(false);
+                if (!playerS.DoesHaveAnySkill())
+                {
+                    Skills.style.display = DisplayStyle.None;
+                }
             }
             else
             {
@@ -457,6 +466,22 @@ public class ActionBarScript : MonoBehaviour
             {
                 element.style.display = DisplayStyle.Flex;
                 ToggleConfirmVisibility(false);
+                if (!playerS.hasBite)
+                {
+                    Bite.style.display = DisplayStyle.None;
+                }
+                if (!playerS.hasFracture)
+                {
+                    Fracture.style.display = DisplayStyle.None;
+                }
+                if (!playerS.hasFireball)
+                {
+                    Fireball.style.display = DisplayStyle.None;
+                }
+                if (!playerS.hasAbsorption)
+                {
+                    Absorption.style.display = DisplayStyle.None;
+                }
             }
             else
             {

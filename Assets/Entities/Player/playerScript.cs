@@ -39,6 +39,11 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private GameObject attackBoostEffect;
     [SerializeField] private GameObject defenseBoostEffect;
     [HideInInspector] public SpriteRenderer sprite;
+    [Header("Skills Booleans")]
+    public bool hasBite = false;
+    public bool hasFireball = false;
+    public bool hasFracture = false;
+    public bool hasAbsorption = false;
 
     private void Awake()
     {
@@ -690,5 +695,10 @@ public class PlayerScript : MonoBehaviour
             gradeScript.gameObject.SetActive(true);
             StartCoroutine(gradeScript.GradeDisplay(grade, display));
         }
+    }
+
+    public bool DoesHaveAnySkill()
+    {
+        return hasBite || hasFireball || hasFracture || hasAbsorption;
     }
 }
