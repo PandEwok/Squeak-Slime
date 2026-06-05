@@ -82,4 +82,40 @@ public class PlayerInventory : MonoBehaviour
 
         Debug.Log($"[Inventory] Initialisé avec {teethPossessed.Count} types de dents uniques.");
     }
+
+    public void LoadInventoryData(PlayerData data)
+    {
+        if (data == null) return;
+
+        itemsPossessed.Clear();
+        teethPossessed.Clear();
+
+        ItemData[] allItems = Resources.LoadAll<ItemData>("Items");
+        foreach (var itemSave in data.items)
+        {
+            ItemData match = System.Array.Find(allItems, x => x.itemId == itemSave.itemId);
+            if (match != null)
+            {
+                AddItem(match, itemSave.amount);
+            }
+            else
+            {
+                Debug.LogWarning($"[Inventory] Impossible de trouver le ScriptableObject Item avec l'ID: {itemSave.itemId}");
+            }
+        }
+
+        Tooth[] allTeeth = Resources.LoadAll<Tooth>("Teeth");
+        foreach (var toothSave in data.teeth)
+        {
+            Tooth match = System.Array.Find(allTeeth, x => x.itemId == toothSave.itemId);
+            if (match != null)
+            {
+                AddTooth(match, toothSave.amount);
+            }
+            else
+            {
+                Debug.LogWarning($"[Inventory] Impossible de trouver le ScriptableObject Tooth avec l'ID: {toothSave.itemId}");
+            }
+        }
+    }
 }

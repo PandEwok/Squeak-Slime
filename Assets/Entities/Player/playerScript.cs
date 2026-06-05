@@ -123,7 +123,45 @@ public class PlayerScript : MonoBehaviour
                 }
             }
         }
-    }
+
+        //Appuyez sur S pour save
+        if(Keyboard.current != null && Keyboard.current.sKey.wasPressedThisFrame)
+        {
+            FileManager.Instance.SaveGame(
+                stats.health,
+                SP,
+                hasBite,
+                hasFireball,
+                hasFracture,
+                hasAbsorption,
+                GetComponent<PlayerInventory>()
+            );
+            Debug.Log("Sauvegarde effectuée !");
+        }
+
+        //Appuyez sur L pour charger les donnees
+        if (Keyboard.current != null && Keyboard.current.lKey.wasPressedThisFrame)
+        {
+            PlayerData data = FileManager.Instance.LoadGame();
+            if (data != null)
+            {
+                stats.health = data.HP;
+                SP = data.SP;
+                hasBite = data.hasBite;
+                hasFireball = data.hasFireball;
+                hasFracture = data.hasFracture;
+                hasAbsorption = data.hasAbsorption;
+
+                GetComponent<PlayerInventory>().LoadInventoryData(data);
+                Debug.Log("Chargement effectué !");
+            }
+        }
+        if(Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            FileManager.Instance.DeleteSave();
+            Debug.Log("Sauvegarde supprimée !");
+        }
+}
     public IEnumerator AttackFrontSequence(GameObject target, float boost, bool isBite)
     {
         Vector3 enemyPos = target.transform.position;
