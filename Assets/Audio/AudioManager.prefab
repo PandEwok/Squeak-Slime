@@ -80,6 +80,15 @@ MonoBehaviour:
   - name: Fracture
     clip: {fileID: 8300000, guid: 8b67f06f65d5a8a49b81ad94e34a793b, type: 3}
     volume: 1
+  - name: Heal
+    clip: {fileID: 8300000, guid: d5300421477f5534c95c8de22949a28b, type: 3}
+    volume: 0.5
+  - name: Powerup
+    clip: {fileID: 8300000, guid: 3e8d0bb4266fd034bb5ee6843772fd71, type: 3}
+    volume: 0.5
+  - name: Burn
+    clip: {fileID: 8300000, guid: 920611fbd689b274eacd92762235e7bf, type: 3}
+    volume: 0.5
   sfxSource: {fileID: 7455365996537922425}
   loopSfxSource: {fileID: 7438998512016560997}
 --- !u!82 &7455365996537922425

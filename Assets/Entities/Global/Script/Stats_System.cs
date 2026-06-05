@@ -166,6 +166,7 @@ public class Stats_System : MonoBehaviour
         health += healAmount;
         health = Mathf.Min(health, originalHealth);
         Debug.Log($"{gameObject.name} healed for {healAmount}. Current health: {health}");
+        AudioManager.Instance.PlaySFX("Heal");
     }
     public void Bleed()
     {
@@ -190,6 +191,7 @@ public class Stats_System : MonoBehaviour
             Debug.Log($"{gameObject.name} is on fire.");
             int burnDamage = Mathf.RoundToInt(originalHealth / fireDamage);
             takeDamage(burnDamage, true);
+            AudioManager.Instance.PlaySFX("Burn");
             fireTimer--;
             if (fireTimer <= 0 && fireInstance != null)
             {
@@ -302,6 +304,7 @@ public class Stats_System : MonoBehaviour
             hasAbsorption = true;
             SpriteRenderer img = GetComponentInChildren<SpriteRenderer>();
             img.color = absorptionColor;
+            AudioManager.Instance.PlaySFX("Powerup");
         }
         absorptionTimer = absorptionDuration + 1;
     }

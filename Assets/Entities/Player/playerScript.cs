@@ -581,11 +581,13 @@ public class PlayerScript : MonoBehaviour
     {
         empowerDelay = duration;
         attackBoostStrenght = effectValue;
+        AudioManager.Instance.PlaySFX("Powerup");
     }
     public void ActionDefenseBuff(int duration, float effectValue)
     {
        defenseBuffDelay = duration;
         defenseBoostStrenght = effectValue;
+        AudioManager.Instance.PlaySFX("Powerup");
     }
     public void SwitchingTurn()
     {
