@@ -89,6 +89,15 @@ MonoBehaviour:
   - name: Burn
     clip: {fileID: 8300000, guid: 920611fbd689b274eacd92762235e7bf, type: 3}
     volume: 0.5
+  - name: Parade
+    clip: {fileID: 8300000, guid: 07756053db31c3642afb9871c63a4abe, type: 3}
+    volume: 0.5
+  - name: Bleed
+    clip: {fileID: 8300000, guid: 2783af200dcc08f43821d705a9d3bc58, type: 3}
+    volume: 0.5
+  - name: Slime_Damage
+    clip: {fileID: 8300000, guid: 6e75f284a3f7b45419f7ddec0b8f830b, type: 3}
+    volume: 0.5
   sfxSource: {fileID: 7455365996537922425}
   loopSfxSource: {fileID: 7438998512016560997}
 --- !u!82 &7455365996537922425

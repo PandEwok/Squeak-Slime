@@ -129,6 +129,7 @@ public class Stats_System : MonoBehaviour
             if (blocking)
             {
                 effectiveDamage /= 2;
+                AudioManager.Instance.PlaySFX("Parade");
             }
             if (defending)
             {
@@ -136,6 +137,10 @@ public class Stats_System : MonoBehaviour
             }
         }
         health -= effectiveDamage;
+        if(this.CompareTag("Player"))
+        {
+            AudioManager.Instance.PlaySFX("Slime_Damage");
+        }
         GameObject newDmgDisplay;
 
         Vector3 spawnPos = new Vector3(this.transform.position.x, this.transform.position.y + 2);
@@ -175,6 +180,7 @@ public class Stats_System : MonoBehaviour
         {
             Debug.Log($"{gameObject.name} is bleeding.");
             takeDamage(bleedDamage, true);
+            AudioManager.Instance.PlaySFX("Bleed");
             bleedingTimer--;
             if(bleedingTimer <= 0 && bleedingInstance != null)
             {
