@@ -435,6 +435,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8567076734609327451, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
   m_PrefabInstance: {fileID: 1903217631616085308}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &890441200 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+  m_PrefabInstance: {fileID: 1903217631616085308}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890441197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b72539b93962544b295795c361fb7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
 --- !u!1 &977222308
 GameObject:
   m_ObjectHideFlags: 0
@@ -3551,6 +3562,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: hasBite
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: inventory
+      value: 
+      objectReference: {fileID: 890441200}
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: victoryUI
       value: 
       objectReference: {fileID: 1052438338}
@@ -3562,6 +3581,18 @@ PrefabInstance:
       propertyPath: combatLogic
       value: 
       objectReference: {fileID: 1044752080}
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: hasFireball
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: hasFracture
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: hasAbsorption
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingTeeth.Array.size
       value: 0

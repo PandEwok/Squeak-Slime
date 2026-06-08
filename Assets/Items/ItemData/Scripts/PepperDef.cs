@@ -6,7 +6,7 @@ public class PepperDef : ItemData
     public override void UseItem(GameObject user)
     {
         var inventory = user.GetComponent<PlayerInventory>();
-        var playerS = user.GetComponent<PlayerScript>();
+        var playerS = user.GetComponent<Player>();
         if (inventory != null)
         {
             inventory.RemoveItem(this, 1);

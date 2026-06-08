@@ -28,7 +28,7 @@ public class Enemy_AI : MonoBehaviour
     protected bool empowered = false;
     protected float particleSpawnTimer = 0;
     GameObject player;
-    PlayerScript playerCombat;
+    Player playerCombat;
 
     bool selected = false;
 
@@ -106,7 +106,7 @@ public class Enemy_AI : MonoBehaviour
     {
         basePos = getPos();
         player = GameObject.FindGameObjectWithTag("Player");
-        playerCombat = player.GetComponent<PlayerScript>();
+        playerCombat = player.GetComponent<Player>();
 
         enemies = GameObject.Find("CombatLogic").GetComponent<Combat_Logic>().enemies;
         ownIndex = enemies.IndexOf(this.gameObject);
@@ -221,6 +221,10 @@ public class Enemy_AI : MonoBehaviour
         {
             newTurnCount();
         }
+        else
+        {
+            StartCoroutine(GetComponent<Stats_System>().ApplyStatus());
+        }
     }
 
     public virtual void attack(GameObject target)
@@ -254,7 +258,7 @@ public class Enemy_AI : MonoBehaviour
         });
         ///
 
-        if (player.GetComponent<PlayerScript>() != null)
+        if (player.GetComponent<Player>() != null)
         {
             if(!hasFailedQTE)
             { 
@@ -312,7 +316,7 @@ public class Enemy_AI : MonoBehaviour
             elapsedTime += Time.deltaTime;
         }
 
-        if (player.GetComponent<PlayerScript>() != null)
+        if (player.GetComponent<Player>() != null)
         {
             if (!hasFailedQTE)
             {

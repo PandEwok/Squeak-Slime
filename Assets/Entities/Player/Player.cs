@@ -6,11 +6,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
 
-public class PlayerScript : MonoBehaviour
+public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
     Vector3 originalPosition;
     [Header("Game scripts")]
     public Combat_Logic combatLogic;
+    public PlayerInventory inventory;
     private Stats_System stats;
     [Header("Attack Prefabs")]
     [SerializeField] private GameObject projectile;
@@ -47,6 +49,15 @@ public class PlayerScript : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+        DontDestroyOnLoad(gameObject);
         Transform gradeTransform = transform.Find("GradeDisplay");
         Transform actionTransform = transform.Find("ActionMenu");
         Transform qteWarningTransform = transform.Find("QTEWarning");
@@ -134,7 +145,7 @@ public class PlayerScript : MonoBehaviour
                 hasFireball,
                 hasFracture,
                 hasAbsorption,
-                GetComponent<PlayerInventory>()
+                inventory
             );
             Debug.Log("Sauvegarde effectuée !");
         }
@@ -152,7 +163,7 @@ public class PlayerScript : MonoBehaviour
                 hasFracture = data.hasFracture;
                 hasAbsorption = data.hasAbsorption;
 
-                GetComponent<PlayerInventory>().LoadInventoryData(data);
+                inventory.LoadInventoryData(data);
                 Debug.Log("Chargement effectué !");
             }
         }

@@ -23,7 +23,7 @@ public class ActionBarScript : MonoBehaviour
     private Button Absorption;
     [SerializeField] private Combat_Logic combatLogic;
     [SerializeField] private GameObject player;
-    private PlayerScript playerS;
+    private Player playerS;
     private PlayerInventory playerInventory;
     private bool isSelectingEnnemy = false;
     private int targetCount = 0;
@@ -43,7 +43,7 @@ public class ActionBarScript : MonoBehaviour
 
     private void Awake()
     {
-        playerS = player.GetComponent<PlayerScript>();
+        playerS = player.GetComponent<Player>();
 
         playerInventory = player.GetComponent<PlayerInventory>();
     }
@@ -396,6 +396,7 @@ public class ActionBarScript : MonoBehaviour
             Stats_System playerStats = player.GetComponent<Stats_System>();
             playerStats.defending = false;
             StartCoroutine(player.GetComponent<Stats_System>().ApplyStatus());
+            descriptionDisplayLabel.style.visibility = Visibility.Hidden;
 
         }
         else
@@ -416,6 +417,7 @@ public class ActionBarScript : MonoBehaviour
             {
                 element.style.display = DisplayStyle.Flex;
                 ToggleConfirmVisibility(false);
+                descriptionDisplayLabel.style.visibility = Visibility.Hidden;
                 if (!playerS.DoesHaveAnySkill())
                 {
                     Skills.style.display = DisplayStyle.None;

@@ -161,7 +161,7 @@ public class Stats_System : MonoBehaviour
         if (health <= 0 && this.CompareTag("Player"))
         {
             Debug.Log("Player has died. Game Over.");
-            player.GetComponent<PlayerScript>().GameOver();
+            player.GetComponent<Player>().GameOver();
         }
         return effectiveDamage;
     }
@@ -216,6 +216,7 @@ public class Stats_System : MonoBehaviour
             if (dizzyTimer <= 0 && dizzyInstance != null)
             {
                 Destroy(dizzyInstance);
+                isDizzy = false;
             }
         }
     }
@@ -248,7 +249,7 @@ public class Stats_System : MonoBehaviour
         {
             Burn();
         }
-        if (isDizzy)
+        isDizzy = (dizzyTimer > 0);
         {
             Dizzyness();
         }
@@ -301,7 +302,7 @@ public class Stats_System : MonoBehaviour
                 dizzyInstance = Instantiate(dizzyPF, this.transform.position + new Vector3(-0.5f, 3, 0), Quaternion.identity, this.transform);
             }
         }
-        dizzyTimer = dizzyDuration + 1;
+        dizzyTimer = dizzyDuration;
     }
     public void ActivateAbsorption()
     {

@@ -7,7 +7,7 @@ public class BiteSkillEffect : CustomEffectLogic
     public override void ExecuteEffect(GameObject user, GameObject target)
     {
         // 1. Grab the PlayerScript from the character using the skill
-        PlayerScript playerS = user.GetComponent<PlayerScript>();
+        Player playerS = user.GetComponent<Player>();
 
         if (playerS != null && target != null)
         {
