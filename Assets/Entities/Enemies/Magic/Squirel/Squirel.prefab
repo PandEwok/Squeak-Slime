@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 3.707
       objectReference: {fileID: 0}
+    - target: {fileID: 1975262410362024240, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
+      propertyPath: defense
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3152000304185433993, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -105,3 +109,6 @@ MonoBehaviour:
   defBuffs: []
   powerEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
   empowerStrenght: 0.5
+  projectilePF: {fileID: 0}
+  directionalResistance: 2
+  dResistanceAmount: 0.35

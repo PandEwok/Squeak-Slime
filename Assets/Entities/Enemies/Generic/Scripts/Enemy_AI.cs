@@ -41,6 +41,14 @@ public class Enemy_AI : MonoBehaviour
 
     protected Stats_System stats;
 
+    public enum attackDirection
+    {
+        NONE,
+        TOP,
+        FRONT,
+    }
+    public attackDirection directionalResistance = attackDirection.NONE;
+    public float dResistanceAmount = 0f;
 
     void setArrow(bool value) {
         transform.Find("SelectArrow").gameObject.SetActive(value);

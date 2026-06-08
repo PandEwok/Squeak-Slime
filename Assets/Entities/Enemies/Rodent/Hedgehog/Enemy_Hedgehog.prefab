@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3249571868899928095, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 811307c2cdc6a6349b6f8c3c2896db80, type: 3}
     - target: {fileID: 4724662228590154988, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
       propertyPath: defense
       value: 7
@@ -15,6 +19,14 @@ PrefabInstance:
     - target: {fileID: 4724662228590154988, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
       propertyPath: originalHealth
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5196022952998350757, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5196022952998350757, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.772
       objectReference: {fileID: 0}
     - target: {fileID: 6014539821598933902, guid: fd72af08bb2d65841824610c7951c4d5, type: 3}
       propertyPath: m_Name
@@ -89,3 +101,6 @@ MonoBehaviour:
   defBuffs: []
   powerEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
   empowerStrenght: 0.25
+  projectilePF: {fileID: 0}
+  directionalResistance: 1
+  dResistanceAmount: 0.6

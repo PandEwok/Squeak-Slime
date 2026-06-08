@@ -104,7 +104,7 @@ public class Stats_System : MonoBehaviour
         else img.color = absorptionColor;
     }
 
-    public int takeDamage(int damageAmount, bool isStatusDamage)
+    public int takeDamage(int damageAmount, bool isStatusDamage, Enemy_AI.attackDirection hitDirection = Enemy_AI.attackDirection.NONE)
     {
         int effectiveDamage = 0;
         if (isStatusDamage)
@@ -122,18 +122,24 @@ public class Stats_System : MonoBehaviour
                     float buffReduction = damageAmount * buff;
                     effectiveDamage -= Mathf.RoundToInt(buffReduction);
                 }
+                if (enemyAI.directionalResistance != Enemy_AI.attackDirection.NONE && hitDirection == enemyAI.directionalResistance)
+                {
+                    float directionalReduction = damageAmount * enemyAI.dResistanceAmount;
+                    effectiveDamage -= Mathf.RoundToInt(directionalReduction);
+                }
                 effectiveDamage = Mathf.Max(effectiveDamage, 0);
             }
-            //this.GetComponent<Enemy_AI>()?.defBuffs.ForEach(buff => effectiveDamage -= Mathf.RoundToInt(damageAmount * buff));
-
-            if (blocking)
+            else
             {
-                effectiveDamage /= 2;
-                AudioManager.Instance.PlaySFX("Parade");
-            }
-            if (defending)
-            {
-                effectiveDamage /= 2;
+                if (blocking)
+                {
+                    effectiveDamage /= 2;
+                    AudioManager.Instance.PlaySFX("Parade");
+                }
+                if (defending)
+                {
+                    effectiveDamage /= 2;
+                }
             }
         }
         health -= effectiveDamage;
