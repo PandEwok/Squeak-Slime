@@ -39,6 +39,8 @@ public class Enemy_AI : MonoBehaviour
 
     public GameObject projectilePF;
 
+    protected Stats_System stats;
+
 
     void setArrow(bool value) {
         transform.Find("SelectArrow").gameObject.SetActive(value);
@@ -108,6 +110,8 @@ public class Enemy_AI : MonoBehaviour
 
         enemies = GameObject.Find("CombatLogic").GetComponent<Combat_Logic>().enemies;
         ownIndex = enemies.IndexOf(this.gameObject);
+
+        stats = GetComponent<Stats_System>();
     }
 
     Vector2 getPos()
@@ -213,11 +217,10 @@ public class Enemy_AI : MonoBehaviour
 
     public async virtual Task playTurn(GameObject target)
     {
-        /*if (empowerDelay > 0)
+        if (!stats.isDizzy)
         {
-            empowerDelay--;
-        }*/
-        newTurnCount();
+            newTurnCount();
+        }
     }
 
     public virtual void attack(GameObject target)

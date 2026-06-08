@@ -6,26 +6,29 @@ public class Dormouse_AI : Rodent_AI
 {
     public async override Task playTurn(GameObject target)
     {
-        int actionChoiceChance = 0;
-        int actionChoice = Random.Range(0, 100);
-        Debug.Log($"{this.gameObject.name} action choice: {actionChoice} (empower delay: {empowerDelay})");
-        if (empowerDelay <= 0)
+        if (!stats.isDizzy)
         {
-            actionChoiceChance = 85; // 85% chance to empower if not currently empowered
-        }
-        if (actionChoice < actionChoiceChance)
-        {
-            await Task.Run(() =>
+            int actionChoiceChance = 0;
+            int actionChoice = Random.Range(0, 100);
+            Debug.Log($"{this.gameObject.name} action choice: {actionChoice} (empower delay: {empowerDelay})");
+            if (empowerDelay <= 0)
             {
-                actionEmpower(EmpowerType.DAMAGE, 1.2f, 2, 0);
-            });
-            
-            await distanceAttack(target);
-        }
-        else
-        {
-            
-            await distanceAttack(target);
+                actionChoiceChance = 85; // 85% chance to empower if not currently empowered
+            }
+            if (actionChoice < actionChoiceChance)
+            {
+                await Task.Run(() =>
+                {
+                    actionEmpower(EmpowerType.DAMAGE, 1.2f, 2, 0);
+                });
+
+                await distanceAttack(target);
+            }
+            else
+            {
+
+                await distanceAttack(target);
+            }
         }
 
         await base.playTurn(target);

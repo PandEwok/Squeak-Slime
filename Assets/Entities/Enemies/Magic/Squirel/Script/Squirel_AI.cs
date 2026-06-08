@@ -53,29 +53,32 @@ public class Squirel_AI : Magic_AI
 
     public async override Task playTurn(GameObject target)
     {
-        int healChance = 0;
-        int actionChoice = Random.Range(0, 100);
-        Debug.Log($"{this.gameObject.name} action choice: {actionChoice} (empower delay: {empowerDelay})");
-        if (empowerDelay <= 0 && (getSelfDamaged() || getAllyDamaged() > 0))
+        if (!stats.isDizzy)
         {
-            healChance = 70;
-        }
-        if (actionChoice < healChance)
-        {
-            healAlly();
-        }
-        else
-        {
-            int buffChance = 50;
-            actionChoice = Random.Range(0, 100);
-            if (actionChoice < buffChance)
+            int healChance = 0;
+            int actionChoice = Random.Range(0, 100);
+            Debug.Log($"{this.gameObject.name} action choice: {actionChoice} (empower delay: {empowerDelay})");
+            if (empowerDelay <= 0 && (getSelfDamaged() || getAllyDamaged() > 0))
             {
-                int randomAllyIndex = GetRandomIndexExcept(enemies.Count, ownIndex);
-                enemies[randomAllyIndex].GetComponent<Enemy_AI>().addBuff(Enemy_AI.EmpowerType.DEFENSE, 0.5f, 2);
+                healChance = 70;
+            }
+            if (actionChoice < healChance)
+            {
+                healAlly();
             }
             else
             {
-                await distanceAttack(target);
+                int buffChance = 50;
+                actionChoice = Random.Range(0, 100);
+                if (actionChoice < buffChance)
+                {
+                    int randomAllyIndex = GetRandomIndexExcept(enemies.Count, ownIndex);
+                    enemies[randomAllyIndex].GetComponent<Enemy_AI>().addBuff(Enemy_AI.EmpowerType.DEFENSE, 0.5f, 2);
+                }
+                else
+                {
+                    await distanceAttack(target);
+                }
             }
         }
 
