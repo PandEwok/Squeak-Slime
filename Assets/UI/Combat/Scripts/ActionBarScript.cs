@@ -6,22 +6,25 @@ using UnityEngine.InputSystem;
 
 public class ActionBarScript : MonoBehaviour
 {
+    [SerializeField] private StyleSheet itemRowStyleSheet;
+    [Header("Dynamic Inventory Settings")]
+    [SerializeField] private VisualTreeAsset itemRowTemplate;
+    private ScrollView inventoryContainer;
     [SerializeField] private UIDocument uiDocument;
     private VisualElement root;
     private List<VisualElement> page1;
     private List<VisualElement> page2;
     private List<VisualElement> page3;
     private List<VisualElement> page4;
+    private Button Skills;
+    private Button Bite;
+    private Button Fracture;
+    private Button Fireball;
+    private Button Absorption;
     [SerializeField] private Combat_Logic combatLogic;
     [SerializeField] private GameObject player;
     private PlayerScript playerS;
     private PlayerInventory playerInventory;
-    private int playerAttack;
-    private Vector3 originalPosition;
-    private Label cheeseQtyLabel;
-    private Label bananaQtyLabel;
-    private Label pepperAttQtyLabel;
-    private Label pepperDefQtyLabel;
     private bool isSelectingEnnemy = false;
     private int targetCount = 0;
     private bool confirmedAttack = false;
@@ -41,7 +44,6 @@ public class ActionBarScript : MonoBehaviour
     private void Awake()
     {
         playerS = player.GetComponent<PlayerScript>();
-        playerAttack = player.GetComponent<Stats_System>().damage;
 
         playerInventory = player.GetComponent<PlayerInventory>();
     }
@@ -49,19 +51,18 @@ public class ActionBarScript : MonoBehaviour
     {
         uiDocument = GetComponent<UIDocument>();
         root = uiDocument.rootVisualElement;
-
-        cheeseQtyLabel = root.Q<Label>("CheeseQuantity");
-        bananaQtyLabel = root.Q<Label>("BananaQuantity");
-        pepperAttQtyLabel = root.Q<Label>("PepperAttQuantity");
-        pepperDefQtyLabel = root.Q<Label>("PepperDefQuantity");
+        inventoryContainer = root.Q<ScrollView>("InventoryGrid");
         UQueryBuilder<Button> allButtons = root.Query<Button>();
         allButtons.ForEach(button =>
         {
             button.clicked += () => PlayClickSound();
         });
-        UpdateInventoryUI();
-
         descriptionDisplayLabel = root.Q<Label>("Description");
+        if (inventoryContainer is ScrollView scrollView)
+        {
+            scrollView.verticalScrollerVisibility = ScrollerVisibility.Hidden;
+            scrollView.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
+        }
     }
 
 
@@ -70,23 +71,19 @@ public class ActionBarScript : MonoBehaviour
 
         var Attack = root.Q<Button>("Attack");
         var Items = root.Q<Button>("Items");
-        var Skills = root.Q<Button>("Skills");
         var Defend = root.Q<Button>("Defend");
         var CancelP1 = root.Q<Button>("CancelToPage1");
         var AttackFront = root.Q<Button>("AttackFront");
         var AttackUp = root.Q<Button>("AttackUp");
-        var Cheese = root.Q<Button>("Cheese");
-        var Banana = root.Q<Button>("Banana");
-        var PepperAtt = root.Q<Button>("PepperAtt");
-        var PepperDef = root.Q<Button>("PepperDef");
-        var Bite = root.Q<Button>("Bite");
-        var Fracture = root.Q<Button>("Fracture");
-        var Fireball = root.Q<Button>("Fireball");
-        var Absorption = root.Q<Button>("Absorption");
+        Skills = root.Q<Button>("Skills");
+        Bite = root.Q<Button>("Bite");
+        Fracture = root.Q<Button>("Fracture");
+        Fireball = root.Q<Button>("Fireball");
+        Absorption = root.Q<Button>("Absorption");
         var Confirm = root.Q<Button>("Confirm");
         page1 = root.Query<VisualElement>(className: "ActionMenuButton1").ToList();
         page2 = root.Query<VisualElement>(className: "ActionMenuButton2").ToList();
-        page3 = root.Query<VisualElement>(className: "ActionMenuButton3").ToList();
+        page3 = new List<VisualElement> { inventoryContainer };
         page4 = root.Query<VisualElement>(className: "ActionMenuButton4").ToList();
         Attack?.RegisterCallback<ClickEvent>(ev => AttackClicked());
         Items?.RegisterCallback<ClickEvent>(ev => ItemsClicked());
@@ -95,18 +92,6 @@ public class ActionBarScript : MonoBehaviour
         CancelP1?.RegisterCallback<ClickEvent>(ev => CancelToPage1());
         AttackFront?.RegisterCallback<ClickEvent>(ev => AttackFrontClicked());
         AttackUp?.RegisterCallback<ClickEvent>(ev => AttackUpClicked());
-        Cheese?.RegisterCallback<ClickEvent>(ev => UseCheese());
-        Cheese?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Cheese"));
-        Cheese?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
-        Banana?.RegisterCallback<ClickEvent>(ev => UseBanana());
-        Banana?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Banana"));
-        Banana?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
-        PepperAtt?.RegisterCallback<ClickEvent>(ev => UsePepperAtt());
-        PepperAtt?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("PepperAtt"));
-        PepperAtt?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
-        PepperDef?.RegisterCallback<ClickEvent>(ev => UsePepperDef());
-        PepperDef?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("PepperDef"));
-        PepperDef?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         Bite?.RegisterCallback<ClickEvent>(ev => UseBite());
         Bite?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Bite"));
         Bite?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
@@ -120,6 +105,14 @@ public class ActionBarScript : MonoBehaviour
         Absorption?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Absorption"));
         Absorption?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         Confirm?.RegisterCallback<ClickEvent>(ev => ConfirmPressed());
+        if (playerS.DoesHaveAnySkill())
+        {
+            Skills.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            Skills.style.display = DisplayStyle.None;
+        }
     }
 
     private void Update()
@@ -160,7 +153,7 @@ public class ActionBarScript : MonoBehaviour
                     }
                     else if (attackType == AttackType.RANGED)
                     {
-                        StartCoroutine(playerS.AttackJumpSequence(target, 0));
+                        StartCoroutine(playerS.AttackRangedSequence(target, 0));
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
@@ -200,42 +193,61 @@ public class ActionBarScript : MonoBehaviour
     }
     public void UpdateInventoryUI()
     {
-        int currentCheese = playerInventory.cheeseInv;
-        int currentBanana = playerInventory.bananaInv;
-        int currentPepperAtt = playerInventory.pepperAttInv;
-        int currentPepperDef = playerInventory.pepperDefInv;
+        if (inventoryContainer == null || itemRowTemplate == null) return;
 
-        if (cheeseQtyLabel != null)
-        {
-            cheeseQtyLabel.text = "X" + currentCheese.ToString();
-        }
+        inventoryContainer.Clear();
 
-        if (bananaQtyLabel != null)
+        foreach (var pair in playerInventory.itemsPossessed)
         {
-            bananaQtyLabel.text = "X" + currentBanana.ToString();
-        }
+            ItemData item = pair.Key;
+            int count = pair.Value;
 
-        if (pepperAttQtyLabel != null)
-        {
-            pepperAttQtyLabel.text = "X" + currentPepperAtt.ToString();
-        }
+            VisualElement itemRow = itemRowTemplate.Instantiate();
+            if (itemRowStyleSheet != null)
+            {
+                itemRow.styleSheets.Add(itemRowStyleSheet);
+            }
+            itemRow.Q<Label>("ItemName").text = item.itemName;
+            itemRow.Q<Label>("ItemCount").text = "X" + count.ToString();
 
-        if (pepperDefQtyLabel != null)
-        {
-            pepperDefQtyLabel.text = "X" + currentPepperDef.ToString();
+            VisualElement icon = itemRow.Q<VisualElement>("ItemIcon");
+            if (icon != null && item.itemIcon != null)
+            {
+                icon.style.backgroundImage = new StyleBackground(item.itemIcon.texture);
+                icon.style.unityBackgroundImageTintColor = item.defaultColor;
+            }
+
+            Button itemButton = itemRow.Q<Button>("ItemButton");
+            if (itemButton != null)
+            {
+                itemButton.RegisterCallback<ClickEvent>(ev =>
+                {
+                    item.UseItem(player);
+                    UpdateInventoryUI();
+
+                    
+                    ToggleUiVisibility(false);
+                    playerS.SwitchingTurn();
+                });
+
+                itemButton.RegisterCallback<PointerEnterEvent>(ev => ShowDescription(item.itemDescription));
+                itemButton.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
+            }
+
+            inventoryContainer.Add(itemRow);
         }
     }
     private void AttackClicked()
     {
         Debug.Log("Attack button clicked!");
         TogglePage1Visibility(false);
-        ToggleCancelToPage1Visibility(true);
         TogglePage2Visibility(true);
-
+        ToggleCancelToPage1Visibility(true);
     }
     private void ItemsClicked()
     {
         Debug.Log("Items button clicked!");
+        UpdateInventoryUI();
         TogglePage1Visibility(false);
         TogglePage3Visibility(true);
         ToggleCancelToPage1Visibility(true);
@@ -404,6 +416,10 @@ public class ActionBarScript : MonoBehaviour
             {
                 element.style.display = DisplayStyle.Flex;
                 ToggleConfirmVisibility(false);
+                if (!playerS.DoesHaveAnySkill())
+                {
+                    Skills.style.display = DisplayStyle.None;
+                }
             }
             else
             {
@@ -450,6 +466,22 @@ public class ActionBarScript : MonoBehaviour
             {
                 element.style.display = DisplayStyle.Flex;
                 ToggleConfirmVisibility(false);
+                if (!playerS.hasBite)
+                {
+                    Bite.style.display = DisplayStyle.None;
+                }
+                if (!playerS.hasFracture)
+                {
+                    Fracture.style.display = DisplayStyle.None;
+                }
+                if (!playerS.hasFireball)
+                {
+                    Fireball.style.display = DisplayStyle.None;
+                }
+                if (!playerS.hasAbsorption)
+                {
+                    Absorption.style.display = DisplayStyle.None;
+                }
             }
             else
             {
@@ -492,61 +524,6 @@ public class ActionBarScript : MonoBehaviour
             }
         }
     }
-    private void UseCheese()
-    {
-        Debug.Log("Use Cheese button clicked!");
-        if (playerInventory.cheeseInv > 0)
-        {
-            playerInventory.removeCheese(1);
-            playerS.HealPlayer(50);
-            UpdateInventoryUI();
-            //FinalizeAttack();
-            ToggleUiVisibility(false);
-            playerS.SwitchingTurn();
-        }
-    }
-
-    private void UseBanana()
-    {
-        Debug.Log("Use Banana button clicked!");
-        if (playerInventory.bananaInv > 0)
-        {
-            playerInventory.removeBanana(1);
-            playerS.RestoreSP(50);
-            UpdateInventoryUI();
-            //FinalizeAttack();
-            ToggleUiVisibility(false);
-            playerS.SwitchingTurn();
-        }
-    }
-
-    private void UsePepperAtt()
-    {
-        Debug.Log("Use Pepper Attack button clicked!");
-        if (playerInventory.pepperAttInv > 0)
-        {
-            playerInventory.removePepperAtt(1);
-            playerS.ActionEmpower();
-            UpdateInventoryUI();
-            //FinalizeAttack();
-            ToggleUiVisibility(false);
-            playerS.SwitchingTurn();
-        }
-    }
-
-    private void UsePepperDef()
-    {
-        Debug.Log("Use Pepper Defense button clicked!");
-        if (playerInventory.pepperDefInv > 0)
-        {
-            playerInventory.removePepperDef(1);
-            playerS.ActionDefenseBuff();
-            UpdateInventoryUI();
-            //FinalizeAttack();
-            ToggleUiVisibility(false);
-            playerS.SwitchingTurn();
-        }
-    }
 
     public void ShowDescription(string id)
     {
@@ -567,6 +544,8 @@ public class ActionBarScript : MonoBehaviour
                 return;
             }
         }
+        descriptionDisplayLabel.text = id;
+        descriptionDisplayLabel.style.visibility = Visibility.Visible;
     }
 
     private void ConfirmPressed()

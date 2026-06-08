@@ -69,6 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ed03998ec0338408f63691b993dcac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActionBarScript
+  itemRowStyleSheet: {fileID: 7433441132597879392, guid: 149644ebaa4e1394794fc28aedef6cd0, type: 3}
+  itemRowTemplate: {fileID: 9197481963319205126, guid: 0acc0ff1158fb1f46b0745d13695830a, type: 3}
   uiDocument: {fileID: 6544386515690968532}
   combatLogic: {fileID: 0}
   player: {fileID: 0}

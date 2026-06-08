@@ -35,6 +35,7 @@ public class UI_VictoryScript : MonoBehaviour
     public void GoToLobbyV()
     {
         Debug.Log("Exit button pressed in Victory UI");
+        AudioManager.Instance.PlaySFX("Button_Pressed");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

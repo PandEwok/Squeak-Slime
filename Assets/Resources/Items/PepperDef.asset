@@ -9,16 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d134cd4fae70484a846a7d3f2995504, type: 3}
-  m_Name: BluePepper
-  m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  actionType: 0
-  itemId: PepperDef
+  m_Script: {fileID: 11500000, guid: b9205533bb04be44a88085b747ccc6e6, type: 3}
+  m_Name: PepperDef
+  m_EditorClassIdentifier: Assembly-CSharp::PepperDef
   itemName: Blue Pepper
+  itemId: PepperDef
   itemDescription: Temporarily raises the user's defense.
-  effectValue: 25
   itemIcon: {fileID: -7414543132534328891, guid: 577027a890001cc4195a93fc9937a126, type: 3}
-  defaultColor: {r: 0, g: 0.49598122, b: 0.9607843, a: 1}
+  defaultColor: {r: 0, g: 0.49411765, b: 0.9607843, a: 1}
+  effectValue: 0.5
+  effectDuration: 3
   maxStackCapacity: 99
-  spCost: 0
-  specialEffectLogic: {fileID: 0}
