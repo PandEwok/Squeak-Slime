@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 3315146261300418188}
   - component: {fileID: 1522636355711820040}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerPrefab
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,14 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b72539b93962544b295795c361fb7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
-  cheeseInv: 10
-  bananaInv: 10
-  pepperAttInv: 10
-  pepperDefInv: 10
-  qty_teeth: 0
-  qty_magic_teeth: 0
-  qty_golem_teeth: 0
-  qty_mutant_teeth: 0
+  startingInventory: []
+  startingTeeth: []
 --- !u!114 &3315146261300418188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,9 +192,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 020d6cc7674eec54abf6b1f2ed991d7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
+  originalPosition: {x: 0, y: 0, z: 0}
   combatLogic: {fileID: 0}
-  projectile: {fileID: 7668710729188587511, guid: af852a2e06c4b6b4fb8ad7884a537402, type: 3}
-  fireball: {fileID: 4285521702272599874, guid: b772ebc56e267b94a8a355a146af87cb, type: 3}
+  inventory: {fileID: 3077587344446119393}
+  stats: {fileID: 3315146261300418188}
   originalSP: 100
   SP: 100
   attackBoostStrenght: 0.5
@@ -210,10 +205,18 @@ MonoBehaviour:
   hasWon: 0
   gameOverUI: {fileID: 0}
   victoryUI: {fileID: 0}
-  darkLightningPrefab: {fileID: 1883039589254334048, guid: 07389f35622e6a94bbe9c852012f2ea0, type: 3}
   attackBoostEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   defenseBoostEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
   sprite: {fileID: 0}
+  hasBite: 1
+  hasFireball: 1
+  hasFracture: 1
+  hasAbsorption: 1
+  meleeAttack: {fileID: 11400000, guid: 9ea74dc51bc02244a91456f20826a07f, type: 2}
+  biteAttack: {fileID: 11400000, guid: 182edeba1269c5743abba95f6b1270d4, type: 2}
+  rangedAttack: {fileID: 11400000, guid: 0b736b4fc70295f43bb63604ce3b9695, type: 2}
+  fireballAttack: {fileID: 11400000, guid: 23ee1532c1278764a8a7cb7e7e20fbe8, type: 2}
+  fractureAttack: {fileID: 11400000, guid: 8776595aadf6c454d80ee05950309a2f, type: 2}
 --- !u!1001 &2747501983277139162
 PrefabInstance:
   m_ObjectHideFlags: 0

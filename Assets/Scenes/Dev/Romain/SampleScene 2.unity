@@ -3593,6 +3593,10 @@ PrefabInstance:
       propertyPath: hasAbsorption
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: FireballAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 23ee1532c1278764a8a7cb7e7e20fbe8, type: 2}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingTeeth.Array.size
       value: 0
@@ -3653,6 +3657,10 @@ PrefabInstance:
       propertyPath: combatLogic
       value: 
       objectReference: {fileID: 1044752080}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: playerGameObject
+      value: 
+      objectReference: {fileID: 890441197}
     - target: {fileID: 7584880515457097585, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: displayDuration
       value: 3
@@ -3663,7 +3671,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8567076734609327451, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: PlayerPrefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

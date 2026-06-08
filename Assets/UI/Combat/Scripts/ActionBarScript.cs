@@ -22,8 +22,8 @@ public class ActionBarScript : MonoBehaviour
     private Button Fireball;
     private Button Absorption;
     [SerializeField] private Combat_Logic combatLogic;
-    [SerializeField] private GameObject player;
-    private Player playerS;
+    [SerializeField] private GameObject playerGameObject;
+    private Player playerScript;
     private PlayerInventory playerInventory;
     private bool isSelectingEnnemy = false;
     private int targetCount = 0;
@@ -43,9 +43,9 @@ public class ActionBarScript : MonoBehaviour
 
     private void Awake()
     {
-        playerS = player.GetComponent<Player>();
+        playerScript = playerGameObject.GetComponent<Player>();
 
-        playerInventory = player.GetComponent<PlayerInventory>();
+        playerInventory = playerGameObject.GetComponent<PlayerInventory>();
     }
     private void OnEnable()
     {
@@ -105,7 +105,7 @@ public class ActionBarScript : MonoBehaviour
         Absorption?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Absorption"));
         Absorption?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         Confirm?.RegisterCallback<ClickEvent>(ev => ConfirmPressed());
-        if (playerS.DoesHaveAnySkill())
+        if (playerScript.DoesHaveAnySkill())
         {
             Skills.style.display = DisplayStyle.Flex;
         }
@@ -145,7 +145,7 @@ public class ActionBarScript : MonoBehaviour
 
                     if (attackType == AttackType.MELEE)
                     {
-                        StartCoroutine(playerS.AttackFrontSequence(target, 0, false));
+                        playerScript.meleeAttack.Execute(playerScript, target);
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
@@ -153,7 +153,7 @@ public class ActionBarScript : MonoBehaviour
                     }
                     else if (attackType == AttackType.RANGED)
                     {
-                        StartCoroutine(playerS.AttackRangedSequence(target, 0));
+                        playerScript.rangedAttack.Execute(playerScript, target);
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
@@ -163,12 +163,12 @@ public class ActionBarScript : MonoBehaviour
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
-                        playerS.SP -= 5;
-                        if (playerS.SP < 0)
+                        playerScript.SP -= playerScript.biteAttack.actionCost;
+                        if (playerScript.SP < 0)
                         {
-                            playerS.SP = 0;
+                            playerScript.SP = 0;
                         }
-                        StartCoroutine(playerS.AttackBiteSequence(target));
+                        playerScript.biteAttack.Execute(playerScript, target);
 
                     }
                     else if (attackType == AttackType.FRACTURE)
@@ -176,12 +176,12 @@ public class ActionBarScript : MonoBehaviour
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
-                        playerS.SP -= 7;
-                        if (playerS.SP < 0)
+                        playerScript.SP -= playerScript.fractureAttack.actionCost;
+                        if (playerScript.SP < 0)
                         {
-                            playerS.SP = 0;
+                            playerScript.SP = 0;
                         }
-                        StartCoroutine(playerS.AttackFractureSequence(target));
+                        playerScript.fractureAttack.Execute(playerScript, target);
                     }
                     targetCount = 0;
                     confirmedAttack = false;
@@ -222,12 +222,12 @@ public class ActionBarScript : MonoBehaviour
             {
                 itemButton.RegisterCallback<ClickEvent>(ev =>
                 {
-                    item.UseItem(player);
+                    item.UseItem(playerGameObject);
                     UpdateInventoryUI();
 
                     
                     ToggleUiVisibility(false);
-                    playerS.SwitchingTurn();
+                    playerScript.SwitchingTurn();
                 });
 
                 itemButton.RegisterCallback<PointerEnterEvent>(ev => ShowDescription(item.itemDescription));
@@ -265,8 +265,8 @@ public class ActionBarScript : MonoBehaviour
         Debug.Log("Defend button clicked!");
         TogglePage1Visibility(false);
         ToggleUiVisibility(false);
-        player.GetComponent<Stats_System>().defending = true;
-        playerS.SwitchingTurn();
+        playerGameObject.GetComponent<Stats_System>().defending = true;
+        playerScript.SwitchingTurn();
 
     }
     private void CancelToPage1()
@@ -302,7 +302,7 @@ public class ActionBarScript : MonoBehaviour
 
     private void UseBite()
     {
-        if (playerS.SP < 5)
+        if (playerScript.SP < playerScript.biteAttack.actionCost)
         {
             Debug.Log("Not enough SP to use Bite!");
             return;
@@ -320,7 +320,7 @@ public class ActionBarScript : MonoBehaviour
 
     private void UseFracture()
     {
-        if (playerS.SP < 7)
+        if (playerScript.SP < playerScript.fractureAttack.actionCost)
         {
             Debug.Log("Not enough SP to use Fracture!");
             return;
@@ -336,20 +336,20 @@ public class ActionBarScript : MonoBehaviour
 
     private void UseFireball()
     {
-        if (playerS.SP < 12)
+        if (playerScript.SP < playerScript.fireballAttack.actionCost)
         {
             Debug.Log("Not enough SP to use Fireball!");
             return;
         }
         else
         {
-            playerS.SP -= 12;
-            if (playerS.SP < 0)
+            playerScript.SP -= playerScript.fireballAttack.actionCost;
+            if (playerScript.SP < 0)
             {
-                playerS.SP = 0;
+                playerScript.SP = 0;
             }
             Debug.Log("Use Fireball button clicked!");
-            StartCoroutine(playerS.AttackFireSequence(combatLogic.enemies));
+            playerScript.fireballAttack.Execute(playerScript, combatLogic.enemies);
             ToggleUiVisibility(false);
         }
     }
@@ -357,20 +357,20 @@ public class ActionBarScript : MonoBehaviour
     private void UseAbsorption()
     {
         Debug.Log("Use Absorption button clicked!");
-        if (playerS.SP < 10)
+        if (playerScript.SP < 10)
         {
             Debug.Log("Not enough SP to use Absorption!");
             return;
         }
         else
         {
-            playerS.SP -= 10;
-            if (playerS.SP < 0)
+            playerScript.SP -= 10;
+            if (playerScript.SP < 0)
             {
-                playerS.SP = 0;
+                playerScript.SP = 0;
             }
-            player.GetComponent<Stats_System>().ActivateAbsorption();
-            playerS.SwitchingTurn();
+            playerGameObject.GetComponent<Stats_System>().ActivateAbsorption();
+            playerScript.SwitchingTurn();
             ToggleUiVisibility(false);
         }
     }
@@ -388,14 +388,14 @@ public class ActionBarScript : MonoBehaviour
     }
     private void ToggleUiVisibility(bool mustDisplay)
     {
-        if (mustDisplay && player.GetComponent<Stats_System>().health > 0 && combatLogic.enemies.Count > 0)
+        if (mustDisplay && playerGameObject.GetComponent<Stats_System>().health > 0 && combatLogic.enemies.Count > 0)
         {
             root.style.display = DisplayStyle.Flex;
-            playerS.DecreaseBoosts();
-            playerS.ApplyAttackBoost();
-            Stats_System playerStats = player.GetComponent<Stats_System>();
+            playerScript.DecreaseBoosts();
+            playerScript.ApplyAttackBoost();
+            Stats_System playerStats = playerGameObject.GetComponent<Stats_System>();
             playerStats.defending = false;
-            StartCoroutine(player.GetComponent<Stats_System>().ApplyStatus());
+            StartCoroutine(playerGameObject.GetComponent<Stats_System>().ApplyStatus());
             descriptionDisplayLabel.style.visibility = Visibility.Hidden;
 
         }
@@ -418,7 +418,7 @@ public class ActionBarScript : MonoBehaviour
                 element.style.display = DisplayStyle.Flex;
                 ToggleConfirmVisibility(false);
                 descriptionDisplayLabel.style.visibility = Visibility.Hidden;
-                if (!playerS.DoesHaveAnySkill())
+                if (!playerScript.DoesHaveAnySkill())
                 {
                     Skills.style.display = DisplayStyle.None;
                 }
@@ -468,19 +468,19 @@ public class ActionBarScript : MonoBehaviour
             {
                 element.style.display = DisplayStyle.Flex;
                 ToggleConfirmVisibility(false);
-                if (!playerS.hasBite)
+                if (!playerScript.hasBite)
                 {
                     Bite.style.display = DisplayStyle.None;
                 }
-                if (!playerS.hasFracture)
+                if (!playerScript.hasFracture)
                 {
                     Fracture.style.display = DisplayStyle.None;
                 }
-                if (!playerS.hasFireball)
+                if (!playerScript.hasFireball)
                 {
                     Fireball.style.display = DisplayStyle.None;
                 }
-                if (!playerS.hasAbsorption)
+                if (!playerScript.hasAbsorption)
                 {
                     Absorption.style.display = DisplayStyle.None;
                 }
