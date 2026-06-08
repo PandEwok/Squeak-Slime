@@ -39,6 +39,11 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private GameObject attackBoostEffect;
     [SerializeField] private GameObject defenseBoostEffect;
     [HideInInspector] public SpriteRenderer sprite;
+    [Header("Skills Booleans")]
+    public bool hasBite = false;
+    public bool hasFireball = false;
+    public bool hasFracture = false;
+    public bool hasAbsorption = false;
 
     private void Awake()
     {
@@ -118,7 +123,45 @@ public class PlayerScript : MonoBehaviour
                 }
             }
         }
-    }
+
+        //Appuyez sur S pour save
+        if(Keyboard.current != null && Keyboard.current.sKey.wasPressedThisFrame)
+        {
+            FileManager.Instance.SaveGame(
+                stats.health,
+                SP,
+                hasBite,
+                hasFireball,
+                hasFracture,
+                hasAbsorption,
+                GetComponent<PlayerInventory>()
+            );
+            Debug.Log("Sauvegarde effectuée !");
+        }
+
+        //Appuyez sur L pour charger les donnees
+        if (Keyboard.current != null && Keyboard.current.lKey.wasPressedThisFrame)
+        {
+            PlayerData data = FileManager.Instance.LoadGame();
+            if (data != null)
+            {
+                stats.health = data.HP;
+                SP = data.SP;
+                hasBite = data.hasBite;
+                hasFireball = data.hasFireball;
+                hasFracture = data.hasFracture;
+                hasAbsorption = data.hasAbsorption;
+
+                GetComponent<PlayerInventory>().LoadInventoryData(data);
+                Debug.Log("Chargement effectué !");
+            }
+        }
+        if(Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            FileManager.Instance.DeleteSave();
+            Debug.Log("Sauvegarde supprimée !");
+        }
+}
     public IEnumerator AttackFrontSequence(GameObject target, float boost, bool isBite)
     {
         Vector3 enemyPos = target.transform.position;
@@ -214,7 +257,7 @@ public class PlayerScript : MonoBehaviour
         SwitchingTurn();
     }
 
-    public IEnumerator AttackJumpSequence(GameObject target, float boost)
+    public IEnumerator AttackRangedSequence(GameObject target, float boost)
     {
         Vector3 startPos = originalPosition;
         Vector3 enemyPos = target.transform.position;
@@ -237,6 +280,8 @@ public class PlayerScript : MonoBehaviour
             yield return null;
         }
         AudioManager.Instance.StopLoopingSFX();
+        AudioManager.Instance.PlaySFX("Player_Prepare_Proj");
+        yield return new WaitForSeconds(0.3f);
         //LANCER
         GameObject projectileToThrow = Instantiate(projectile, prepPos, Quaternion.identity);
         elapsed = 0;
@@ -245,7 +290,7 @@ public class PlayerScript : MonoBehaviour
         bool hasCrit = false;
         bool qteWindowOpen = false;
         bool hasFailedQTE = false;
-
+        AudioManager.Instance.PlaySFX("Player_Proj_Moving");
         while (elapsed < jumpDuration)
         {
             float t = elapsed / jumpDuration;
@@ -488,7 +533,7 @@ public class PlayerScript : MonoBehaviour
         }
         if(hasQTESuccess) { DisplayGrade(GradeScript.Grade.Excellent, true); }
         GameObject lightningInstance = Instantiate(darkLightningPrefab, startPos, Quaternion.identity);
-
+        AudioManager.Instance.PlaySFX("Fracture");
         LineRenderer lightningLR = lightningInstance.GetComponent<LineRenderer>();
 
         if (lightningLR == null)
@@ -501,7 +546,7 @@ public class PlayerScript : MonoBehaviour
 
         int segmentsCount = 10;          //Qtt zigzags
         float jitterAmount = 0.5f;       //Force des déviations
-        float propagationSpeed = 0.015f; //Vitesse entre chaque segment
+        float propagationSpeed = 0.025f; //Vitesse entre chaque segment
 
         List<Vector3> points = new List<Vector3>();
         points.Add(startPos);
@@ -556,9 +601,9 @@ public class PlayerScript : MonoBehaviour
         SwitchingTurn();
     }
 
-    public void HealPlayer(int healAmount)
+    public void HealPlayer(float healAmount)
     {
-        stats.heal(healAmount);
+        stats.heal((int)healAmount);
     }
     public void AbsorbHealth(int damages)
     {
@@ -568,20 +613,24 @@ public class PlayerScript : MonoBehaviour
             HealPlayer(healAmount);
         }
     }
-    public void RestoreSP(int spAmount)
+    public void RestoreSP(float spAmount)
     {
-        SP += spAmount;
+        SP += (int)spAmount;
         SP = Mathf.Min(SP, originalSP);
         Debug.Log($"{gameObject.name} healed for {spAmount}. Current health: {SP}");
     }
 
-    public void ActionEmpower()
+    public void ActionEmpower(int duration, float effectValue)
     {
-        empowerDelay = 4;
+        empowerDelay = duration;
+        attackBoostStrenght = effectValue;
+        AudioManager.Instance.PlaySFX("Powerup");
     }
-    public void ActionDefenseBuff()
+    public void ActionDefenseBuff(int duration, float effectValue)
     {
-        defenseBuffDelay = 3;
+       defenseBuffDelay = duration;
+        defenseBoostStrenght = effectValue;
+        AudioManager.Instance.PlaySFX("Powerup");
     }
     public void SwitchingTurn()
     {
@@ -684,5 +733,10 @@ public class PlayerScript : MonoBehaviour
             gradeScript.gameObject.SetActive(true);
             StartCoroutine(gradeScript.GradeDisplay(grade, display));
         }
+    }
+
+    public bool DoesHaveAnySkill()
+    {
+        return hasBite || hasFireball || hasFracture || hasAbsorption;
     }
 }

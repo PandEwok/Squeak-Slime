@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
@@ -35,6 +36,10 @@ public class Enemy_AI : MonoBehaviour
     protected int ownIndex;
 
     float delta = 0;
+
+    public GameObject projectilePF;
+
+    protected Stats_System stats;
 
 
     void setArrow(bool value) {
@@ -105,6 +110,8 @@ public class Enemy_AI : MonoBehaviour
 
         enemies = GameObject.Find("CombatLogic").GetComponent<Combat_Logic>().enemies;
         ownIndex = enemies.IndexOf(this.gameObject);
+
+        stats = GetComponent<Stats_System>();
     }
 
     Vector2 getPos()
@@ -124,7 +131,7 @@ public class Enemy_AI : MonoBehaviour
         PlayerInventory inv = player.GetComponent<PlayerInventory>();
         if (inv != null)
         {
-            inv.AddTeeth(PlayerInventory.TeethType.Normal, teethDropped);
+            //inv.AddTeeth(PlayerInventory.TeethType.Normal, teethDropped);
         }
 
         return teethDropped;
@@ -210,11 +217,10 @@ public class Enemy_AI : MonoBehaviour
 
     public async virtual Task playTurn(GameObject target)
     {
-        /*if (empowerDelay > 0)
+        if (!stats.isDizzy)
         {
-            empowerDelay--;
-        }*/
-        newTurnCount();
+            newTurnCount();
+        }
     }
 
     public virtual void attack(GameObject target)

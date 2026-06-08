@@ -46,6 +46,7 @@ public class UI_GameoverScript : MonoBehaviour
     public void GoToLobbyG()
     {
         Debug.Log("Bouton gameover pressé !");
+        AudioManager.Instance.PlaySFX("Button_Pressed");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

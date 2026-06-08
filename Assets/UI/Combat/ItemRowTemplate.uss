@@ -1,0 +1,16 @@
+:root {
+
+
+}
+
+#ItemButton:hover {
+    background-color: rgb(0, 0, 126);
+}
+
+#ItemButton {
+    font-size: 35px;
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    -unity-font-definition: url("project://database/Assets/Fonts/Engcomica.otf?fileID=12800000&guid=96c649ca54c11d540adde8d787c59125&type=3#Engcomica");
+}

@@ -6,8 +6,10 @@ public class Mouse_AI : Rodent_AI
 {
     public async override Task playTurn(GameObject target)
     {
-        await closeAttack(target);
-
+        if (!stats.isDizzy)
+        {
+            await closeAttack(target);
+        }
         await base.playTurn(target);
     }
 
