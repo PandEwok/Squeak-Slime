@@ -78,3 +78,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dedf7d1462c34e448fa5fb5ed3349f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  defBuffs: []
+  powerEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
+  empowerStrenght: 0.5
+  projectilePF: {fileID: 0}
+  directionalResistance: 2
+  dResistanceAmount: 0.7
