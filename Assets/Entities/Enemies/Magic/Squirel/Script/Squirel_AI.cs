@@ -41,12 +41,12 @@ public class Squirel_AI : Magic_AI
         if (enemies.Count > 1 && getAllyDamaged() > 0)
         {
             int randomAllyIndex = GetRandomIndexExcept(enemies.Count, ownIndex);
-            enemies[randomAllyIndex].GetComponent<Stats_System>().heal(10);
+            enemies[randomAllyIndex].GetComponent<Stats_System>().Heal(10);
             Debug.Log($"{this.gameObject.name} healed {enemies[randomAllyIndex].name} for 10 health.");
         }
         else if ( enemies.Count > 0 && getSelfDamaged() )
         {
-            gameObject.GetComponent<Stats_System>().heal(10);
+            gameObject.GetComponent<Stats_System>().Heal(10);
             Debug.Log($"{this.gameObject.name} healed itself for 10 health.");
         }
     }

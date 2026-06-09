@@ -102,9 +102,9 @@ public class MeleeAttack : PlayerAction
             int finalDamage = succeededQte ? Mathf.RoundToInt(baseDamage * qteSuccessDamageBoost) : baseDamage;
 
 
-            int healthToAbsorb = target.GetComponent<Stats_System>().takeDamage(finalDamage, false);
+            int healthToAbsorb = target.GetComponent<Stats_System>().TakeDamage(finalDamage, false);
             AudioManager.Instance.PlaySFX(attackSoundName);
-            player.AbsorbHealth(healthToAbsorb);
+            player.stats.AbsorbHealth(healthToAbsorb);
             if(isBite)
             {
                 enemyStats.MakeBleeding();

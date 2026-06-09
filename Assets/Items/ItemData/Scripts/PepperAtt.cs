@@ -10,7 +10,7 @@ public class PepperAtt : ItemData
         if (inventory != null)
         {
             inventory.RemoveItem(this, 1);
-            playerS.ActionEmpower(effectDuration, effectValue);
+            playerS.stats.ActionEmpower(effectDuration, effectValue);
             Debug.Log("Le joueur a utilise un piment d'attaque");
         }
     }

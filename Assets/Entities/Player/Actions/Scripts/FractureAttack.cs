@@ -145,8 +145,8 @@ public class FractureAttack : PlayerAction
         if (enemyStats != null)
         {
             int finalDamage = hasQTESuccess ? Mathf.RoundToInt(stats.damage * qteSuccessDamageBoost) : stats.damage;
-            int healthToAbsorb = enemyStats.takeDamage(finalDamage, true);
-            player.AbsorbHealth(healthToAbsorb);
+            int healthToAbsorb = enemyStats.TakeDamage(finalDamage, true);
+            player.stats.AbsorbHealth(healthToAbsorb);
             target.GetComponent<Stats_System>().MakeDizzy();
         }
 

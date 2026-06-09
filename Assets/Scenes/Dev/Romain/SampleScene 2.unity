@@ -3570,6 +3570,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 890441200}
     - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: vfxSystem
+      value: 
+      objectReference: {fileID: 8165858409456277598, guid: ede5c85c29db6f94291d1b1c5c553bba, type: 3}
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: victoryUI
       value: 
       objectReference: {fileID: 1052438338}

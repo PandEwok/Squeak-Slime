@@ -25,7 +25,7 @@ public class Magic_AI : Enemy_AI
                 finalDamage += (damageAmount * buff);
             }
             damageAmount = Mathf.RoundToInt(finalDamage);
-            targetStats.takeDamage(damageAmount, false);
+            targetStats.TakeDamage(damageAmount, false);
             Debug.Log($"{this.gameObject.name} attacked {target.name} for {damageAmount} damage.");
         }
     }

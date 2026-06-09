@@ -134,8 +134,8 @@ public class RangedAttack : PlayerAction
         {
             int baseDamage = stats.damage;
             int finalDamage = succeededQte ? Mathf.RoundToInt(baseDamage * qteSuccessDamageBoost) : baseDamage;
-            int healthToAbsorb = enemyStats.takeDamage(finalDamage, false);
-            player.AbsorbHealth(healthToAbsorb);
+            int healthToAbsorb = enemyStats.TakeDamage(finalDamage, false);
+            player.stats.AbsorbHealth(healthToAbsorb);
         }
         if (succeededQte)
         {

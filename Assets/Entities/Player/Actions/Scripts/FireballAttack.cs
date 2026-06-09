@@ -125,8 +125,8 @@ public class FireballAttack : PlayerAction
         //Impact
         if (target != null && enemyStats != null)
         {
-            int healthToAbsorb = enemyStats.takeDamage(damage, false);
-            player.AbsorbHealth(healthToAbsorb);
+            int healthToAbsorb = enemyStats.TakeDamage(damage, false);
+            player.stats.AbsorbHealth((int)healthToAbsorb);
             enemyStats.MakeBurned();
         }
 

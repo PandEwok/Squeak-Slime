@@ -262,7 +262,7 @@ public class Enemy_AI : MonoBehaviour
         {
             if(!hasFailedQTE)
             { 
-                Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f)); 
+                playerCombat.defenseAction.Execute(playerCombat, 0.4f); 
             }
             else
             {
@@ -320,7 +320,7 @@ public class Enemy_AI : MonoBehaviour
         {
             if (!hasFailedQTE)
             {
-                Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f));
+                playerCombat.defenseAction.Execute(playerCombat, 0.4f);
             }
             else
             {

@@ -12,7 +12,7 @@ public class PlayerAction : ScriptableObject
 
     }
 
-    public virtual void Execute(Player player)
+    public virtual void Execute(Player player, float windowDuration)
     {
 
     }
@@ -20,5 +20,9 @@ public class PlayerAction : ScriptableObject
     public virtual void Execute(Player player, List<GameObject> targets)
     {
 
+    }
+
+    public virtual void Execute(Player player)
+    {
     }
 }
