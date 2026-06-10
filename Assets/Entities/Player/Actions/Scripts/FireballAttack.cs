@@ -43,7 +43,7 @@ public class FireballAttack : PlayerAction
 
         Debug.Log("QTE entered");
 
-        player.ShowQTE(true);
+        player.uiManager.ShowQTE(true);
         while (elapsedCharge < chargeDuration)
         {
             if (Pointer.current.press.wasPressedThisFrame)
@@ -54,7 +54,7 @@ public class FireballAttack : PlayerAction
             elapsedCharge += Time.deltaTime;
             yield return null;
         }
-        player.ShowQTE(false);
+        player.uiManager.ShowQTE(false);
         Debug.Log($"Nb of clicks: {clickCount}");
 
         //Securite
@@ -73,10 +73,10 @@ public class FireballAttack : PlayerAction
         {
             Debug.Log("QTE failed, no damage dealt.");
             player.SwitchingTurn();
-            player.DisplayGrade(GradeScript.Grade.Missed, true);
+            player.uiManager.DisplayGrade(GradeScript.Grade.Missed, true);
             yield break;
         }
-        else { player.DisplayGrade(GradeScript.Grade.Excellent, true); }
+        else { player.uiManager.DisplayGrade(GradeScript.Grade.Excellent, true); }
 
         //BDF
         List<Coroutine> activeProjectiles = new List<Coroutine>();

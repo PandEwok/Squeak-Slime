@@ -60,7 +60,7 @@ public class FractureAttack : PlayerAction
             {
                 Debug.Log("Fracture: QTE failed");
                 hasFailedEarly = true;
-                player.DisplayGrade(GradeScript.Grade.Missed, true);
+                player.uiManager.DisplayGrade(GradeScript.Grade.Missed, true);
             }
 
             qteFailElapsed += Time.deltaTime;
@@ -79,7 +79,7 @@ public class FractureAttack : PlayerAction
 
         if (!hasFailedEarly)
         {
-            player.ShowQTE(true);
+            player.uiManager.ShowQTE(true);
             while (elapsed < qteDuration)
             {
                 if (Pointer.current.press.wasPressedThisFrame)
@@ -91,9 +91,9 @@ public class FractureAttack : PlayerAction
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-            player.ShowQTE(false);
+            player.uiManager.ShowQTE(false);
         }
-        if (hasQTESuccess) { player.DisplayGrade(GradeScript.Grade.Excellent, true); }
+        if (hasQTESuccess) { player.uiManager.DisplayGrade(GradeScript.Grade.Excellent, true); }
         GameObject lightningInstance = Instantiate(darkLightningPrefab, startPos, Quaternion.identity);
         AudioManager.Instance.PlaySFX(attackSoundName);
 

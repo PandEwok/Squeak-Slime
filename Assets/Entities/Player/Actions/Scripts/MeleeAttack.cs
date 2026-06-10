@@ -49,7 +49,7 @@ public class MeleeAttack : PlayerAction
             {
                 hasFailedQTE = true;
                 Debug.Log("QTE Failed");
-                player.DisplayGrade(GradeScript.Grade.Missed, true);
+                player.uiManager.DisplayGrade(GradeScript.Grade.Missed, true);
             }
             elapsed += Time.deltaTime;
             yield return null;
@@ -74,7 +74,7 @@ public class MeleeAttack : PlayerAction
 
         if (!hasFailedQTE)
         {
-            player.ShowQTE(true);
+            player.uiManager.ShowQTE(true);
             while (qteElapsed < qteWindowDuration)
             {
                 //Clic gauche souris
@@ -88,12 +88,12 @@ public class MeleeAttack : PlayerAction
                 qteElapsed += Time.deltaTime;
                 yield return null;
             }
-        player.ShowQTE(false);
+        player.uiManager.ShowQTE(false);
         }
         // DEGATS
         if (succeededQte)
         {
-            player.DisplayGrade(GradeScript.Grade.Excellent, true);
+            player.uiManager.DisplayGrade(GradeScript.Grade.Excellent, true);
         }
         var enemyStats = target.GetComponent<Stats_System>();
         if (enemyStats != null)

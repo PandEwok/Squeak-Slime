@@ -8,12 +8,9 @@ public class Player : MonoBehaviour
     [Header("Game scripts")]
     public Combat_Logic combatLogic;
     public PlayerInventory inventory;
+    [HideInInspector] public UiManager uiManager;
     [HideInInspector] public PlayerStats stats;
-    [HideInInspector] public GradeScript gradeScript;
     [HideInInspector] public bool hasWon = false;
-    [SerializeField] private GameObject actionMenu;
-    [SerializeField] private GameObject qteWarning;
-    [SerializeField] private GameObject gradeDisplay;
     [SerializeField] private GameObject vfxSystem;
     public SpriteRenderer sprite;
     
@@ -32,18 +29,11 @@ public class Player : MonoBehaviour
     private void Start()
     {
         stats = GetComponent<PlayerStats>();
-        gradeScript = gradeDisplay.GetComponent<GradeScript>();
+        uiManager = GetComponent<UiManager>();
         originalPosition = transform.position;
     }
     private void Update()
     {
-        if (!hasWon)
-        {
-            if (vfxSystem != null)
-            {
-                vfxSystem.GetComponent<PlayerVfx>().HandleParticles(this);
-            }
-        }
         //Appuyez sur S pour save
         if(Keyboard.current != null && Keyboard.current.sKey.wasPressedThisFrame)
         {
@@ -86,25 +76,5 @@ public class Player : MonoBehaviour
         stats.ApplyDefenseBoost();
         combatLogic.switchTurn();
     }
-    public void ShowQTE(bool mustDisplay)
-    {
-        if (mustDisplay)
-        {
-            qteWarning.SetActive(true);
-            AudioManager.Instance.PlaySFX("QTE");
-        }
-        else
-        {
-            qteWarning.SetActive(false);
-        }
-    }
-    public void DisplayGrade(GradeScript.Grade grade, bool display)
-    {
-        if (gradeScript != null)
-        {
-            gradeScript.StopAllCoroutines();
-            gradeScript.gameObject.SetActive(true);
-            StartCoroutine(gradeScript.GradeDisplay(grade, display));
-        }
-    }
+    
 }

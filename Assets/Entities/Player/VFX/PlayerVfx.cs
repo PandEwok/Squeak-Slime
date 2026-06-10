@@ -11,6 +11,14 @@ public class PlayerVfx : MonoBehaviour
     protected float particleRandomXRange = 0.6f;
     protected float particleRandomYRange = 0.25f;
     protected float particleVerticalOffset = -0.2f;
+
+    private void Update()
+    {
+        if (Player.Instance.hasWon == false)
+        {
+            HandleParticles(Player.Instance);
+        }
+    }
     public void HandleParticles(Player player)
     {
         particleSpawnTimer += Time.deltaTime;

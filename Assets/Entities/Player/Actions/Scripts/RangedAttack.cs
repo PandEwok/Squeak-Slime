@@ -88,7 +88,7 @@ public class RangedAttack : PlayerAction
                 {
                     hasFailedQTE = true;
                     Debug.Log("QTE Failed");
-                    player.DisplayGrade(GradeScript.Grade.Missed, true);
+                    player.uiManager.DisplayGrade(GradeScript.Grade.Missed, true);
                 }
             }
             if (t >= qteWindowFrame && !succeededQte && !hasFailedQTE)
@@ -96,13 +96,13 @@ public class RangedAttack : PlayerAction
                 if (!qteWindowOpen)
                 {
                     qteWindowOpen = true;
-                    player.ShowQTE(true);
+                    player.uiManager.ShowQTE(true);
                 }
 
                 if (Pointer.current.press.wasPressedThisFrame && !hasFailedQTE)
                 {
                     succeededQte = true;
-                    player.ShowQTE(false);
+                    player.uiManager.ShowQTE(false);
                     Debug.Log("Coup critique");
                 }
             }
@@ -122,7 +122,7 @@ public class RangedAttack : PlayerAction
             elapsed += Time.deltaTime;
             yield return null;
         }
-        player.ShowQTE(false);
+        player.uiManager.ShowQTE(false);
         //DEGATS
         if (projectileToThrow != null)
         {
@@ -139,7 +139,7 @@ public class RangedAttack : PlayerAction
         }
         if (succeededQte)
         {
-            player.DisplayGrade(GradeScript.Grade.Excellent, true);
+            player.uiManager.DisplayGrade(GradeScript.Grade.Excellent, true);
         }
         yield return CachedWaitAfterDamageDuration;
 

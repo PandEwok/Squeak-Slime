@@ -266,7 +266,7 @@ public class Enemy_AI : MonoBehaviour
             }
             else
             {
-                playerCombat.DisplayGrade(GradeScript.Grade.Missed, true);
+                playerCombat.uiManager.DisplayGrade(GradeScript.Grade.Missed, true);
             }
                 await Task.Delay((int)secToMili(0.4f));
 
@@ -324,7 +324,7 @@ public class Enemy_AI : MonoBehaviour
             }
             else
             {
-                playerCombat.DisplayGrade(GradeScript.Grade.Missed, true);
+                playerCombat.uiManager.DisplayGrade(GradeScript.Grade.Missed, true);
             }
             await Task.Delay((int)secToMili(0.4f));
 

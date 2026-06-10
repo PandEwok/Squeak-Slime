@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 3077587344446119393}
   - component: {fileID: 1522636355711820040}
   - component: {fileID: -8998726753592772742}
+  - component: {fileID: 5943454176240992178}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -170,12 +171,9 @@ MonoBehaviour:
   originalPosition: {x: 0, y: 0, z: 0}
   combatLogic: {fileID: 0}
   inventory: {fileID: 3077587344446119393}
+  uiManager: {fileID: 0}
   stats: {fileID: 0}
-  gradeScript: {fileID: 0}
   hasWon: 0
-  actionMenu: {fileID: 2886613892715260993}
-  qteWarning: {fileID: 4969275292565051531}
-  gradeDisplay: {fileID: 831087043188574043}
   vfxSystem: {fileID: 8165858409456277598, guid: ede5c85c29db6f94291d1b1c5c553bba, type: 3}
   sprite: {fileID: 9030391165085133556}
 --- !u!114 &-8998726753592772742
@@ -222,6 +220,22 @@ MonoBehaviour:
   blocking: 0
   defending: 0
   slimeDamageSound: Slime_Damage
+--- !u!114 &5943454176240992178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8567076734609327451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce3d769dbd26b9448bdf8ec923df49a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UiManager
+  gradeScript: {fileID: 0}
+  actionMenu: {fileID: 2886613892715260993}
+  qteWarning: {fileID: 4969275292565051531}
+  gradeDisplay: {fileID: 831087043188574043}
 --- !u!1001 &2747501983277139162
 PrefabInstance:
   m_ObjectHideFlags: 0

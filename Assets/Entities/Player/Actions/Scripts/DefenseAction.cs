@@ -17,7 +17,7 @@ public class DefenseAction : PlayerAction
         float elapsed = 0f;
 
         Debug.Log("Def QTE");
-        player.ShowQTE(true);
+        player.uiManager.ShowQTE(true);
         while (elapsed < windowDuration)
         {
             if (Pointer.current.press.wasPressedThisFrame)
@@ -30,10 +30,10 @@ public class DefenseAction : PlayerAction
             elapsed += Time.deltaTime;
             yield return null;
         }
-        player.ShowQTE(false);
+        player.uiManager.ShowQTE(false);
         if (stats.blocking)
         {
-            player.DisplayGrade(GradeScript.Grade.Excellent, true);
+            player.uiManager.DisplayGrade(GradeScript.Grade.Excellent, true);
         }
 
     }

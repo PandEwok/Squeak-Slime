@@ -3602,6 +3602,50 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 23ee1532c1278764a8a7cb7e7e20fbe8, type: 2}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: hasBite
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: biteAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 182edeba1269c5743abba95f6b1270d4, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: hasFireball
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: hasFracture
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: meleeAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ea74dc51bc02244a91456f20826a07f, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: rangedAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b736b4fc70295f43bb63604ce3b9695, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: defenseAction
+      value: 
+      objectReference: {fileID: 11400000, guid: c0647c6ae09be7f44b3e51b78abc53fd, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: hasAbsorption
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: fireballAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 23ee1532c1278764a8a7cb7e7e20fbe8, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: fractureAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 8776595aadf6c454d80ee05950309a2f, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: absorptionAction
+      value: 
+      objectReference: {fileID: 11400000, guid: 178b236199936934aa74519dc27fe72f, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingTeeth.Array.size
       value: 0
       objectReference: {fileID: 0}
