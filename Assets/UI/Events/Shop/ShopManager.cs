@@ -149,17 +149,42 @@ public class ShopManager : MonoBehaviour
     {
         bool isFreeItem = (price == 0);
 
-        // NOTE: Make sure your GameManager's TrySpendCurrency method can accept a 'Tooth' type!
-        if (isFreeItem || GameManager.Instance.TrySpendCurrency(tooth, price))
+        // 1. Grab the inventory directly from your new persistent Player instance
+        PlayerInventory playerInv = Player.Instance.inventory;
+        if (playerInv == null)
         {
-            PlayerInventory playerInv = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>();
-            if (playerInv != null)
+            Debug.LogError("[ShopManager] Player.Instance.inventory is missing! Cannot complete purchase.");
+            return;
+        }
+
+        // 2. Check if the player possesses this specific tooth type and track their current count
+        int currentToothAmount = 0;
+        if (playerInv.teethPossessed.ContainsKey(tooth))
+        {
+            currentToothAmount = playerInv.teethPossessed[tooth];
+        }
+
+        // 3. Evaluation Condition: Free item OR player has enough of this specific Tooth asset
+        if (isFreeItem || currentToothAmount >= price)
+        {
+            // Deduct the transaction cost from the wallet (unless it's free)
+            if (!isFreeItem)
             {
-                //playerInv.AddItem(item.itemId, 1);
+                playerInv.RemoveTooth(tooth, price);
+                Debug.Log($"[Shop] Successfully purchased {item.itemName}! Spent {price} {tooth.itemName}. Remaining: {currentToothAmount - price}");
+            }
+            else
+            {
+                Debug.Log($"[Shop] Successfully claimed {item.itemName} for free!");
             }
 
+            // Add the physical item into the player's items dictionary
+            playerInv.AddItem(item, 1);
+
+            // Update UI slot feedback
             slotUI.MarkAsSold();
 
+            // Play happy shopkeeper feedback lines
             if (shopkeeperScript != null && thankYouLines.Count > 0)
             {
                 shopkeeperScript.SayThankYou(thankYouLines[Random.Range(0, thankYouLines.Count)]);
@@ -167,7 +192,11 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
+            // Deny purchase if the player's balance for this specific tooth asset is too low
+            Debug.LogWarning($"[Shop] Purchase Denied! You need {price} {tooth.itemName}, but you only have {currentToothAmount}.");
+
             slotUI.PlayBrokeFeedback();
+
             if (shopkeeperScript != null && brokeLines.Count > 0)
             {
                 shopkeeperScript.SayThankYou(brokeLines[Random.Range(0, brokeLines.Count)]);

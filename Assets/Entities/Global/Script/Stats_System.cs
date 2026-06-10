@@ -155,6 +155,7 @@ public class Stats_System : MonoBehaviour
         health = Mathf.Min(health, originalHealth);
         Debug.Log($"{gameObject.name} healed for {healAmount}. Current health: {health}");
         AudioManager.Instance.PlaySFX("Heal");
+        Player.Instance.uiManager.statsUi.UpdateHP();
     }
     public void Bleed()
     {

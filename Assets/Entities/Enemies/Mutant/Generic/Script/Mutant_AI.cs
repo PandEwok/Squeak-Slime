@@ -29,8 +29,46 @@ public class Mutant_AI : Enemy_AI
         }
     }
 
+    protected virtual void rage()
+    {
+        empowered = true;
+        actionEmpower(EmpowerType.DAMAGE, 0.5f, 0, permBuffID);
+        empowerDuration = 1;
+    }
+    protected virtual void unRage()
+    {
+        empowered = false;
+        for (int i = 0; i < dmgBuffTimers.Count; i++)
+        {
+            if (dmgBuffTimers[i] == permBuffID)
+            {
+                dmgBuffTimers.RemoveAt(i);
+                dmgBuffs.RemoveAt(i);
+            }
+        }
+        empowerDuration = 0;
+    }
+
     public override void Update()
     {
         base.Update();
+
+        if (stats != null)
+        {
+            if (stats.health <= (stats.originalHealth * 0.35f) && !empowered)
+            {
+                rage();
+            }
+            if (empowered && (stats.health > (stats.originalHealth * 0.35f)))
+            {
+                unRage();
+            }
+        }
+    }
+
+    public override void newTurnCount()
+    {
+        countBuffTimers();
+        StartCoroutine(GetComponent<Stats_System>().ApplyStatus());
     }
 }

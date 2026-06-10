@@ -7,6 +7,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject actionMenu;
     [SerializeField] private GameObject qteWarning;
     [SerializeField] private GameObject gradeDisplay;
+    public StatsUI statsUi;
 
     private void Start()
     {
