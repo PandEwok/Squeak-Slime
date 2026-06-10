@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1f9ac1e412780541bffe1db77c04af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EngameUIScript
-  gameOverUI: {fileID: 0}
-  victoryUI: {fileID: 0}
+  gameOverUI: {fileID: 2632974792085039172}
+  victoryUI: {fileID: 4317796808065350776}
   actionMenu: {fileID: 0}
 --- !u!1001 &1741714800570459877
 PrefabInstance:

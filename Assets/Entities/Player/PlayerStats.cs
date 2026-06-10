@@ -96,7 +96,7 @@ public class PlayerStats : Stats_System
     }
 
 
-    public override int TakeDamage(int damageAmount, bool isStatusDamage)
+    public override int TakeDamage(int damageAmount, bool isStatusDamage, Enemy_AI.attackDirection hitDirection = Enemy_AI.attackDirection.NONE)
     {
         int effectiveDamage = 0;
         if (isStatusDamage)

@@ -174,7 +174,6 @@ MonoBehaviour:
   uiManager: {fileID: 0}
   stats: {fileID: 0}
   hasWon: 0
-  vfxSystem: {fileID: 8165858409456277598, guid: ede5c85c29db6f94291d1b1c5c553bba, type: 3}
   sprite: {fileID: 9030391165085133556}
 --- !u!114 &-8998726753592772742
 MonoBehaviour:
@@ -361,6 +360,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7975012743498587851, guid: 596885b819d833a49b5218f8d5309683, type: 3}
       propertyPath: player
+      value: 
+      objectReference: {fileID: 8567076734609327451}
+    - target: {fileID: 7975012743498587851, guid: 596885b819d833a49b5218f8d5309683, type: 3}
+      propertyPath: playerGameObject
       value: 
       objectReference: {fileID: 8567076734609327451}
     - target: {fileID: 8489582016523511322, guid: 596885b819d833a49b5218f8d5309683, type: 3}
