@@ -12,14 +12,19 @@ public class SearchEvent : MonoBehaviour
     public Animator exitButtonAnimator;
     public string animationTriggerName = "ShowButton";
 
+    [Header("Dynamic Loot UI Setup")]
+    public Transform lootDisplayContainer;
+    public GameObject lootSlotPrefab;
+
     [Header("Event Settings")]
     public float typeSpeed = 0.04f;
-    [Range(0f, 100f)] public float nothingChance = 35f;
-    [Range(0f, 100f)] public float rareTwoItemChance = 15f; // 15% chance to get 2 items instead of 1
 
-    [Header("Modular Loot Pool")]
-    public List<ItemData> possibleSearchDrops = new List<ItemData>();
-    public int maxDropQuantity = 2; // Searching bushes usually yields smaller quantities 
+    [Header("Modular Biome Search Configs")]
+    [Tooltip("Configure safe searching parameters for each biome layout here!")]
+    public List<BiomeSearchTable> biomeSearchTables = new List<BiomeSearchTable>();
+
+    [Tooltip("Fallback settings if the player's current biome isn't explicitly configured above.")]
+    public BiomeSearchTable defaultFallbackSearch;
 
     [Header("Dialogue Templates")]
     [TextArea(2, 4)] public string introText = "You see a place that could be worth searching.";
@@ -32,8 +37,13 @@ public class SearchEvent : MonoBehaviour
     private Coroutine typewriterCoroutine;
     private bool isTyping = false;
 
+    // Track rolled items to draw actual UI Sprites
+    private List<(Sprite icon, int qty, Color color)> rolledLootVisuals = new List<(Sprite, int, Color)>();
+
     private void Start()
     {
+        if (lootDisplayContainer != null) lootDisplayContainer.gameObject.SetActive(false);
+
         lineToPrint = introText;
         typewriterCoroutine = StartCoroutine(TypeTextRoutine());
     }
@@ -54,10 +64,10 @@ public class SearchEvent : MonoBehaviour
             dialogueText.text = lineToPrint;
             isTyping = false;
 
-            if (currentStep == 2)
-            {
-                EndSearchEvent();
-            }
+            // Immediately display icons if dialogue skipped
+            ShowLootIcons();
+
+            if (currentStep == 2) EndSearchEvent();
             return;
         }
 
@@ -71,41 +81,103 @@ public class SearchEvent : MonoBehaviour
 
     private void DetermineOutcome()
     {
-        // 1. Roll for finding absolutely nothing (35% chance)
+        rolledLootVisuals.Clear();
+
+        // 1. Evaluate current biome
+        int currentBiome = 1;
+        if (Player.Instance != null)
+        {
+            currentBiome = Player.Instance.biome;
+        }
+
+        // 2. Fetch specific configuration table
+        BiomeSearchTable activeConfig = GetConfigForBiome(currentBiome);
+
+        if (activeConfig == null)
+        {
+            Debug.LogError($"[SearchEvent] No configurations found for Biome {currentBiome} or Fallback!");
+            lineToPrint = failText;
+            return;
+        }
+
+        // 3. Roll for empty hand failure rate
         float outcomeRoll = Random.Range(0f, 100f);
 
-        if (outcomeRoll <= nothingChance || possibleSearchDrops.Count == 0)
+        if (outcomeRoll <= activeConfig.nothingChance || activeConfig.possibleSearchDrops.Count == 0)
         {
             lineToPrint = failText;
         }
         else
         {
-            // SUCCESS: We found something! Now determine how many items (1 or 2)
-            string lootReport = successHeader;
+            lineToPrint = successHeader;
 
-            int itemsToDropCount = 1; // Default to 1 item
+            // Determine if player finds 1 or 2 unique slots based on biome configuration
+            int itemsToDropCount = 1;
             float rarityRoll = Random.Range(0f, 100f);
 
-            // 2. Check if the player hits the "very rare" double drop tier
-            if (rarityRoll <= rareTwoItemChance)
+            if (rarityRoll <= activeConfig.rareTwoItemChance)
             {
                 itemsToDropCount = 2;
             }
 
-            // Loop through and select our random items
+            // Dictionary merges duplicate items rolled within the same search action
+            Dictionary<SearchDrop, int> rolledLootAmounts = new Dictionary<SearchDrop, int>();
+
             for (int i = 0; i < itemsToDropCount; i++)
             {
-                ItemData rolledItem = possibleSearchDrops[Random.Range(0, possibleSearchDrops.Count)];
-                int quantity = Random.Range(1, maxDropQuantity + 1);
+                SearchDrop rolledDrop = activeConfig.possibleSearchDrops[Random.Range(0, activeConfig.possibleSearchDrops.Count)];
 
-                lootReport += $"\n- {rolledItem.itemName} x{quantity}";
+                if (!rolledDrop.IsValid) continue;
 
-                // HOOK: Pass to inventory system here
-                // PlayerInventory.Instance.AddItem(rolledItem, quantity);
+                int quantity = Random.Range(1, activeConfig.maxDropQuantity + 1);
+
+                if (rolledLootAmounts.ContainsKey(rolledDrop))
+                {
+                    rolledLootAmounts[rolledDrop] += quantity;
+                }
+                else
+                {
+                    rolledLootAmounts.Add(rolledDrop, quantity);
+                }
             }
 
-            lineToPrint = lootReport;
+            // 4. Grant loot resources and serialize visual parameters
+            foreach (KeyValuePair<SearchDrop, int> lootEntry in rolledLootAmounts)
+            {
+                SearchDrop drop = lootEntry.Key;
+                int finalQuantity = lootEntry.Value;
+
+                if (drop.type == SearchDrop.DropType.Item)
+                {
+                    if (Player.Instance != null && Player.Instance.inventory != null)
+                    {
+                        Player.Instance.inventory.AddItem(drop.itemData, finalQuantity);
+                    }
+                }
+                else if (drop.type == SearchDrop.DropType.Tooth)
+                {
+                    if (Player.Instance != null && Player.Instance.inventory != null)
+                    {
+                        // Connection point for PlayerInventory tooth values:
+                        // Player.Instance.inventory.AddTeeth(finalQuantity);
+                    }
+                }
+
+                if (drop.Icon != null)
+                {
+                    rolledLootVisuals.Add((drop.Icon, finalQuantity, drop.Color));
+                }
+            }
         }
+    }
+
+    private BiomeSearchTable GetConfigForBiome(int biomeId)
+    {
+        foreach (BiomeSearchTable table in biomeSearchTables)
+        {
+            if (table.targetBiome == biomeId) return table;
+        }
+        return defaultFallbackSearch;
     }
 
     private IEnumerator TypeTextRoutine()
@@ -121,9 +193,32 @@ public class SearchEvent : MonoBehaviour
 
         isTyping = false;
 
-        if (currentStep == 2)
+        // Populate visual layouts cleanly upon natural text termination
+        ShowLootIcons();
+
+        if (currentStep == 2) EndSearchEvent();
+    }
+
+    private void ShowLootIcons()
+    {
+        if (rolledLootVisuals.Count > 0 && lootDisplayContainer != null && lootSlotPrefab != null)
         {
-            EndSearchEvent();
+            foreach (Transform child in lootDisplayContainer)
+            {
+                Destroy(child.gameObject);
+            }
+
+            lootDisplayContainer.gameObject.SetActive(true);
+
+            foreach (var loot in rolledLootVisuals)
+            {
+                GameObject newSlot = Instantiate(lootSlotPrefab, lootDisplayContainer);
+                LootSlotUI slotScript = newSlot.GetComponent<LootSlotUI>();
+                if (slotScript != null)
+                {
+                    slotScript.SetupSlot(loot.icon, loot.qty, loot.color);
+                }
+            }
         }
     }
 
@@ -139,4 +234,38 @@ public class SearchEvent : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene 2");
     }
+}
+
+// Data models unified to support mixed item pools inside the Search space
+[System.Serializable]
+public class BiomeSearchTable
+{
+    [Tooltip("Which biome number does this profile apply to?")]
+    public int targetBiome = 1;
+
+    [Header("Probability Parameters")]
+    [Range(0f, 100f)] public float nothingChance = 35f;
+    [Range(0f, 100f)] public float rareTwoItemChance = 15f;
+
+    [Header("Drop Volume rules")]
+    [Tooltip("Max items returned inside a single drop block stack.")]
+    public int maxDropQuantity = 2;
+
+    [Header("Loot Pool Configurations")]
+    public List<SearchDrop> possibleSearchDrops = new List<SearchDrop>();
+}
+
+[System.Serializable]
+public class SearchDrop
+{
+    public enum DropType { Item, Tooth }
+    public DropType type;
+
+    public ItemData itemData;
+    public Tooth toothData;
+
+    public Sprite Icon => type == DropType.Item ? itemData?.itemIcon : toothData?.itemIcon;
+    public string Name => type == DropType.Item ? itemData?.itemName : toothData?.itemName;
+    public Color Color => type == DropType.Item ? (itemData != null ? itemData.defaultColor : Color.white) : (toothData != null ? toothData.defaultColor : Color.white);
+    public bool IsValid => (type == DropType.Item && itemData != null) || (type == DropType.Tooth && toothData != null);
 }

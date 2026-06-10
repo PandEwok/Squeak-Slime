@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     [Header("Game scripts")]
     public Combat_Logic combatLogic;
     public PlayerInventory inventory;
+    public int floor = 1;
+    public int biome = 1;
     [HideInInspector] public UiManager uiManager;
     [HideInInspector] public PlayerStats stats;
     [HideInInspector] public bool hasWon = false;
@@ -24,11 +26,13 @@ public class Player : MonoBehaviour
         Instance = this;
 
         DontDestroyOnLoad(gameObject);
+
+        stats = GetComponent<PlayerStats>();
+        uiManager = GetComponent<UiManager>();
     }
     private void Start()
     {
-        stats = GetComponent<PlayerStats>();
-        uiManager = GetComponent<UiManager>();
+        
         originalPosition = transform.position;
     }
     private void Update()

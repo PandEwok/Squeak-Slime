@@ -32,6 +32,7 @@ public class PlayerStats : Stats_System
         SP += (int)spAmount;
         SP = Mathf.Min(SP, originalSP);
         Debug.Log($"{gameObject.name} healed for {spAmount}. Current health: {SP}");
+        Player.Instance.uiManager.statsUi.UpdateSP();
     }
 
     public void ActionEmpower(int duration, float effectValue)

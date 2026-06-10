@@ -12,21 +12,23 @@ public class TreasureEvent : MonoBehaviour
     public Animator exitButtonAnimator;
     public string animationTriggerName = "ShowButton";
 
+    [Header("Dynamic Loot UI Setup")]
+    public Transform lootDisplayContainer;
+    public GameObject lootSlotPrefab;
+
     [Header("Event Settings")]
     public float typeSpeed = 0.04f;
-    [Range(0f, 100f)] public float successChance = 35f;
 
-    [Header("Modular Loot Pool")]
-    [Tooltip("Drop your scriptable object ItemData files into this list in the inspector!")]
-    public List<ItemData> possibleTreasureDrops = new List<ItemData>();
-    [Tooltip("The maximum amount of an item that can drop (e.g. if 3, it drops 1 to 3 copies)")]
-    public int maxDropQuantity = 3;
+    [Header("Modular Biome Loot Tables")]
+    [Tooltip("Create a layout setting for each Biome here!")]
+    public List<BiomeLootTable> biomeLootTables = new List<BiomeLootTable>();
+
+    [Tooltip("Fallback settings if the player's current biome isn't explicitly configured above.")]
+    public BiomeLootTable defaultFallbackLoot;
 
     [Header("Dialogue Templates")]
     [TextArea(2, 4)] public string introText = "You enter a room with a treasure chest, lucky! You soon open it...";
     [TextArea(2, 4)] public string trapTextTemplate = "The treasure was a TRAP! You lost {0} HP.";
-
-    [Header("Loot Text Config")]
     [TextArea(2, 4)] public string lootHeader = "The treasure was a bunch of loot! You got:";
 
     // State Tracking
@@ -35,8 +37,12 @@ public class TreasureEvent : MonoBehaviour
     private Coroutine typewriterCoroutine;
     private bool isTyping = false;
 
+    private List<(Sprite icon, int qty, Color color)> rolledLootVisuals = new List<(Sprite, int, Color)>();
+
     private void Start()
     {
+        if (lootDisplayContainer != null) lootDisplayContainer.gameObject.SetActive(false);
+
         lineToPrint = introText;
         typewriterCoroutine = StartCoroutine(TypeTextRoutine());
     }
@@ -51,22 +57,18 @@ public class TreasureEvent : MonoBehaviour
 
     private void HandleInteraction()
     {
-        // Case A: The text is currently typing out
         if (isTyping)
         {
             if (typewriterCoroutine != null) StopCoroutine(typewriterCoroutine);
             dialogueText.text = lineToPrint;
             isTyping = false;
 
-            // FIX: If we skip the typing on the final step, we must manually trigger the end event!
-            if (currentStep == 2)
-            {
-                EndTreasureEvent();
-            }
+            ShowLootIcons();
+
+            if (currentStep == 2) EndTreasureEvent();
             return;
         }
 
-        // Case B: The text is idle, and we need to advance to the outcome
         if (currentStep == 1)
         {
             currentStep = 2;
@@ -77,28 +79,104 @@ public class TreasureEvent : MonoBehaviour
 
     private void DetermineOutcome()
     {
+        rolledLootVisuals.Clear();
+
+        // 1. Figure out which biome the player is currently in
+        int currentBiome = 1;
+        if (Player.Instance != null)
+        {
+            currentBiome = Player.Instance.biome;
+        }
+
+        // 2. Find the correct configuration table for this specific biome
+        BiomeLootTable activeConfig = GetConfigForBiome(currentBiome);
+
+        if (activeConfig == null)
+        {
+            Debug.LogError($"[TreasureEvent] No loot configurations found for Biome {currentBiome} or Fallback!");
+            lineToPrint = "The chest was empty... (Check your Inspector setups!)";
+            return;
+        }
+
+        // 3. Roll against this biome's custom success rate
         float roll = Random.Range(0f, 100f);
 
-        if (roll <= successChance && possibleTreasureDrops.Count > 0)
+        if (roll <= activeConfig.successChance && activeConfig.possibleTreasureDrops.Count > 0)
         {
-            string lootReport = lootHeader;
-            int itemsToDropCount = Random.Range(2, 4);
+            lineToPrint = lootHeader;
+
+            // Roll drop counts using this biome's min/max rules
+            int itemsToDropCount = Random.Range(activeConfig.minSlotsDropped, activeConfig.maxSlotsDropped + 1);
+            Dictionary<TreasureDrop, int> rolledLootAmounts = new Dictionary<TreasureDrop, int>();
 
             for (int i = 0; i < itemsToDropCount; i++)
             {
-                ItemData rolledItem = possibleTreasureDrops[Random.Range(0, possibleTreasureDrops.Count)];
-                int quantity = Random.Range(1, maxDropQuantity + 1);
+                TreasureDrop rolledDrop = activeConfig.possibleTreasureDrops[Random.Range(0, activeConfig.possibleTreasureDrops.Count)];
 
-                lootReport += $"\n- {rolledItem.itemName} x{quantity}";
+                if (!rolledDrop.IsValid) continue;
+
+                int quantity = Random.Range(1, activeConfig.maxDropQuantity + 1);
+
+                if (rolledLootAmounts.ContainsKey(rolledDrop))
+                {
+                    rolledLootAmounts[rolledDrop] += quantity;
+                }
+                else
+                {
+                    rolledLootAmounts.Add(rolledDrop, quantity);
+                }
             }
 
-            lineToPrint = lootReport;
+            // Grant items & cache visuals
+            foreach (KeyValuePair<TreasureDrop, int> lootEntry in rolledLootAmounts)
+            {
+                TreasureDrop drop = lootEntry.Key;
+                int finalQuantity = lootEntry.Value;
+
+                if (drop.type == TreasureDrop.DropType.Item)
+                {
+                    if (Player.Instance != null && Player.Instance.inventory != null)
+                    {
+                        Player.Instance.inventory.AddItem(drop.itemData, finalQuantity);
+                    }
+                }
+                else if (drop.type == TreasureDrop.DropType.Tooth)
+                {
+                    if (Player.Instance != null && Player.Instance.inventory != null)
+                    {
+                        // Connect to your tooth currency method/variable here if needed!
+                        // Player.Instance.inventory.AddTeeth(finalQuantity); 
+                    }
+                }
+
+                if (drop.Icon != null)
+                {
+                    rolledLootVisuals.Add((drop.Icon, finalQuantity, drop.Color));
+                }
+            }
         }
         else
         {
-            int damageTaken = Random.Range(15, 31);
+            // Calculate trap damage using this biome's risk profile
+            int damageTaken = Random.Range(activeConfig.minTrapDamage, activeConfig.maxTrapDamage + 1);
+
+            if (Player.Instance != null && Player.Instance.stats != null)
+            {
+                Player.Instance.stats.health = Mathf.Max(0, Player.Instance.stats.health - damageTaken);
+            }
+
             lineToPrint = string.Format(trapTextTemplate, damageTaken);
         }
+    }
+
+    // Helper method to filter through our lists smoothly
+    private BiomeLootTable GetConfigForBiome(int biomeId)
+    {
+        foreach (BiomeLootTable table in biomeLootTables)
+        {
+            if (table.targetBiome == biomeId) return table;
+        }
+        return defaultFallbackLoot;
     }
 
     private IEnumerator TypeTextRoutine()
@@ -106,18 +184,40 @@ public class TreasureEvent : MonoBehaviour
         isTyping = true;
         dialogueText.text = "";
 
-        foreach (char letter in lineToPrint.ToCharArray())
+        int index = 0;
+        while (index < lineToPrint.Length)
         {
-            dialogueText.text += letter;
+            dialogueText.text += lineToPrint[index];
+            index++;
             yield return new WaitForSeconds(typeSpeed);
         }
 
         isTyping = false;
+        ShowLootIcons();
 
-        // If the line finishes naturally on step 2, trigger the end event
-        if (currentStep == 2)
+        if (currentStep == 2) EndTreasureEvent();
+    }
+
+    private void ShowLootIcons()
+    {
+        if (rolledLootVisuals.Count > 0 && lootDisplayContainer != null && lootSlotPrefab != null)
         {
-            EndTreasureEvent();
+            foreach (Transform child in lootDisplayContainer)
+            {
+                Destroy(child.gameObject);
+            }
+
+            lootDisplayContainer.gameObject.SetActive(true);
+
+            foreach (var loot in rolledLootVisuals)
+            {
+                GameObject newSlot = Instantiate(lootSlotPrefab, lootDisplayContainer);
+                LootSlotUI slotScript = newSlot.GetComponent<LootSlotUI>();
+                if (slotScript != null)
+                {
+                    slotScript.SetupSlot(loot.icon, loot.qty, loot.color);
+                }
+            }
         }
     }
 
@@ -133,4 +233,41 @@ public class TreasureEvent : MonoBehaviour
     {
         SceneManager.LoadScene("SampleScene 2");
     }
+}
+
+// Data structures supporting modularity
+[System.Serializable]
+public class BiomeLootTable
+{
+    [Tooltip("Which biome number does this profile apply to?")]
+    public int targetBiome = 1;
+
+    [Range(0f, 100f)] public float successChance = 50f;
+
+    [Header("Drop Sizing Settings")]
+    public int minSlotsDropped = 1;
+    public int maxSlotsDropped = 3;
+    public int maxDropQuantity = 3;
+
+    [Header("Trap Scaling Settings")]
+    public int minTrapDamage = 15;
+    public int maxTrapDamage = 30;
+
+    [Header("Loot Pool Selection")]
+    public List<TreasureDrop> possibleTreasureDrops = new List<TreasureDrop>();
+}
+
+[System.Serializable]
+public class TreasureDrop
+{
+    public enum DropType { Item, Tooth }
+    public DropType type;
+
+    public ItemData itemData;
+    public Tooth toothData;
+
+    public Sprite Icon => type == DropType.Item ? itemData?.itemIcon : toothData?.itemIcon;
+    public string Name => type == DropType.Item ? itemData?.itemName : toothData?.itemName;
+    public Color Color => type == DropType.Item ? (itemData != null ? itemData.defaultColor : Color.white) : (toothData != null ? toothData.defaultColor : Color.white);
+    public bool IsValid => (type == DropType.Item && itemData != null) || (type == DropType.Tooth && toothData != null);
 }
