@@ -31,7 +31,6 @@ public class GradeScript : MonoBehaviour
 
     public IEnumerator GradeDisplay(Grade grade, bool mustDisplay)
     {
-        allGradeDisplay(false);
         if (mustDisplay)
         {
             switch (grade)
@@ -49,7 +48,6 @@ public class GradeScript : MonoBehaviour
                     break;
             }
             yield return new WaitForSeconds(displayDuration);
-            allGradeDisplay(false);
         }
         else
         {
