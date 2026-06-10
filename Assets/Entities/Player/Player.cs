@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     [HideInInspector] public UiManager uiManager;
     [HideInInspector] public PlayerStats stats;
     [HideInInspector] public bool hasWon = false;
-    [SerializeField] private GameObject vfxSystem;
     public SpriteRenderer sprite;
     
     private void Awake()
