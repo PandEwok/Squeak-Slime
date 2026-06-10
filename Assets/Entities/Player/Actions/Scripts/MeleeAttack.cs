@@ -100,7 +100,7 @@ public class MeleeAttack : PlayerAction
         {
             Debug.Log($"Inflige des dégâts à {target.name}");
             int finalDamage = succeededQte ? Mathf.RoundToInt(baseDamage * qteSuccessDamageBoost) : baseDamage;
-
+            finalDamage = player.stats.HasCriticalHit(finalDamage);
 
             int healthToAbsorb = target.GetComponent<Stats_System>().TakeDamage(finalDamage, false);
             AudioManager.Instance.PlaySFX(attackSoundName);
