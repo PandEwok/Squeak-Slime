@@ -34,20 +34,26 @@ public class GameManager : MonoBehaviour
     public List<ItemData> collectedItems = new List<ItemData>();
 
     // ==========================================
-    // NEW: TRACKING ASSETS FOR CHEATS
+    // UPDATED: TRACKING TOOTH ASSETS FOR CHEATS
     // ==========================================
     [Header("Cheat Setup")]
     [Tooltip("Drag your Ordinary Tooth, Golem Tooth, etc. here so the cheat loop can find them!")]
-    public List<CurrencyData> allCurrencies;
+    public List<Tooth> allTeeth; // Changed from CurrencyData to Tooth
 
-    private Dictionary<CurrencyData, int> wallet = new Dictionary<CurrencyData, int>();
+    // The wallet now tracks Teeth scriptable objects directly!
+    private Dictionary<Tooth, int> wallet = new Dictionary<Tooth, int>();
 
     void Awake()
     {
         if (_instance == null)
+        {
             _instance = this;
+            DontDestroyOnLoad(gameObject); // Added this so it safely persists between levels
+        }
         else if (_instance != this)
+        {
             Destroy(gameObject);
+        }
     }
 
     // ==========================================
@@ -70,22 +76,26 @@ public class GameManager : MonoBehaviour
     // ==========================================
     // WALLET & INVENTORY SYSTEM
     // ==========================================
-    public void AddCurrency(CurrencyData currencyType, int amount)
-    {
-        if (wallet.ContainsKey(currencyType))
-            wallet[currencyType] += amount;
-        else
-            wallet.Add(currencyType, amount);
 
-        Debug.Log($"[Wallet Update] +{amount} {currencyType.currencyName}. Total Balance: {wallet[currencyType]}");
+    // Updated parameter type to 'Tooth'
+    public void AddCurrency(Tooth toothType, int amount)
+    {
+        if (wallet.ContainsKey(toothType))
+            wallet[toothType] += amount;
+        else
+            wallet.Add(toothType, amount);
+
+        // Reads 'itemName' from your friend's Tooth script
+        Debug.Log($"[Wallet Update] +{amount} {toothType.itemName}. Total Balance: {wallet[toothType]}");
     }
 
-    public bool TrySpendCurrency(CurrencyData currencyType, int cost)
+    // FIXED: Corrected variables from the old currencyType/cost copy-paste remnants
+    public bool TrySpendCurrency(Tooth toothType, int amount)
     {
-        if (wallet.ContainsKey(currencyType) && wallet[currencyType] >= cost)
+        if (wallet.ContainsKey(toothType) && wallet[toothType] >= amount)
         {
-            wallet[currencyType] -= cost;
-            Debug.Log($"[Wallet Update] Spent {cost} {currencyType.currencyName}. Remaining: {wallet[currencyType]}");
+            wallet[toothType] -= amount;
+            Debug.Log($"[Wallet Update] Spent {amount} {toothType.itemName}. Remaining: {wallet[toothType]}");
             return true;
         }
         return false;
@@ -102,28 +112,28 @@ public class GameManager : MonoBehaviour
     // ==========================================
     void Update()
     {
-        // Keyboard trigger
+        // Keyboard trigger (M key)
         if (Keyboard.current != null && Keyboard.current.mKey.wasPressedThisFrame)
         {
-            GiveAllCurrenciesCheat();
+            GiveAllTeethCheat();
         }
     }
 
-    // This makes a clickable action menu appear when you right-click the script component in the Inspector!
+    // Right-click the GameManager component header in the inspector to run this manually!
     [ContextMenu("Cheat Menu/Give 100 of All Teeth")]
-    public void GiveAllCurrenciesCheat()
+    public void GiveAllTeethCheat()
     {
-        if (allCurrencies == null || allCurrencies.Count == 0)
+        if (allTeeth == null || allTeeth.Count == 0)
         {
-            Debug.LogWarning("[Cheat Failed] You need to drag your tooth assets into the 'All Currencies' list on the GameManager component first!");
+            Debug.LogWarning("[Cheat Failed] You need to drag your Tooth assets into the 'All Teeth' list on the GameManager component first!");
             return;
         }
 
         Debug.Log("<color=gold><b>[CHEAT INJECTED] Adding 100 units to all available teeth!</b></color>");
 
-        foreach (CurrencyData currency in allCurrencies)
+        foreach (Tooth tooth in allTeeth)
         {
-            AddCurrency(currency, 100);
+            AddCurrency(tooth, 100);
         }
     }
 }

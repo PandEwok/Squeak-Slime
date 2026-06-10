@@ -31,11 +31,11 @@ public class ShopManager : MonoBehaviour
     public Transform shopContainer;
     public GameObject shopItemPrefab;
 
-    [Header("The Item Catalog (Now using the updated Unified Items!)")]
+    [Header("The Item Catalog")]
     public List<ItemData> itemCatalog;
 
-    [Header("The Global Currency Catalog")]
-    public List<CurrencyData> globalCurrencies;
+    [Header("The Global Tooth Catalog (Updated!)")]
+    public List<Tooth> globalTeeth;
 
     [Header("Global Shop Layout Luck Settings")]
     public int absoluteMinSlots = 1;
@@ -66,40 +66,36 @@ public class ShopManager : MonoBehaviour
         totalTimesPetted = 0;
         wasFirstPetGood = false;
 
-        List<CurrencyData> unlockedCurrencies = FilterCurrenciesByFloor(globalFloor);
-        if (unlockedCurrencies.Count == 0) return;
+        // Uses the new Tooth filter
+        List<Tooth> unlockedTeeth = FilterTeethByFloor(globalFloor);
+        if (unlockedTeeth.Count == 0) return;
 
-        // 1. Roll the initial size based on stage progression
         int slotsToSpawn = CalculateShopSize(globalStage);
 
-        // =========================================================================
-        // CRITICAL SAFETY CLAMP: Fixes the Infinite Loop Freeze!
-        // =========================================================================
         if (itemCatalog == null || itemCatalog.Count == 0)
         {
-            Debug.LogError("[ShopManager] CRITICAL: Your Item Catalog list is empty in the inspector! Cannot spawn shop slots.");
+            Debug.LogError("[ShopManager] CRITICAL: Your Item Catalog list is empty!");
             return;
         }
 
-        // If the shop wants 4 slots but you only have 3 items total, force it down to 3!
         if (slotsToSpawn > itemCatalog.Count)
         {
             slotsToSpawn = itemCatalog.Count;
         }
-        // =========================================================================
 
         for (int i = 0; i < slotsToSpawn; i++)
         {
-            CreateAutomatedSlot(unlockedCurrencies, globalFloor, globalStage);
+            CreateAutomatedSlot(unlockedTeeth, globalFloor, globalStage);
         }
     }
 
-    List<CurrencyData> FilterCurrenciesByFloor(int currentFloor)
+    List<Tooth> FilterTeethByFloor(int currentFloor)
     {
-        List<CurrencyData> filtered = new List<CurrencyData>();
-        foreach (CurrencyData currency in globalCurrencies)
+        List<Tooth> filtered = new List<Tooth>();
+        foreach (Tooth tooth in globalTeeth)
         {
-            if (currency.toothRank <= currentFloor) filtered.Add(currency);
+            // Checks your friend's 'rank' field
+            if (tooth.rank <= currentFloor) filtered.Add(tooth);
         }
         return filtered;
     }
@@ -112,7 +108,7 @@ public class ShopManager : MonoBehaviour
         return Random.Range(absoluteMinSlots, currentMaxPossible + 1);
     }
 
-    void CreateAutomatedSlot(List<CurrencyData> availableCurrencies, int currentFloor, int currentStage)
+    void CreateAutomatedSlot(List<Tooth> availableTeeth, int currentFloor, int currentStage)
     {
         if (itemCatalog.Count == 0) return;
 
@@ -127,42 +123,35 @@ public class ShopManager : MonoBehaviour
             }
         }
 
-        CurrencyData randomCurrency = availableCurrencies[Random.Range(0, availableCurrencies.Count)];
+        Tooth randomTooth = availableTeeth[Random.Range(0, availableTeeth.Count)];
 
-        // =========================================================================
-        // UNIFIED ECONOMY PRICING FORMULA
-        // =========================================================================
-        // 1. Teeth Type Tier vs Current Floor Impact
-        int floorDifference = currentFloor - randomCurrency.toothRank;
-
-        // 2. Stage Progression Impact (creep prices up slightly every 2 stages)
+        // Economy calculations using tooth.rank
+        int floorDifference = currentFloor - randomTooth.rank;
         int stagePriceCreep = Mathf.FloorToInt(currentStage / 2f);
 
-        // 3. Assemble dynamic values
         int baseMinPrice = 1 + stagePriceCreep;
         int baseMaxPrice = 3 + stagePriceCreep;
 
         int calculatedMin = Mathf.Max(1, baseMinPrice + floorDifference);
         int calculatedMax = Mathf.Max(calculatedMin, baseMaxPrice + (floorDifference * 2));
 
-        // 4. Final generation roll before petting modifications occur
         int finalPrice = Random.Range(calculatedMin, calculatedMax + 1);
-        // =========================================================================
 
         GameObject newSlot = Instantiate(shopItemPrefab, shopContainer);
         ShopItemUI uiScript = newSlot.GetComponent<ShopItemUI>();
 
-        uiScript.SetupShopItem(randomItem, finalPrice, randomCurrency, this);
+        // Pass the tooth into the UI setup function
+        uiScript.SetupShopItem(randomItem, finalPrice, randomTooth, this);
         activeUISlots.Add(uiScript);
     }
 
-    public void AttemptPurchase(ShopItemUI slotUI, ItemData item, int price, CurrencyData currency)
+    public void AttemptPurchase(ShopItemUI slotUI, ItemData item, int price, Tooth tooth)
     {
         bool isFreeItem = (price == 0);
 
-        if (isFreeItem || GameManager.Instance.TrySpendCurrency(currency, price))
+        // NOTE: Make sure your GameManager's TrySpendCurrency method can accept a 'Tooth' type!
+        if (isFreeItem || GameManager.Instance.TrySpendCurrency(tooth, price))
         {
-            // Give the player the item modularly via ID!
             PlayerInventory playerInv = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>();
             if (playerInv != null)
             {

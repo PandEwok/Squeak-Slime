@@ -14,37 +14,32 @@ public class ShopItemUI : MonoBehaviour
     public Button purchaseButton;
 
     [Header("Juice & Animation Settings")]
-    [Tooltip("How violent the shake is. 10 to 15 is usually a sweet spot for UI!")]
     public float shakeMagnitude = 12f;
-    [Tooltip("How long the shake lasts in seconds.")]
     public float shakeDuration = 0.25f;
-
-    [Tooltip("The unique color used ONLY when the player doesn't have enough currency.")]
     public Color brokenFlashColor = new Color(1f, 0.35f, 0.35f);
 
     private bool isShaking = false;
     private Color32 permanentPriceColor;
 
-    // NEW: Variables to store your exact original inspector font settings automatically
     private float originalFontSize;
     private TextAlignmentOptions originalAlignment;
 
-    // Hidden variables to remember what this slot is selling
     private ItemData myItemData;
-    private CurrencyData myCurrencyData;
+    private Tooth myToothData; // Updated variable type
     private ShopManager myManager;
 
-    public void SetupShopItem(ItemData item, int price, CurrencyData currency, ShopManager manager)
+    // Accepts a 'Tooth' instead of CurrencyData
+    public void SetupShopItem(ItemData item, int price, Tooth tooth, ShopManager manager)
     {
         if (itemImage == null || priceText == null || currencyImage == null || purchaseButton == null)
         {
-            Debug.LogError($"[ShopItemUI] CRITICAL: A UI reference is missing on the prefab '{gameObject.name}'!", gameObject);
+            Debug.LogError($"[ShopItemUI] CRITICAL: A UI reference is missing on '{gameObject.name}'!", gameObject);
             return;
         }
 
         myItemData = item;
         currentDynamicPrice = price;
-        myCurrencyData = currency;
+        myToothData = tooth;
         myManager = manager;
 
         itemImage.sprite = item.itemIcon;
@@ -52,10 +47,10 @@ public class ShopItemUI : MonoBehaviour
 
         priceText.text = price.ToString();
 
-        currencyImage.sprite = currency.currencyIcon;
-        currencyImage.color = currency.defaultColor;
+        // Assigns using your friend's 'itemIcon' and 'defaultColor' fields
+        currencyImage.sprite = tooth.itemIcon;
+        currencyImage.color = tooth.defaultColor;
 
-        // NEW: Capture your exact Inspector settings automatically at startup!
         originalFontSize = priceText.fontSize;
         originalAlignment = priceText.alignment;
         permanentPriceColor = priceText.faceColor;
@@ -65,14 +60,14 @@ public class ShopItemUI : MonoBehaviour
 
     public void OnPurchaseClicked()
     {
-        myManager.AttemptPurchase(this, myItemData, currentDynamicPrice, myCurrencyData);
+        // Passes the tooth back to the manager
+        myManager.AttemptPurchase(this, myItemData, currentDynamicPrice, myToothData);
     }
 
     public void MarkAsSold()
     {
         purchaseButton.interactable = false;
-
-        priceText.fontSize = 30f; // Font size specifically for "SOLD"
+        priceText.fontSize = 30f;
         priceText.alignment = TextAlignmentOptions.Center;
         priceText.text = "SOLD";
 
@@ -113,7 +108,6 @@ public class ShopItemUI : MonoBehaviour
         }
 
         transform.localPosition = originalPosition;
-
         priceText.faceColor = permanentPriceColor;
         priceText.color = permanentPriceColor;
 
@@ -124,10 +118,9 @@ public class ShopItemUI : MonoBehaviour
     {
         currentDynamicPrice = Mathf.Max(0, currentDynamicPrice + amount);
 
-            // NEW: Reverts perfectly back to your exact inspector layout settings!
-            priceText.fontSize = originalFontSize;
-            priceText.alignment = originalAlignment;
-            priceText.text = currentDynamicPrice.ToString();
+        priceText.fontSize = originalFontSize;
+        priceText.alignment = originalAlignment;
+        priceText.text = currentDynamicPrice.ToString();
 
         permanentPriceColor = permanentColor;
         priceText.faceColor = permanentColor;
