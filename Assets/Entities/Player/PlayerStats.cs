@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class PlayerStats : Stats_System
     public int SP = 100;
     public float attackBoostStrenght = 0.5f;
     public float defenseBoostStrenght = 0.5f;
+    public float criticalHitBoost = 0.25f;
+    public float criticalHitChance = 0.10f;
     [HideInInspector] public int baseDamage = 0;
     [HideInInspector] public int baseDefense = 0;
     [HideInInspector] public int empowerDelay = 0;
@@ -179,5 +182,17 @@ public class PlayerStats : Stats_System
             dizzyInstance = Instantiate(dizzyPF, this.transform.position + new Vector3(-0.75f - 0.5f, 3, 0), Quaternion.identity, this.transform);
         }
         dizzyTimer = dizzyDuration;
+    }
+
+    public int HasCriticalHit(int value)
+    {
+        float roll = Random.Range(0f, 1f);
+
+        if (roll < criticalHitChance)
+        {
+            Player.Instance.uiManager.DisplayGrade(GradeScript.Grade.Critical, true);
+            return value + (int)(value * criticalHitBoost);
+        }
+        return value;
     }
 }
