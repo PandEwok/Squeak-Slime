@@ -70,10 +70,12 @@ public class Squirel_AI : Magic_AI
             {
                 int buffChance = 50;
                 actionChoice = Random.Range(0, 100);
-                if (actionChoice < buffChance)
+                if (actionChoice < buffChance && empowerDelay <= 0)
                 {
                     int randomAllyIndex = GetRandomIndexExcept(enemies.Count, ownIndex);
-                    enemies[randomAllyIndex].GetComponent<Enemy_AI>().addBuff(Enemy_AI.EmpowerType.DEFENSE, 0.5f, 2);
+                    int duration = 2;
+                    empowerDelay = duration + 1;
+                    enemies[randomAllyIndex].GetComponent<Enemy_AI>().addBuff(Enemy_AI.EmpowerType.DEFENSE, 0.5f, duration);
                 }
                 else
                 {

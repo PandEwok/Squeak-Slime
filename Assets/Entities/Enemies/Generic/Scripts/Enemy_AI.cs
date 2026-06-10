@@ -16,7 +16,7 @@ public class Enemy_AI : MonoBehaviour
     Vector2 pos;
     float securityTimer = 0;
 
-    protected List<float> dmgBuffs = new List<float>();
+    public List<float> dmgBuffs = new List<float>();
     public List<float> defBuffs = new List<float>();
     protected List<int> dmgBuffTimers = new List<int>();
     protected List<int> defBuffTimers = new List<int>();
@@ -40,6 +40,8 @@ public class Enemy_AI : MonoBehaviour
     public GameObject projectilePF;
 
     protected Stats_System stats;
+
+    protected int permBuffID = 131313;
 
     public enum attackDirection
     {
@@ -190,36 +192,47 @@ public class Enemy_AI : MonoBehaviour
         }
     }
 
-    public void newTurnCount()
+    protected void countBuffTimers()
     {
-        empowerDelay = Mathf.Max(0, empowerDelay - 1);
-        empowerDuration = Mathf.Max(0, empowerDuration - 1);
         for (int i = 0; i < dmgBuffTimers.Count; i++)
         {
-            if (dmgBuffTimers[i] <= 0)
+            if (dmgBuffTimers[i] != permBuffID)
             {
-                dmgBuffTimers.RemoveAt(i);
-                dmgBuffs.RemoveAt(i);
-                i--;
-            }
-            else
-            {
-                dmgBuffTimers[i]--;
+                if (dmgBuffTimers[i] <= 0)
+                {
+                    dmgBuffTimers.RemoveAt(i);
+                    dmgBuffs.RemoveAt(i);
+                    i--;
+                }
+                else
+                {
+                    dmgBuffTimers[i]--;
+                }
             }
         }
         for (int i = 0; i < defBuffTimers.Count; i++)
         {
-            if (defBuffTimers[i] <= 0)
+            if (defBuffTimers[i] != permBuffID)
             {
-                defBuffTimers.RemoveAt(i);
-                defBuffs.RemoveAt(i);
-                i--;
-            }
-            else
-            {
-                defBuffTimers[i]--;
+                if (defBuffTimers[i] <= 0)
+                {
+                    defBuffTimers.RemoveAt(i);
+                    defBuffs.RemoveAt(i);
+                    i--;
+                }
+                else
+                {
+                    defBuffTimers[i]--;
+                }
             }
         }
+    }
+
+    public virtual void newTurnCount()
+    {
+        empowerDelay = Mathf.Max(0, empowerDelay - 1);
+        empowerDuration = Mathf.Max(0, empowerDuration - 1);
+        countBuffTimers();
         StartCoroutine(GetComponent<Stats_System>().ApplyStatus());
     }
 
