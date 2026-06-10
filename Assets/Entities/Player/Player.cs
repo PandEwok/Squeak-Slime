@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,27 +11,12 @@ public class Player : MonoBehaviour
     [HideInInspector] public PlayerStats stats;
     [HideInInspector] public GradeScript gradeScript;
     [HideInInspector] public bool hasWon = false;
-    [Header("UI Elements")]
-    public GameObject gameOverUI;
-    public GameObject victoryUI;
     [SerializeField] private GameObject actionMenu;
     [SerializeField] private GameObject qteWarning;
     [SerializeField] private GameObject gradeDisplay;
     [SerializeField] private GameObject vfxSystem;
     public SpriteRenderer sprite;
-    [Header("Skills Booleans")]
-    public bool hasBite = false;
-    public bool hasFireball = false;
-    public bool hasFracture = false;
-    public bool hasAbsorption = false;
-    [Header("Actions")]
-    public MeleeAttack meleeAttack;
-    public MeleeAttack biteAttack;
-    public RangedAttack rangedAttack;
-    public FireballAttack fireballAttack;
-    public FractureAttack fractureAttack;
-    public DefenseAction defenseAction;
-    public AbsorptionAction absorptionAction;
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -50,10 +34,7 @@ public class Player : MonoBehaviour
         stats = GetComponent<PlayerStats>();
         gradeScript = gradeDisplay.GetComponent<GradeScript>();
         originalPosition = transform.position;
-        gameOverUI.SetActive(false);
-        victoryUI.SetActive(false);
     }
-
     private void Update()
     {
         if (!hasWon)
@@ -63,22 +44,20 @@ public class Player : MonoBehaviour
                 vfxSystem.GetComponent<PlayerVfx>().HandleParticles(this);
             }
         }
-
         //Appuyez sur S pour save
         if(Keyboard.current != null && Keyboard.current.sKey.wasPressedThisFrame)
         {
             FileManager.Instance.SaveGame(
                 stats.health,
                 stats.SP,
-                hasBite,
-                hasFireball,
-                hasFracture,
-                hasAbsorption,
+                inventory.hasBite,
+                inventory.hasFireball,
+                inventory.hasFracture,
+                inventory.hasAbsorption,
                 inventory
             );
             Debug.Log("Sauvegarde effectuée !");
         }
-
         //Appuyez sur L pour charger les donnees
         if (Keyboard.current != null && Keyboard.current.lKey.wasPressedThisFrame)
         {
@@ -87,10 +66,10 @@ public class Player : MonoBehaviour
             {
                 stats.health = data.HP;
                 stats.SP = data.SP;
-                hasBite = data.hasBite;
-                hasFireball = data.hasFireball;
-                hasFracture = data.hasFracture;
-                hasAbsorption = data.hasAbsorption;
+                inventory.hasBite = data.hasBite;
+                inventory.hasFireball = data.hasFireball;
+                inventory.hasFracture = data.hasFracture;
+                inventory.hasAbsorption = data.hasAbsorption;
 
                 inventory.LoadInventoryData(data);
                 Debug.Log("Chargement effectué !");
@@ -107,20 +86,6 @@ public class Player : MonoBehaviour
         stats.ApplyDefenseBoost();
         combatLogic.switchTurn();
     }
-    public void GameOver()
-    {
-        gameOverUI.SetActive(true);
-        actionMenu.SetActive(false);
-        gameOverUI.GetComponent<UI_GameoverScript>().ToggleGameOverUiVisibility(true);
-    }
-
-    public void Victory()
-    {
-        victoryUI.SetActive(true);
-        actionMenu.SetActive(false);
-        victoryUI.GetComponent<UI_VictoryScript>().ToggleVictoryUiVisibility(true);
-    }
-
     public void ShowQTE(bool mustDisplay)
     {
         if (mustDisplay)
@@ -141,10 +106,5 @@ public class Player : MonoBehaviour
             gradeScript.gameObject.SetActive(true);
             StartCoroutine(gradeScript.GradeDisplay(grade, display));
         }
-    }
-
-    public bool DoesHaveAnySkill()
-    {
-        return hasBite || hasFireball || hasFracture || hasAbsorption;
     }
 }

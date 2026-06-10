@@ -142,6 +142,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b72539b93962544b295795c361fb7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
+  hasBite: 1
+  hasFireball: 1
+  hasFracture: 1
+  hasAbsorption: 1
+  meleeAttack: {fileID: 11400000, guid: 9ea74dc51bc02244a91456f20826a07f, type: 2}
+  biteAttack: {fileID: 11400000, guid: 182edeba1269c5743abba95f6b1270d4, type: 2}
+  rangedAttack: {fileID: 11400000, guid: 0b736b4fc70295f43bb63604ce3b9695, type: 2}
+  fireballAttack: {fileID: 11400000, guid: 23ee1532c1278764a8a7cb7e7e20fbe8, type: 2}
+  fractureAttack: {fileID: 11400000, guid: 8776595aadf6c454d80ee05950309a2f, type: 2}
+  defenseAction: {fileID: 11400000, guid: c0647c6ae09be7f44b3e51b78abc53fd, type: 2}
+  absorptionAction: {fileID: 11400000, guid: 178b236199936934aa74519dc27fe72f, type: 2}
   startingInventory: []
   startingTeeth: []
 --- !u!114 &1522636355711820040
@@ -162,24 +173,11 @@ MonoBehaviour:
   stats: {fileID: 0}
   gradeScript: {fileID: 0}
   hasWon: 0
-  gameOverUI: {fileID: 0}
-  victoryUI: {fileID: 0}
   actionMenu: {fileID: 2886613892715260993}
   qteWarning: {fileID: 4969275292565051531}
   gradeDisplay: {fileID: 831087043188574043}
   vfxSystem: {fileID: 8165858409456277598, guid: ede5c85c29db6f94291d1b1c5c553bba, type: 3}
   sprite: {fileID: 9030391165085133556}
-  hasBite: 1
-  hasFireball: 1
-  hasFracture: 1
-  hasAbsorption: 1
-  meleeAttack: {fileID: 11400000, guid: 9ea74dc51bc02244a91456f20826a07f, type: 2}
-  biteAttack: {fileID: 11400000, guid: 182edeba1269c5743abba95f6b1270d4, type: 2}
-  rangedAttack: {fileID: 11400000, guid: 0b736b4fc70295f43bb63604ce3b9695, type: 2}
-  fireballAttack: {fileID: 11400000, guid: 23ee1532c1278764a8a7cb7e7e20fbe8, type: 2}
-  fractureAttack: {fileID: 11400000, guid: 8776595aadf6c454d80ee05950309a2f, type: 2}
-  defenseAction: {fileID: 11400000, guid: c0647c6ae09be7f44b3e51b78abc53fd, type: 2}
-  absorptionAction: {fileID: 11400000, guid: 178b236199936934aa74519dc27fe72f, type: 2}
 --- !u!114 &-8998726753592772742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,31 +190,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5eb07ca0200924448302dbac826082e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  originalHealth: 100
-  damage: 10
-  defense: 2
   damagePF: {fileID: 254843135583981822, guid: 560e1bfb2a4706e45a82ebfb18aa849e, type: 3}
   bloodPF: {fileID: 2114382830776690554, guid: 1cda0815d43215f40b41c548b80fc810, type: 3}
   firePF: {fileID: 6641741500042543266, guid: 455d860957c083f45ba4274448240134, type: 3}
   dizzyPF: {fileID: 7082761583480327981, guid: 4faee7cf16db2a04ca6173f6464106d1, type: 3}
-  absorptionColor: {r: 0, g: 0, b: 0, a: 0}
   health: 0
-  blocking: 0
-  defending: 0
+  originalHealth: 100
+  damage: 10
+  defense: 2
   isBleeding: 0
   isOnFire: 0
   isDizzy: 0
-  hasAbsorption: 0
+  isAbsorbing: 0
   bleedDamage: 5
   fireDamage: 18
   bleedingDuration: 3
   fireDuration: 3
   absorptionDuration: 3
   dizzyDuration: 1
-  bleedingTimer: 0
-  fireTimer: 0
-  absorptionTimer: 0
-  dizzyTimer: 0
+  absorptionColor: {r: 0, g: 0, b: 0, a: 0}
   originalSP: 100
   SP: 100
   attackBoostStrenght: 0.5
@@ -227,6 +219,8 @@ MonoBehaviour:
   defenseBuffDelay: 0
   empowered: 0
   defenseBuffed: 0
+  blocking: 0
+  defending: 0
   slimeDamageSound: Slime_Damage
 --- !u!1001 &2747501983277139162
 PrefabInstance:

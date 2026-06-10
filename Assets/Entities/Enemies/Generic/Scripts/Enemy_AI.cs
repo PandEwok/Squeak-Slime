@@ -262,7 +262,7 @@ public class Enemy_AI : MonoBehaviour
         {
             if(!hasFailedQTE)
             { 
-                playerCombat.defenseAction.Execute(playerCombat, 0.4f); 
+                playerCombat.inventory.defenseAction.Execute(playerCombat, 0.4f); 
             }
             else
             {
@@ -320,7 +320,7 @@ public class Enemy_AI : MonoBehaviour
         {
             if (!hasFailedQTE)
             {
-                playerCombat.defenseAction.Execute(playerCombat, 0.4f);
+                playerCombat.inventory.defenseAction.Execute(playerCombat, 0.4f);
             }
             else
             {

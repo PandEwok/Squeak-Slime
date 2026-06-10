@@ -105,7 +105,7 @@ public class ActionBarScript : MonoBehaviour
         Absorption?.RegisterCallback<PointerEnterEvent>(ev => ShowDescription("Absorption"));
         Absorption?.RegisterCallback<PointerLeaveEvent>(ev => ShowDescription(""));
         Confirm?.RegisterCallback<ClickEvent>(ev => ConfirmPressed());
-        if (playerScript.DoesHaveAnySkill())
+        if (playerScript.inventory.DoesHaveAnySkill())
         {
             Skills.style.display = DisplayStyle.Flex;
         }
@@ -145,7 +145,7 @@ public class ActionBarScript : MonoBehaviour
 
                     if (attackType == AttackType.MELEE)
                     {
-                        playerScript.meleeAttack.Execute(playerScript, target);
+                        playerScript.inventory.meleeAttack.Execute(playerScript, target);
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
@@ -153,7 +153,7 @@ public class ActionBarScript : MonoBehaviour
                     }
                     else if (attackType == AttackType.RANGED)
                     {
-                        playerScript.rangedAttack.Execute(playerScript, target);
+                        playerScript.inventory.rangedAttack.Execute(playerScript, target);
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
@@ -163,12 +163,12 @@ public class ActionBarScript : MonoBehaviour
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
-                        playerScript.stats.SP -= playerScript.biteAttack.actionCost;
+                        playerScript.stats.SP -= playerScript.inventory.biteAttack.actionCost;
                         if (playerScript.stats.SP < 0)
                         {
                             playerScript.stats.SP = 0;
                         }
-                        playerScript.biteAttack.Execute(playerScript, target);
+                        playerScript.inventory.biteAttack.Execute(playerScript, target);
 
                     }
                     else if (attackType == AttackType.FRACTURE)
@@ -176,12 +176,12 @@ public class ActionBarScript : MonoBehaviour
                         isSelectingEnnemy = false;
                         attackType = AttackType.NONE;
                         ToggleUiVisibility(false);
-                        playerScript.stats.SP -= playerScript.fractureAttack.actionCost;
+                        playerScript.stats.SP -= playerScript.inventory.fractureAttack.actionCost;
                         if (playerScript.stats.SP < 0)
                         {
                             playerScript.stats.SP = 0;
                         }
-                        playerScript.fractureAttack.Execute(playerScript, target);
+                        playerScript.inventory.fractureAttack.Execute(playerScript, target);
                     }
                     targetCount = 0;
                     confirmedAttack = false;
@@ -302,7 +302,7 @@ public class ActionBarScript : MonoBehaviour
 
     private void UseBite()
     {
-        if (playerScript.stats.SP < playerScript.biteAttack.actionCost)
+        if (playerScript.stats.SP < playerScript.inventory.biteAttack.actionCost)
         {
             Debug.Log("Not enough SP to use Bite!");
             return;
@@ -320,7 +320,7 @@ public class ActionBarScript : MonoBehaviour
 
     private void UseFracture()
     {
-        if (playerScript.stats.SP < playerScript.fractureAttack.actionCost)
+        if (playerScript.stats.SP < playerScript.inventory.fractureAttack.actionCost)
         {
             Debug.Log("Not enough SP to use Fracture!");
             return;
@@ -336,20 +336,20 @@ public class ActionBarScript : MonoBehaviour
 
     private void UseFireball()
     {
-        if (playerScript.stats.SP < playerScript.fireballAttack.actionCost)
+        if (playerScript.stats.SP < playerScript.inventory.fireballAttack.actionCost)
         {
             Debug.Log("Not enough SP to use Fireball!");
             return;
         }
         else
         {
-            playerScript.stats.SP -= playerScript.fireballAttack.actionCost;
+            playerScript.stats.SP -= playerScript.inventory.fireballAttack.actionCost;
             if (playerScript.stats.SP < 0)
             {
                 playerScript.stats.SP = 0;
             }
             Debug.Log("Use Fireball button clicked!");
-            playerScript.fireballAttack.Execute(playerScript, combatLogic.enemies);
+            playerScript.inventory.fireballAttack.Execute(playerScript, combatLogic.enemies);
             ToggleUiVisibility(false);
         }
     }
@@ -357,19 +357,19 @@ public class ActionBarScript : MonoBehaviour
     private void UseAbsorption()
     {
         Debug.Log("Use Absorption button clicked!");
-        if (playerScript.stats.SP < playerScript.absorptionAction.actionCost)
+        if (playerScript.stats.SP < playerScript.inventory.absorptionAction.actionCost)
         {
             Debug.Log("Not enough SP to use Absorption!");
             return;
         }
         else
         {
-            playerScript.stats.SP -= playerScript.absorptionAction.actionCost;
+            playerScript.stats.SP -= playerScript.inventory.absorptionAction.actionCost;
             if (playerScript.stats.SP < 0)
             {
                 playerScript.stats.SP = 0;
             }
-            playerScript.absorptionAction.Execute(playerScript);
+            playerScript.inventory.absorptionAction.Execute(playerScript);
             ToggleUiVisibility(false);
         }
     }
@@ -416,7 +416,7 @@ public class ActionBarScript : MonoBehaviour
                 element.style.display = DisplayStyle.Flex;
                 ToggleConfirmVisibility(false);
                 descriptionDisplayLabel.style.visibility = Visibility.Hidden;
-                if (!playerScript.DoesHaveAnySkill())
+                if (!playerScript.inventory.DoesHaveAnySkill())
                 {
                     Skills.style.display = DisplayStyle.None;
                 }
@@ -466,19 +466,19 @@ public class ActionBarScript : MonoBehaviour
             {
                 element.style.display = DisplayStyle.Flex;
                 ToggleConfirmVisibility(false);
-                if (!playerScript.hasBite)
+                if (!playerScript.inventory.hasBite)
                 {
                     Bite.style.display = DisplayStyle.None;
                 }
-                if (!playerScript.hasFracture)
+                if (!playerScript.inventory.hasFracture)
                 {
                     Fracture.style.display = DisplayStyle.None;
                 }
-                if (!playerScript.hasFireball)
+                if (!playerScript.inventory.hasFireball)
                 {
                     Fireball.style.display = DisplayStyle.None;
                 }
-                if (!playerScript.hasAbsorption)
+                if (!playerScript.inventory.hasAbsorption)
                 {
                     Absorption.style.display = DisplayStyle.None;
                 }

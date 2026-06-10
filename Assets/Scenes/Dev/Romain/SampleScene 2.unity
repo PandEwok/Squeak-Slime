@@ -3767,6 +3767,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6916586642759067338, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
+      propertyPath: victoryUI
+      value: 
+      objectReference: {fileID: 1052438338}
+    - target: {fileID: 6916586642759067338, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
+      propertyPath: actionMenu
+      value: 
+      objectReference: {fileID: 1243335890482840287}
+    - target: {fileID: 6916586642759067338, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
+      propertyPath: gameOverUI
+      value: 
+      objectReference: {fileID: 2008886624}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

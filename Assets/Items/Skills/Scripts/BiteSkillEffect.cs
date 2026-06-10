@@ -14,7 +14,7 @@ public class BiteSkillEffect : CustomEffectLogic
             Debug.Log("<color=green>[Modular Skill] Executing Bite Effect!</color>");
 
             // 2. Trigger your friends' original Coroutine!
-            playerS.biteAttack.Execute(playerS, target);
+            playerS.inventory.biteAttack.Execute(playerS, target);
         }
         else
         {

@@ -44,7 +44,7 @@ public class Combat_Logic : MonoBehaviour
         if (enemies.Count == 0)
         {
             Debug.Log("All enemies defeated! Victory!");
-            player.GetComponent<Player>().Victory();
+            EngameUIScript.Instance.Victory();
             player.SetActive(false);
         }
     }
