@@ -10,7 +10,7 @@ public class Banana : ItemData
         if (inventory != null)
         {
             inventory.RemoveItem(this, 1);
-            playerS.RestoreSP(effectValue);
+            playerS.stats.RestoreSP((int)effectValue);
             Debug.Log("Le joueur a utilise une banane");
         }
     }

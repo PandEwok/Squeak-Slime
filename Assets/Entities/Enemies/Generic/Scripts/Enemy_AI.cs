@@ -270,11 +270,11 @@ public class Enemy_AI : MonoBehaviour
         {
             if(!hasFailedQTE)
             { 
-                Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f)); 
+                playerCombat.inventory.defenseAction.Execute(playerCombat, 0.4f); 
             }
             else
             {
-                playerCombat.DisplayGrade(GradeScript.Grade.Missed, true);
+                playerCombat.uiManager.DisplayGrade(GradeScript.Grade.Missed, true);
             }
                 await Task.Delay((int)secToMili(0.4f));
 
@@ -328,11 +328,11 @@ public class Enemy_AI : MonoBehaviour
         {
             if (!hasFailedQTE)
             {
-                Coroutine qteCouroutine = playerCombat.StartCoroutine(playerCombat.TriggerDefenseQTE(0.4f));
+                playerCombat.inventory.defenseAction.Execute(playerCombat, 0.4f);
             }
             else
             {
-                playerCombat.DisplayGrade(GradeScript.Grade.Missed, true);
+                playerCombat.uiManager.DisplayGrade(GradeScript.Grade.Missed, true);
             }
             await Task.Delay((int)secToMili(0.4f));
 

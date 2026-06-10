@@ -10,7 +10,7 @@ public class PepperDef : ItemData
         if (inventory != null)
         {
             inventory.RemoveItem(this, 1);
-            playerS.ActionDefenseBuff(effectDuration, effectValue);
+            playerS.stats.ActionDefenseBuff(effectDuration, effectValue);
             Debug.Log("Le joueur a utilise un piment de defense");
         }
     }

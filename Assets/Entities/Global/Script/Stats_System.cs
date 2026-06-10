@@ -9,41 +9,44 @@ using UnityEngine.UI;
 
 public class Stats_System : MonoBehaviour
 {
-    
-    public int originalHealth;
-    public int damage;
-    public int defense;
+    [Header("Prefabs")]
     public GameObject damagePF;
     public GameObject bloodPF;
     public GameObject firePF;
     public GameObject dizzyPF;
-    Vector3 originalPos;
-    Color originalColor;
-    [HideInInspector] public Color absorptionColor;
+    [Header("Base Stats")]
     public int health;
-    [HideInInspector] public bool blocking = false;
-    [HideInInspector] public bool defending = false;
+    public int originalHealth;
+    public int damage;
+    public int defense;
+    [Header("Status Booleans")]
     public bool isBleeding = false;
     public bool isOnFire = false;
     public bool isDizzy = false;
-    public bool hasAbsorption = false;
+    public bool isAbsorbing = false;
+    [Header("Status Values")]
     public int bleedDamage = 5;
     public float fireDamage = 18; //Utilise pour calculer une proportion, n'inflige pas 18
+    [Header("Status Durations")]
     public int bleedingDuration = 3;
     public int fireDuration = 3;
     public int absorptionDuration = 3;
     public int dizzyDuration = 1;
-    public int bleedingTimer = 0;
-    public int fireTimer = 0;
-    public int absorptionTimer = 0;
-    public int dizzyTimer = 0;
-    private GameObject bleedingInstance;
-    private GameObject fireInstance;
-    private GameObject dizzyInstance;
-    private GameObject player;
+    //StatusTimers
+    protected int bleedingTimer = 0;
+    protected int fireTimer = 0;
+    protected int absorptionTimer = 0;
+    protected int dizzyTimer = 0;
+    //StatusIconsReferences
+    protected GameObject bleedingInstance;
+    protected GameObject fireInstance;
+    protected GameObject dizzyInstance;
+    protected GameObject player;
+    Vector3 originalPos;
+    Color originalColor;
+    [HideInInspector] public Color absorptionColor;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         originalPos = transform.localPosition;
         //originalColor = this.gameObject.GetComponent<SpriteRenderer>().color;
@@ -56,13 +59,7 @@ public class Stats_System : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private IEnumerator dmgShake()
+    protected IEnumerator DmgShake()
     {
         float shakeDuration = 0.4f;
         float shakeMagnitude = 0.08f;
@@ -78,7 +75,7 @@ public class Stats_System : MonoBehaviour
         transform.localPosition = originalPos;
     }
 
-    private IEnumerator dmgShade()
+    protected IEnumerator DmgShade()
     {
         SpriteRenderer img = GetComponentInChildren<SpriteRenderer>();
         
@@ -87,7 +84,7 @@ public class Stats_System : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < duration)
         {
-            if(!hasAbsorption) img.color = Color.Lerp(originalColor, targetColor, elapsed / duration);
+            if(!isAbsorbing) img.color = Color.Lerp(originalColor, targetColor, elapsed / duration);
             else img.color = Color.Lerp(absorptionColor, targetColor, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
@@ -95,16 +92,16 @@ public class Stats_System : MonoBehaviour
         elapsed = 0f;
         while (elapsed < duration)
         {
-            if(!hasAbsorption) img.color = Color.Lerp(targetColor, originalColor, elapsed / duration);
+            if(!isAbsorbing) img.color = Color.Lerp(targetColor, originalColor, elapsed / duration);
             else img.color = Color.Lerp(targetColor, absorptionColor, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
         }
-        if (!hasAbsorption) img.color = originalColor;
+        if (!isAbsorbing) img.color = originalColor;
         else img.color = absorptionColor;
     }
 
-    public int takeDamage(int damageAmount, bool isStatusDamage, Enemy_AI.attackDirection hitDirection = Enemy_AI.attackDirection.NONE)
+    public virtual int TakeDamage(int damageAmount, bool isStatusDamage, Enemy_AI.attackDirection hitDirection = Enemy_AI.attackDirection.NONE)
     {
         int effectiveDamage = 0;
         if (isStatusDamage)
@@ -129,24 +126,9 @@ public class Stats_System : MonoBehaviour
                 }
                 effectiveDamage = Mathf.Max(effectiveDamage, 0);
             }
-            else
-            {
-                if (blocking)
-                {
-                    effectiveDamage /= 2;
-                    AudioManager.Instance.PlaySFX("Parade");
-                }
-                if (defending)
-                {
-                    effectiveDamage /= 2;
-                }
-            }
+            
         }
         health -= effectiveDamage;
-        if(this.CompareTag("Player"))
-        {
-            AudioManager.Instance.PlaySFX("Slime_Damage");
-        }
         GameObject newDmgDisplay;
 
         Vector3 spawnPos = new Vector3(this.transform.position.x, this.transform.position.y + 2);
@@ -156,23 +138,18 @@ public class Stats_System : MonoBehaviour
         spawnPos.y += randomYOffset;
 
 
-        StartCoroutine(dmgShake());
-        StartCoroutine(dmgShade());
+        StartCoroutine(DmgShake());
+        StartCoroutine(DmgShade());
 
         newDmgDisplay = Instantiate(damagePF, spawnPos, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
         newDmgDisplay.GetComponent<TextMeshProUGUI>().SetText(effectiveDamage.ToString());
 
         Debug.Log($"{gameObject.name} took {effectiveDamage} damage. Remaining health: {health}");
 
-        if (health <= 0 && this.CompareTag("Player"))
-        {
-            Debug.Log("Player has died. Game Over.");
-            player.GetComponent<Player>().GameOver();
-        }
         return effectiveDamage;
     }
 
-    public void heal(int healAmount)
+    public void Heal(int healAmount)
     {
         health += healAmount;
         health = Mathf.Min(health, originalHealth);
@@ -185,7 +162,7 @@ public class Stats_System : MonoBehaviour
         if(isBleeding)
         {
             Debug.Log($"{gameObject.name} is bleeding.");
-            takeDamage(bleedDamage, true);
+            TakeDamage(bleedDamage, true);
             AudioManager.Instance.PlaySFX("Bleed");
             bleedingTimer--;
             if(bleedingTimer <= 0 && bleedingInstance != null)
@@ -202,7 +179,7 @@ public class Stats_System : MonoBehaviour
         {
             Debug.Log($"{gameObject.name} is on fire.");
             int burnDamage = Mathf.RoundToInt(originalHealth / fireDamage);
-            takeDamage(burnDamage, true);
+            TakeDamage(burnDamage, true);
             AudioManager.Instance.PlaySFX("Burn");
             fireTimer--;
             if (fireTimer <= 0 && fireInstance != null)
@@ -229,8 +206,8 @@ public class Stats_System : MonoBehaviour
     public void HandleAbsorptionColor()
     {
         SpriteRenderer img = GetComponentInChildren<SpriteRenderer>();
-        hasAbsorption = (absorptionTimer > 0);
-        if(hasAbsorption)
+        isAbsorbing = (absorptionTimer > 0);
+        if(isAbsorbing)
         {
             Debug.Log($"{gameObject.name} has absorption.");
             img.color = absorptionColor;
@@ -261,60 +238,38 @@ public class Stats_System : MonoBehaviour
         }
         HandleAbsorptionColor();
     }
-    public void MakeBleeding()
+    public virtual void MakeBleeding()
     {
         if(!isBleeding)
         {
             isBleeding = true;
-            if(CompareTag("Player"))
-            { 
-                bleedingInstance = Instantiate(bloodPF, this.transform.position + new Vector3(-0.75f, 3, 0), Quaternion.identity, this.transform);
-            }
-            else
-            {
-                bleedingInstance = Instantiate(bloodPF, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity, this.transform);
-            }
-
+            bleedingInstance = Instantiate(bloodPF, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity, this.transform);
         }
         bleedingTimer = bleedingDuration +1;
     }
-    public void MakeBurned()
+    public virtual void MakeBurned()
     {
         if (!isOnFire)
         {
             isOnFire = true;
-            if(CompareTag("Player"))
-            {
-                fireInstance = Instantiate(firePF, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity, this.transform);
-            }
-            else
-            {
-                fireInstance = Instantiate(firePF, this.transform.position + new Vector3(0.5f, 3, 0), Quaternion.identity, this.transform);
-            }
+            fireInstance = Instantiate(firePF, this.transform.position + new Vector3(0.5f, 3, 0), Quaternion.identity, this.transform);
         }
         fireTimer = fireDuration+1;
     }
-    public void MakeDizzy()
+    public virtual void MakeDizzy()
     {
         if (!isDizzy)
         {
             isDizzy = true;
-            if (CompareTag("Player"))
-            {
-                dizzyInstance = Instantiate(dizzyPF, this.transform.position + new Vector3(-0.75f-0.5f, 3, 0), Quaternion.identity, this.transform);
-            }
-            else
-            {
-                dizzyInstance = Instantiate(dizzyPF, this.transform.position + new Vector3(-0.5f, 3, 0), Quaternion.identity, this.transform);
-            }
+            dizzyInstance = Instantiate(dizzyPF, this.transform.position + new Vector3(-0.5f, 3, 0), Quaternion.identity, this.transform);   
         }
         dizzyTimer = dizzyDuration;
     }
     public void ActivateAbsorption()
     {
-        if (!hasAbsorption)
+        if (!isAbsorbing)
         {
-            hasAbsorption = true;
+            isAbsorbing = true;
             SpriteRenderer img = GetComponentInChildren<SpriteRenderer>();
             img.color = absorptionColor;
             AudioManager.Instance.PlaySFX("Powerup");
