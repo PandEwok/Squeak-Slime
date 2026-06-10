@@ -1233,12 +1233,12 @@ MonoBehaviour:
   shopContainer: {fileID: 1118165113}
   shopItemPrefab: {fileID: 2801107329335654381, guid: b4d5f8175868a5c41ba739d512c60617, type: 3}
   itemCatalog:
-  - {fileID: 11400000, guid: 76f07b6330a8dd144bccc80a36bf2a9e, type: 2}
-  - {fileID: 11400000, guid: 6accc6b841bda4a418058615648ee8cb, type: 2}
-  - {fileID: 11400000, guid: 4eaef6870d36d06439d97a1bb85684fa, type: 2}
-  - {fileID: 11400000, guid: 31d0468adddd15447a582e926284753f, type: 2}
-  globalCurrencies:
-  - {fileID: 11400000, guid: e2ed30f2626d83a4e961571d06b94cd2, type: 2}
+  - {fileID: 11400000, guid: 8f7d7e19d4f968d4c8809daf9d0d6236, type: 2}
+  - {fileID: 11400000, guid: 963bc07877a904c44ab5a09afcd8f754, type: 2}
+  - {fileID: 11400000, guid: 38967c91c11066f47912838a21b1b161, type: 2}
+  - {fileID: 11400000, guid: 0f3b913957e4dc34b8c255ee7a7fdcc1, type: 2}
+  globalTeeth:
+  - {fileID: 11400000, guid: 15d499bc3b9aa5d4cb08ee3276f15c10, type: 2}
   absoluteMinSlots: 1
   stage1MaxSlots: 3
   extraMaxSlotsAtEnd: 1
@@ -1341,7 +1341,7 @@ Canvas:
   m_GameObject: {fileID: 1282674154}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 1037966307}
   m_PlaneDistance: 100
   m_PixelPerfect: 0

@@ -5,6 +5,20 @@ using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
 public class PlayerInventory : MonoBehaviour
 {
+    [Header("Skills Booleans")]
+    public bool hasBite = false;
+    public bool hasFireball = false;
+    public bool hasFracture = false;
+    public bool hasAbsorption = false;
+    [Header("Actions")]
+    public MeleeAttack meleeAttack;
+    public MeleeAttack biteAttack;
+    public RangedAttack rangedAttack;
+    public FireballAttack fireballAttack;
+    public FractureAttack fractureAttack;
+    public DefenseAction defenseAction;
+    public AbsorptionAction absorptionAction;
+
     public Dictionary<ItemData, int> itemsPossessed = new Dictionary<ItemData, int>();
     public Dictionary<Tooth, int> teethPossessed = new Dictionary<Tooth, int>();
     [System.Serializable]
@@ -117,5 +131,10 @@ public class PlayerInventory : MonoBehaviour
                 Debug.LogWarning($"[Inventory] Impossible de trouver le ScriptableObject Tooth avec l'ID: {toothSave.itemId}");
             }
         }
+    }
+
+    public bool DoesHaveAnySkill()
+    {
+        return hasBite || hasFireball || hasFracture || hasAbsorption;
     }
 }

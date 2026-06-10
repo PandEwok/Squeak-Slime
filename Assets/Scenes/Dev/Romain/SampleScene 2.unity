@@ -3570,6 +3570,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 890441200}
     - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: vfxSystem
+      value: 
+      objectReference: {fileID: 8165858409456277598, guid: ede5c85c29db6f94291d1b1c5c553bba, type: 3}
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: victoryUI
       value: 
       objectReference: {fileID: 1052438338}
@@ -3593,6 +3597,54 @@ PrefabInstance:
       propertyPath: hasAbsorption
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: FireballAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 23ee1532c1278764a8a7cb7e7e20fbe8, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: hasBite
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: biteAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 182edeba1269c5743abba95f6b1270d4, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: hasFireball
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: hasFracture
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: meleeAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ea74dc51bc02244a91456f20826a07f, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: rangedAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b736b4fc70295f43bb63604ce3b9695, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: defenseAction
+      value: 
+      objectReference: {fileID: 11400000, guid: c0647c6ae09be7f44b3e51b78abc53fd, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: hasAbsorption
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: fireballAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 23ee1532c1278764a8a7cb7e7e20fbe8, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: fractureAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 8776595aadf6c454d80ee05950309a2f, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: absorptionAction
+      value: 
+      objectReference: {fileID: 11400000, guid: 178b236199936934aa74519dc27fe72f, type: 2}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingTeeth.Array.size
       value: 0
@@ -3653,6 +3705,10 @@ PrefabInstance:
       propertyPath: combatLogic
       value: 
       objectReference: {fileID: 1044752080}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: playerGameObject
+      value: 
+      objectReference: {fileID: 890441197}
     - target: {fileID: 7584880515457097585, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: displayDuration
       value: 3
@@ -3663,7 +3719,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8567076734609327451, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: PlayerPrefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3755,6 +3811,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6916586642759067338, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
+      propertyPath: victoryUI
+      value: 
+      objectReference: {fileID: 1052438338}
+    - target: {fileID: 6916586642759067338, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
+      propertyPath: actionMenu
+      value: 
+      objectReference: {fileID: 1243335890482840287}
+    - target: {fileID: 6916586642759067338, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
+      propertyPath: gameOverUI
+      value: 
+      objectReference: {fileID: 2008886624}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

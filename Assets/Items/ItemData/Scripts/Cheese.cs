@@ -10,7 +10,7 @@ public class Cheese : ItemData
         if (inventory != null)
         {
             inventory.RemoveItem(this, 1);
-            playerS.HealPlayer(effectValue);
+            playerS.stats.Heal((int)effectValue);
             Debug.Log("Le joueur a utilise un fromage");
         }
     }
