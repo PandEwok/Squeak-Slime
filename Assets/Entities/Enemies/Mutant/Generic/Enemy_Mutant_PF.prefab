@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   defBuffs: []
-  powerEffect: {fileID: 0}
+  powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   empowerStrenght: 0.5
   projectilePF: {fileID: 0}
   directionalResistance: 0
