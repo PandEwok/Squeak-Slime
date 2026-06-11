@@ -20,6 +20,7 @@ public class Combat_Logic : MonoBehaviour
     private List<GameObject> enemiesToDestroy = new List<GameObject>();
 
     public GameObject player;
+    private int playerTurnCount = 0;
     //UnityEngine.UI.Button[] UI_Buttons;
 
 
@@ -82,6 +83,13 @@ public class Combat_Logic : MonoBehaviour
         if (playerTurn)
         {
             actionUI.GetComponent<ActionBarScript>().FinalizeAttack();
+            playerTurnCount++;
+            Debug.Log($"Nombre de tours joueur: {playerTurnCount}");
+            if (playerTurnCount == 2)
+            { 
+                Player.Instance.stats.HandleHealingEveryTwoTurn(); 
+                playerTurnCount = 0;
+            }
 
             foreach (GameObject enemy in enemiesToDestroy)
             {

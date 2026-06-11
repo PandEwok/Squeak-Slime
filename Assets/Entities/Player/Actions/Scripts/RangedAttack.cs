@@ -133,7 +133,8 @@ public class RangedAttack : PlayerAction
         if (enemyStats != null)
         {
             int baseDamage = stats.damage;
-            int finalDamage = succeededQte ? Mathf.RoundToInt(baseDamage * qteSuccessDamageBoost) : baseDamage;
+            int finalDamage = stats.GetRangedAttackBoost();
+            finalDamage += succeededQte ? Mathf.RoundToInt(baseDamage * qteSuccessDamageBoost) : baseDamage;
             finalDamage = player.stats.HasCriticalHit(finalDamage);
             int healthToAbsorb = enemyStats.TakeDamage(finalDamage, false);
             player.stats.AbsorbHealth(healthToAbsorb);

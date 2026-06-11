@@ -20,6 +20,11 @@ public class PlayerStats : Stats_System
     [HideInInspector] public bool defenseBuffed = false;
     [HideInInspector] public bool blocking = false;
     [HideInInspector] public bool defending = false;
+    [Header("Passives")]
+    [SerializeField] private int meleeAttackBoost = 0;
+    [SerializeField] private int rangedAttackBoost = 0;
+    [SerializeField] private float debuffChance = 0.30f;
+    [SerializeField] private int healEveryTurn = 0;
     [Header("Miscellaneous")]
     [SerializeField] private string slimeDamageSound = "Slime_Damage";
 
@@ -159,30 +164,40 @@ public class PlayerStats : Stats_System
 
     public override void MakeBleeding()
     {
-        if (!isBleeding)
+        if (MustReceiveStatus())
         {
-            isBleeding = true;
-            bleedingInstance = Instantiate(bloodPF, this.transform.position + new Vector3(-0.75f, 3, 0), Quaternion.identity, this.transform);
+            
+            if (!isBleeding)
+            {
+                isBleeding = true;
+                bleedingInstance = Instantiate(bloodPF, this.transform.position + new Vector3(-0.75f, 3, 0), Quaternion.identity, this.transform);
+            }
+            bleedingTimer = bleedingDuration + 1;
         }
-        bleedingTimer = bleedingDuration + 1;
     }
     public override void MakeBurned()
     {
-        if (!isOnFire)
+        if (MustReceiveStatus())
         {
-            isOnFire = true;
-            fireInstance = Instantiate(firePF, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity, this.transform);
+            if (!isOnFire)
+            {
+                isOnFire = true;
+                fireInstance = Instantiate(firePF, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity, this.transform);
+            }
+            fireTimer = fireDuration + 1;
         }
-        fireTimer = fireDuration + 1;
     }
     public override void MakeDizzy()
     {
-        if (!isDizzy)
+        if (MustReceiveStatus())
         {
-            isDizzy = true;
-            dizzyInstance = Instantiate(dizzyPF, this.transform.position + new Vector3(-0.75f - 0.5f, 3, 0), Quaternion.identity, this.transform);
+            if (!isDizzy)
+            {
+                isDizzy = true;
+                dizzyInstance = Instantiate(dizzyPF, this.transform.position + new Vector3(-0.75f - 0.5f, 3, 0), Quaternion.identity, this.transform);
+            }
+            dizzyTimer = dizzyDuration;
         }
-        dizzyTimer = dizzyDuration;
     }
 
     public int HasCriticalHit(int value)
@@ -195,5 +210,118 @@ public class PlayerStats : Stats_System
             return value + (int)(value * criticalHitBoost);
         }
         return value;
+    }
+    public bool MustReceiveStatus()
+    {
+        float roll = Random.Range(0f, 1f);
+        if (roll < debuffChance)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void HandleHealingEveryTwoTurn()
+    {
+        if (healEveryTurn > 0)
+        {
+            Heal(healEveryTurn);
+        }
+    }
+    public int GetMeleeAttackBoost()
+    {
+        return meleeAttackBoost;
+    }
+    public int GetRangedAttackBoost()
+    {
+        return rangedAttackBoost;
+    }
+    public float GetDebuffResistance()
+    {
+        return debuffChance;
+    }
+
+    /// <summary>
+    /// Augmente l'attaque en cas de Melee Attack (ne concerne pas la morsure).
+    /// </summary>
+    /// <param name="amount">Le nombre de points de dégâts de base à augmenter (nombre entier).</param>
+    public void IncreaseMeleeAttackBoost(int amount)
+    {
+        meleeAttackBoost += amount;
+    }
+
+    /// <summary>
+    /// Augmente l'attaque en cas de RangedAttack.
+    /// </summary>
+    /// <param name="amount">Le nombre de points de dégâts de base à augmenter (nombre entier).</param>
+    public void IncreaseRangedAttackBoost(int amount)
+    {
+        rangedAttackBoost += amount;
+    }
+
+    /// <summary>
+    /// Diminue la probabilite de se voir inflige un statut de la part des ennemis (par defaut a 0.30f).
+    /// </summary>
+    /// <param name="amount">Le nombre de points de pourcentage a diminuer. /!\ Doit etre sous la forme 0.PointsADiminuer+f /!\.</param>
+    public void DecreaseDebuffChance(float amount)
+    {
+        debuffChance -= amount;
+    }
+
+    /// <summary>
+    /// Augmente la vie max du joueur et restaure la vie.
+    /// </summary>
+    /// <param name="amount">Le nombre de points de points de vie max à augmenter.</param>
+    public void IncreaseMaximumHealth(int amount)
+    {
+        originalHealth += amount;
+        health = originalHealth;
+    }
+
+    /// <summary>
+    /// Augmente les SP max du joueur et restaure les SP.
+    /// </summary>
+    /// <param name="amount">Le nombre de SP max à augmenter.</param>
+    public void IncreaseMaximumSP(int amount)
+    {
+        originalSP += amount;
+        SP = originalSP;
+    }
+
+    /// <summary>
+    /// Augmente l'attaque de base du joueur (concerne n'importe quelle attaque).
+    /// </summary>
+    /// <param name="amount">Le nombre de points d'attaque de base à augmenter.</param>
+    public void IncreaseBaseDamage(int amount)
+    {
+        baseDamage += amount;
+        damage = baseDamage;
+    }
+    /// <summary>
+    /// Augmente la défense de base du joueur.
+    /// </summary>
+    /// <param name="amount">Le nombre de points de defense de base à augmenter.</param>
+    public void IncreaseBaseDefense(int amount)
+    {
+        baseDefense += amount;
+        defense = baseDefense;
+    }
+
+    /// <summary>
+    /// Augmente le boost de dégâts lors d'un coup critique.
+    /// </summary>
+    /// <param name="amount">Le nombre de points de pourcentage a augmenter. /!\ Doit etre sous la forme 0.PointsAAjouter /!\.</param>
+    public void IncreaseCriticalHitBoost(float amount)
+    {
+        criticalHitBoost += amount;
+    }
+
+    /// <summary>
+    /// Augmente la probabilite de faire un coup critique a chaque attaque.
+    /// </summary>
+    /// <param name="amount">Le nombre de points de pourcentage a augmenter. /!\ Doit etre sous la forme 0.PointsAAjouter /!\.</param>
+    public void IncreaseCriticalHitChance(float amount)
+    {
+        criticalHitChance += amount;
     }
 }

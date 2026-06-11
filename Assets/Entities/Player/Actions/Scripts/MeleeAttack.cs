@@ -34,7 +34,7 @@ public class MeleeAttack : PlayerAction
         float stopDistance = 2.5f;
         Vector3 targetPos = enemyPos - (direction * stopDistance);
         Vector3 playerOriginalPosition = player.originalPosition;
-        var stats = player.GetComponent<Stats_System>();
+        var stats = player.GetComponent<PlayerStats>();
         var playerTransform = player.transform;
 
 
@@ -99,7 +99,12 @@ public class MeleeAttack : PlayerAction
         if (enemyStats != null)
         {
             Debug.Log($"Inflige des dégâts à {target.name}");
-            int finalDamage = succeededQte ? Mathf.RoundToInt(baseDamage * qteSuccessDamageBoost) : baseDamage;
+            int finalDamage = 0;
+            if(!isBite)
+            {
+                finalDamage = stats.GetMeleeAttackBoost();
+            }
+            finalDamage += succeededQte ? Mathf.RoundToInt(baseDamage * qteSuccessDamageBoost) : baseDamage;
             finalDamage = player.stats.HasCriticalHit(finalDamage);
 
             int healthToAbsorb = target.GetComponent<Stats_System>().TakeDamage(finalDamage, false);
