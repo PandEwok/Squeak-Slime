@@ -107,7 +107,15 @@ public class MeleeAttack : PlayerAction
             finalDamage += succeededQte ? Mathf.RoundToInt(baseDamage * qteSuccessDamageBoost) : baseDamage;
             finalDamage = player.stats.HasCriticalHit(finalDamage);
 
-            int healthToAbsorb = target.GetComponent<Stats_System>().TakeDamage(finalDamage, false);
+            int healthToAbsorb = 0;
+            if (!isBite)
+            {
+                healthToAbsorb = target.GetComponent<Stats_System>().TakeDamage(finalDamage, false, Enemy_AI.attackDirection.FRONT);
+            }
+            else
+            {
+                healthToAbsorb = target.GetComponent<Stats_System>().TakeDamage(finalDamage, false);
+            }
             AudioManager.Instance.PlaySFX(attackSoundName);
             player.stats.AbsorbHealth(healthToAbsorb);
             if(isBite)
