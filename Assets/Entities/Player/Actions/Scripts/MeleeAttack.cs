@@ -42,14 +42,21 @@ public class MeleeAttack : PlayerAction
         AudioManager.Instance.PlayLoopingSFX(slimeMovingSound);
         float elapsed = 0;
         bool hasFailedQTE = false;
+        bool qteSteady = false;
         while (elapsed < movingTowardsTargetDuration)
         {
             playerTransform.position = Vector3.Lerp(playerOriginalPosition, targetPos, elapsed / movingTowardsTargetDuration);
+            if(!qteSteady)
+            {
+                qteSteady = true;
+                player.uiManager.ShowQTE(true, false);
+            }
             if (Pointer.current.press.wasPressedThisFrame)
             {
                 hasFailedQTE = true;
                 Debug.Log("QTE Failed");
                 player.uiManager.DisplayGrade(GradeScript.Grade.Missed, true);
+                player.uiManager.ShowQTE(false);
             }
             elapsed += Time.deltaTime;
             yield return null;
@@ -74,7 +81,7 @@ public class MeleeAttack : PlayerAction
 
         if (!hasFailedQTE)
         {
-            player.uiManager.ShowQTE(true);
+            player.uiManager.ShowQTE(true, true);
             while (qteElapsed < qteWindowDuration)
             {
                 //Clic gauche souris
