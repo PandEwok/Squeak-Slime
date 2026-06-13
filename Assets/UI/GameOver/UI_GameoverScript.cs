@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-
+using System.Collections;
 public class UI_GameoverScript : MonoBehaviour
 {
     [SerializeField] private UIDocument uiDocument;
@@ -9,6 +9,7 @@ public class UI_GameoverScript : MonoBehaviour
     private VisualElement root;
     private VisualElement deathScreen;
     private Button goToLobbyButton;
+    [SerializeField] private float duration = 0.5f;
 
     private void Awake()
     {
@@ -33,6 +34,8 @@ public class UI_GameoverScript : MonoBehaviour
                 goToLobbyButton.clicked += GoToLobbyG;
             }
         }
+        deathScreen.style.top = new Length(-100, LengthUnit.Percent);
+        StartGameOverAnimation();
     }
 
     private void OnDisable()
@@ -41,8 +44,36 @@ public class UI_GameoverScript : MonoBehaviour
         {
             goToLobbyButton.clicked -= GoToLobbyG;
         }
+        deathScreen.style.top = new Length(-100, LengthUnit.Percent);
     }
 
+    public void StartGameOverAnimation()
+    {
+        StartCoroutine(SlideDownCoroutine());
+    }
+
+    private IEnumerator SlideDownCoroutine()
+    {
+        float elapsedTime = 0f;
+        float startPercent = -100f;
+        float endPercent = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float t = elapsedTime / duration;
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            float currentPercent = Mathf.Lerp(startPercent, endPercent, t);
+
+            deathScreen.style.top = new Length(currentPercent, LengthUnit.Percent);
+
+            yield return null;
+        }
+
+        deathScreen.style.top = new Length(endPercent, LengthUnit.Percent);
+    }
     public void GoToLobbyG()
     {
         Debug.Log("Bouton gameover pressé !");
