@@ -17,7 +17,7 @@ public class DefenseAction : PlayerAction
         float elapsed = 0f;
 
         Debug.Log("Def QTE");
-        player.uiManager.ShowQTE(true);
+        player.uiManager.ShowQTE(true, true);
         while (elapsed < windowDuration)
         {
             if (Pointer.current.press.wasPressedThisFrame)

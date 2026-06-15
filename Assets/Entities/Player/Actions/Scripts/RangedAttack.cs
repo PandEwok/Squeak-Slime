@@ -77,6 +77,7 @@ public class RangedAttack : PlayerAction
         
         bool succeededQte = false;
         bool qteWindowOpen = false;
+        bool qteSteady = false;
         bool hasFailedQTE = false; //Si le joueur appuie trop tot (ne pas confondre avec de pas avoir appuye du tout)
         AudioManager.Instance.PlaySFX(projectileMovingSound);
         while (elapsed < projectileThrowedDuration)
@@ -84,11 +85,17 @@ public class RangedAttack : PlayerAction
             float t = elapsed / projectileThrowedDuration;
             if (t < qteWindowFrame && !succeededQte)
             {
+                if(!qteSteady)
+                {
+                    qteSteady = true;
+                    player.uiManager.ShowQTE(true, false);
+                }
                 if (Pointer.current.press.wasPressedThisFrame)
                 {
                     hasFailedQTE = true;
                     Debug.Log("QTE Failed");
                     player.uiManager.DisplayGrade(GradeScript.Grade.Missed, true);
+                    player.uiManager.ShowQTE(false);
                 }
             }
             if (t >= qteWindowFrame && !succeededQte && !hasFailedQTE)
@@ -96,7 +103,7 @@ public class RangedAttack : PlayerAction
                 if (!qteWindowOpen)
                 {
                     qteWindowOpen = true;
-                    player.uiManager.ShowQTE(true);
+                    player.uiManager.ShowQTE(true, true);
                 }
 
                 if (Pointer.current.press.wasPressedThisFrame && !hasFailedQTE)
@@ -136,7 +143,7 @@ public class RangedAttack : PlayerAction
             int finalDamage = stats.GetRangedAttackBoost();
             finalDamage += succeededQte ? Mathf.RoundToInt(baseDamage * qteSuccessDamageBoost) : baseDamage;
             finalDamage = player.stats.HasCriticalHit(finalDamage);
-            int healthToAbsorb = enemyStats.TakeDamage(finalDamage, false);
+            int healthToAbsorb = enemyStats.TakeDamage(finalDamage, false, Enemy_AI.attackDirection.TOP);
             player.stats.AbsorbHealth(healthToAbsorb);
         }
         if (succeededQte)

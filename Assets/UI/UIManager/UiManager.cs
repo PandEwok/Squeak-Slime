@@ -7,22 +7,35 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject actionMenu;
     [SerializeField] private GameObject qteWarning;
     [SerializeField] private GameObject gradeDisplay;
+    [SerializeField] private Color waitColor = new Color(1f, 0, 0, 1f);
+    [SerializeField] private Color readyColor = new Color(0, 1f, 0, 1f);
+    private SpriteRenderer qteSprite;
     public StatsUI statsUi;
 
     private void Start()
     {
         gradeScript = gradeDisplay.GetComponent<GradeScript>();
+        qteSprite = qteWarning.GetComponent<SpriteRenderer>();
     }
 
-    public void ShowQTE(bool mustDisplay)
+    public void ShowQTE(bool mustDisplay, bool isReady = false)
     {
         if (mustDisplay)
         {
             qteWarning.SetActive(true);
-            AudioManager.Instance.PlaySFX("QTE");
+            if(isReady)
+            {
+                qteSprite.color = readyColor;
+                AudioManager.Instance.PlaySFX("QTE");
+            }
+            else
+            {
+                qteSprite.color = waitColor;
+            }
         }
         else
         {
+            qteSprite.color = waitColor;
             qteWarning.SetActive(false);
         }
     }

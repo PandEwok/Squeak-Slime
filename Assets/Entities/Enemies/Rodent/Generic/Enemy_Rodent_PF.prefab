@@ -76,6 +76,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8293195370875395513, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -672226796281280321, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
     m_RemovedGameObjects: []
@@ -102,6 +106,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fcf3d7c5ffb4f4daffb818d0715db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Rodent_AI
+  dmgBuffs: []
   defBuffs: []
   powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   empowerStrenght: 0.5
+  projectilePF: {fileID: 0}
+  directionalResistance: 0
+  dResistanceAmount: 0

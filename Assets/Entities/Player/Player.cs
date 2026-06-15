@@ -17,15 +17,17 @@ public class Player : MonoBehaviour
     
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance == null)
         {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            Debug.Log($"[Singleton] Doublon de {gameObject.name} détecté et détruit.");
             Destroy(gameObject);
             return;
         }
-
-        Instance = this;
-
-        DontDestroyOnLoad(gameObject);
 
         stats = GetComponent<PlayerStats>();
         uiManager = GetComponent<UiManager>();

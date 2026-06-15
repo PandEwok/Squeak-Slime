@@ -1,12 +1,18 @@
 using UnityEngine;
 using TMPro;
-using System.Collections; // NEW: Required for Coroutines
+using System.Collections;
+using UnityEngine.UI; // Required to control the UI Image component!
 
 public class SkillTreeManager : MonoBehaviour
 {
-    [Header("Global Currency")]
-    public int playerTeethCount = 5;
+    [Header("Currency Setup")]
+    [Tooltip("Drag the Tooth ScriptableObject (e.g., Ordinary Tooth) required for this specific panel here.")]
+    public Tooth panelTooth;
     public TextMeshProUGUI teethCounterText;
+
+    [Header("UI Icon Setup")]
+    [Tooltip("Drag the empty UI Image Game Object next to your text here!")]
+    public Image toothIconVisual; // The game object slot for the tooth image
 
     [Header("Tree Gate Settings")]
     public int totalPassivesBought = 0;
@@ -18,17 +24,18 @@ public class SkillTreeManager : MonoBehaviour
     public TextMeshProUGUI tooltipTitleText;
     public TextMeshProUGUI tooltipDescText;
 
-    // NEW: Variables to track the error flash state
     private Color originalTeethColor;
     private Coroutine errorFlashCoroutine;
 
     private void Start()
     {
-        // NEW: Remember what color the teeth text was originally so we can revert back to it
         if (teethCounterText != null)
         {
             originalTeethColor = teethCounterText.color;
         }
+
+        // Automatically apply the ScriptableObject's graphic data to the UI slot
+        InitializeToothIcon();
 
         UpdateUI();
         HideTooltip();
@@ -39,10 +46,51 @@ public class SkillTreeManager : MonoBehaviour
         }
     }
 
+    // Copies the graphic variables directly out of your custom Tooth asset
+    private void InitializeToothIcon()
+    {
+        if (toothIconVisual != null && panelTooth != null)
+        {
+            // Matched perfectly with your friend's Tooth.cs variables!
+            toothIconVisual.sprite = panelTooth.itemIcon;
+            toothIconVisual.color = panelTooth.defaultColor;
+        }
+    }
+
+    public int GetCurrentTeeth()
+    {
+        if (Player.Instance != null && Player.Instance.inventory != null && panelTooth != null)
+        {
+            if (Player.Instance.inventory.teethPossessed.ContainsKey(panelTooth))
+            {
+                return Player.Instance.inventory.teethPossessed[panelTooth];
+            }
+        }
+        return 0;
+    }
+
+    public bool CanAfford(int amountRequired)
+    {
+        return GetCurrentTeeth() >= amountRequired;
+    }
+
+    public void SpendTeeth(int amount)
+    {
+        if (Player.Instance != null && Player.Instance.inventory != null && panelTooth != null)
+        {
+            Player.Instance.inventory.RemoveTooth(panelTooth, amount);
+        }
+    }
+
     public void UpdateUI()
     {
-        if (teethCounterText != null) teethCounterText.text = "Teeth: " + playerTeethCount;
-        if (treeProgressText != null) treeProgressText.text = totalPassivesBought + " / 5";
+        if (teethCounterText != null) teethCounterText.text = "Teeth: " + GetCurrentTeeth();
+
+        if (treeProgressText != null)
+        {
+            int displayedProgress = Mathf.Min(totalPassivesBought, 5);
+            treeProgressText.text = displayedProgress + " / 5";
+        }
 
         if (totalPassivesBought >= 5 && activeSkillButton != null)
         {
@@ -63,29 +111,23 @@ public class SkillTreeManager : MonoBehaviour
     }
 
     // ==========================================
-    // NEW: ERROR FEEDBACK SYSTEM
+    // ERROR FEEDBACK SYSTEM
     // ==========================================
-
     public void TriggerBrokeError(string fallbackTitle, string fallbackDesc)
     {
-        // If they spam click, stop the previous timer and start fresh
         if (errorFlashCoroutine != null) StopCoroutine(errorFlashCoroutine);
         errorFlashCoroutine = StartCoroutine(ErrorFlashRoutine(fallbackTitle, fallbackDesc));
     }
 
     private IEnumerator ErrorFlashRoutine(string fallbackTitle, string fallbackDesc)
     {
-        // 1. Show the error on the tooltip and turn the teeth text RED
         ShowTooltip("Cannot Purchase", "Not enough teeth!");
         if (teethCounterText != null) teethCounterText.color = Color.red;
 
-        // 2. Wait for 1.5 seconds
         yield return new WaitForSeconds(1.5f);
 
-        // 3. Revert the teeth text color
         if (teethCounterText != null) teethCounterText.color = originalTeethColor;
 
-        // 4. If the player is STILL hovering over the button, revert the tooltip back to normal text
         if (tooltipPanel.activeSelf)
         {
             ShowTooltip(fallbackTitle, fallbackDesc);
