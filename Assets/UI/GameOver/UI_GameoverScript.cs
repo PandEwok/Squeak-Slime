@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections;
+using UnityEngine.SceneManagement;
 public class UI_GameoverScript : MonoBehaviour
 {
     [SerializeField] private UIDocument uiDocument;
@@ -78,11 +79,12 @@ public class UI_GameoverScript : MonoBehaviour
     {
         Debug.Log("Bouton gameover pressé !");
         AudioManager.Instance.PlaySFX("Button_Pressed");
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        SceneManager.LoadScene(8);
+        //#if UNITY_EDITOR
+        //        UnityEditor.EditorApplication.isPlaying = false;
+        //#else
+        //        Application.Quit();
+        //#endif
     }
 
     public void ToggleGameOverUiVisibility(bool mustDisplay)

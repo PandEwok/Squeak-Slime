@@ -35,5 +35,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Dev/Amy/TreasureScene.unity
     guid: 4292375133dfb054abe08e905a83cbc9
+  - enabled: 1
+    path: Assets/Scenes/Dev/Amy/LobbyScene.unity
+    guid: 64ab8c3b27604ce4a90ca08161591f2c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
