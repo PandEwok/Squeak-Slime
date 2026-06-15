@@ -9,6 +9,10 @@ public class Rabbit_AI : Mutant_AI
         if (!stats.isDizzy)
         {
             await closeAttack(target);
+            if (empowered)
+            {
+                await closeAttack(target);
+            }
         }
         await base.playTurn(target);
     }
@@ -16,5 +20,17 @@ public class Rabbit_AI : Mutant_AI
     public override void Update()
     {
         base.Update();
+    }
+
+    protected override void rage()
+    {
+        empowered = true;
+        empowerDuration = 1;
+    }
+
+    protected override void unRage()
+    {
+        empowered = false;
+        empowerDuration = 0;
     }
 }
