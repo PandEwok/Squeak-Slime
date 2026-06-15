@@ -3,13 +3,19 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public enum BiomeType
+    {
+        FOREST = 1,
+        CASTLE_EXTERIOR = 2,
+        RAT_LABORATORY = 3
+    }
     public static Player Instance { get; private set; }
     [HideInInspector] public Vector3 originalPosition;
     [Header("Game scripts")]
     public Combat_Logic combatLogic;
     public PlayerInventory inventory;
     public int floor = 1;
-    public int biome = 1;
+    public BiomeType currentBiome = BiomeType.FOREST;
     [HideInInspector] public UiManager uiManager;
     [HideInInspector] public PlayerStats stats;
     [HideInInspector] public bool hasWon = false;
