@@ -48,6 +48,7 @@ public class FractureAttack : PlayerAction
     public IEnumerator AttackFractureSequence(Player player, GameObject target)
     {
         bool hasFailedEarly = false;
+        bool qteSteady = false;
         float qteFailElapsed = 0f;
         var playerTransform = player.transform;
         var stats = player.GetComponent<Stats_System>();
@@ -56,11 +57,17 @@ public class FractureAttack : PlayerAction
 
         while (qteFailElapsed < qteFailWindow)
         {
+            if(!qteSteady)
+            {
+                qteSteady = true;
+                player.uiManager.ShowQTE(true, false);
+            }
             if (Pointer.current.press.wasPressedThisFrame)
             {
                 Debug.Log("Fracture: QTE failed");
                 hasFailedEarly = true;
                 player.uiManager.DisplayGrade(GradeScript.Grade.Missed, true);
+                player.uiManager.ShowQTE(false);
             }
 
             qteFailElapsed += Time.deltaTime;
@@ -79,7 +86,7 @@ public class FractureAttack : PlayerAction
 
         if (!hasFailedEarly)
         {
-            player.uiManager.ShowQTE(true);
+            player.uiManager.ShowQTE(true, true);
             while (elapsed < qteDuration)
             {
                 if (Pointer.current.press.wasPressedThisFrame)

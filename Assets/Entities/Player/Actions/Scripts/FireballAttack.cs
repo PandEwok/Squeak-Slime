@@ -43,7 +43,7 @@ public class FireballAttack : PlayerAction
 
         Debug.Log("QTE entered");
 
-        player.uiManager.ShowQTE(true);
+        player.uiManager.ShowQTE(true, true);
         while (elapsedCharge < chargeDuration)
         {
             if (Pointer.current.press.wasPressedThisFrame)

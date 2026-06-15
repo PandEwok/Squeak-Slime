@@ -269,6 +269,15 @@ public class PlayerStats : Stats_System
     }
 
     /// <summary>
+    /// Augmente la quantite de vie que le joueur regagne tous les deux tours (par défaut a 0).
+    /// </summary>
+    /// <param name="amount">Les points de vie en plus (il s'agit d'une incrementation pas de la valeur brute, comme pour les autres fonctions d'ailleurs.</param>
+    public void IncreaseHealBetweenTwoTurns(int amount)
+    {
+        healEveryTurn += amount;
+    }
+
+    /// <summary>
     /// Augmente la vie max du joueur et restaure la vie.
     /// </summary>
     /// <param name="amount">Le nombre de points de points de vie max à augmenter.</param>

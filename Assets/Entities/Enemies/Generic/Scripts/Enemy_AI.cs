@@ -265,6 +265,8 @@ public class Enemy_AI : MonoBehaviour
         bool hasFailedQTE = false;
 
         securityTimer = 0;
+
+        playerCombat.uiManager.ShowQTE(true, false);
         await Task.Run(() =>
         {
             while (Vector2.Distance(pos, moveTarget) > 0.001f)
@@ -272,6 +274,7 @@ public class Enemy_AI : MonoBehaviour
                 if (Pointer.current.press.wasPressedThisFrame)
                 {
                     hasFailedQTE = true;
+                    
                 }
 
                 if (securityTimer > 10.0f) break;
@@ -288,6 +291,7 @@ public class Enemy_AI : MonoBehaviour
             else
             {
                 playerCombat.uiManager.DisplayGrade(GradeScript.Grade.Missed, true);
+                playerCombat.uiManager.ShowQTE(false);
             }
                 await Task.Delay((int)secToMili(0.4f));
 
