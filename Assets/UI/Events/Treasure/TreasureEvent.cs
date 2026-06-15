@@ -85,7 +85,7 @@ public class TreasureEvent : MonoBehaviour
         int currentBiome = 1;
         if (Player.Instance != null)
         {
-            currentBiome = Player.Instance.biome;
+            currentBiome = ((int)Player.Instance.currentBiome);
         }
 
         // 2. Find the correct configuration table for this specific biome
