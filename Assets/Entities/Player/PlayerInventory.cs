@@ -18,10 +18,10 @@ public class PlayerInventory : MonoBehaviour
     public FractureAttack fractureAttack;
     public DefenseAction defenseAction;
     public AbsorptionAction absorptionAction;
-
     public Dictionary<ItemData, int> itemsPossessed = new Dictionary<ItemData, int>();
     public Dictionary<Tooth, int> teethPossessed = new Dictionary<Tooth, int>();
     public Dictionary<Tooth, int> teethOfCurrentRun = new Dictionary<Tooth, int>();
+    public Tooth debugTooth;
     [System.Serializable]
     public struct StartingItem
     {
@@ -116,6 +116,8 @@ public class PlayerInventory : MonoBehaviour
         Debug.Log($"[Inventory] Initialisé avec {teethPossessed.Count} types de dents uniques.");
 
         ClearCurrentRunTeeth();
+        //Debug
+        teethOfCurrentRun.Add(debugTooth, 21);
     }
 
     public void LoadInventoryData(PlayerData data)

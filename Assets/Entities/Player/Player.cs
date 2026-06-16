@@ -87,5 +87,19 @@ public class Player : MonoBehaviour
         stats.ApplyDefenseBoost();
         combatLogic.switchTurn();
     }
-    
+
+    public string GetBiomeToString()
+    {
+        switch (currentBiome)
+        {
+            case BiomeType.FOREST:
+                return "Forest";
+            case BiomeType.CASTLE_EXTERIOR:
+                return "Exteriors of the castle";
+            case BiomeType.RAT_LABORATORY:
+                return "Rat laboratory";
+            default:
+                return "Unknown";
+        }
+    }
 }
