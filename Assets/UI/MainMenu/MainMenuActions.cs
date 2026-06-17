@@ -5,7 +5,7 @@ public class MainMenuActions : MonoBehaviour
 {
     [Header("Configuration")]
     [Tooltip("The exact name of your gameplay scene as written in your Project files.")]
-    public string gameplaySceneName = "GameplayScene";
+    public int gameplaySceneName = 9;
 
     /// <summary>
     /// Call this from the Play Button
@@ -13,7 +13,7 @@ public class MainMenuActions : MonoBehaviour
     public void PlayGame()
     {
         // Smoothly transitions to your next scene
-        SceneManager.LoadScene(gameplaySceneName);
+        SceneManager.LoadSceneAsync(gameplaySceneName);
     }
 
     /// <summary>

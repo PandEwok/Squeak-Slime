@@ -10,7 +10,7 @@ public class LobbyManager : MonoBehaviour
 
     [Header("Scene Transition Settings")]
     [Tooltip("Type the exact name of the combat/gameplay scene you want to load.")]
-    public string nextSceneName = "SampleScene 2";
+    public int nextSceneName = 9;
 
     // Cache tracking variables to update UI live when skills are bought
     private float lastMaxHp;

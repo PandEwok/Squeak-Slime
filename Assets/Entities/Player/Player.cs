@@ -102,4 +102,10 @@ public class Player : MonoBehaviour
                 return "Unknown";
         }
     }
+
+
+    public void LoadPlayer(Vector2 pos)
+    {
+        transform.position = pos;
+    }
 }
