@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class ShopManager : MonoBehaviour
 {
@@ -48,12 +49,18 @@ public class ShopManager : MonoBehaviour
 
     private int totalTimesPetted = 0;
     private bool wasFirstPetGood = false;
+    private Vector3 playerDefPos = new Vector3(7777, 0, 0);
+    public int nextSceneName = 9;
 
     void Start()
     {
+        Player.Instance.transform.position = playerDefPos;
         GenerateProgressionShop();
     }
-
+    public void ExitShop()
+    {
+        SceneManager.LoadSceneAsync(nextSceneName);
+    }
     void GenerateProgressionShop()
     {
         int globalFloor = GameManager.Instance.currentFloor;
@@ -252,4 +259,6 @@ public class ShopManager : MonoBehaviour
             }
         }
     }
+
+    
 }

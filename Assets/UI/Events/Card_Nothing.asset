@@ -16,4 +16,4 @@ MonoBehaviour:
   cardName: Nothing
   tooltipDescription: Skip to the next battle!
   cardArtwork: {fileID: 0}
-  sceneToLoad: BattleScene
+  sceneToLoad: 9

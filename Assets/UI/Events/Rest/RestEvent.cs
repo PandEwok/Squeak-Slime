@@ -36,11 +36,12 @@ public class RestEvent : MonoBehaviour
     private Coroutine typewriterCoroutine;
     private bool isTyping = false;
     private bool eventCompleted = false;
-
+    private Vector3 playerDefPos = new Vector3(7777, 0, 0);
+    public int nextSceneName = 9;
     private void Start()
     {
         CalculateAndApplyRestoration();
-
+        Player.Instance.transform.position = playerDefPos;
         finalMessage = string.Format(restTextTemplate, hpRestored, spRestored);
         typewriterCoroutine = StartCoroutine(TypeTextRoutine());
     }
@@ -130,7 +131,7 @@ public class RestEvent : MonoBehaviour
 
     public void ExitRestSceneButton()
     {
-        SceneManager.LoadScene("SampleScene 2");
+        SceneManager.LoadSceneAsync(nextSceneName);
     }
 }
 

@@ -21,9 +21,9 @@ public class ActionBarScript : MonoBehaviour
     private Button Fracture;
     private Button Fireball;
     private Button Absorption;
-    [SerializeField] private Combat_Logic combatLogic;
+    [SerializeField] public Combat_Logic combatLogic;
     [SerializeField] private GameObject playerGameObject;
-    private Player playerScript;
+    [HideInInspector] public Player playerScript;
     private PlayerInventory playerInventory;
     private bool isSelectingEnnemy = false;
     private int targetCount = 0;
@@ -63,12 +63,7 @@ public class ActionBarScript : MonoBehaviour
             scrollView.verticalScrollerVisibility = ScrollerVisibility.Hidden;
             scrollView.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
         }
-    }
-
-
-    private void Start()
-    {
-
+        //Supprimer si fail
         var Attack = root.Q<Button>("Attack");
         var Items = root.Q<Button>("Items");
         var Defend = root.Q<Button>("Defend");
@@ -113,6 +108,13 @@ public class ActionBarScript : MonoBehaviour
         {
             Skills.style.display = DisplayStyle.None;
         }
+    }
+
+
+    private void Start()
+    {
+
+        //Ancien emplacement boutons
     }
 
     private void Update()

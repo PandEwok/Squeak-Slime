@@ -36,12 +36,14 @@ public class SearchEvent : MonoBehaviour
     private string lineToPrint = "";
     private Coroutine typewriterCoroutine;
     private bool isTyping = false;
-
+    private Vector3 playerDefPos = new Vector3(7777, 0, 0);
+    public int nextSceneName = 9;
     // Track rolled items to draw actual UI Sprites
     private List<(Sprite icon, int qty, Color color)> rolledLootVisuals = new List<(Sprite, int, Color)>();
 
     private void Start()
     {
+        Player.Instance.transform.position = playerDefPos;
         if (lootDisplayContainer != null) lootDisplayContainer.gameObject.SetActive(false);
 
         lineToPrint = introText;
@@ -232,7 +234,7 @@ public class SearchEvent : MonoBehaviour
 
     public void ExitSearchSceneButton()
     {
-        SceneManager.LoadScene("SampleScene 2");
+        SceneManager.LoadSceneAsync(nextSceneName);
     }
 }
 

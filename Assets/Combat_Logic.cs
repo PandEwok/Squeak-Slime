@@ -28,6 +28,7 @@ public class Combat_Logic : MonoBehaviour
     {
 
         Player.Instance.LoadPlayer(PlayerPosition.transform.position);
+        actionUI = Player.Instance.uiManager.actionMenu;
     }
 
 
@@ -53,7 +54,6 @@ public class Combat_Logic : MonoBehaviour
         {
             Debug.Log("All enemies defeated! Victory!");
             EngameUIScript.Instance.Victory();
-            player.SetActive(false);
         }
     }
 

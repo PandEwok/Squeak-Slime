@@ -27,12 +27,20 @@ public class EngameUIScript : MonoBehaviour
     public void GameOver()
     {
         gameOverUI.SetActive(true);
+        if (actionMenu == null)
+        {
+            actionMenu = Player.Instance.uiManager.actionMenu;
+        }
         actionMenu.SetActive(false);
         gameOverUI.GetComponent<UI_GameoverScript>().ToggleGameOverUiVisibility(true);
     }
 
     public void Victory()
     {
+        if (actionMenu == null)
+        {
+            actionMenu = Player.Instance.uiManager.actionMenu;
+        }
         victoryUI.SetActive(true);
         actionMenu.SetActive(false);
         victoryUI.GetComponent<UI_VictoryScript>().ToggleVictoryUiVisibility(true);

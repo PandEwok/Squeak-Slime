@@ -300,6 +300,7 @@ MonoBehaviour:
   introText: You see a place that could be worth searching.
   failText: You search around... and you are unable to find anything of value.
   successHeader: 'You search around... and you found:'
+  nextSceneName: 9
 --- !u!1 &68210287
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,7 +485,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 757331951}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 37325366}
+        m_TargetAssemblyTypeName: SearchEvent, Assembly-CSharp
+        m_MethodName: ExitSearchSceneButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &757331951
 MonoBehaviour:
   m_ObjectHideFlags: 0

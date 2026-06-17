@@ -16,4 +16,4 @@ MonoBehaviour:
   cardName: Wandering Merchant
   tooltipDescription: Trade your precious teeth for items
   cardArtwork: {fileID: 0}
-  sceneToLoad: ShopScene
+  sceneToLoad: 6
