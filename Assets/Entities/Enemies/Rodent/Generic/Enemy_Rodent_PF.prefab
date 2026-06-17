@@ -33,6 +33,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6757758960022685112, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6757758960022685112, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
       propertyPath: m_LocalPosition.y
       value: 3.98
       objectReference: {fileID: 0}
@@ -78,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8293195370875395513, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -672226796281280321, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
@@ -111,5 +115,7 @@ MonoBehaviour:
   powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   empowerStrenght: 0.5
   projectilePF: {fileID: 0}
+  teethType: {fileID: 11400000, guid: 15d499bc3b9aa5d4cb08ee3276f15c10, type: 2}
+  dropPF: {fileID: 254843135583981822, guid: 2585d27f261b45b479460254090507c8, type: 3}
   directionalResistance: 0
   dResistanceAmount: 0
