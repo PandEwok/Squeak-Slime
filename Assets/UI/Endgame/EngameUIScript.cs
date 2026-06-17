@@ -18,7 +18,6 @@ public class EngameUIScript : MonoBehaviour
 
         Instance = this;
 
-        DontDestroyOnLoad(gameObject);
     }
     void Start()
     {

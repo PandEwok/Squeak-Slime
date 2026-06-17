@@ -1,2 +1,14 @@
 fileFormatVersion: 2
 guid: 3ae5b5cdebb891341a0d0e5322374b85
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - powerEffect: {instanceID: 0}
+  - projectilePF: {instanceID: 0}
+  - teethType: {fileID: 11400000, guid: ed97cad1ea983524c9f1c86ddd469139, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -90,9 +90,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d0357c1b689fa42b651728dff9c8c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  dmgBuffs: []
   defBuffs: []
   powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   empowerStrenght: 0.5
   projectilePF: {fileID: 0}
+  teethType: {fileID: 11400000, guid: 575ec03d3163faf448d3797bef882419, type: 2}
+  dropPF: {fileID: 254843135583981822, guid: 2585d27f261b45b479460254090507c8, type: 3}
   directionalResistance: 0
   dResistanceAmount: 0

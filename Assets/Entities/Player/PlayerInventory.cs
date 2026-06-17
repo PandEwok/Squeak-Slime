@@ -18,9 +18,10 @@ public class PlayerInventory : MonoBehaviour
     public FractureAttack fractureAttack;
     public DefenseAction defenseAction;
     public AbsorptionAction absorptionAction;
-
     public Dictionary<ItemData, int> itemsPossessed = new Dictionary<ItemData, int>();
     public Dictionary<Tooth, int> teethPossessed = new Dictionary<Tooth, int>();
+    public Dictionary<Tooth, int> teethOfCurrentRun = new Dictionary<Tooth, int>();
+    public Tooth debugTooth;
     [System.Serializable]
     public struct StartingItem
     {
@@ -51,13 +52,31 @@ public class PlayerInventory : MonoBehaviour
             teethPossessed[tooth] += amount;
         else
             teethPossessed.Add(tooth, amount);
+        if (teethOfCurrentRun.ContainsKey(tooth))
+            teethOfCurrentRun[tooth] += amount;
+        else
+            teethOfCurrentRun.Add(tooth, amount);
+    }
+
+    public void AddToothToPermanentInventoryOnly(Tooth tooth, int amount)
+    {
+        if (teethPossessed.ContainsKey(tooth))
+            teethPossessed[tooth] += amount;
+        else
+            teethPossessed.Add(tooth, amount);
+    }
+
+    public void ClearCurrentRunTeeth()
+    {
+        teethOfCurrentRun.Clear();
+        Debug.Log("[Inventory] Le compteur de dents de la run a été remis à zéro.");
     }
     public void RemoveItem(ItemData item, int amount)
     {
         if (itemsPossessed.ContainsKey(item))
         {
             itemsPossessed [item] -= amount;
-            if (itemsPossessed[item] < 0) itemsPossessed.Remove(item);
+            if (itemsPossessed[item] <= 0) itemsPossessed.Remove(item);
         }
     }
     public void RemoveTooth(Tooth tooth, int amount)
@@ -65,7 +84,7 @@ public class PlayerInventory : MonoBehaviour
         if (teethPossessed.ContainsKey(tooth))
         {
             teethPossessed[tooth] -= amount;
-            if (teethPossessed[tooth] < 0) teethPossessed.Remove(tooth);
+            if (teethPossessed[tooth] <= 0) teethPossessed.Remove(tooth);
         }
     }
     public void Awake()
@@ -89,12 +108,16 @@ public class PlayerInventory : MonoBehaviour
             {
                 if (starter.tooth != null && starter.amount > 0)
                 {
-                    AddTooth(starter.tooth, starter.amount);
+                    AddToothToPermanentInventoryOnly(starter.tooth, starter.amount);
                 }
             }
         }
 
         Debug.Log($"[Inventory] Initialisé avec {teethPossessed.Count} types de dents uniques.");
+
+        ClearCurrentRunTeeth();
+        //Debug
+        teethOfCurrentRun.Add(debugTooth, 21);
     }
 
     public void LoadInventoryData(PlayerData data)
@@ -103,6 +126,7 @@ public class PlayerInventory : MonoBehaviour
 
         itemsPossessed.Clear();
         teethPossessed.Clear();
+        ClearCurrentRunTeeth();
 
         ItemData[] allItems = Resources.LoadAll<ItemData>("Items");
         foreach (var itemSave in data.items)
@@ -124,7 +148,7 @@ public class PlayerInventory : MonoBehaviour
             Tooth match = System.Array.Find(allTeeth, x => x.itemId == toothSave.itemId);
             if (match != null)
             {
-                AddTooth(match, toothSave.amount);
+                AddToothToPermanentInventoryOnly(match, toothSave.amount);
             }
             else
             {

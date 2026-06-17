@@ -43,6 +43,10 @@ public class Enemy_AI : MonoBehaviour
 
     protected int permBuffID = 131313;
 
+    [SerializeField] public Tooth teethType;
+
+    [SerializeField] protected GameObject dropPF;
+
     public enum attackDirection
     {
         NONE,
@@ -141,7 +145,8 @@ public class Enemy_AI : MonoBehaviour
         PlayerInventory inv = player.GetComponent<PlayerInventory>();
         if (inv != null)
         {
-            //inv.AddTeeth(PlayerInventory.TeethType.Normal, teethDropped);
+            inv.AddTooth(teethType, teethDropped);
+            Instantiate(dropPF, transform.position, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
         }
 
         return teethDropped;

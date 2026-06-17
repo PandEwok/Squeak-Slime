@@ -83,4 +83,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_GameoverScript
   uiDocument: {fileID: 2556614404606589143}
+  toothRowTemplate: {fileID: 9197481963319205126, guid: f2376784ae82be74fa857042f002c68b, type: 3}
   victoryUI: {fileID: 0}
+  duration: 0.5

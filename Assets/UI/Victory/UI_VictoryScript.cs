@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class UI_VictoryScript : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class UI_VictoryScript : MonoBehaviour
     private VisualElement root;
     private VisualElement victoryScreen;
     private Button goToLobbyButton;
+    [SerializeField] private float duration = 0.2f;
 
 
     private void Awake()
@@ -27,20 +30,64 @@ public class UI_VictoryScript : MonoBehaviour
             victoryScreen = root.Q<VisualElement>("VictoryScreen");
             goToLobbyButton = root.Q<Button>("ExitButtonV");
 
-            if (goToLobbyButton != null) goToLobbyButton.clicked += GoToLobbyV;
+            if (goToLobbyButton != null)
+            {
+                goToLobbyButton.clicked += GoToLobbyV;
+            }
+        }
+        if (victoryScreen != null)
+        {
+            victoryScreen.style.transformOrigin = new TransformOrigin(Length.Percent(50), Length.Percent(50));
+            victoryScreen.style.translate = new Translate(Length.Percent(100), Length.Percent(0));
+            StartVictoryAnimation();
         }
     }
 
+    private void OnDisable()
+    {
+        if (goToLobbyButton != null)
+        {
+            goToLobbyButton.clicked -= GoToLobbyV;
+        }
+        if (victoryScreen != null)
+        {
+            victoryScreen.style.translate = new Translate(Length.Percent(100), Length.Percent(0));
+        }
+    }
+
+    public void StartVictoryAnimation()
+    {
+        StartCoroutine(SlideFromRightCoroutine());
+    }
+
+    private IEnumerator SlideFromRightCoroutine()
+    {
+        float elapsedTime = 0f;
+        float startPercent = 100f;
+        float endPercent = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float t = elapsedTime / duration;
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            float currentPercent = Mathf.Lerp(startPercent, endPercent, t);
+
+            victoryScreen.style.translate = new Translate(Length.Percent(currentPercent), Length.Percent(0));
+
+            yield return null;
+        }
+
+        victoryScreen.style.translate = new Translate(Length.Percent(endPercent), Length.Percent(0));
+    }
 
     public void GoToLobbyV()
     {
         Debug.Log("Exit button pressed in Victory UI");
         AudioManager.Instance.PlaySFX("Button_Pressed");
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+        SceneManager.LoadScene(3);
     }
 
     public void ToggleVictoryUiVisibility(bool mustDisplay)

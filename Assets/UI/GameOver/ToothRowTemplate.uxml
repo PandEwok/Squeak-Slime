@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="ToothRoot" style="flex-grow: 1; flex-direction: row; align-items: center; align-self: auto; align-content: auto;">
+        <ui:VisualElement name="ToothIcon" style="flex-grow: 1; flex-direction: row; width: 50px; height: 50px;"/>
+        <ui:Label text="Label" name="ToothText" style="color: rgb(255, 255, 255); font-size: 33px; -unity-font-definition: url(&quot;project://database/Assets/Fonts/Engcomica.otf?fileID=12800000&amp;guid=96c649ca54c11d540adde8d787c59125&amp;type=3#Engcomica&quot;);"/>
+    </ui:VisualElement>
+</ui:UXML>
