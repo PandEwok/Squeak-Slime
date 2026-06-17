@@ -117,78 +117,81 @@ public class ActionBarScript : MonoBehaviour
 
     private void Update()
     {
-        foreach (var enemy in combatLogic.enemies)
+        if (combatLogic != null)
         {
-            enemy.GetComponent<Enemy_AI>().deselect();
-        }
-        if (isSelectingEnnemy)
-        {
-            combatLogic.enemies[targetCount].GetComponent<Enemy_AI>().select();
-            if (Keyboard.current != null && Keyboard.current.tabKey.wasPressedThisFrame)
+            foreach (var enemy in combatLogic.enemies)
             {
-                if (targetCount >= combatLogic.enemies.Count - 1)
-                {
-                    targetCount = 0;
-                }
-                else
-                {
-                    targetCount++;
-                }
+                enemy.GetComponent<Enemy_AI>().deselect();
             }
-            if (confirmedAttack)
+            if (isSelectingEnnemy)
             {
-                if (combatLogic.enemies.Count > 0)
+                combatLogic.enemies[targetCount].GetComponent<Enemy_AI>().select();
+                if (Keyboard.current != null && Keyboard.current.tabKey.wasPressedThisFrame)
                 {
-                    GameObject target = combatLogic.enemies[targetCount];
-
-
-
-                    if (attackType == AttackType.MELEE)
+                    if (targetCount >= combatLogic.enemies.Count - 1)
                     {
-                        playerScript.inventory.meleeAttack.Execute(playerScript, target);
-                        isSelectingEnnemy = false;
-                        attackType = AttackType.NONE;
-                        ToggleUiVisibility(false);
-                        
+                        targetCount = 0;
                     }
-                    else if (attackType == AttackType.RANGED)
+                    else
                     {
-                        playerScript.inventory.rangedAttack.Execute(playerScript, target);
-                        isSelectingEnnemy = false;
-                        attackType = AttackType.NONE;
-                        ToggleUiVisibility(false);
+                        targetCount++;
                     }
-                    else if (attackType == AttackType.BITE)
-                    {
-                        isSelectingEnnemy = false;
-                        attackType = AttackType.NONE;
-                        ToggleUiVisibility(false);
-                        playerScript.stats.SP -= playerScript.inventory.biteAttack.actionCost;
-                        if (playerScript.stats.SP < 0)
-                        {
-                            playerScript.stats.SP = 0;
-                        }
-                        playerScript.inventory.biteAttack.Execute(playerScript, target);
-
-                    }
-                    else if (attackType == AttackType.FRACTURE)
-                    {
-                        isSelectingEnnemy = false;
-                        attackType = AttackType.NONE;
-                        ToggleUiVisibility(false);
-                        playerScript.stats.SP -= playerScript.inventory.fractureAttack.actionCost;
-                        if (playerScript.stats.SP < 0)
-                        {
-                            playerScript.stats.SP = 0;
-                        }
-                        playerScript.inventory.fractureAttack.Execute(playerScript, target);
-                    }
-                    targetCount = 0;
-                    confirmedAttack = false;
-
                 }
-            }
+                if (confirmedAttack)
+                {
+                    if (combatLogic.enemies.Count > 0)
+                    {
+                        GameObject target = combatLogic.enemies[targetCount];
 
+
+
+                        if (attackType == AttackType.MELEE)
+                        {
+                            playerScript.inventory.meleeAttack.Execute(playerScript, target);
+                            isSelectingEnnemy = false;
+                            attackType = AttackType.NONE;
+                            ToggleUiVisibility(false);
+
+                        }
+                        else if (attackType == AttackType.RANGED)
+                        {
+                            playerScript.inventory.rangedAttack.Execute(playerScript, target);
+                            isSelectingEnnemy = false;
+                            attackType = AttackType.NONE;
+                            ToggleUiVisibility(false);
+                        }
+                        else if (attackType == AttackType.BITE)
+                        {
+                            isSelectingEnnemy = false;
+                            attackType = AttackType.NONE;
+                            ToggleUiVisibility(false);
+                            playerScript.stats.SP -= playerScript.inventory.biteAttack.actionCost;
+                            if (playerScript.stats.SP < 0)
+                            {
+                                playerScript.stats.SP = 0;
+                            }
+                            playerScript.inventory.biteAttack.Execute(playerScript, target);
+
+                        }
+                        else if (attackType == AttackType.FRACTURE)
+                        {
+                            isSelectingEnnemy = false;
+                            attackType = AttackType.NONE;
+                            ToggleUiVisibility(false);
+                            playerScript.stats.SP -= playerScript.inventory.fractureAttack.actionCost;
+                            if (playerScript.stats.SP < 0)
+                            {
+                                playerScript.stats.SP = 0;
+                            }
+                            playerScript.inventory.fractureAttack.Execute(playerScript, target);
+                        }
+                        targetCount = 0;
+                        confirmedAttack = false;
+
+                    }
+                }
+
+            }
         }
     }
     public void UpdateInventoryUI()

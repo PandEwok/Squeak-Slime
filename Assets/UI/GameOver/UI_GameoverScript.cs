@@ -2,14 +2,19 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 public class UI_GameoverScript : MonoBehaviour
 {
     [SerializeField] private UIDocument uiDocument;
+    [SerializeField] private VisualTreeAsset toothRowTemplate;
     [SerializeField] private GameObject victoryUI;
 
     private VisualElement root;
     private VisualElement deathScreen;
     private Button goToLobbyButton;
+    private VisualElement teethRoot;
+    private Label floorLabel;
+    private Label biomeLabel;
     [SerializeField] private float duration = 0.5f;
 
     private void Awake()
@@ -28,15 +33,16 @@ public class UI_GameoverScript : MonoBehaviour
         if (root != null)
         {
             deathScreen = root.Q<VisualElement>("DeathScreen");
+            teethRoot = root.Q<VisualElement>("TeethRoot");
             goToLobbyButton = root.Q<Button>("ExitButtonGO");
+            floorLabel = root.Q<Label>("Floor");
+            biomeLabel = root.Q<Label>("Biome");
 
             if (goToLobbyButton != null)
             {
                 goToLobbyButton.clicked += GoToLobbyG;
             }
         }
-        deathScreen.style.top = new Length(-100, LengthUnit.Percent);
-        StartGameOverAnimation();
     }
 
     private void OnDisable()
@@ -45,11 +51,58 @@ public class UI_GameoverScript : MonoBehaviour
         {
             goToLobbyButton.clicked -= GoToLobbyG;
         }
-        deathScreen.style.top = new Length(-100, LengthUnit.Percent);
     }
 
+    private void PopulateTeethSummary()
+    {
+        if (teethRoot == null || toothRowTemplate == null || Player.Instance.inventory == null) return;
+
+        teethRoot.Clear();
+
+        foreach (KeyValuePair<Tooth, int> entry in Player.Instance.inventory.teethOfCurrentRun)
+        {
+            Tooth toothData = entry.Key;
+            int amount = entry.Value;
+
+            if (amount <= 0) continue;
+
+
+            TemplateContainer rowInstance = toothRowTemplate.Instantiate();
+
+            VisualElement iconElement = rowInstance.Q<VisualElement>("ToothIcon");
+            Label textLabel = rowInstance.Q<Label>("ToothText");
+
+            if (textLabel != null)
+            {
+                textLabel.text = $"{toothData.itemName} : X {amount}";
+            }
+
+            if (iconElement != null && toothData.itemIcon != null)
+            {
+                iconElement.style.backgroundImage = new StyleBackground(toothData.itemIcon);
+                iconElement.style.unityBackgroundImageTintColor = toothData.defaultColor;
+            }
+
+            teethRoot.Add(rowInstance);
+            Debug.Log($"[UI] Ligne ajoutée pour {toothData.itemName}. Nombre total d'enfants dans TeethRoot : {teethRoot.childCount}");
+        }
+
+    }
+
+    private void SetLevelInformations()
+    {
+        if (floorLabel != null)
+        {
+            floorLabel.text = $"Floor : {Player.Instance.floor}";
+        }
+        if (biomeLabel != null)
+        {
+            biomeLabel.text = $"Biome : {Player.Instance.GetBiomeToString()}";
+        }
+    }
     public void StartGameOverAnimation()
     {
+        StopAllCoroutines();
         StartCoroutine(SlideDownCoroutine());
     }
 
@@ -80,26 +133,41 @@ public class UI_GameoverScript : MonoBehaviour
         Debug.Log("Bouton gameover pressé !");
         AudioManager.Instance.PlaySFX("Button_Pressed");
         SceneManager.LoadScene(8);
-        //#if UNITY_EDITOR
-        //        UnityEditor.EditorApplication.isPlaying = false;
-        //#else
-        //        Application.Quit();
-        //#endif
     }
 
     public void ToggleGameOverUiVisibility(bool mustDisplay)
     {
-        if (deathScreen == null) return;
+        Debug.Log($"ToggleGameOverUiVisibility appelé avec mustDisplay={mustDisplay}", this);
+        if (uiDocument == null) return;
 
         if (mustDisplay)
         {
             if (victoryUI != null) victoryUI.SetActive(false);
-            deathScreen.style.display = DisplayStyle.Flex;
+
+            //if (Player.Instance.inventory != null && Player.Instance.inventory.debugTooth != null)
+            //{
+            //    if (!Player.Instance.inventory.teethOfCurrentRun.ContainsKey(Player.Instance.inventory.debugTooth))
+            //    {
+            //        Player.Instance.inventory.teethOfCurrentRun.Add(Player.Instance.inventory.debugTooth, 21);
+            //    }
+            //}
+
+
+            PopulateTeethSummary();
+            SetLevelInformations();
+
+            if (deathScreen != null)
+            {
+                deathScreen.style.display = DisplayStyle.Flex;
+                deathScreen.style.top = new Length(-100, LengthUnit.Percent);
+                StartGameOverAnimation();
+            }
         }
         else
         {
             if (victoryUI != null) victoryUI.SetActive(true);
-            deathScreen.style.display = DisplayStyle.None;
+            if (deathScreen != null) deathScreen.style.display = DisplayStyle.None;
+            deathScreen.style.top = new Length(-100, LengthUnit.Percent);
         }
     }
 }

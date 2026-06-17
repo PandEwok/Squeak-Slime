@@ -145,7 +145,7 @@ public class Combat_Logic : MonoBehaviour
                 if(player.GetComponent<Stats_System>().health <= 0)
                 {
                     Debug.Log("Player has been defeated!");
-                    EngameUIScript.Instance.GameOver();
+                    //EngameUIScript.Instance.GameOver();
                     return;
                 }
                 if (enemy != enemies[enemies.Count - 1])
