@@ -15,6 +15,7 @@ public class Combat_Logic : MonoBehaviour
     /*public Stats_System playerStats;*/
     public List<GameObject> enemiesToSpawn;
     public List<GameObject> EnemyPositions;
+    public GameObject PlayerPosition;
 
     public List<GameObject> enemies = new List<GameObject>();
     private List<GameObject> enemiesToDestroy = new List<GameObject>();
@@ -22,6 +23,13 @@ public class Combat_Logic : MonoBehaviour
     public GameObject player;
     private int playerTurnCount = 0;
     //UnityEngine.UI.Button[] UI_Buttons;
+
+    private void Start()
+    {
+
+        Player.Instance.LoadPlayer(PlayerPosition.transform.position);
+        actionUI = Player.Instance.uiManager.actionMenu;
+    }
 
 
     public void removeEnemy(GameObject enemy)
@@ -46,7 +54,6 @@ public class Combat_Logic : MonoBehaviour
         {
             Debug.Log("All enemies defeated! Victory!");
             EngameUIScript.Instance.Victory();
-            player.SetActive(false);
         }
     }
 

@@ -87,7 +87,7 @@ public class UI_VictoryScript : MonoBehaviour
     {
         Debug.Log("Exit button pressed in Victory UI");
         AudioManager.Instance.PlaySFX("Button_Pressed");
-        SceneManager.LoadScene(3);
+        SceneManager.LoadSceneAsync(3);
     }
 
     public void ToggleVictoryUiVisibility(bool mustDisplay)

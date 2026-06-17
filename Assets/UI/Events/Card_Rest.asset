@@ -16,4 +16,4 @@ MonoBehaviour:
   cardName: Rest
   tooltipDescription: Peaceful surroundings lies here, recover HP and SP by resting
   cardArtwork: {fileID: 0}
-  sceneToLoad: RestEvent
+  sceneToLoad: 4

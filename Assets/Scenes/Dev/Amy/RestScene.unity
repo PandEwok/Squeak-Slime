@@ -178,6 +178,7 @@ MonoBehaviour:
     maxHPPercent: 25
     minSPPercent: 10
     maxSPPercent: 20
+  nextSceneName: 9
 --- !u!4 &113644321
 Transform:
   m_ObjectHideFlags: 0
@@ -743,13 +744,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 113644319}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 113644320}
+        m_TargetAssemblyTypeName: RestEvent, Assembly-CSharp
+        m_MethodName: ExitRestSceneButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -810,7 +811,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 529.00006, y: 46}
+  m_AnchoredPosition: {x: 529, y: 46}
   m_SizeDelta: {x: 306.84998, y: 195.33002}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &1887729212

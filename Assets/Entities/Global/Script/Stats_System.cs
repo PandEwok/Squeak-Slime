@@ -61,6 +61,7 @@ public class Stats_System : MonoBehaviour
 
     protected IEnumerator DmgShake()
     {
+        originalPos = transform.localPosition;
         float shakeDuration = 0.4f;
         float shakeMagnitude = 0.08f;
         float elapsed = 0.0f;

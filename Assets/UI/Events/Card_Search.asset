@@ -16,4 +16,4 @@ MonoBehaviour:
   cardName: Scavenge
   tooltipDescription: Search for loot in the wild
   cardArtwork: {fileID: 0}
-  sceneToLoad: SearchEvent
+  sceneToLoad: 5

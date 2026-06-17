@@ -1,5 +1,7 @@
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour
 {
@@ -101,5 +103,40 @@ public class Player : MonoBehaviour
             default:
                 return "Unknown";
         }
+    }
+
+
+    public void LoadPlayer(Vector2 pos)
+    {
+        transform.position = pos;
+        originalPosition = pos;
+        
+        if (GameObject.FindGameObjectWithTag("CombatLogic").GetComponent<Combat_Logic>() != null)
+        {
+            combatLogic = GameObject.FindGameObjectWithTag("CombatLogic").GetComponent<Combat_Logic>();
+
+            if(uiManager.actionMenu == null)
+            {
+                Debug.LogError("Erreur, action Menu est DCD");
+            }
+            else
+            {
+                uiManager.actionMenu.SetActive(true);
+            }
+            if (uiManager.actionMenu.GetComponent<ActionBarScript>().combatLogic == null)
+            {
+                uiManager.actionMenu.GetComponent<ActionBarScript>().combatLogic = combatLogic;
+            }
+            if (combatLogic == null)
+            {
+                Debug.LogError("Combat Logic de player est DCD");
+            }
+            //GetComponentInChildren<ActionBarScript>().combatLogic = GameObject.FindGameObjectWithTag("CombatLogic").GetComponent<Combat_Logic>();
+        }
+        uiManager.actionMenu.GetComponent<ActionBarScript>().playerScript = this;
+
+        stats.health = stats.originalHealth;
+        stats.SP = stats.originalSP;
+        uiManager.statsUi = GameObject.FindGameObjectWithTag("Canvas").GetComponent<StatsUI>();
     }
 }

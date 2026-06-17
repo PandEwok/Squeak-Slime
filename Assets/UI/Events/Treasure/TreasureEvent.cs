@@ -38,9 +38,11 @@ public class TreasureEvent : MonoBehaviour
     private bool isTyping = false;
 
     private List<(Sprite icon, int qty, Color color)> rolledLootVisuals = new List<(Sprite, int, Color)>();
-
+    private Vector3 playerDefPos = new Vector3(7777, 0, 0);
+    public int nextSceneName = 9;
     private void Start()
     {
+        Player.Instance.transform.position = playerDefPos;
         if (lootDisplayContainer != null) lootDisplayContainer.gameObject.SetActive(false);
 
         lineToPrint = introText;
@@ -231,7 +233,7 @@ public class TreasureEvent : MonoBehaviour
 
     public void ExitTreasureSceneButton()
     {
-        SceneManager.LoadScene("SampleScene 2");
+        SceneManager.LoadSceneAsync(nextSceneName);
     }
 }
 

@@ -21,7 +21,7 @@ public class PlayerInventory : MonoBehaviour
     public Dictionary<ItemData, int> itemsPossessed = new Dictionary<ItemData, int>();
     public Dictionary<Tooth, int> teethPossessed = new Dictionary<Tooth, int>();
     public Dictionary<Tooth, int> teethOfCurrentRun = new Dictionary<Tooth, int>();
-    public Tooth debugTooth;
+    //public Tooth debugTooth;
     [System.Serializable]
     public struct StartingItem
     {
@@ -117,7 +117,7 @@ public class PlayerInventory : MonoBehaviour
 
         ClearCurrentRunTeeth();
         //Debug
-        teethOfCurrentRun.Add(debugTooth, 21);
+        //teethOfCurrentRun.Add(debugTooth, 21);
     }
 
     public void LoadInventoryData(PlayerData data)

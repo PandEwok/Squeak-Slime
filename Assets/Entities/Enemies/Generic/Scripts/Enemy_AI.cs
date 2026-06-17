@@ -168,7 +168,15 @@ public class Enemy_AI : MonoBehaviour
         if (gameObject.GetComponent<Stats_System>().health <= 0)
         {
             if (player != null) { dropTeeth(); }
-            GameObject.Find("CombatLogic").GetComponent<Combat_Logic>().removeEnemy(this.gameObject);
+            if (this.gameObject == null)
+            {
+                Debug.Log("enemy null");
+            }
+            if (GameObject.FindGameObjectWithTag("CombatLogic") == null)
+            {
+                Debug.Log("logic null");
+            }
+            GameObject.FindGameObjectWithTag("CombatLogic").GetComponent<Combat_Logic>().removeEnemy(this.gameObject);
         }
 
 

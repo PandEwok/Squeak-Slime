@@ -4,7 +4,7 @@ public class UiManager : MonoBehaviour
 {
     [HideInInspector] public GradeScript gradeScript;
     [Header("Prefabs")]
-    [SerializeField] private GameObject actionMenu;
+    [SerializeField] public GameObject actionMenu;
     [SerializeField] private GameObject qteWarning;
     [SerializeField] private GameObject gradeDisplay;
     [SerializeField] private Color waitColor = new Color(1f, 0, 0, 1f);

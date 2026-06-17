@@ -2074,7 +2074,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LobbyManager
   maxHpText: {fileID: 504043502}
   maxSpText: {fileID: 1361223212}
-  nextSceneName: CombatScene_Template
+  nextSceneName: 9
 --- !u!224 &475498980
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2494,7 +2494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3643553929881473121, guid: 649522aa2f19d7149bed146748d3b102, type: 3}
       propertyPath: m_fontSize
-      value: 28.2
+      value: 34.6
       objectReference: {fileID: 0}
     - target: {fileID: 4310310797873337007, guid: 649522aa2f19d7149bed146748d3b102, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4771,7 +4771,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3643553929881473121, guid: 649522aa2f19d7149bed146748d3b102, type: 3}
       propertyPath: m_fontSize
-      value: 28.2
+      value: 34.6
       objectReference: {fileID: 0}
     - target: {fileID: 4310310797873337007, guid: 649522aa2f19d7149bed146748d3b102, type: 3}
       propertyPath: m_AnchorMax.y
@@ -6790,7 +6790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3643553929881473121, guid: 649522aa2f19d7149bed146748d3b102, type: 3}
       propertyPath: m_fontSize
-      value: 28.2
+      value: 34.6
       objectReference: {fileID: 0}
     - target: {fileID: 4310310797873337007, guid: 649522aa2f19d7149bed146748d3b102, type: 3}
       propertyPath: m_AnchorMax.y
@@ -6947,7 +6947,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.06445019, y: 0.13039897}
   m_AnchorMax: {x: 0.24878235, y: 0.45353204}
-  m_AnchoredPosition: {x: -92, y: -79.000015}
+  m_AnchoredPosition: {x: -92, y: -79.00003}
   m_SizeDelta: {x: 29, y: -10.0000305}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1390307658
@@ -6963,7 +6963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3915094, g: 1, b: 0.5180425, a: 1}
+  m_Color: {r: 0.3529412, g: 0.9843137, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9543,7 +9543,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.478417, y: 0.08446549}
   m_AnchorMax: {x: 0.7085166, y: 0.355202}
-  m_AnchoredPosition: {x: -15.110001, y: 103.020004}
+  m_AnchoredPosition: {x: -15.110001, y: 103.01998}
   m_SizeDelta: {x: -266.73, y: 87.77}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1903948542
@@ -11884,7 +11884,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3643553929881473121, guid: 649522aa2f19d7149bed146748d3b102, type: 3}
       propertyPath: m_fontSize
-      value: 28.2
+      value: 34.3
       objectReference: {fileID: 0}
     - target: {fileID: 4310310797873337007, guid: 649522aa2f19d7149bed146748d3b102, type: 3}
       propertyPath: m_AnchorMax.y

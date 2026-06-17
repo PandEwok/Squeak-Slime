@@ -13,5 +13,5 @@ public class EventCardData : ScriptableObject
 
     [Header("Scene Routing")]
     [Tooltip("The exact name of the Unity Scene to load. Leave blank if Type is 'Nothing'.")]
-    public string sceneToLoad;
+    public int sceneToLoad;
 }

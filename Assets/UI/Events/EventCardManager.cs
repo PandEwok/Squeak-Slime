@@ -22,9 +22,11 @@ public class EventCardManager : MonoBehaviour
 
     [Tooltip("Smooth physics ease curve. Create a small hill at the end for a bouncy layout snap!")]
     public AnimationCurve dealEaseCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
-
+    private Vector3 playerDefPos = new Vector3(7777, 0, 0);
+    public int nextSceneName = 9;
     private void Start()
     {
+        Player.Instance.transform.position = playerDefPos;
         HideTooltip();
 
         // Switch to calling our new animated sequence engine
@@ -73,7 +75,7 @@ public class EventCardManager : MonoBehaviour
         {
             StartCoroutine(AnimateCardDealingSequence()); // Re-deal if "Nothing" card selected
         }
-        else if (!string.IsNullOrEmpty(selectedCard.sceneToLoad))
+        else if (selectedCard.sceneToLoad != 0)
         {
             SceneManager.LoadScene(selectedCard.sceneToLoad);
         }

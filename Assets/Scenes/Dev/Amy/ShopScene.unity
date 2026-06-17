@@ -1314,6 +1314,7 @@ MonoBehaviour:
   absoluteMinSlots: 1
   stage1MaxSlots: 3
   extraMaxSlotsAtEnd: 1
+  nextSceneName: 9
 --- !u!114 &1276527345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1539,9 +1540,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1276527346}
-        m_TargetAssemblyTypeName: ShopAnimation, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1276527344}
+        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+        m_MethodName: ExitShop
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

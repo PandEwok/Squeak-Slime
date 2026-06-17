@@ -16,4 +16,4 @@ MonoBehaviour:
   cardName: Treasure Chest
   tooltipDescription: A chest lies here, could it be a trap?
   cardArtwork: {fileID: 0}
-  sceneToLoad: TreasureEvent
+  sceneToLoad: 7
