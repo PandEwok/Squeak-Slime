@@ -70,7 +70,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VictoryScript
   gameOverUi: {fileID: 0}
+  toothRowTemplate: {fileID: 9197481963319205126, guid: f2376784ae82be74fa857042f002c68b, type: 3}
   uiDocument: {fileID: 5723711169087511929}
+  duration: 0.2
 --- !u!210 &5344278282749506209
 SortingGroup:
   m_ObjectHideFlags: 0

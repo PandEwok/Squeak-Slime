@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,7 @@ public class MeleeAttack : PlayerAction
 {
     [SerializeField] private bool isBite;
     [SerializeField] private float biteBoost;
+    [SerializeField] private GameObject biteFX;
     private readonly float movingTowardsTargetDuration = 0.6f;
     private readonly float qteWindowDuration = 0.2f;
     private readonly float waitAfterDamageDuration = 0.5f;
@@ -98,6 +100,15 @@ public class MeleeAttack : PlayerAction
         player.uiManager.ShowQTE(false);
         }
         // DEGATS
+        if(isBite)
+        {
+            if(biteFX != null)
+            {
+                Instantiate(biteFX, target.transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+            }
+            else { Debug.LogWarning("BiteFX is not assigned in the inspector."); }
+
+        }
         if (succeededQte)
         {
             player.uiManager.DisplayGrade(GradeScript.Grade.Excellent, true);
@@ -115,14 +126,8 @@ public class MeleeAttack : PlayerAction
             finalDamage = player.stats.HasCriticalHit(finalDamage);
 
             int healthToAbsorb = 0;
-            if (!isBite)
-            {
-                healthToAbsorb = target.GetComponent<Stats_System>().TakeDamage(finalDamage, false, Enemy_AI.attackDirection.FRONT);
-            }
-            else
-            {
-                healthToAbsorb = target.GetComponent<Stats_System>().TakeDamage(finalDamage, false);
-            }
+            healthToAbsorb = target.GetComponent<Stats_System>().TakeDamage(finalDamage, false, attackDirectionBoost);
+            
             AudioManager.Instance.PlaySFX(attackSoundName);
             player.stats.AbsorbHealth(healthToAbsorb);
             if(isBite)

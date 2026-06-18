@@ -1,6 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement name="VictoryScreen" picking-mode="Ignore" style="flex-grow: 1; width: 50%; height: 50%; position: absolute; top: 25%; left: 25%; bottom: 0%; right: 0%; -unity-text-align: upper-center; background-color: rgba(217, 255, 192, 0.5); align-items: center; justify-content: center; flex-direction: column; align-self: auto; align-content: auto; display: none;">
         <ui:Label text="Victory!" name="VictoryText" style="color: rgb(253, 255, 0); font-size: 77px; -unity-text-outline-width: 3px; -unity-text-outline-color: rgb(0, 0, 0);"/>
+        <ui:VisualElement name="TeethRoot" style="flex-grow: 0; min-width: 0; min-height: 0;"/>
         <ui:Button text="Next" name="ExitButtonV" style="background-color: rgb(255, 255, 255); height: 105px; width: 350px; font-size: 34px;"/>
     </ui:VisualElement>
 </ui:UXML>

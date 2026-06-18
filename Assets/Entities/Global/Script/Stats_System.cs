@@ -43,7 +43,7 @@ public class Stats_System : MonoBehaviour
     protected GameObject dizzyInstance;
     protected GameObject player;
     Vector3 originalPos;
-    Color originalColor;
+    protected Color originalColor;
     [HideInInspector] public Color absorptionColor;
 
     protected virtual void Start()

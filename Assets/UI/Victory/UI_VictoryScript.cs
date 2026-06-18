@@ -2,12 +2,15 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class UI_VictoryScript : MonoBehaviour
 {
     [SerializeField] private GameObject gameOverUi;
+    [SerializeField] private VisualTreeAsset toothRowTemplate;
     [SerializeField] private UIDocument uiDocument;
     private VisualElement root;
+    private VisualElement teethRoot;
     private VisualElement victoryScreen;
     private Button goToLobbyButton;
     [SerializeField] private float duration = 0.2f;
@@ -29,6 +32,7 @@ public class UI_VictoryScript : MonoBehaviour
         {
             victoryScreen = root.Q<VisualElement>("VictoryScreen");
             goToLobbyButton = root.Q<Button>("ExitButtonV");
+            teethRoot = root.Q<VisualElement>("TeethRoot");
 
             if (goToLobbyButton != null)
             {
@@ -55,6 +59,41 @@ public class UI_VictoryScript : MonoBehaviour
         }
     }
 
+    private void PopulateTeethSummary()
+    {
+        if (teethRoot == null || toothRowTemplate == null || Player.Instance.inventory == null) return;
+
+        teethRoot.Clear();
+
+        foreach (KeyValuePair<Tooth, int> entry in Player.Instance.inventory.TeethOfCurrentBattle)
+        {
+            Tooth toothData = entry.Key;
+            int amount = entry.Value;
+
+            if (amount <= 0) continue;
+
+
+            TemplateContainer rowInstance = toothRowTemplate.Instantiate();
+
+            VisualElement iconElement = rowInstance.Q<VisualElement>("ToothIcon");
+            Label textLabel = rowInstance.Q<Label>("ToothText");
+
+            if (textLabel != null)
+            {
+                textLabel.text = $"{toothData.itemName} : X {amount}";
+            }
+
+            if (iconElement != null && toothData.itemIcon != null)
+            {
+                iconElement.style.backgroundImage = new StyleBackground(toothData.itemIcon);
+                iconElement.style.unityBackgroundImageTintColor = toothData.defaultColor;
+            }
+
+            teethRoot.Add(rowInstance);
+            Debug.Log($"[UI] Ligne ajoutée pour {toothData.itemName}. Nombre total d'enfants dans TeethRoot : {teethRoot.childCount}");
+        }
+
+    }
     public void StartVictoryAnimation()
     {
         StartCoroutine(SlideFromRightCoroutine());
@@ -87,6 +126,7 @@ public class UI_VictoryScript : MonoBehaviour
     {
         Debug.Log("Exit button pressed in Victory UI");
         AudioManager.Instance.PlaySFX("Button_Pressed");
+        Player.Instance.inventory.ClearCurrentBattleTeeth();
         SceneManager.LoadSceneAsync(3);
     }
 
@@ -96,6 +136,7 @@ public class UI_VictoryScript : MonoBehaviour
         if (mustDisplay)
         {
             if(gameOverUi != null) gameOverUi.SetActive(false);
+            PopulateTeethSummary();
             victoryScreen.style.display = DisplayStyle.Flex;
 
         }

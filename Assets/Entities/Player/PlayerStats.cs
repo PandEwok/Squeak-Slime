@@ -130,6 +130,7 @@ public class PlayerStats : Stats_System
             {
                 effectiveDamage /= 2;
                 AudioManager.Instance.PlaySFX("Parade");
+                Player.Instance.uiManager.DisplayGrade(GradeScript.Grade.Blocked, true);
             }
             if (defending)
             {
@@ -332,5 +333,32 @@ public class PlayerStats : Stats_System
     public void IncreaseCriticalHitChance(float amount)
     {
         criticalHitChance += amount;
+    }
+
+    public void ResetPlayerStats()
+    {
+        empowered = false;
+        defenseBuffed = false;
+        isBleeding = false;
+        isOnFire = false;
+        isDizzy = false;
+        isAbsorbing = false;
+        bleedingTimer = 0;
+        fireTimer = 0;
+        dizzyTimer = 0;
+        absorptionTimer = 0;
+        if (bleedingInstance != null)
+        {
+            Destroy(bleedingInstance);
+        }
+        if (fireInstance != null)
+        {
+            Destroy(fireInstance);
+        }
+        if (dizzyInstance != null)
+        {
+            Destroy(dizzyInstance);
+        }
+        GetComponentInChildren<SpriteRenderer>().color = originalColor;
     }
 }

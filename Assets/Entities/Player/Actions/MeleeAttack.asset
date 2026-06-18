@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: MeleeAttack
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
   actionCost: 0
-  isBite: 0
-  biteBoost: 0
   attackSoundName: Player_Melee
   slimeMovingSound: Slime_Moving
+  attackDirectionBoost: 2
+  isBite: 0
+  biteBoost: 0
+  biteFX: {fileID: 0}
