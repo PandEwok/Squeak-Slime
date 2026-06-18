@@ -13,11 +13,16 @@ public class StatsUI : MonoBehaviour
     public Image hpFill;
     public Image spFill;
 
+    [Header("Floor Settings")]
+    [Tooltip("The maximum floor count before a biome transition.")]
+    public int maxFloorCount = 6; // NEW: Customizable max count in the inspector!
+
     // Cache tracking variables to prevent rewriting text components every frame
     private float lastHealth;
     private float lastMaxHealth;
     private float lastSP;
     private float lastMaxSP;
+    private int lastFloor; // NEW: Cache to prevent string allocations every frame
 
     void Start()
     {
@@ -42,6 +47,12 @@ public class StatsUI : MonoBehaviour
         if (Player.Instance.stats.SP != lastSP || Player.Instance.stats.originalSP != lastMaxSP)
         {
             UpdateSP();
+        }
+
+        // NEW: Automatically detect if the current floor value has bumped up
+        if (Player.Instance.floor != lastFloor)
+        {
+            UpdateFloor();
         }
     }
 
@@ -77,8 +88,18 @@ public class StatsUI : MonoBehaviour
         }
     }
 
+    // FIXED: Now completely bound to Player.Instance data!
     public void UpdateFloor()
     {
-        // On a pas encore la donnee mdr
+        if (Player.Instance == null) return;
+
+        // Update the tracked cache
+        lastFloor = Player.Instance.floor;
+
+        // Display the text seamlessly as "Floor X / Y"
+        if (Floor != null)
+        {
+            Floor.text = "Floor " + lastFloor + " / " + maxFloorCount;
+        }
     }
 }
