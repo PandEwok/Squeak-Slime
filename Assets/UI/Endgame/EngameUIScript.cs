@@ -26,6 +26,8 @@ public class EngameUIScript : MonoBehaviour
     }
     public void GameOver()
     {
+        Player.Instance.IsInBattle = false;
+        Player.Instance.IsDead = true;
         gameOverUI.SetActive(true);
         if (actionMenu == null)
         {
@@ -37,6 +39,7 @@ public class EngameUIScript : MonoBehaviour
 
     public void Victory()
     {
+        Player.Instance.IsInBattle = false;
         if (actionMenu == null)
         {
             actionMenu = Player.Instance.uiManager.actionMenu;

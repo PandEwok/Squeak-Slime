@@ -334,4 +334,31 @@ public class PlayerStats : Stats_System
     {
         criticalHitChance += amount;
     }
+
+    public void ResetPlayerStats()
+    {
+        empowered = false;
+        defenseBuffed = false;
+        isBleeding = false;
+        isOnFire = false;
+        isDizzy = false;
+        isAbsorbing = false;
+        bleedingTimer = 0;
+        fireTimer = 0;
+        dizzyTimer = 0;
+        absorptionTimer = 0;
+        if (bleedingInstance != null)
+        {
+            Destroy(bleedingInstance);
+        }
+        if (fireInstance != null)
+        {
+            Destroy(fireInstance);
+        }
+        if (dizzyInstance != null)
+        {
+            Destroy(dizzyInstance);
+        }
+        GetComponentInChildren<SpriteRenderer>().color = originalColor;
+    }
 }

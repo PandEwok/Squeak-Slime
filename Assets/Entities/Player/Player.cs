@@ -20,7 +20,8 @@ public class Player : MonoBehaviour
     public BiomeType currentBiome = BiomeType.FOREST;
     [HideInInspector] public UiManager uiManager;
     [HideInInspector] public PlayerStats stats;
-    [HideInInspector] public bool hasWon = false;
+    [HideInInspector] public bool IsInBattle = false;
+    [HideInInspector] public bool IsDead = false;
     public SpriteRenderer sprite;
     
     private void Awake()
@@ -110,7 +111,7 @@ public class Player : MonoBehaviour
     {
         transform.position = pos;
         originalPosition = pos;
-        
+        IsInBattle = true;
         if (GameObject.FindGameObjectWithTag("CombatLogic").GetComponent<Combat_Logic>() != null)
         {
             combatLogic = GameObject.FindGameObjectWithTag("CombatLogic").GetComponent<Combat_Logic>();
@@ -135,8 +136,13 @@ public class Player : MonoBehaviour
         }
         uiManager.actionMenu.GetComponent<ActionBarScript>().playerScript = this;
 
-        stats.health = stats.originalHealth;
-        stats.SP = stats.originalSP;
+        if(IsDead)
+        {
+            stats.health = stats.originalHealth;
+            stats.SP = stats.originalSP;
+        }
+        IsDead = false;
+        stats.ResetPlayerStats();
         uiManager.statsUi = GameObject.FindGameObjectWithTag("Canvas").GetComponent<StatsUI>();
     }
 }
