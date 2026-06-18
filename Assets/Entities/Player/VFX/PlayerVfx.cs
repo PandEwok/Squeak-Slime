@@ -14,44 +14,42 @@ public class PlayerVfx : MonoBehaviour
 
     private void Update()
     {
-        if (Player.Instance.hasWon == false)
+        if (Player.Instance.IsInBattle != false)
         {
-            HandleParticles(Player.Instance);
+            HandleParticles();
         }
     }
-    public void HandleParticles(Player player)
+    public void HandleParticles()
     {
         particleSpawnTimer += Time.deltaTime;
-        HandleEmpoweredParticles(player);
-        HandleDefenseBuffedParticles(player);
+        HandleEmpoweredParticles();
+        HandleDefenseBuffedParticles();
     }
-    private void HandleEmpoweredParticles(Player player)
+    private void HandleEmpoweredParticles()
     {
-        var playerStats = player.stats;
-        playerStats.empowered = (playerStats.empowerDelay > 0);
-        if (playerStats.empowered && particleSpawnTimer > particleSpawnDuration)
+        Player.Instance.stats.empowered = (Player.Instance.stats.empowerDelay > 0);
+        if (Player.Instance.stats.empowered && particleSpawnTimer > particleSpawnDuration)
         {
             particleSpawnTimer = 0;
             for (int i = 0; i < particleQtt; i++)
             {
                 float randomX = Random.Range(-particleRandomXRange, particleRandomXRange);
                 float randomY = Random.Range(-particleRandomYRange, particleRandomYRange);
-                Instantiate(attackBoostEffect, player.transform.position + new Vector3(randomX, -particleVerticalOffset + randomY, 0), Quaternion.identity, player.transform);
+                Instantiate(attackBoostEffect, Player.Instance.transform.position + new Vector3(randomX, -particleVerticalOffset + randomY, 0), Quaternion.identity, Player.Instance.transform);
             }
         }
     }
-    private void HandleDefenseBuffedParticles(Player player)
+    private void HandleDefenseBuffedParticles()
     {
-        var playerStats = player.stats;
-        playerStats.defenseBuffed = (playerStats.defenseBuffDelay > 0);
-        if (playerStats.defenseBuffed && particleSpawnTimer > particleSpawnDuration)
+        Player.Instance.stats.defenseBuffed = (Player.Instance.stats.defenseBuffDelay > 0);
+        if (Player.Instance.stats.defenseBuffed && particleSpawnTimer > particleSpawnDuration)
         {
             particleSpawnTimer = 0;
             for (int i = 0; i < particleQtt; i++)
             {
                 float randomX = Random.Range(-particleRandomXRange, particleRandomXRange);
                 float randomY = Random.Range(-particleRandomYRange, particleRandomYRange);
-                Instantiate(defenseBoostEffect, player.transform.position + new Vector3(randomX, -particleVerticalOffset + randomY, 0), Quaternion.identity, player.transform);
+                Instantiate(defenseBoostEffect, Player.Instance.transform.position + new Vector3(randomX, -particleVerticalOffset + randomY, 0), Quaternion.identity, Player.Instance.transform);
             }
         }
     } 

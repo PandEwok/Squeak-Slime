@@ -15,6 +15,7 @@ MonoBehaviour:
   actionCost: 0
   attackSoundName: Player_Proj_Impact
   slimeMovingSound: Slime_Moving
+  attackDirectionBoost: 1
   projectile: {fileID: 7668710729188587511, guid: af852a2e06c4b6b4fb8ad7884a537402, type: 3}
   projectilePreparationSound: Player_Prepare_Proj
   projectileMovingSound: Player_Proj_Moving

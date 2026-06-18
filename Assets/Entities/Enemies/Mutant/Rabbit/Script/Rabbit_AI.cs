@@ -13,6 +13,10 @@ public class Rabbit_AI : Mutant_AI
             {
                 await closeAttack(target);
             }
+            if (target.GetComponent<PlayerStats>() != null)
+            {
+                target.GetComponent<PlayerStats>().MakeBleeding();
+            }
         }
         await base.playTurn(target);
     }

@@ -27,6 +27,10 @@ public class GuineaPig_AI : Magic_AI
                 projInstance.GetComponent<EnemyProjectile>().Init(this.gameObject, target);
 
                 await distanceAttack(target);
+                if (target.GetComponent<PlayerStats>() != null)
+                {
+                    target.GetComponent<PlayerStats>().MakeBurned();
+                }
             }
             else
             {
@@ -34,6 +38,10 @@ public class GuineaPig_AI : Magic_AI
                 projInstance.GetComponent<EnemyProjectile>().Init(this.gameObject, target);
 
                 await distanceAttack(target);
+                if (target.GetComponent<PlayerStats>() != null)
+                {
+                    target.GetComponent<PlayerStats>().MakeBurned();
+                }
             }
         }
 

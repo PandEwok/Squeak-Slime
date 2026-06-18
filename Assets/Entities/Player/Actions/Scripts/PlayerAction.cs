@@ -7,6 +7,7 @@ public class PlayerAction : ScriptableObject
     protected float qteSuccessDamageBoost = 1.5f; //multiplicateur
     [SerializeField] protected string attackSoundName;
     [SerializeField] protected string slimeMovingSound;
+    [SerializeField] protected Enemy_AI.attackDirection attackDirectionBoost = Enemy_AI.attackDirection.NONE;
     public virtual void Execute(Player player, GameObject target)
     {
 
