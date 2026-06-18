@@ -7,6 +7,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] public GameObject actionMenu;
     [SerializeField] private GameObject qteWarning;
     [SerializeField] private GameObject gradeDisplay;
+    public GameObject spamIndicator;
     [SerializeField] private Color waitColor = new Color(1f, 0, 0, 1f);
     [SerializeField] private Color readyColor = new Color(0, 1f, 0, 1f);
     private SpriteRenderer qteSprite;
@@ -17,7 +18,13 @@ public class UiManager : MonoBehaviour
         gradeScript = gradeDisplay.GetComponent<GradeScript>();
         qteSprite = qteWarning.GetComponent<SpriteRenderer>();
     }
-
+    private void OnEnable()
+    {
+        if (spamIndicator != null)
+        {
+            spamIndicator.SetActive(false);
+        }
+    }
     public void ShowQTE(bool mustDisplay, bool isReady = false)
     {
         if (mustDisplay)

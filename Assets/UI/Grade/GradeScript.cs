@@ -12,12 +12,14 @@ public class GradeScript : MonoBehaviour
     private Label excellent;
     private Label missed;
     private Label critical;
+    private Label blocked;
     private float displayDuration = 1f;
     public enum Grade
     {
         Excellent,
         Missed,
-        Critical
+        Critical,
+        Blocked
     }
     void OnEnable()
     {
@@ -26,6 +28,7 @@ public class GradeScript : MonoBehaviour
         excellent = root.Q<Label>("Excellent");
         missed = root.Q<Label>("Missed");
         critical = root.Q<Label>("Crit");
+        blocked = root.Q<Label>("Blocked");
     }
 
 
@@ -43,6 +46,9 @@ public class GradeScript : MonoBehaviour
                     break;
                 case Grade.Critical:
                     critical.style.display = DisplayStyle.Flex;
+                    break;
+                case Grade.Blocked:
+                    blocked.style.display = DisplayStyle.Flex;
                     break;
                 default:
                     break;
@@ -62,6 +68,9 @@ public class GradeScript : MonoBehaviour
                 case Grade.Critical:
                     critical.style.display = DisplayStyle.None;
                     break;
+                case Grade.Blocked:
+                    blocked.style.display = DisplayStyle.None;
+                    break;
                 default:
                     break;
             }
@@ -75,12 +84,14 @@ public class GradeScript : MonoBehaviour
             excellent.style.display = DisplayStyle.Flex;
             missed.style.display = DisplayStyle.Flex;
             critical.style.display = DisplayStyle.Flex;
+            blocked.style.display = DisplayStyle.Flex;
         }
         else
         {
             excellent.style.display = DisplayStyle.None;
             missed.style.display = DisplayStyle.None;
             critical.style.display = DisplayStyle.None;
+            blocked.style.display = DisplayStyle.None;
         }
 
     }

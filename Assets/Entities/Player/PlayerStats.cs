@@ -130,6 +130,7 @@ public class PlayerStats : Stats_System
             {
                 effectiveDamage /= 2;
                 AudioManager.Instance.PlaySFX("Parade");
+                Player.Instance.uiManager.DisplayGrade(GradeScript.Grade.Blocked, true);
             }
             if (defending)
             {

@@ -499,7 +499,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 627153020}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1943677757}
+        m_TargetAssemblyTypeName: TreasureEvent, Assembly-CSharp
+        m_MethodName: ExitTreasureSceneButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &627153020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1247,6 +1259,7 @@ MonoBehaviour:
   introText: You enter a room with a treasure chest, lucky! You soon open it...
   trapTextTemplate: The treasure was a TRAP! You lost {0} HP.
   lootHeader: 'The treasure was a bunch of loot! You got:'
+  nextSceneName: 9
 --- !u!4 &1943677758
 Transform:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public class PlayerInventory : MonoBehaviour
     public Dictionary<ItemData, int> itemsPossessed = new Dictionary<ItemData, int>();
     public Dictionary<Tooth, int> teethPossessed = new Dictionary<Tooth, int>();
     public Dictionary<Tooth, int> teethOfCurrentRun = new Dictionary<Tooth, int>();
-    //public Tooth debugTooth;
+    public Dictionary<Tooth, int> TeethOfCurrentBattle = new Dictionary<Tooth, int>();
     [System.Serializable]
     public struct StartingItem
     {
@@ -56,6 +56,10 @@ public class PlayerInventory : MonoBehaviour
             teethOfCurrentRun[tooth] += amount;
         else
             teethOfCurrentRun.Add(tooth, amount);
+        if (TeethOfCurrentBattle.ContainsKey(tooth))
+            TeethOfCurrentBattle[tooth] += amount;
+        else
+            TeethOfCurrentBattle.Add(tooth, amount);
     }
 
     public void AddToothToPermanentInventoryOnly(Tooth tooth, int amount)
@@ -70,6 +74,11 @@ public class PlayerInventory : MonoBehaviour
     {
         teethOfCurrentRun.Clear();
         Debug.Log("[Inventory] Le compteur de dents de la run a été remis à zéro.");
+    }
+    public void ClearCurrentBattleTeeth()
+    {
+        TeethOfCurrentBattle.Clear();
+        Debug.Log("[Inventory] Le compteur de dents du combat a été remis à zéro.");
     }
     public void RemoveItem(ItemData item, int amount)
     {
@@ -116,8 +125,7 @@ public class PlayerInventory : MonoBehaviour
         Debug.Log($"[Inventory] Initialisé avec {teethPossessed.Count} types de dents uniques.");
 
         ClearCurrentRunTeeth();
-        //Debug
-        //teethOfCurrentRun.Add(debugTooth, 21);
+        ClearCurrentBattleTeeth();
     }
 
     public void LoadInventoryData(PlayerData data)
@@ -127,6 +135,7 @@ public class PlayerInventory : MonoBehaviour
         itemsPossessed.Clear();
         teethPossessed.Clear();
         ClearCurrentRunTeeth();
+        ClearCurrentBattleTeeth();
 
         ItemData[] allItems = Resources.LoadAll<ItemData>("Items");
         foreach (var itemSave in data.items)

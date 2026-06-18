@@ -132,6 +132,7 @@ public class UI_GameoverScript : MonoBehaviour
     {
         Debug.Log("Bouton gameover pressé !");
         AudioManager.Instance.PlaySFX("Button_Pressed");
+        Player.Instance.inventory.ClearCurrentRunTeeth();
         SceneManager.LoadSceneAsync(8);
     }
 
@@ -143,15 +144,6 @@ public class UI_GameoverScript : MonoBehaviour
         if (mustDisplay)
         {
             if (victoryUI != null) victoryUI.SetActive(false);
-
-            //if (Player.Instance.inventory != null && Player.Instance.inventory.debugTooth != null)
-            //{
-            //    if (!Player.Instance.inventory.teethOfCurrentRun.ContainsKey(Player.Instance.inventory.debugTooth))
-            //    {
-            //        Player.Instance.inventory.teethOfCurrentRun.Add(Player.Instance.inventory.debugTooth, 21);
-            //    }
-            //}
-
 
             PopulateTeethSummary();
             SetLevelInformations();

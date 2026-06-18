@@ -44,6 +44,7 @@ public class FireballAttack : PlayerAction
         Debug.Log("QTE entered");
 
         player.uiManager.ShowQTE(true, true);
+        player.uiManager.spamIndicator.SetActive(true);
         while (elapsedCharge < chargeDuration)
         {
             if (Pointer.current.press.wasPressedThisFrame)
@@ -54,6 +55,7 @@ public class FireballAttack : PlayerAction
             elapsedCharge += Time.deltaTime;
             yield return null;
         }
+        player.uiManager.spamIndicator.SetActive(false);
         player.uiManager.ShowQTE(false);
         Debug.Log($"Nb of clicks: {clickCount}");
 
