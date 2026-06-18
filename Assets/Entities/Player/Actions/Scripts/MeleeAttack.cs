@@ -126,14 +126,8 @@ public class MeleeAttack : PlayerAction
             finalDamage = player.stats.HasCriticalHit(finalDamage);
 
             int healthToAbsorb = 0;
-            if (!isBite)
-            {
-                healthToAbsorb = target.GetComponent<Stats_System>().TakeDamage(finalDamage, false, Enemy_AI.attackDirection.FRONT);
-            }
-            else
-            {
-                healthToAbsorb = target.GetComponent<Stats_System>().TakeDamage(finalDamage, false);
-            }
+            healthToAbsorb = target.GetComponent<Stats_System>().TakeDamage(finalDamage, false, attackDirectionBoost);
+            
             AudioManager.Instance.PlaySFX(attackSoundName);
             player.stats.AbsorbHealth(healthToAbsorb);
             if(isBite)
