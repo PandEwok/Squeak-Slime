@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,7 @@ public class MeleeAttack : PlayerAction
 {
     [SerializeField] private bool isBite;
     [SerializeField] private float biteBoost;
+    [SerializeField] private GameObject biteFX;
     private readonly float movingTowardsTargetDuration = 0.6f;
     private readonly float qteWindowDuration = 0.2f;
     private readonly float waitAfterDamageDuration = 0.5f;
@@ -98,6 +100,15 @@ public class MeleeAttack : PlayerAction
         player.uiManager.ShowQTE(false);
         }
         // DEGATS
+        if(isBite)
+        {
+            if(biteFX != null)
+            {
+                Instantiate(biteFX, target.transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+            }
+            else { Debug.LogWarning("BiteFX is not assigned in the inspector."); }
+
+        }
         if (succeededQte)
         {
             player.uiManager.DisplayGrade(GradeScript.Grade.Excellent, true);
