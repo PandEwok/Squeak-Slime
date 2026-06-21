@@ -13,23 +13,17 @@ public class StatsUI : MonoBehaviour
     public Image hpFill;
     public Image spFill;
 
-    [Header("Floor Settings")]
-    [Tooltip("The maximum floor count before a biome transition.")]
-    public int maxFloorCount = 6; // NEW: Customizable max count in the inspector!
-
     // Cache tracking variables to prevent rewriting text components every frame
-    private float lastHealth;
-    private float lastMaxHealth;
-    private float lastSP;
-    private float lastMaxSP;
-    private int lastFloor; // NEW: Cache to prevent string allocations every frame
+    private float lastHealth = -1f;
+    private float lastMaxHealth = -1f;
+    private float lastSP = -1f;
+    private float lastMaxSP = -1f;
+    private int lastFloor = -1;
 
     void Start()
     {
         // Force an initial setup when the scene starts
-        UpdateHP();
-        UpdateSP();
-        UpdateFloor();
+        TriggerFullUIRefresh();
     }
 
     void Update()
@@ -49,15 +43,26 @@ public class StatsUI : MonoBehaviour
             UpdateSP();
         }
 
-        // NEW: Automatically detect if the current floor value has bumped up
+        // Automatically detect if the current floor value has changed
         if (Player.Instance.floor != lastFloor)
         {
             UpdateFloor();
         }
     }
 
+    public void TriggerFullUIRefresh()
+    {
+        if (Player.Instance == null || Player.Instance.stats == null) return;
+
+        UpdateHP();
+        UpdateSP();
+        UpdateFloor();
+    }
+
     public void UpdateHP()
     {
+        if (Player.Instance == null || Player.Instance.stats == null) return;
+
         // Store the values we are about to display
         lastHealth = Player.Instance.stats.health;
         lastMaxHealth = Player.Instance.stats.originalHealth;
@@ -74,6 +79,8 @@ public class StatsUI : MonoBehaviour
 
     public void UpdateSP()
     {
+        if (Player.Instance == null || Player.Instance.stats == null) return;
+
         // Store the values we are about to display
         lastSP = Player.Instance.stats.SP;
         lastMaxSP = Player.Instance.stats.originalSP;
@@ -88,18 +95,16 @@ public class StatsUI : MonoBehaviour
         }
     }
 
-    // FIXED: Now completely bound to Player.Instance data!
     public void UpdateFloor()
     {
         if (Player.Instance == null) return;
 
-        // Update the tracked cache
         lastFloor = Player.Instance.floor;
 
-        // Display the text seamlessly as "Floor X / Y"
         if (Floor != null)
         {
-            Floor.text = "Floor " + lastFloor + " / " + maxFloorCount;
+            // Reads maxFloor directly from the single source of truth in Player.cs
+            Floor.text = "Floor " + lastFloor + " / " + Player.Instance.maxFloor;
         }
     }
 }
