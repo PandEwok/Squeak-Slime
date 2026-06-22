@@ -82,7 +82,7 @@ public class Combat_Logic : MonoBehaviour
             enemiesToDestroy.Add(enemy);
         }
 
-        if (enemies.Count == 0)
+        if (enemies.Count <= 0)
         {
             Debug.Log("All enemies defeated! Victory!");
             EngameUIScript.Instance.Victory();
