@@ -13,9 +13,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4092460090806911490, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_Size.x
+      value: 8.930233
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092460090806911490, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_Size.y
+      value: 5.023256
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092460090806911490, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 1271000964075119010, guid: d37096d211e2436499912e741cd83467, type: 3}
+      objectReference: {fileID: 21300000, guid: d37096d211e2436499912e741cd83467, type: 3}
+    - target: {fileID: 4092460090806911490, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5090310822546844051, guid: c6411538ebe4d92449f74aaf02fd7233, type: 3}
       propertyPath: m_Name
       value: Enemy_Rodent_PF
