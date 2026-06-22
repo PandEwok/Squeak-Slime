@@ -509,6 +509,10 @@ PrefabInstance:
       propertyPath: m_FillAmount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1877997359534119515, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -249
+      objectReference: {fileID: 0}
     - target: {fileID: 2175059995766264246, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_Camera
       value: 
@@ -517,9 +521,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas_PF
       objectReference: {fileID: 0}
+    - target: {fileID: 3593953026989975705, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 3593953026989975705, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3978323537527147937, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 491
+      objectReference: {fileID: 0}
     - target: {fileID: 3978323537527147937, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -300
+      value: -257
       objectReference: {fileID: 0}
     - target: {fileID: 4907786442560343915, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_text
@@ -534,8 +550,12 @@ PrefabInstance:
 '
       objectReference: {fileID: 0}
     - target: {fileID: 6395960301061999291, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -410
+      objectReference: {fileID: 0}
+    - target: {fileID: 6395960301061999291, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -325
+      value: -269.86
       objectReference: {fileID: 0}
     - target: {fileID: 7634391712135988857, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_Pivot.x
@@ -563,11 +583,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7634391712135988857, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1600
+      value: 1092.5447
       objectReference: {fileID: 0}
     - target: {fileID: 7634391712135988857, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 800
+      value: 614.7133
       objectReference: {fileID: 0}
     - target: {fileID: 7634391712135988857, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -599,11 +619,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7634391712135988857, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 7634391712135988857, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 2.06
+      value: 0.9788
       objectReference: {fileID: 0}
     - target: {fileID: 7634391712135988857, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -629,13 +649,37 @@ PrefabInstance:
       propertyPath: Floor
       value: 
       objectReference: {fileID: 1643926111}
+    - target: {fileID: 8677036586849754927, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8677036586849754927, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8677036586849754927, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8677036586849754927, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8677036586849754927, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 8677036586849754927, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 75
+      objectReference: {fileID: 0}
     - target: {fileID: 8707055041176563766, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -462
+      value: -410
       objectReference: {fileID: 0}
     - target: {fileID: 8707055041176563766, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -260
+      value: -208
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2814,6 +2858,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: enemyPositions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: enemySpawnChance.Array.size
       value: 5
       objectReference: {fileID: 0}
@@ -2857,6 +2905,18 @@ PrefabInstance:
       propertyPath: 'enemyBiomeList.Array.data[4]'
       value: 
       objectReference: {fileID: 7625482749620355038, guid: b918a25fac175c34c89683043f657551, type: 3}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: 'enemyPositions.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1298918265}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: 'enemyPositions.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2136668240}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: 'enemyPositions.Array.data[2]'
+      value: 
+      objectReference: {fileID: 217947985}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemySpawnChance.Array.data[0]'
       value: 20

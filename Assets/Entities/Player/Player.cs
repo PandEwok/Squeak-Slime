@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public Combat_Logic combatLogic;
     public PlayerInventory inventory;
     public int floor = 1;
+    public int maxFloor = 6;
     public BiomeType currentBiome = BiomeType.FOREST;
     [HideInInspector] public UiManager uiManager;
     [HideInInspector] public PlayerStats stats;

@@ -1,15 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using System.Collections;
+using TMPro;
 
 public class ShopItemUI : MonoBehaviour
 {
     [HideInInspector] public int currentDynamicPrice;
+    private int itemQuantity = 1;
 
     [Header("UI Component References")]
     public Image itemImage;
     public TextMeshProUGUI priceText;
+    public TextMeshProUGUI quantityText; // NEW: Displays stack sizes (e.g., "x10")
     public Image currencyImage;
     public Button purchaseButton;
 
@@ -25,11 +27,10 @@ public class ShopItemUI : MonoBehaviour
     private TextAlignmentOptions originalAlignment;
 
     private ItemData myItemData;
-    private Tooth myToothData; // Updated variable type
+    private Tooth myToothData;
     private ShopManager myManager;
 
-    // Accepts a 'Tooth' instead of CurrencyData
-    public void SetupShopItem(ItemData item, int price, Tooth tooth, ShopManager manager)
+    public void SetupShopItem(ItemData item, int quantity, int price, Tooth tooth, ShopManager manager)
     {
         if (itemImage == null || priceText == null || currencyImage == null || purchaseButton == null)
         {
@@ -38,6 +39,7 @@ public class ShopItemUI : MonoBehaviour
         }
 
         myItemData = item;
+        itemQuantity = quantity;
         currentDynamicPrice = price;
         myToothData = tooth;
         myManager = manager;
@@ -47,7 +49,12 @@ public class ShopItemUI : MonoBehaviour
 
         priceText.text = price.ToString();
 
-        // Assigns using your friend's 'itemIcon' and 'defaultColor' fields
+        // Handle quantity text display safely
+        if (quantityText != null)
+        {
+            quantityText.text = $"x{quantity}";
+        }
+
         currencyImage.sprite = tooth.itemIcon;
         currencyImage.color = tooth.defaultColor;
 
@@ -60,8 +67,8 @@ public class ShopItemUI : MonoBehaviour
 
     public void OnPurchaseClicked()
     {
-        // Passes the tooth back to the manager
-        myManager.AttemptPurchase(this, myItemData, currentDynamicPrice, myToothData);
+        // Passes item stack quantity back to the manager execution chain
+        myManager.AttemptPurchase(this, myItemData, itemQuantity, currentDynamicPrice, myToothData);
     }
 
     public void MarkAsSold()
@@ -71,20 +78,15 @@ public class ShopItemUI : MonoBehaviour
         priceText.alignment = TextAlignmentOptions.Center;
         priceText.text = "SOLD";
 
-        if (currencyImage != null)
-        {
-            currencyImage.gameObject.SetActive(false);
-        }
+        if (currencyImage != null) currencyImage.gameObject.SetActive(false);
+        if (quantityText != null) quantityText.gameObject.SetActive(false);
 
         itemImage.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
     }
 
     public void PlayBrokeFeedback()
     {
-        if (!isShaking)
-        {
-            StartCoroutine(ShakeAndFlashBrokeRoutine());
-        }
+        if (!isShaking) StartCoroutine(ShakeAndFlashBrokeRoutine());
     }
 
     private IEnumerator ShakeAndFlashBrokeRoutine()

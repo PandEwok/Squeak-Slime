@@ -2814,6 +2814,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: enemyPositions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: enemySpawnChance.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -2849,6 +2853,18 @@ PrefabInstance:
       propertyPath: 'enemyBiomeList.Array.data[2]'
       value: 
       objectReference: {fileID: 2645622162307157329, guid: 91845316c0b41524380014ff6b9028af, type: 3}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: 'enemyPositions.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1298918265}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: 'enemyPositions.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2136668240}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: 'enemyPositions.Array.data[2]'
+      value: 
+      objectReference: {fileID: 217947985}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemySpawnChance.Array.data[0]'
       value: 50
