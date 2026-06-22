@@ -15,6 +15,8 @@ public class Combat_Logic : MonoBehaviour
     /*public Stats_System playerStats;*/
     public List<GameObject> enemiesToSpawn;
     public List<GameObject> EnemyPositions;
+    public List<GameObject> enemyBiomeList;
+    public List<int> enemySpawnChance;
     public GameObject PlayerPosition;
 
     public List<GameObject> enemies = new List<GameObject>();
@@ -110,6 +112,33 @@ public class Combat_Logic : MonoBehaviour
     void Awake()
     {
         player = GameObject.FindWithTag("Player");
+
+        if (enemiesToSpawn.Count < EnemyPositions.Count)
+        {
+            if (enemyBiomeList.Count > 0)
+            {
+                enemiesToSpawn = new List<GameObject>();
+                for (int i = 0; i < EnemyPositions.Count; i++)
+                {
+                    int randomIndex = Random.Range(0, 100);
+                    for (int j = 0; j < enemySpawnChance.Count; j++)
+                    {
+                        int chances = enemySpawnChance[j];
+                        for (int k = j-1; k>=0; k--)
+                        {
+                            chances += enemySpawnChance[k];
+                        }
+                        if (randomIndex < chances)
+                        {
+                            randomIndex = j;
+                            break;
+                        }
+                    }
+                    GameObject randomEnemyPrefab = enemyBiomeList[randomIndex];
+                    enemiesToSpawn.Add(randomEnemyPrefab);
+                }
+            }
+        }
 
         for (int i = 0; i < enemiesToSpawn.Count; i++)
         {

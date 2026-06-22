@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -146,7 +147,9 @@ public class Enemy_AI : MonoBehaviour
         if (inv != null)
         {
             inv.AddTooth(teethType, teethDropped);
-            Instantiate(dropPF, transform.position, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
+            GameObject dropInstance = Instantiate(dropPF, transform.position, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
+            TextMeshProUGUI text = dropInstance.GetComponent<TextMeshProUGUI>();
+            text.SetText($"x{teethDropped}");
         }
 
         return teethDropped;
