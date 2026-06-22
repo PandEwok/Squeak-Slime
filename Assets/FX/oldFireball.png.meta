@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 085a3c3aa4a5deb4ab168dba6e4bbf0a
+guid: 3d960baf05df8ab44bad0262f8c00f70
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2115675544896063733
-    second: newFire_0
+      213: 5353841184698615464
+    second: fireball_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,13 +46,13 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 9
-  spritePivot: {x: 0.634372, y: 0.043508843}
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 704, y: 47, z: 702, w: 44}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: newFire_0
+      name: fireball_0
       rect:
         serializedVersion: 2
-        x: 706
-        y: 48
-        width: 509
-        height: 983
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 0
+        y: 142
+        width: 739
+        height: 444
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5f8c281e2b36c5d10800000000000000
-      internalID: 2115675544896063733
+      spriteID: 8a641dd013aac4a40800000000000000
+      internalID: 5353841184698615464
       vertices: []
       indices: 
       edges: []
@@ -138,8 +138,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    spriteID: cec94d0c37c156946afe931225a74242
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      newFire_0: 2115675544896063733
+      fireball_0: 5353841184698615464
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
