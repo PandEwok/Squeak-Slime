@@ -14,7 +14,7 @@ public class Combat_Logic : MonoBehaviour
 
     /*public Stats_System playerStats;*/
     public List<GameObject> enemiesToSpawn;
-    public List<GameObject> EnemyPositions;
+    public List<GameObject> enemyPositions;
     public List<GameObject> enemyBiomeList;
     public List<int> enemySpawnChance;
     public GameObject PlayerPosition;
@@ -24,7 +24,37 @@ public class Combat_Logic : MonoBehaviour
 
     public GameObject player;
     private int playerTurnCount = 0;
+    private float entranceTimer = 0;
+    bool enemiesHaveEntered = false;
+
     //UnityEngine.UI.Button[] UI_Buttons;
+
+
+    private IEnumerator EnemyEntrance()
+    {
+        float offsetX = 13f; // Distance from which enemies will enter
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            GameObject enemy = enemies[i];
+            Vector3 startPos = enemyPositions[i].transform.position + new Vector3(offsetX, 0, 0);
+            enemy.transform.position = startPos;
+        }
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            GameObject enemy = enemies[i];
+            Vector3 targetPos = enemyPositions[i].transform.position;
+            Vector3 startPos = targetPos + new Vector3(offsetX, 0, 0);
+            enemy.transform.position = startPos;
+            entranceTimer = 0f;
+
+            while (enemy.transform.position != targetPos) {
+                entranceTimer += Time.deltaTime;
+                float t = entranceTimer / 0.4f;
+                enemy.transform.position = Vector3.Lerp(startPos, targetPos, t);
+                yield return null;
+            }
+        }
+    }
 
     private void Start()
     {
@@ -42,7 +72,7 @@ public class Combat_Logic : MonoBehaviour
         {
             if (index != -1)
             {
-                EnemyPositions.RemoveAt(index);
+                enemyPositions.RemoveAt(index);
                 enemies.RemoveAt(index);
             }
             Destroy(enemy);
@@ -113,12 +143,12 @@ public class Combat_Logic : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
 
-        if (enemiesToSpawn.Count < EnemyPositions.Count)
+        if (enemiesToSpawn.Count < enemyPositions.Count)
         {
             if (enemyBiomeList.Count > 0)
             {
                 enemiesToSpawn = new List<GameObject>();
-                for (int i = 0; i < EnemyPositions.Count; i++)
+                for (int i = 0; i < enemyPositions.Count; i++)
                 {
                     int randomIndex = Random.Range(0, 100);
                     for (int j = 0; j < enemySpawnChance.Count; j++)
@@ -142,7 +172,7 @@ public class Combat_Logic : MonoBehaviour
 
         for (int i = 0; i < enemiesToSpawn.Count; i++)
         {
-            enemies.Add( Instantiate(enemiesToSpawn[i], EnemyPositions[i].transform.position, Quaternion.identity, this.transform) );
+            enemies.Add( Instantiate(enemiesToSpawn[i], enemyPositions[i].transform.position, Quaternion.identity, this.transform) );
         }
         // UI_Buttons = GameObject.Find("PAction_Bar").GetComponentsInChildren<UnityEngine.UI.Button>();
     }
@@ -150,6 +180,14 @@ public class Combat_Logic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //entranceTimer += Time.deltaTime;
+
+        if (!enemiesHaveEntered)
+        {
+            StartCoroutine(EnemyEntrance());
+            enemiesHaveEntered = true;
+        }
+
         if (playerTurn && !switchingTurns)
         {
             /*Debug.Log("Player's turn");*/
