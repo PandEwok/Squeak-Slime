@@ -123,7 +123,10 @@ public class ActionBarScript : MonoBehaviour
         {
             foreach (var enemy in combatLogic.enemies)
             {
-                enemy.GetComponent<Enemy_AI>().deselect();
+                if (enemy != combatLogic.enemies[targetCount])
+                {
+                    enemy.GetComponent<Enemy_AI>().deselect();
+                }
             }
             if (isSelectingEnnemy)
             {

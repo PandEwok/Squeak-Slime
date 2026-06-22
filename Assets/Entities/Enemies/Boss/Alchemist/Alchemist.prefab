@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4247845799534207049, guid: 14a20039b73c3e94e983561f581bbe1b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.09
       objectReference: {fileID: 0}
     - target: {fileID: 4247845799534207049, guid: 14a20039b73c3e94e983561f581bbe1b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -106,3 +106,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b06bbf723e7d6e44bec0db7569cc1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  dmgBuffs: []
+  defBuffs: []
+  powerEffect: {fileID: 0}
+  empowerStrenght: 0.5
+  projectilePF: {fileID: 0}
+  teethType: {fileID: 0}
+  dropPF: {fileID: 0}
+  directionalResistance: 0
+  dResistanceAmount: 0

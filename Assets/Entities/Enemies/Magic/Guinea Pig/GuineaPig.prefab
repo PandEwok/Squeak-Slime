@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GuineaPig
       objectReference: {fileID: 0}
+    - target: {fileID: 1360982817108068985, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 1360982817108068985, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.67
+      objectReference: {fileID: 0}
     - target: {fileID: 1975262410362024240, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
       propertyPath: damage
       value: 15
