@@ -4,18 +4,25 @@ using System.Collections.Generic;
 
 public class EventInventoryUIController : MonoBehaviour
 {
+    public enum PageType
+    {
+        Items,
+        Teeth
+    }
+
     [System.Serializable]
     public struct InventoryPage
     {
         public string pageName;
+        public PageType pageType;
         public GameObject pagePanel;
 
         [Header("UI Slots (Item_0 to Item_3)")]
         public List<InventorySlotUI> uiSlots;
 
-        [Header("Debug Mock Inventory Data")]
-        [Tooltip("Match the sizes of your UI slots above. Set quantities for debug testing.")]
-        public List<int> mockQuantities;
+        [Header("Real Asset Mapping")]
+        public List<ItemData> pageItems;
+        public List<Tooth> pageTeeth;
     }
 
     [Header("Inventory Pages Setup")]
@@ -51,7 +58,7 @@ public class EventInventoryUIController : MonoBehaviour
         UpdatePageDisplay();
     }
 
-    private void UpdatePageDisplay()
+    public void UpdatePageDisplay()
     {
         if (inventoryPages.Count == 0) return;
 
@@ -62,7 +69,7 @@ public class EventInventoryUIController : MonoBehaviour
 
             if (isCurrentPage)
             {
-                pageTitleText.text = inventoryPages[i].pageName;
+                if (pageTitleText != null) pageTitleText.text = inventoryPages[i].pageName;
                 RenderPageSlots(inventoryPages[i]);
             }
         }
@@ -77,15 +84,57 @@ public class EventInventoryUIController : MonoBehaviour
             InventorySlotUI slot = page.uiSlots[i];
             if (slot == null) continue;
 
-            // Grab the quantity from our debug list safely
+            // Step 1: Default fallbacks if the player script doesn't exist in the scene yet
             int quantity = 0;
-            if (i < page.mockQuantities.Count)
+            string aName = "???";
+            string aDesc = "???";
+            string aId = "";
+            Sprite aIcon = null;
+            Color aColor = Color.white;
+            bool hasAsset = false;
+
+            bool playerExists = (Player.Instance != null && Player.Instance.inventory != null);
+
+            // Step 2: Extract details based on the active page layout rules
+            if (page.pageType == PageType.Items)
             {
-                quantity = page.mockQuantities[i];
+                if (i < page.pageItems.Count && page.pageItems[i] != null)
+                {
+                    ItemData targetItem = page.pageItems[i];
+                    hasAsset = true;
+                    aName = targetItem.itemName;
+                    aDesc = targetItem.itemDescription;
+                    aId = targetItem.itemId;
+                    aIcon = targetItem.itemIcon;
+                    aColor = targetItem.defaultColor;
+
+                    if (playerExists && Player.Instance.inventory.itemsPossessed.ContainsKey(targetItem))
+                    {
+                        quantity = Player.Instance.inventory.itemsPossessed[targetItem];
+                    }
+                }
+            }
+            else if (page.pageType == PageType.Teeth)
+            {
+                if (i < page.pageTeeth.Count && page.pageTeeth[i] != null)
+                {
+                    Tooth targetTooth = page.pageTeeth[i];
+                    hasAsset = true;
+                    aName = targetTooth.itemName;
+                    aDesc = targetTooth.itemDescription;
+                    aId = targetTooth.itemId;
+                    aIcon = targetTooth.itemIcon;
+                    aColor = targetTooth.defaultColor;
+
+                    if (playerExists && Player.Instance.inventory.teethPossessed.ContainsKey(targetTooth))
+                    {
+                        quantity = Player.Instance.inventory.teethPossessed[targetTooth];
+                    }
+                }
             }
 
-            // Tell the slot to directly render itself using its own ItemData!
-            slot.UpdateSlotDisplay(quantity, i, this);
+            // Step 3: Send everything down to feed the slot UI components directly!
+            slot.UpdateSlotDisplay(quantity, i, aName, aDesc, aId, aIcon, aColor, hasAsset, this);
         }
     }
 
@@ -105,21 +154,37 @@ public class EventInventoryUIController : MonoBehaviour
             UpdatePageDisplay();
         }
     }
-    /// <summary>
-    /// Called by individual slots to permanently reduce quantities upon clicking
-    /// </summary>
+
     public void ConsumeItemFromSlot(int slotIndex)
     {
+        if (Player.Instance == null || Player.Instance.inventory == null) return;
         if (currentPageIndex >= inventoryPages.Count) return;
+
         InventoryPage currentPage = inventoryPages[currentPageIndex];
 
-        if (slotIndex < currentPage.mockQuantities.Count && currentPage.mockQuantities[slotIndex] > 0)
+        if (currentPage.pageType == PageType.Items)
         {
-            // Deduct item count
-            currentPage.mockQuantities[slotIndex]--;
-
-            // Redraw current page graphics immediately to represent correct numbers (or trigger silhouette if 0)
-            UpdatePageDisplay();
+            if (slotIndex < currentPage.pageItems.Count && currentPage.pageItems[slotIndex] != null)
+            {
+                ItemData targetItem = currentPage.pageItems[slotIndex];
+                if (Player.Instance.inventory.itemsPossessed.ContainsKey(targetItem) && Player.Instance.inventory.itemsPossessed[targetItem] > 0)
+                {
+                    Player.Instance.inventory.RemoveItem(targetItem, 1);
+                    UpdatePageDisplay();
+                }
+            }
+        }
+        else if (currentPage.pageType == PageType.Teeth)
+        {
+            if (slotIndex < currentPage.pageTeeth.Count && currentPage.pageTeeth[slotIndex] != null)
+            {
+                Tooth targetTooth = currentPage.pageTeeth[slotIndex];
+                if (Player.Instance.inventory.teethPossessed.ContainsKey(targetTooth) && Player.Instance.inventory.teethPossessed[targetTooth] > 0)
+                {
+                    Player.Instance.inventory.RemoveTooth(targetTooth, 1);
+                    UpdatePageDisplay();
+                }
+            }
         }
     }
 }

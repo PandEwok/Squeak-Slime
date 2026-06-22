@@ -291,11 +291,63 @@ MonoBehaviour:
     - type: 0
       itemData: {fileID: 11400000, guid: 0f3b913957e4dc34b8c255ee7a7fdcc1, type: 2}
       toothData: {fileID: 0}
+  - targetBiome: 2
+    nothingChance: 45
+    rareTwoItemChance: 15
+    maxDropQuantity: 3
+    possibleSearchDrops:
+    - type: 0
+      itemData: {fileID: 11400000, guid: 963bc07877a904c44ab5a09afcd8f754, type: 2}
+      toothData: {fileID: 0}
+    - type: 0
+      itemData: {fileID: 11400000, guid: 8f7d7e19d4f968d4c8809daf9d0d6236, type: 2}
+      toothData: {fileID: 0}
+    - type: 0
+      itemData: {fileID: 11400000, guid: 38967c91c11066f47912838a21b1b161, type: 2}
+      toothData: {fileID: 0}
+    - type: 0
+      itemData: {fileID: 11400000, guid: 0f3b913957e4dc34b8c255ee7a7fdcc1, type: 2}
+      toothData: {fileID: 0}
+    - type: 1
+      itemData: {fileID: 0}
+      toothData: {fileID: 11400000, guid: 15d499bc3b9aa5d4cb08ee3276f15c10, type: 2}
+    - type: 0
+      itemData: {fileID: 11400000, guid: 9a5ed72dbe9b3bd44a33a867be16feb7, type: 2}
+      toothData: {fileID: 0}
+  - targetBiome: 3
+    nothingChance: 45
+    rareTwoItemChance: 25
+    maxDropQuantity: 4
+    possibleSearchDrops:
+    - type: 0
+      itemData: {fileID: 11400000, guid: 963bc07877a904c44ab5a09afcd8f754, type: 2}
+      toothData: {fileID: 0}
+    - type: 0
+      itemData: {fileID: 11400000, guid: 8f7d7e19d4f968d4c8809daf9d0d6236, type: 2}
+      toothData: {fileID: 0}
+    - type: 0
+      itemData: {fileID: 11400000, guid: 38967c91c11066f47912838a21b1b161, type: 2}
+      toothData: {fileID: 0}
+    - type: 0
+      itemData: {fileID: 11400000, guid: 0f3b913957e4dc34b8c255ee7a7fdcc1, type: 2}
+      toothData: {fileID: 0}
+    - type: 1
+      itemData: {fileID: 0}
+      toothData: {fileID: 11400000, guid: 15d499bc3b9aa5d4cb08ee3276f15c10, type: 2}
+    - type: 0
+      itemData: {fileID: 11400000, guid: 9a5ed72dbe9b3bd44a33a867be16feb7, type: 2}
+      toothData: {fileID: 0}
+    - type: 1
+      itemData: {fileID: 0}
+      toothData: {fileID: 11400000, guid: ed97cad1ea983524c9f1c86ddd469139, type: 2}
+    - type: 1
+      itemData: {fileID: 0}
+      toothData: {fileID: 11400000, guid: 64d14ef60dbd746479e70e3eb5030216, type: 2}
   defaultFallbackSearch:
     targetBiome: 1
     nothingChance: 35
     rareTwoItemChance: 15
-    maxDropQuantity: 2
+    maxDropQuantity: 3
     possibleSearchDrops: []
   introText: You see a place that could be worth searching.
   failText: You search around... and you are unable to find anything of value.
@@ -417,7 +469,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 370, y: 0}
+  m_AnchoredPosition: {x: 369.99988, y: 0}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!95 &757331949
@@ -611,6 +663,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 980167520}
   m_CullTransparentMesh: 1
+--- !u!1001 &1003092732
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1110862417886448359, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110862417886448359, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.65408
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110862417886448359, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110862417886448359, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110862417886448359, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110862417886448359, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110862417886448359, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110862417886448359, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110862417886448359, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110862417886448359, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8567076734609327451, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: m_Name
+      value: PlayerPrefab
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2886613892715260993, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
 --- !u!1 &1162147279
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,7 +1066,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -168.65, y: 11.78}
+  m_AnchoredPosition: {x: -168.64996, y: 11.78}
   m_SizeDelta: {x: -412.69, y: 215.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1669705811
@@ -1142,3 +1254,4 @@ SceneRoots:
   - {fileID: 68210290}
   - {fileID: 22495682}
   - {fileID: 37325365}
+  - {fileID: 1003092732}
