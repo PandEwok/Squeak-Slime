@@ -4,27 +4,52 @@ using UnityEngine.SceneManagement;
 
 public class ShopManager : MonoBehaviour
 {
-    [Header("Shopkeeper Interaction")]
-    public ShopkeeperDialogue shopkeeperScript;
+    [System.Serializable]
+    public struct ItemRollConfig
+    {
+        public ItemData item;
+        [Range(0, 99)] public int minStackQuantity;
+        [Range(0, 99)] public int maxStackQuantity;
+    }
 
+    [System.Serializable]
+    public struct ToothPriceConfig
+    {
+        public Tooth toothType;
+        public int minPrice;
+        public int maxPrice;
+    }
+
+    [System.Serializable]
+    public class BiomeShopSetup
+    {
+        public string setupName;
+        public Player.BiomeType targetBiome;
+        public List<ItemRollConfig> itemPool;
+        public List<ToothPriceConfig> allowedTeeth;
+
+        [Header("Layout Limits")]
+        public int minSlotsToSpawn = 2;
+        public int maxSlotsToSpawn = 4;
+    }
+
+    [Header("Shopkeeper Interaction Strings")]
+    public ShopkeeperDialogue shopkeeperScript;
     public List<string> thankYouLines = new List<string> { "Thanks!", "Pleasure doing business!" };
     public List<string> brokeLines = new List<string> { "No teeth? No deal." };
 
-    [Header("Modular Petting Settings")]
-    [Range(0f, 1f)] public float winChance = 0.75f;
+    [Header("Modular Petting Probabilities")]
+    [Tooltip("60% base chance for a good outcome discount.")]
+    [Range(0f, 1f)] public float winChance = 0.60f;
     public int goodOutcomeDiscount = -1;
-    public int minBadPenalty = 1;
-    public int maxBadPenalty = 3;
 
     [Header("Petting Visuals (Colors)")]
     public Color goodOutcomeColor = Color.green;
     public Color badOutcomeColor = Color.red;
 
-    [Header("Petting Dialogue Customization")]
+    [Header("Petting Dialogue Tuning Profiles")]
     public List<string> happyPetLines = new List<string> { "*Purr*... Discounts!" };
     public List<string> angryPetLines = new List<string> { "Hands off! Inflation time!" };
-
-    [Header("Continuous Petting Dialogue (Cosmetic Only!)")]
     public List<string> followUpGoodLines = new List<string> { "Stop it, you already got your discount!" };
     public List<string> followUpBadLines = new List<string> { "Keep touching me and see what happens." };
 
@@ -32,18 +57,9 @@ public class ShopManager : MonoBehaviour
     public Transform shopContainer;
     public GameObject shopItemPrefab;
 
-    [Header("The Item Catalog")]
-    public List<ItemData> itemCatalog;
+    [Header("Modular Biome Catalogs")]
+    public List<BiomeShopSetup> biomeShopProfiles = new List<BiomeShopSetup>();
 
-    [Header("The Global Tooth Catalog (Updated!)")]
-    public List<Tooth> globalTeeth;
-
-    [Header("Global Shop Layout Luck Settings")]
-    public int absoluteMinSlots = 1;
-    public int stage1MaxSlots = 3;
-    public int extraMaxSlotsAtEnd = 1;
-
-    private const int totalStagesPerFloor = 6;
     private List<ItemData> spawnedItemsThisShop = new List<ItemData>();
     private List<ShopItemUI> activeUISlots = new List<ShopItemUI>();
 
@@ -54,144 +70,167 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
-        Player.Instance.transform.position = playerDefPos;
+        if (Player.Instance != null)
+        {
+            Player.Instance.transform.position = playerDefPos;
+        }
         GenerateProgressionShop();
     }
-    public void ExitShop()
-    {
-        SceneManager.LoadSceneAsync(nextSceneName);
-    }
+
     void GenerateProgressionShop()
     {
-        int globalFloor = GameManager.Instance.currentFloor;
-        int globalStage = GameManager.Instance.currentStage;
+        // 1. CLEAR THE UI IMMEDIATELY
+        // We loop backwards to avoid layout group flickering issues in Unity
+        for (int i = shopContainer.childCount - 1; i >= 0; i--)
+        {
+            Destroy(shopContainer.GetChild(i).gameObject);
+        }
 
-        foreach (Transform child in shopContainer) Destroy(child.gameObject);
         spawnedItemsThisShop.Clear();
         activeUISlots.Clear();
-
         totalTimesPetted = 0;
         wasFirstPetGood = false;
 
-        // Uses the new Tooth filter
-        List<Tooth> unlockedTeeth = FilterTeethByFloor(globalFloor);
-        if (unlockedTeeth.Count == 0) return;
+        Player.BiomeType currentBiome = (Player.Instance != null) ? Player.Instance.currentBiome : Player.BiomeType.FOREST;
+        BiomeShopSetup activeConfig = GetConfigForBiome(currentBiome);
 
-        int slotsToSpawn = CalculateShopSize(globalStage);
+        if (activeConfig == null) return;
 
-        if (itemCatalog == null || itemCatalog.Count == 0)
+        // 2. FIRST PASS: Roll quantities for all items to see what actually wants to spawn
+        List<KeyValuePair<ItemRollConfig, int>> availableSpawns = new List<KeyValuePair<ItemRollConfig, int>>();
+
+        foreach (ItemRollConfig rollSetup in activeConfig.itemPool)
         {
-            Debug.LogError("[ShopManager] CRITICAL: Your Item Catalog list is empty!");
-            return;
-        }
-
-        if (slotsToSpawn > itemCatalog.Count)
-        {
-            slotsToSpawn = itemCatalog.Count;
-        }
-
-        for (int i = 0; i < slotsToSpawn; i++)
-        {
-            CreateAutomatedSlot(unlockedTeeth, globalFloor, globalStage);
-        }
-    }
-
-    List<Tooth> FilterTeethByFloor(int currentFloor)
-    {
-        List<Tooth> filtered = new List<Tooth>();
-        foreach (Tooth tooth in globalTeeth)
-        {
-            // Checks your friend's 'rank' field
-            if (tooth.rank <= currentFloor) filtered.Add(tooth);
-        }
-        return filtered;
-    }
-
-    int CalculateShopSize(int stage)
-    {
-        float progressPercentage = (float)(stage - 1) / (totalStagesPerFloor - 1);
-        int currentMaxPossible = stage1MaxSlots;
-        if (Random.value < progressPercentage) currentMaxPossible += extraMaxSlotsAtEnd;
-        return Random.Range(absoluteMinSlots, currentMaxPossible + 1);
-    }
-
-    void CreateAutomatedSlot(List<Tooth> availableTeeth, int currentFloor, int currentStage)
-    {
-        if (itemCatalog.Count == 0) return;
-
-        ItemData randomItem = null;
-        while (randomItem == null)
-        {
-            ItemData rolledItem = itemCatalog[Random.Range(0, itemCatalog.Count)];
-            if (!spawnedItemsThisShop.Contains(rolledItem))
+            int rolledQuantity = Random.Range(rollSetup.minStackQuantity, rollSetup.maxStackQuantity + 1);
+            if (rolledQuantity > 0)
             {
-                randomItem = rolledItem;
-                spawnedItemsThisShop.Add(randomItem);
+                availableSpawns.Add(new KeyValuePair<ItemRollConfig, int>(rollSetup, rolledQuantity));
+            }
+            else
+            {
+                Debug.Log($"[Shop Rarity] {rollSetup.item.itemName} rolled 0 and is excluded from this shop visit.");
             }
         }
 
-        Tooth randomTooth = availableTeeth[Random.Range(0, availableTeeth.Count)];
+        // 3. Determine how many total slots we are allowed to display
+        int targetSlots = Random.Range(activeConfig.minSlotsToSpawn, activeConfig.maxSlotsToSpawn + 1);
 
-        // Economy calculations using tooth.rank
-        int floorDifference = currentFloor - randomTooth.rank;
-        int stagePriceCreep = Mathf.FloorToInt(currentStage / 2f);
+        // Safety clamp: We can't display more slots than we have available items
+        int finalSlotsToSpawn = Mathf.Min(targetSlots, availableSpawns.Count);
 
-        int baseMinPrice = 1 + stagePriceCreep;
-        int baseMaxPrice = 3 + stagePriceCreep;
+        Debug.Log($"[Shop Layout] Target Slots: {targetSlots} | Available Items: {availableSpawns.Count} | Final Spawns: {finalSlotsToSpawn}");
 
-        int calculatedMin = Mathf.Max(1, baseMinPrice + floorDifference);
-        int calculatedMax = Mathf.Max(calculatedMin, baseMaxPrice + (floorDifference * 2));
+        // 4. SECOND PASS: Select random unique items from our available pool up to our layout limit
+        for (int i = 0; i < finalSlotsToSpawn; i++)
+        {
+            int randomIndex = Random.Range(0, availableSpawns.Count);
+            var selectedSelection = availableSpawns[randomIndex];
 
-        int finalPrice = Random.Range(calculatedMin, calculatedMax + 1);
+            // Remove it from availableSpawns so it can't be chosen again for a duplicate slot!
+            availableSpawns.RemoveAt(randomIndex);
+
+            // Build the physical UI element slot
+            BuildPhysicalShopSlot(selectedSelection.Key, selectedSelection.Value, activeConfig);
+        }
+    }
+
+    // Renamed and streamlined to handle clean instantiation only
+    void BuildPhysicalShopSlot(ItemRollConfig rolledItemConfig, int finalQuantity, BiomeShopSetup config)
+    {
+        ToothPriceConfig toothPriceProfile = config.allowedTeeth[Random.Range(0, config.allowedTeeth.Count)];
+        int finalPrice = Random.Range(toothPriceProfile.minPrice, toothPriceProfile.maxPrice + 1);
 
         GameObject newSlot = Instantiate(shopItemPrefab, shopContainer);
         ShopItemUI uiScript = newSlot.GetComponent<ShopItemUI>();
 
-        // Pass the tooth into the UI setup function
-        uiScript.SetupShopItem(randomItem, finalPrice, randomTooth, this);
+        uiScript.SetupShopItem(rolledItemConfig.item, finalQuantity, finalPrice, toothPriceProfile.toothType, this);
         activeUISlots.Add(uiScript);
+        spawnedItemsThisShop.Add(rolledItemConfig.item);
     }
 
-    public void AttemptPurchase(ShopItemUI slotUI, ItemData item, int price, Tooth tooth)
+    BiomeShopSetup GetConfigForBiome(Player.BiomeType biome)
     {
-        bool isFreeItem = (price == 0);
-
-        // 1. Grab the inventory directly from your new persistent Player instance
-        PlayerInventory playerInv = Player.Instance.inventory;
-        if (playerInv == null)
+        foreach (BiomeShopSetup profile in biomeShopProfiles)
         {
-            Debug.LogError("[ShopManager] Player.Instance.inventory is missing! Cannot complete purchase.");
-            return;
+            if (profile.targetBiome == biome) return profile;
         }
+        return biomeShopProfiles.Count > 0 ? biomeShopProfiles[0] : null;
+    }
 
-        // 2. Check if the player possesses this specific tooth type and track their current count
-        int currentToothAmount = 0;
-        if (playerInv.teethPossessed.ContainsKey(tooth))
-        {
-            currentToothAmount = playerInv.teethPossessed[tooth];
-        }
+    void CreateAutomatedSlot(BiomeShopSetup config)
+    {
+        ItemRollConfig rolledItemConfig = default;
+        int finalQuantity = 0;
+        bool foundValidItem = false;
 
-        // 3. Evaluation Condition: Free item OR player has enough of this specific Tooth asset
-        if (isFreeItem || currentToothAmount >= price)
+        // 1. Create a temporary list of pool options, excluding items already on display
+        List<ItemRollConfig> availableOptions = new List<ItemRollConfig>(config.itemPool);
+        availableOptions.RemoveAll(x => spawnedItemsThisShop.Contains(x.item));
+
+        // 2. Loop through options until we find an item that rolls a quantity greater than 0
+        while (availableOptions.Count > 0)
         {
-            // Deduct the transaction cost from the wallet (unless it's free)
-            if (!isFreeItem)
+            int randomIndex = Random.Range(0, availableOptions.Count);
+            ItemRollConfig potentialRoll = availableOptions[randomIndex];
+
+            // Roll the stack quantity right now
+            int rolledQuantity = Random.Range(potentialRoll.minStackQuantity, potentialRoll.maxStackQuantity + 1);
+
+            if (rolledQuantity > 0)
             {
-                playerInv.RemoveTooth(tooth, price);
-                Debug.Log($"[Shop] Successfully purchased {item.itemName}! Spent {price} {tooth.itemName}. Remaining: {currentToothAmount - price}");
+                // Success! We rolled a valid stack size
+                rolledItemConfig = potentialRoll;
+                finalQuantity = rolledQuantity;
+
+                // Mark it as spawned so it occupies this slot
+                spawnedItemsThisShop.Add(rolledItemConfig.item);
+                foundValidItem = true;
+                break;
             }
             else
             {
-                Debug.Log($"[Shop] Successfully claimed {item.itemName} for free!");
+                // It rolled 0! The item failed its rarity check for this shop visit.
+                // Mark it as "spawned" globally so the shop doesn't try to force it into the next slot...
+                spawnedItemsThisShop.Add(potentialRoll.item);
+
+                // ...but remove it from this specific slot's options so the loop can try a different item!
+                availableOptions.RemoveAt(randomIndex);
+                Debug.Log($"[Shop Rarity] {potentialRoll.item.itemName} rolled 0 units and skipped spawning this time.");
+            }
+        }
+
+        // 3. If every single item left in the pool rolled 0, stop generating this slot gracefully
+        if (!foundValidItem) return;
+
+        // 4. Proceed with currency and pricing calculations for the successful item
+        ToothPriceConfig toothPriceProfile = config.allowedTeeth[Random.Range(0, config.allowedTeeth.Count)];
+        int finalPrice = Random.Range(toothPriceProfile.minPrice, toothPriceProfile.maxPrice + 1);
+
+        GameObject newSlot = Instantiate(shopItemPrefab, shopContainer);
+        ShopItemUI uiScript = newSlot.GetComponent<ShopItemUI>();
+
+        uiScript.SetupShopItem(rolledItemConfig.item, finalQuantity, finalPrice, toothPriceProfile.toothType, this);
+        activeUISlots.Add(uiScript);
+    }
+
+    public void AttemptPurchase(ShopItemUI slotUI, ItemData item, int quantity, int price, Tooth tooth)
+    {
+        if (Player.Instance == null || Player.Instance.inventory == null) return;
+        PlayerInventory playerInv = Player.Instance.inventory;
+
+        int currentToothAmount = playerInv.teethPossessed.ContainsKey(tooth) ? playerInv.teethPossessed[tooth] : 0;
+
+        if (price == 0 || currentToothAmount >= price)
+        {
+            if (price > 0)
+            {
+                playerInv.RemoveTooth(tooth, price);
             }
 
-            // Add the physical item into the player's items dictionary
-            playerInv.AddItem(item, 1);
-
-            // Update UI slot feedback
+            // Grants the full bundle item quantity
+            playerInv.AddItem(item, quantity);
             slotUI.MarkAsSold();
 
-            // Play happy shopkeeper feedback lines
             if (shopkeeperScript != null && thankYouLines.Count > 0)
             {
                 shopkeeperScript.SayThankYou(thankYouLines[Random.Range(0, thankYouLines.Count)]);
@@ -199,11 +238,7 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            // Deny purchase if the player's balance for this specific tooth asset is too low
-            Debug.LogWarning($"[Shop] Purchase Denied! You need {price} {tooth.itemName}, but you only have {currentToothAmount}.");
-
             slotUI.PlayBrokeFeedback();
-
             if (shopkeeperScript != null && brokeLines.Count > 0)
             {
                 shopkeeperScript.SayThankYou(brokeLines[Random.Range(0, brokeLines.Count)]);
@@ -219,20 +254,21 @@ public class ShopManager : MonoBehaviour
 
         if (totalTimesPetted == 1)
         {
-            float roll = Random.value;
             int priceModifier = 0;
             Color permanentPetColor;
 
-            if (roll <= winChance)
+            // Updated 60/40 design rule implementation
+            if (Random.value <= winChance)
             {
                 wasFirstPetGood = true;
-                priceModifier = goodOutcomeDiscount;
+                priceModifier = goodOutcomeDiscount; // -1 Price Drop
                 permanentPetColor = goodOutcomeColor;
             }
             else
             {
                 wasFirstPetGood = false;
-                priceModifier = Random.Range(minBadPenalty, maxBadPenalty + 1);
+                // 50/50 Chance to penalty add +1 or +2 Price Inflation
+                priceModifier = (Random.value < 0.50f) ? 1 : 2;
                 permanentPetColor = badOutcomeColor;
             }
 
@@ -260,5 +296,30 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    
+    // Progression Exit Logic synced with RestEvent
+    public void ExitShop()
+    {
+        if (Player.Instance != null)
+        {
+            Player.Instance.floor++;
+
+            if (Player.Instance.floor > Player.Instance.maxFloor)
+            {
+                Player.Instance.floor = 1;
+                int nextBiomeIndex = (int)Player.Instance.currentBiome + 1;
+
+                if (System.Enum.IsDefined(typeof(Player.BiomeType), nextBiomeIndex))
+                {
+                    Player.Instance.currentBiome = (Player.BiomeType)nextBiomeIndex;
+                    Debug.Log($"[Progression] Biome shifted successfully to: {Player.Instance.currentBiome}");
+                }
+                else
+                {
+                    Debug.LogWarning("[Progression] Max Biome exceeded!");
+                }
+            }
+        }
+
+        SceneManager.LoadSceneAsync(nextSceneName);
+    }
 }

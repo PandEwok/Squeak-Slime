@@ -154,30 +154,8 @@ MonoBehaviour:
   typeSpeed: 0.04
   restTextTemplate: The skies are clear and the night is peaceful. You rest and recover
     {0} HP and {1} SP.
-  maxPlayerHealthCap: 100
-  maxPlayerSPCap: 100
-  biomeRestSettings:
-  - targetBiome: 1
-    minHPPercent: 15
-    maxHPPercent: 75
-    minSPPercent: 25
-    maxSPPercent: 60
-  - targetBiome: 2
-    minHPPercent: 20
-    maxHPPercent: 75
-    minSPPercent: 15
-    maxSPPercent: 70
-  - targetBiome: 3
-    minHPPercent: 10
-    maxHPPercent: 75
-    minSPPercent: 25
-    maxSPPercent: 70
-  defaultFallbackRest:
-    targetBiome: 1
-    minHPPercent: 15
-    maxHPPercent: 25
-    minSPPercent: 10
-    maxSPPercent: 20
+  fallbackMaxHealth: 0
+  fallbackMaxSP: 0
   nextSceneName: 9
 --- !u!4 &113644321
 Transform:
@@ -209,6 +187,14 @@ PrefabInstance:
     - target: {fileID: -8998726753592772742, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: health
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -8998726753592772742, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: originalSP
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -8998726753592772742, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: originalHealth
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1110862417886448359, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -811,7 +797,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 529, y: 46}
+  m_AnchoredPosition: {x: 528.99994, y: 46}
   m_SizeDelta: {x: 306.84998, y: 195.33002}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &1887729212
@@ -848,7 +834,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.006394067, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -187.03998, y: 3.4400024}
+  m_AnchoredPosition: {x: -187.03992, y: 3.4400024}
   m_SizeDelta: {x: -430.51, y: -43.56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1887729214

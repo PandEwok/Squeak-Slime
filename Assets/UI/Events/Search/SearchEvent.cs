@@ -38,12 +38,17 @@ public class SearchEvent : MonoBehaviour
     private bool isTyping = false;
     private Vector3 playerDefPos = new Vector3(7777, 0, 0);
     public int nextSceneName = 9;
+
     // Track rolled items to draw actual UI Sprites
     private List<(Sprite icon, int qty, Color color)> rolledLootVisuals = new List<(Sprite, int, Color)>();
 
     private void Start()
     {
-        Player.Instance.transform.position = playerDefPos;
+        if (Player.Instance != null)
+        {
+            Player.Instance.transform.position = playerDefPos;
+        }
+
         if (lootDisplayContainer != null) lootDisplayContainer.gameObject.SetActive(false);
 
         lineToPrint = introText;
@@ -85,11 +90,11 @@ public class SearchEvent : MonoBehaviour
     {
         rolledLootVisuals.Clear();
 
-        // 1. Evaluate current biome
+        // 1. Evaluate current biome safely using enum casting
         int currentBiome = 1;
         if (Player.Instance != null)
         {
-            currentBiome = ((int)Player.Instance.currentBiome);
+            currentBiome = (int)Player.Instance.currentBiome;
         }
 
         // 2. Fetch specific configuration table
@@ -149,19 +154,16 @@ public class SearchEvent : MonoBehaviour
                 SearchDrop drop = lootEntry.Key;
                 int finalQuantity = lootEntry.Value;
 
-                if (drop.type == SearchDrop.DropType.Item)
+                if (Player.Instance != null && Player.Instance.inventory != null)
                 {
-                    if (Player.Instance != null && Player.Instance.inventory != null)
+                    if (drop.type == SearchDrop.DropType.Item)
                     {
                         Player.Instance.inventory.AddItem(drop.itemData, finalQuantity);
                     }
-                }
-                else if (drop.type == SearchDrop.DropType.Tooth)
-                {
-                    if (Player.Instance != null && Player.Instance.inventory != null)
+                    else if (drop.type == SearchDrop.DropType.Tooth)
                     {
-                        // Connection point for PlayerInventory tooth values:
-                        // Player.Instance.inventory.AddTeeth(finalQuantity);
+                        // FIXED: Replaced placeholder code with functional inventory call
+                        Player.Instance.inventory.AddTooth(drop.toothData, finalQuantity);
                     }
                 }
 
@@ -232,13 +234,39 @@ public class SearchEvent : MonoBehaviour
         }
     }
 
+    // FIXED: Upgraded with automated unified progression mechanics!
     public void ExitSearchSceneButton()
     {
+        if (Player.Instance != null)
+        {
+            // Advance progression floor
+            Player.Instance.floor++;
+
+            // Check against the player's own maxFloor setting
+            if (Player.Instance.floor > Player.Instance.maxFloor)
+            {
+                // Reset floor back to 1
+                Player.Instance.floor = 1;
+
+                // Advance biome enum mapping
+                int nextBiomeIndex = (int)Player.Instance.currentBiome + 1;
+
+                if (System.Enum.IsDefined(typeof(Player.BiomeType), nextBiomeIndex))
+                {
+                    Player.Instance.currentBiome = (Player.BiomeType)nextBiomeIndex;
+                    Debug.Log($"[Progression] Biome shifted successfully to: {Player.Instance.currentBiome}");
+                }
+                else
+                {
+                    Debug.LogWarning("[Progression] Max Biome exceeded!");
+                }
+            }
+        }
+
         SceneManager.LoadSceneAsync(nextSceneName);
     }
 }
 
-// Data models unified to support mixed item pools inside the Search space
 [System.Serializable]
 public class BiomeSearchTable
 {

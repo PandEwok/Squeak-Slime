@@ -42,7 +42,10 @@ public class TreasureEvent : MonoBehaviour
     public int nextSceneName = 9;
     private void Start()
     {
-        Player.Instance.transform.position = playerDefPos;
+        if (Player.Instance != null)
+        {
+            Player.Instance.transform.position = playerDefPos;
+        }
         if (lootDisplayContainer != null) lootDisplayContainer.gameObject.SetActive(false);
 
         lineToPrint = introText;
@@ -83,7 +86,7 @@ public class TreasureEvent : MonoBehaviour
     {
         rolledLootVisuals.Clear();
 
-        // 1. Figure out which biome the player is currently in
+        // 1. Figure out which biome the player is currently in safely
         int currentBiome = 1;
         if (Player.Instance != null)
         {
@@ -135,19 +138,16 @@ public class TreasureEvent : MonoBehaviour
                 TreasureDrop drop = lootEntry.Key;
                 int finalQuantity = lootEntry.Value;
 
-                if (drop.type == TreasureDrop.DropType.Item)
+                if (Player.Instance != null && Player.Instance.inventory != null)
                 {
-                    if (Player.Instance != null && Player.Instance.inventory != null)
+                    if (drop.type == TreasureDrop.DropType.Item)
                     {
                         Player.Instance.inventory.AddItem(drop.itemData, finalQuantity);
                     }
-                }
-                else if (drop.type == TreasureDrop.DropType.Tooth)
-                {
-                    if (Player.Instance != null && Player.Instance.inventory != null)
+                    else if (drop.type == TreasureDrop.DropType.Tooth)
                     {
-                        // Connect to your tooth currency method/variable here if needed!
-                        // Player.Instance.inventory.AddTeeth(finalQuantity); 
+                        // FIXED: Connected to active functional tooth deposit method
+                        Player.Instance.inventory.AddTooth(drop.toothData, finalQuantity);
                     }
                 }
 
@@ -231,13 +231,36 @@ public class TreasureEvent : MonoBehaviour
         }
     }
 
+    // FIXED: Now hooks perfectly into your unified progression system!
     public void ExitTreasureSceneButton()
     {
+        if (Player.Instance != null)
+        {
+            // Advance floor progression counter
+            Player.Instance.floor++;
+
+            // Evaluate if floor exceeds max limits for biome shifting
+            if (Player.Instance.floor > Player.Instance.maxFloor)
+            {
+                Player.Instance.floor = 1;
+                int nextBiomeIndex = (int)Player.Instance.currentBiome + 1;
+
+                if (System.Enum.IsDefined(typeof(Player.BiomeType), nextBiomeIndex))
+                {
+                    Player.Instance.currentBiome = (Player.BiomeType)nextBiomeIndex;
+                    Debug.Log($"[Progression] Biome shifted successfully to: {Player.Instance.currentBiome}");
+                }
+                else
+                {
+                    Debug.LogWarning("[Progression] Max Biome exceeded!");
+                }
+            }
+        }
+
         SceneManager.LoadSceneAsync(nextSceneName);
     }
 }
 
-// Data structures supporting modularity
 [System.Serializable]
 public class BiomeLootTable
 {
