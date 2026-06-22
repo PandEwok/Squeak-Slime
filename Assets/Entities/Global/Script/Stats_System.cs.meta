@@ -1,2 +1,16 @@
 fileFormatVersion: 2
 guid: 588fa43f259fbd74d96ee1d9516568e4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - damagePF: {instanceID: 0}
+  - bloodPF: {instanceID: 0}
+  - firePF: {instanceID: 0}
+  - dizzyPF: {instanceID: 0}
+  - healEffect: {fileID: 4611226540976712192, guid: e37cd15439f124c4d8dd26902e621ee0, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

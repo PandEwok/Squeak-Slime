@@ -6,6 +6,7 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Stats_System : MonoBehaviour
 {
@@ -46,6 +47,12 @@ public class Stats_System : MonoBehaviour
     protected Color originalColor;
     [HideInInspector] public Color absorptionColor;
 
+    [SerializeField] protected GameObject healEffect;
+    float effectTimer = 0f;
+    float particleSpawnTimer = 0f;
+    float delta = 0f;
+    bool healing = false;
+
     protected virtual void Start()
     {
         originalPos = transform.localPosition;
@@ -53,9 +60,39 @@ public class Stats_System : MonoBehaviour
         originalColor = gameObject.GetComponentInChildren<SpriteRenderer>().color;
         absorptionColor = new Color(1f, 0, 0, 1);
         health = originalHealth;
-        if(this.CompareTag("Player"))
+        if (this.CompareTag("Player"))
         {
             player = this.gameObject;
+        }
+    }
+
+    protected virtual void Update()
+    {
+        delta = Time.deltaTime;
+        effectTimer += delta;
+        particleSpawnTimer += delta;
+
+        if (healing)
+        {
+            if (effectTimer < 1f)
+            {
+                if (particleSpawnTimer > 0.2f)
+                {
+                    particleSpawnTimer = 0;
+                    for (int i = 0; i < 2; i++)
+                    {
+                        float randomX = Random.Range(-0.6f, 0.6f);
+                        float randomY = Random.Range(-0.25f, 0.25f);
+                        Instantiate(healEffect, this.transform.position + new Vector3(randomX, -0.2f + randomY, 0), Quaternion.identity, this.transform);
+                    }
+                }
+            }
+            else
+            {
+                healing = false;
+                effectTimer = 0f;
+                particleSpawnTimer = 0f;
+            }
         }
     }
 
@@ -79,13 +116,13 @@ public class Stats_System : MonoBehaviour
     protected IEnumerator DmgShade()
     {
         SpriteRenderer img = GetComponentInChildren<SpriteRenderer>();
-        
+
         Color targetColor = new Color(1f, 0f, 0f, 0.8f);
         float duration = 0.15f;
         float elapsed = 0f;
         while (elapsed < duration)
         {
-            if(!isAbsorbing) img.color = Color.Lerp(originalColor, targetColor, elapsed / duration);
+            if (!isAbsorbing) img.color = Color.Lerp(originalColor, targetColor, elapsed / duration);
             else img.color = Color.Lerp(absorptionColor, targetColor, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
@@ -93,7 +130,7 @@ public class Stats_System : MonoBehaviour
         elapsed = 0f;
         while (elapsed < duration)
         {
-            if(!isAbsorbing) img.color = Color.Lerp(targetColor, originalColor, elapsed / duration);
+            if (!isAbsorbing) img.color = Color.Lerp(targetColor, originalColor, elapsed / duration);
             else img.color = Color.Lerp(targetColor, absorptionColor, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
@@ -127,7 +164,7 @@ public class Stats_System : MonoBehaviour
                 }
                 effectiveDamage = Mathf.Max(effectiveDamage, 0);
             }
-            
+
         }
         health -= effectiveDamage;
         GameObject newDmgDisplay;
@@ -150,6 +187,7 @@ public class Stats_System : MonoBehaviour
         return effectiveDamage;
     }
 
+
     public void Heal(int healAmount)
     {
         health += healAmount;
@@ -157,7 +195,11 @@ public class Stats_System : MonoBehaviour
         Debug.Log($"{gameObject.name} healed for {healAmount}. Current health: {health}");
         AudioManager.Instance.PlaySFX("Heal");
         Player.Instance.uiManager.statsUi.UpdateHP();
+
+        effectTimer = 0f; particleSpawnTimer = 0f;
+        healing = true;
     }
+
     public void Bleed()
     {
         isBleeding = (bleedingTimer > 0);

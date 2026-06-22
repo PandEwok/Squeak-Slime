@@ -67,6 +67,7 @@ MonoBehaviour:
   absorptionDuration: 3
   dizzyDuration: 1
   absorptionColor: {r: 0, g: 0, b: 0, a: 0}
+  healEffect: {fileID: 4611226540976712192, guid: e37cd15439f124c4d8dd26902e621ee0, type: 3}
 --- !u!114 &-672226796281280321
 MonoBehaviour:
   m_ObjectHideFlags: 0

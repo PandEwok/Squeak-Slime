@@ -24,6 +24,10 @@ PrefabInstance:
       propertyPath: defense
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1975262410362024240, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
+      propertyPath: healEffect
+      value: 
+      objectReference: {fileID: 4611226540976712192, guid: e37cd15439f124c4d8dd26902e621ee0, type: 3}
     - target: {fileID: 3152000304185433993, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -109,7 +113,7 @@ MonoBehaviour:
   dmgBuffs: []
   defBuffs: []
   powerEffect: {fileID: 4611226540976712192, guid: f0a8937f1633ded4aa9e2197857049cd, type: 3}
-  empowerStrenght: 0.5
+  empowerStrenght: 0.4
   projectilePF: {fileID: 0}
   teethType: {fileID: 11400000, guid: ed97cad1ea983524c9f1c86ddd469139, type: 2}
   dropPF: {fileID: 254843135583981822, guid: 2585d27f261b45b479460254090507c8, type: 3}

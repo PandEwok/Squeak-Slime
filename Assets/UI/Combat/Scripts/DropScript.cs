@@ -26,7 +26,7 @@ public class DropScript : MonoBehaviour
     IEnumerator switchToSecondStep()
     {
         basePos = this.transform.position;
-        endPos = GameObject.FindGameObjectWithTag("Player").transform.position;
+        endPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().originalPosition;
         timer = 0;
         yield return new WaitForSeconds(0.8f);
         step = 2;
