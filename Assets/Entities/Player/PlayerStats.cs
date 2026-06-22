@@ -171,7 +171,7 @@ public class PlayerStats : Stats_System
             if (!isBleeding)
             {
                 isBleeding = true;
-                bleedingInstance = Instantiate(bloodPF, this.transform.position + new Vector3(-0.75f, 3, 0), Quaternion.identity, this.transform);
+                bleedingInstance = Instantiate(bloodPF, this.transform.position + new Vector3(-0.75f, 1, 0), Quaternion.identity, this.transform);
             }
             bleedingTimer = bleedingDuration + 1;
         }
@@ -183,7 +183,7 @@ public class PlayerStats : Stats_System
             if (!isOnFire)
             {
                 isOnFire = true;
-                fireInstance = Instantiate(firePF, this.transform.position + new Vector3(0, 3, 0), Quaternion.identity, this.transform);
+                fireInstance = Instantiate(firePF, this.transform.position + new Vector3(0, 1, 0), Quaternion.identity, this.transform);
             }
             fireTimer = fireDuration + 1;
         }
@@ -195,7 +195,7 @@ public class PlayerStats : Stats_System
             if (!isDizzy)
             {
                 isDizzy = true;
-                dizzyInstance = Instantiate(dizzyPF, this.transform.position + new Vector3(-0.75f - 0.5f, 3, 0), Quaternion.identity, this.transform);
+                dizzyInstance = Instantiate(dizzyPF, this.transform.position + new Vector3(-0.75f - 0.5f, 1, 0), Quaternion.identity, this.transform);
             }
             dizzyTimer = dizzyDuration;
         }
