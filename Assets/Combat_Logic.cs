@@ -22,6 +22,9 @@ public class Combat_Logic : MonoBehaviour
     public List<GameObject> enemies = new List<GameObject>();
     private List<GameObject> enemiesToDestroy = new List<GameObject>();
 
+    public List<GameObject> boss;
+    public List<GameObject> bossPosition;
+
     public GameObject player;
     private int playerTurnCount = 0;
     private float entranceTimer = 0;
