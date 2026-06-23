@@ -275,10 +275,12 @@ public class Stats_System : MonoBehaviour
         if (isOnFire)
         {
             Burn();
+            yield return new WaitForSeconds(1f);
         }
         isDizzy = (dizzyTimer > 0);
         {
             Dizzyness();
+            yield return new WaitForSeconds(1f);
         }
         HandleAbsorptionColor();
     }
