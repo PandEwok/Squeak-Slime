@@ -64,6 +64,8 @@ public class Enemy_AI : MonoBehaviour
 
     [SerializeField] protected GameObject dropPF;
 
+    protected GameObject combatLogic;
+
     public enum attackDirection
     {
         NONE,
@@ -143,6 +145,8 @@ public class Enemy_AI : MonoBehaviour
         ownIndex = enemies.IndexOf(this.gameObject);
 
         stats = GetComponent<Stats_System>();
+
+        combatLogic = GameObject.FindGameObjectWithTag("CombatLogic");
     }
 
     Vector2 getPos()
@@ -177,6 +181,7 @@ public class Enemy_AI : MonoBehaviour
     {
         delta = Time.deltaTime;
 
+        enemies = GameObject.Find("CombatLogic").GetComponent<Combat_Logic>().enemies;
         ownIndex = enemies.IndexOf(this.gameObject);
 
         particleSpawnTimer += Time.deltaTime;

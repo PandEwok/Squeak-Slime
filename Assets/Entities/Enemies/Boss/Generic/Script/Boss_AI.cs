@@ -8,9 +8,11 @@ public class Boss_AI : Enemy_AI
 {
     public List<float> phases = new List<float>(); // percentages of hp for each phase end
 
+    [SerializeField] protected List<GameObject> summons = new List<GameObject>();
+
     public int GetCurrentPhase()
     {
-        for (int i = 0; i < phases.Count; i++)
+        for (int i = phases.Count - 1; i >= 0; i--)
         {
             if (stats.health <= (stats.originalHealth * phases[i]))
             {

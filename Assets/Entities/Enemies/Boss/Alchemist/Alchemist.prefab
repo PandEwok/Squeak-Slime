@@ -110,11 +110,13 @@ MonoBehaviour:
   defBuffs: []
   powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   empowerStrenght: 0.5
-  projectilePF: {fileID: 0}
+  projectilePF: {fileID: 34378606086738509, guid: 90ab660e8a2aa814ebdb09ad7c382d01, type: 3}
   teethType: {fileID: 0}
   dropPF: {fileID: 254843135583981822, guid: 2585d27f261b45b479460254090507c8, type: 3}
   directionalResistance: 0
   dResistanceAmount: 0
   phases:
-  - 0.5
   - 1
+  - 0.5
+  summons:
+  - {fileID: 2999703399156206171, guid: 248b8e3e55ca7a74e96046342aca4aff, type: 3}
