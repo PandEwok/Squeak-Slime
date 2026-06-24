@@ -133,7 +133,9 @@ public class UI_GameoverScript : MonoBehaviour
         Debug.Log("Bouton gameover pressé !");
         AudioManager.Instance.PlaySFX("Button_Pressed");
         Player.Instance.inventory.ClearCurrentRunTeeth();
+        
         SceneManager.LoadSceneAsync(8);
+        
     }
 
     public void ToggleGameOverUiVisibility(bool mustDisplay)

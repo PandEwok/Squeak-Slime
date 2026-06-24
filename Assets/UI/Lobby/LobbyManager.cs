@@ -22,6 +22,8 @@ public class LobbyManager : MonoBehaviour
     {
         Player.Instance.transform.position = playerDefPos;
         UpdateStatsUI();
+        Player.Instance.floor = 1;
+        Player.Instance.currentBiome = Player.BiomeType.FOREST;
     }
 
     void Update()

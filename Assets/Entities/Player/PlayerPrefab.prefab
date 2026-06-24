@@ -173,10 +173,12 @@ MonoBehaviour:
   combatLogic: {fileID: 0}
   inventory: {fileID: 3077587344446119393}
   floor: 1
+  maxFloor: 6
   currentBiome: 1
   uiManager: {fileID: 0}
   stats: {fileID: 0}
-  hasWon: 0
+  IsInBattle: 0
+  IsDead: 0
   sprite: {fileID: 9030391165085133556}
 --- !u!114 &-8998726753592772742
 MonoBehaviour:
@@ -209,6 +211,7 @@ MonoBehaviour:
   absorptionDuration: 3
   dizzyDuration: 1
   absorptionColor: {r: 0, g: 0, b: 0, a: 0}
+  healEffect: {fileID: 4611226540976712192, guid: e37cd15439f124c4d8dd26902e621ee0, type: 3}
   originalSP: 100
   SP: 100
   attackBoostStrenght: 0.5
