@@ -11,6 +11,10 @@ public class MainMenuIntro : MonoBehaviour
     public RectTransform titleText;
     public CanvasGroup flashCanvasGroup;
 
+    [Header("Audio Settings")]
+    [Tooltip("The exact name of your main menu track in the AudioManager database.")]
+    public string musicTrackName = "MainMenuTheme";
+
     [Header("Timing Settings")]
     public float slideDuration = 0.5f;
     public float delayBetweenButtons = 0.15f;
@@ -42,10 +46,15 @@ public class MainMenuIntro : MonoBehaviour
         leftGraphic.anchoredPosition = new Vector2(-1500f, graphicTarget.y);
         titleText.anchoredPosition = new Vector2(titleTarget.x, 500f);
 
-        // FIX 1: Turn off blocking on startup so the panel is completely ignored
         flashCanvasGroup.alpha = 0f;
         flashCanvasGroup.blocksRaycasts = false;
         flashCanvasGroup.interactable = false;
+
+        // AUDIO HOOK: Start the menu track right as the visual sequence kicks off!
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
+        {
+            AudioManager.Instance.PlayMusic(musicTrackName);
+        }
 
         yield return new WaitForSeconds(0.2f); // Quick breath before starting
 
@@ -71,9 +80,6 @@ public class MainMenuIntro : MonoBehaviour
         yield return StartCoroutine(FlashScreenRoutine());
     }
 
-    /// <summary>
-    /// Helper coroutine to smoothly move a UI element from A to B
-    /// </summary>
     private IEnumerator SlideElement(RectTransform element, Vector2 start, Vector2 target)
     {
         float timer = 0f;
@@ -87,12 +93,8 @@ public class MainMenuIntro : MonoBehaviour
         element.anchoredPosition = target;
     }
 
-    /// <summary>
-    /// Instantly spikes the screen to white and fades out cleanly
-    /// </summary>
     private IEnumerator FlashScreenRoutine()
     {
-        // FIX 2: Turn on blocking DURING the white flash (prevents accidental double clicks)
         flashCanvasGroup.alpha = 1f;
         flashCanvasGroup.blocksRaycasts = true;
         flashCanvasGroup.interactable = true;
@@ -105,7 +107,6 @@ public class MainMenuIntro : MonoBehaviour
             yield return null;
         }
 
-        // FIX 3: Turn blocking back OFF so players can click buttons again!
         flashCanvasGroup.alpha = 0f;
         flashCanvasGroup.blocksRaycasts = false;
         flashCanvasGroup.interactable = false;

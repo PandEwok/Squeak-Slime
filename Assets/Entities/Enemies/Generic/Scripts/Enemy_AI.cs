@@ -7,6 +7,22 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
 
+
+
+/* •<3O~~  pandi
+----------------------------------------
+                                        
+                 _______    ()_         
+              $$$       $$$/   $---o    
+             $              $$$$---T    
+           $$$     $$$$$$$-$            
+       $$$$   $$---         $           
+$$$$$$$         $$$          $$         
+                                        
+------------SQUEAK & SLIME--------------
+*/
+
+
 public class Enemy_AI : MonoBehaviour
 {
     float timer = 0;

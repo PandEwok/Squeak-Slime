@@ -99,7 +99,13 @@ MonoBehaviour:
   - name: Slime_Damage
     clip: {fileID: 8300000, guid: 6e75f284a3f7b45419f7ddec0b8f830b, type: 3}
     volume: 0.5
-  databaseMusic: []
+  databaseMusic:
+  - name: MainMenuTheme
+    clip: {fileID: 8300000, guid: ed14d3cdd62cfd74eb9dc11104b8e17d, type: 3}
+    volume: 1
+    skipIntroSeconds: 6
+    playbackDelaySeconds: 0
+    fadeInDuration: 1
   sfxSource: {fileID: 7455365996537922425}
   loopSfxSource: {fileID: 7438998512016560997}
   musicSource: {fileID: -1798797210430331739}

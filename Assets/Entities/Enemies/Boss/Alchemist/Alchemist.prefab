@@ -108,10 +108,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   dmgBuffs: []
   defBuffs: []
-  powerEffect: {fileID: 0}
+  powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   empowerStrenght: 0.5
   projectilePF: {fileID: 0}
   teethType: {fileID: 0}
-  dropPF: {fileID: 0}
+  dropPF: {fileID: 254843135583981822, guid: 2585d27f261b45b479460254090507c8, type: 3}
   directionalResistance: 0
   dResistanceAmount: 0
+  phases:
+  - 0.5
+  - 1

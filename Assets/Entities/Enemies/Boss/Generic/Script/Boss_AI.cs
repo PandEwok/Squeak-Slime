@@ -1,9 +1,25 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Threading.Tasks;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 public class Boss_AI : Enemy_AI
 {
+    public List<float> phases = new List<float>(); // percentages of hp for each phase end
+
+    public int GetCurrentPhase()
+    {
+        for (int i = 0; i < phases.Count; i++)
+        {
+            if (stats.health <= (stats.originalHealth * phases[i]))
+            {
+                return i+1;
+            }
+        }
+        return -1;
+    }
+
     public async override Task playTurn(GameObject target)
     {
         await base.playTurn(target);
