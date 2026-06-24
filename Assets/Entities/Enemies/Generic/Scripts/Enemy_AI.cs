@@ -125,8 +125,11 @@ public class Enemy_AI : MonoBehaviour
 
     public void actionEmpower(EmpowerType type, float empowerAmount = 0.5f, int delay = 2, int duration = 2)
     {
-        empowerDelay = delay + 1; // Empower lasts for 2 turns
-        empowerDuration = duration + 1;
+        if (duration != permBuffID)
+        {
+            empowerDelay = delay + 1;
+            empowerDuration = duration + 1;
+        }
         Debug.Log($"type is {type}");
 
         addBuff(type, empowerAmount, duration);

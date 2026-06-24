@@ -31,8 +31,6 @@ public class Alchemist_AI : Boss_AI
                     GameObject newEnemy = Instantiate(randSummon, posToSpawn.transform.position, Quaternion.identity, combatLogic.transform);
 
                     combatLogic.GetComponent<Combat_Logic>().inpendingEnemySummon.Add(newEnemy, posToSpawn);
-                    /*combatLogic.GetComponent<Combat_Logic>().enemies.Add(newEnemy);
-                    combatLogic.GetComponent<Combat_Logic>().enemyPositions.Add(posToSpawn);*/
                     combatLogic.GetComponent<Combat_Logic>().availableEnemyPos.RemoveAt(0);
                 }
 
@@ -82,5 +80,19 @@ public class Alchemist_AI : Boss_AI
     public override void Update()
     {
         base.Update();
+
+        GetCurrentPhase();   // for variable updating purpose
+        if (newPhase)
+        {
+            if (latestPhase == 2)
+            {
+                actionEmpower(EmpowerType.DEFENSE, 1f, 0, permBuffID);
+                newPhase = false;
+            }
+            else if (latestPhase == 1)
+            {
+                newPhase = false;
+            }
+        }
     }
 }
