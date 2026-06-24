@@ -1,13 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Audio;
 
 public class MainMenuSettings : MonoBehaviour
 {
     [Header("Audio Setup")]
-    public AudioMixer targetMixer;
     public Slider musicSlider;
-    private string musicParameterName = "MusicVol";
+    // Notice: We deleted the AudioMixer and parameter strings completely!
 
     private Animator animator;
     private bool isOpen = false;
@@ -20,16 +18,14 @@ public class MainMenuSettings : MonoBehaviour
 
     private void Start()
     {
-        // Keep your awesome working slider math setup!
         if (musicSlider != null)
         {
-            musicSlider.minValue = 0.0001f;
+            // Clean 0 to 1 scaling for the new AudioManager
+            musicSlider.minValue = 0f;
             musicSlider.maxValue = 1f;
 
-            if (targetMixer.GetFloat(musicParameterName, out float currentVolume))
-            {
-                musicSlider.value = Mathf.Pow(10f, currentVolume / 20f);
-            }
+            // Start the slider at 50% volume by default
+            musicSlider.value = 0.5f;
 
             musicSlider.onValueChanged.AddListener(SetMusicVolume);
         }
@@ -50,7 +46,14 @@ public class MainMenuSettings : MonoBehaviour
 
     public void SetMusicVolume(float sliderValue)
     {
-        float decibelVolume = Mathf.Log10(sliderValue) * 20f;
-        targetMixer.SetFloat(musicParameterName, decibelVolume);
+        // Tell your friend's global AudioManager to change the volume directly!
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.SetMusicVolumeMaster(sliderValue);
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager Instance not found! Is it in the scene?");
+        }
     }
 }
