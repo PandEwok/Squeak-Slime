@@ -8,7 +8,10 @@ public class Alchemist_AI : Boss_AI
     {
         if (!stats.isDizzy)
         {
-            await closeAttack(target);
+            /*GameObject projInstance = Instantiate(projectilePF, transform.position, Quaternion.identity, transform);
+            projInstance.GetComponent<EnemyProjectile>().Init(this.gameObject, target);*/
+
+            await distanceAttack(target);
         }
         await base.playTurn(target);
     }

@@ -22,8 +22,8 @@ public class Combat_Logic : MonoBehaviour
     public List<GameObject> enemies = new List<GameObject>();
     private List<GameObject> enemiesToDestroy = new List<GameObject>();
 
-    public List<GameObject> boss;
-    public List<GameObject> bossPosition;
+    public GameObject boss;
+    public GameObject bossPosition;
 
     public GameObject player;
     private int playerTurnCount = 0;
@@ -153,22 +153,29 @@ public class Combat_Logic : MonoBehaviour
                 enemiesToSpawn = new List<GameObject>();
                 for (int i = 0; i < enemyPositions.Count; i++)
                 {
-                    int randomIndex = Random.Range(0, 100);
-                    for (int j = 0; j < enemySpawnChance.Count; j++)
+                    if (boss != null && enemyPositions[i] == bossPosition)
                     {
-                        int chances = enemySpawnChance[j];
-                        for (int k = j-1; k>=0; k--)
-                        {
-                            chances += enemySpawnChance[k];
-                        }
-                        if (randomIndex < chances)
-                        {
-                            randomIndex = j;
-                            break;
-                        }
+                        enemiesToSpawn.Add(boss);
                     }
-                    GameObject randomEnemyPrefab = enemyBiomeList[randomIndex];
-                    enemiesToSpawn.Add(randomEnemyPrefab);
+                    else
+                    {
+                        int randomIndex = Random.Range(0, 100);
+                        for (int j = 0; j < enemySpawnChance.Count; j++)
+                        {
+                            int chances = enemySpawnChance[j];
+                            for (int k = j - 1; k >= 0; k--)
+                            {
+                                chances += enemySpawnChance[k];
+                            }
+                            if (randomIndex < chances)
+                            {
+                                randomIndex = j;
+                                break;
+                            }
+                        }
+                        GameObject randomEnemyPrefab = enemyBiomeList[randomIndex];
+                        enemiesToSpawn.Add(randomEnemyPrefab);
+                    }
                 }
             }
         }

@@ -2926,6 +2926,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: boss
+      value: 
+      objectReference: {fileID: 6529100286873490723, guid: c3fc77358ca0ec5459e6c92c79908e94, type: 3}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 890441197}
@@ -2934,9 +2938,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1243335890482840287}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: bossPosition
+      value: 
+      objectReference: {fileID: 1119550909}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: PlayerPosition
       value: 
       objectReference: {fileID: 635004857}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: boss.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: 'boss.Array.data[0]'
+      value: 
+      objectReference: {fileID: 6529100286873490723, guid: c3fc77358ca0ec5459e6c92c79908e94, type: 3}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: bossPosition.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: EnemyPositions.Array.size
       value: 3
@@ -2951,8 +2971,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: enemyPositions.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: 'bossPosition.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1119550909}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: enemySpawnChance.Array.size
       value: 5
@@ -3008,9 +3032,13 @@ PrefabInstance:
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemyPositions.Array.data[2]'
       value: 
-      objectReference: {fileID: 217947985}
+      objectReference: {fileID: 1119550909}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
       propertyPath: 'enemyPositions.Array.data[3]'
+      value: 
+      objectReference: {fileID: 217947985}
+    - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
+      propertyPath: 'enemyPositions.Array.data[4]'
       value: 
       objectReference: {fileID: 655808293}
     - target: {fileID: 7195751974173915789, guid: 88891806eaf10d64ebb1d6f0afc1248e, type: 3}
