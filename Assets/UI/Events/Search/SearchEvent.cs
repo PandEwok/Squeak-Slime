@@ -263,7 +263,7 @@ public class SearchEvent : MonoBehaviour
             }
         }
 
-        SceneManager.LoadSceneAsync(nextSceneName);
+        Player.Instance.SwitchSceneInCaseOfVictory();
     }
 }
 

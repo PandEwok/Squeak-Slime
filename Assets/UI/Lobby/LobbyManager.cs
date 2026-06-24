@@ -10,7 +10,10 @@ public class LobbyManager : MonoBehaviour
   
     [Header("Scene Transition Settings")]
     [Tooltip("Type the exact name of the combat/gameplay scene you want to load.")]
-    public int nextSceneName = 9;
+    public int biome1scene = 9;
+    public int biome2scene = 11;
+    public int biome3scene = 12;
+    public int bossScene = 13;
 
     private Vector3 playerDefPos = new Vector3(7777, 0 , 0);
 
@@ -57,6 +60,6 @@ public class LobbyManager : MonoBehaviour
     [ContextMenu("Trigger Scene Change")]
     public void LeaveLobbyAndStartGame()
     {
-        SceneManager.LoadSceneAsync(nextSceneName);
+        SceneManager.LoadSceneAsync(biome1scene);
     }
 }

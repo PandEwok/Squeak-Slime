@@ -70,7 +70,7 @@ public class Squirel_AI : Magic_AI
             {
                 int buffChance = 50;
                 actionChoice = Random.Range(0, 100);
-                if (actionChoice < buffChance && empowerDelay <= 0)
+                if (actionChoice < buffChance && empowerDelay <= 0 && enemies.Count > 1)
                 {
                     int randomAllyIndex = GetRandomIndexExcept(enemies.Count, ownIndex);
                     int duration = 2;

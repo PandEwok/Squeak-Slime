@@ -165,6 +165,6 @@ public class RestEvent : MonoBehaviour
             }
         }
 
-        SceneManager.LoadSceneAsync(nextSceneName);
+        Player.Instance.SwitchSceneInCaseOfVictory();
     }
 }

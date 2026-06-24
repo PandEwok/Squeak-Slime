@@ -320,6 +320,6 @@ public class ShopManager : MonoBehaviour
             }
         }
 
-        SceneManager.LoadSceneAsync(nextSceneName);
+        Player.Instance.SwitchSceneInCaseOfVictory();
     }
 }

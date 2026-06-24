@@ -257,7 +257,7 @@ public class TreasureEvent : MonoBehaviour
             }
         }
 
-        SceneManager.LoadSceneAsync(nextSceneName);
+        Player.Instance.SwitchSceneInCaseOfVictory();
     }
 }
 
