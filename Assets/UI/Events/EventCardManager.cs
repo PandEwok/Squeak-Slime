@@ -6,6 +6,10 @@ using System.Collections; // Required for staggered coroutine
 
 public class EventCardManager : MonoBehaviour
 {
+    [Header("Audio Settings")]
+    [Tooltip("The exact name of your main menu track in the AudioManager database.")]
+    public string musicTrackName = "EventScene";
+
     [Header("The Master Deck")]
     public List<EventCardData> allPossibleCards = new List<EventCardData>();
 
@@ -28,11 +32,17 @@ public class EventCardManager : MonoBehaviour
     {
         Player.Instance.transform.position = playerDefPos;
         HideTooltip();
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
+        {
+            Debug.Log("Je suis dans la fonction looooooool");
+            AudioManager.Instance.StopMusic();
+            AudioManager.Instance.PlayMusic(musicTrackName);
+        }
 
-        // Switch to calling our new animated sequence engine
-        StartCoroutine(AnimateCardDealingSequence());
+
+            // Switch to calling our new animated sequence engine
+            StartCoroutine(AnimateCardDealingSequence());
     }
-
     public IEnumerator AnimateCardDealingSequence()
     {
         if (allPossibleCards.Count < 3)
@@ -71,9 +81,44 @@ public class EventCardManager : MonoBehaviour
     public void SelectCard(EventCardData selectedCard)
     {
         Debug.Log($"Selected: {selectedCard.cardName}");
+
+        // ==========================================
+        // NEW: Tell the persistent Player exactly what card was clicked 
+        // so the receiving scene knows what to draw.
+        // ==========================================
+        if (Player.Instance != null)
+        {
+            Player.Instance.pendingEventID = selectedCard.cardName;
+        }
+
         if (selectedCard.cardType == EventCardData.EventType.Nothing)
         {
-            StartCoroutine(AnimateCardDealingSequence()); // Re-deal if "Nothing" card selected
+            if (Player.Instance != null)
+            {
+                // Advance progression floor
+                Player.Instance.floor++;
+
+                // Check against the player's own maxFloor setting
+                if (Player.Instance.floor > Player.Instance.maxFloor)
+                {
+                    // Reset floor back to 1
+                    Player.Instance.floor = 1;
+
+                    // Advance biome enum mapping
+                    int nextBiomeIndex = (int)Player.Instance.currentBiome + 1;
+
+                    if (System.Enum.IsDefined(typeof(Player.BiomeType), nextBiomeIndex))
+                    {
+                        Player.Instance.currentBiome = (Player.BiomeType)nextBiomeIndex;
+                        Debug.Log($"[Progression] Biome shifted successfully to: {Player.Instance.currentBiome}");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("[Progression] Max Biome exceeded!");
+                    }
+                }
+                SceneManager.LoadScene(selectedCard.sceneToLoad);
+            }
         }
         else if (selectedCard.sceneToLoad != 0)
         {

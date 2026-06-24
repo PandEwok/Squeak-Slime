@@ -7,6 +7,10 @@ using System.Collections.Generic;
 
 public class TreasureEvent : MonoBehaviour
 {
+    [Header("Audio Settings")]
+    [Tooltip("The exact name of your main menu track in the AudioManager database.")]
+    public string musicTrackName = "EventScene";
+
     [Header("UI & Animation References")]
     public TextMeshProUGUI dialogueText;
     public Animator exitButtonAnimator;
@@ -47,6 +51,12 @@ public class TreasureEvent : MonoBehaviour
             Player.Instance.transform.position = playerDefPos;
         }
         if (lootDisplayContainer != null) lootDisplayContainer.gameObject.SetActive(false);
+
+
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
+        {
+            AudioManager.Instance.PlayMusic(musicTrackName);
+        }
 
         lineToPrint = introText;
         typewriterCoroutine = StartCoroutine(TypeTextRoutine());
@@ -236,6 +246,7 @@ public class TreasureEvent : MonoBehaviour
     {
         if (Player.Instance != null)
         {
+            Player.Instance.pendingEventID = "";
             // Advance floor progression counter
             Player.Instance.floor++;
 

@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
+    [Header("Audio Settings")]
+    [Tooltip("The exact name of your main menu track in the AudioManager database.")]
+    public string musicTrackName = "LobbyTheme";
+
     [Header("Max Stats UI References")]
     public TextMeshProUGUI maxHpText;
     public TextMeshProUGUI maxSpText;
@@ -22,6 +26,14 @@ public class LobbyManager : MonoBehaviour
     {
         Player.Instance.transform.position = playerDefPos;
         UpdateStatsUI();
+
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
+        {
+            Debug.Log("Je suis dans la fonction looooooool");
+            AudioManager.Instance.StopMusic();
+            AudioManager.Instance.PlayMusic(musicTrackName);
+        }
+
         Player.Instance.floor = 1;
         Player.Instance.currentBiome = Player.BiomeType.FOREST;
     }

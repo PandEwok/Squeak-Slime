@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a109ae70aad55b740bfce04dec5df70a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RestEvent
+  musicTrackName: EventScene
   dialogueText: {fileID: 1887729215}
   buttonAnimator: {fileID: 1727742674}
   animationTriggerName: ShowButton
@@ -385,6 +386,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &978958029
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.8844
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.69108
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7735029698625227493, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
 --- !u!1 &1001872999
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,7 +855,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 528.99994, y: 46}
+  m_AnchoredPosition: {x: 529, y: 46}
   m_SizeDelta: {x: 306.84998, y: 195.33002}
   m_Pivot: {x: 1, y: 0}
 --- !u!1 &1887729212
@@ -1159,3 +1217,4 @@ SceneRoots:
   - {fileID: 113644321}
   - {fileID: 409638395}
   - {fileID: 318433507}
+  - {fileID: 978958029}

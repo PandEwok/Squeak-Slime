@@ -194,7 +194,8 @@ public class Stats_System : MonoBehaviour
         health = Mathf.Min(health, originalHealth);
         Debug.Log($"{gameObject.name} healed for {healAmount}. Current health: {health}");
         AudioManager.Instance.PlaySFX("Heal");
-        Player.Instance.uiManager.statsUi.UpdateHP();
+        if(Player.Instance.uiManager.statsUi != null )
+       { Player.Instance.uiManager.statsUi.UpdateHP(); }
 
         effectTimer = 0f; particleSpawnTimer = 0f;
         healing = true;

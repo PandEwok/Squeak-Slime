@@ -12,7 +12,8 @@ public enum SkillStatType
     BaseDamage,
     BaseDefense,
     DebuffResist,
-    RangedDamage
+    RangedDamage,
+    HealBetweenTwoTurns // <-- HOOK 1: Added to the inspector dropdown selection!
 }
 
 public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -20,7 +21,7 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     [Header("References")]
     public SkillTreeManager treeManager;
     public TextMeshProUGUI levelText;
-    public TextMeshProUGUI costText; // Drag your custom "Cost: X" Text component here!
+    public TextMeshProUGUI costText;
 
     [Header("Skill Information")]
     public string skillName = "Heavy Slam";
@@ -28,7 +29,7 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public string skillDescription = "Increases melee damage.";
 
     [Header("Cost Setup")]
-    public int toothCost = 1; // Set custom teeth costs per node in the Inspector!
+    public int toothCost = 1;
 
     [Header("Stat Linking")]
     public SkillStatType statToBoost;
@@ -48,10 +49,8 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         if (currentLevel >= maxLevel) return;
 
-        // Asks the manager if the player can afford this specific node's tooth cost
         if (treeManager.CanAfford(toothCost))
         {
-            // Deducts the unique cost value
             treeManager.SpendTeeth(toothCost);
 
             currentLevel++;
@@ -102,6 +101,9 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             case SkillStatType.RangedDamage:
                 Player.Instance.stats.IncreaseRangedAttackBoost((int)boostPerLevel);
                 break;
+            case SkillStatType.HealBetweenTwoTurns: // <-- HOOK 2: Tells the player stats to heal more!
+                Player.Instance.stats.IncreaseHealBetweenTwoTurns((int)boostPerLevel);
+                break;
         }
     }
 
@@ -112,7 +114,6 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             levelText.text = currentLevel + " / " + maxLevel;
         }
 
-        // Automatically populates the text field on your node with its setup cost
         if (costText != null)
         {
             costText.text = "Cost: " + toothCost;

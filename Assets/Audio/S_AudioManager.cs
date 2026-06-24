@@ -4,7 +4,7 @@ using System.Collections;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance;
+    public static AudioManager Instance { get; private set; }
 
     [Serializable]
     public struct SoundEffect
@@ -45,8 +45,17 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }
-        else { Destroy(gameObject); }
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            Debug.Log($"[Singleton] Doublon de {gameObject.name} détecté et détruit.");
+            Destroy(gameObject);
+            return;
+        }
     }
 
     private SoundEffect? FindSound(string soundName)
