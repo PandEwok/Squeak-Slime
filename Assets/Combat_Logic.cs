@@ -31,7 +31,7 @@ public class Combat_Logic : MonoBehaviour
     bool enemiesHaveEntered = false;
 
     //UnityEngine.UI.Button[] UI_Buttons;
-
+    bool displayFireDebuger = false;
 
     private IEnumerator EnemyEntrance()
     {
@@ -82,10 +82,13 @@ public class Combat_Logic : MonoBehaviour
         }
         else {
             enemy.SetActive(false);
-            enemiesToDestroy.Add(enemy);
+            if (!enemiesToDestroy.Contains(enemy))
+            {
+                enemiesToDestroy.Add(enemy);
+            }
         }
 
-        if (enemies.Count == 0)
+        if (enemies.Count <= 0)
         {
             Debug.Log("All enemies defeated! Victory!");
             EngameUIScript.Instance.Victory();
@@ -133,10 +136,13 @@ public class Combat_Logic : MonoBehaviour
                 playerTurnCount = 0;
             }
 
-            foreach (GameObject enemy in enemiesToDestroy)
+            for (int i = enemiesToDestroy.Count - 1; i >= 0; i--)
             {
-                enemiesToDestroy.Remove(enemy);
+                GameObject enemy = enemiesToDestroy[i];
                 removeEnemy(enemy);
+                enemiesToDestroy.RemoveAt(i);
+
+                displayFireDebuger = true;
             }
         }
     }
@@ -211,7 +217,12 @@ public class Combat_Logic : MonoBehaviour
             switchingTurns = true;
             EnemyTurnSequence();
         }
-    }
+        if (displayFireDebuger)
+        {
+            displayFireDebuger = false;
+            Debug.Log($"Nombre d'ennemis en vie: {enemies.Count}");
+        }
+        }
 
     public IEnumerator waitDelay(float seconds)
     {
