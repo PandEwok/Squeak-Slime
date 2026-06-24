@@ -3176,6 +3176,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EndgameUI
       objectReference: {fileID: 0}
+    - target: {fileID: 2632974792085039172, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4843742851000027258, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
       propertyPath: m_WorldSpaceSizeMode
       value: 1
