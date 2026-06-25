@@ -43,7 +43,7 @@ public class FireballAttack : PlayerAction
 
         Debug.Log("QTE entered");
 
-        player.uiManager.ShowQTE(true, true);
+        player.uiManager.ShowQTE(true, true, true);
         player.uiManager.spamIndicator.SetActive(true);
         while (elapsedCharge < chargeDuration)
         {

@@ -160,6 +160,7 @@ public class PlayerStats : Stats_System
             Debug.Log("Player has died. Game Over.");
             EngameUIScript.Instance.GameOver();
         }
+        blocking = false;
         return effectiveDamage;
     }
 

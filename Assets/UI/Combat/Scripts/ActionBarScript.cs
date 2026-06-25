@@ -11,6 +11,7 @@ public class ActionBarScript : MonoBehaviour
     [SerializeField] private VisualTreeAsset itemRowTemplate;
     private ScrollView inventoryContainer;
     [SerializeField] private UIDocument uiDocument;
+    [SerializeField] private GameObject tabIndicator;
     private VisualElement root;
     private List<VisualElement> page1;
     private List<VisualElement> page2;
@@ -137,6 +138,10 @@ public class ActionBarScript : MonoBehaviour
             }
             if (isSelectingEnnemy)
             {
+                if(tabIndicator.activeSelf == false)
+                {
+                    tabIndicator.SetActive(true);
+                }
                 combatLogic.enemies[targetCount].GetComponent<Enemy_AI>().select();
                 if (Keyboard.current != null && Keyboard.current.tabKey.wasPressedThisFrame)
                 {
@@ -199,10 +204,18 @@ public class ActionBarScript : MonoBehaviour
                         }
                         targetCount = 0;
                         confirmedAttack = false;
+                        
 
                     }
                 }
 
+            }
+            else
+            {
+                if(tabIndicator.activeSelf == true)
+                {
+                    tabIndicator.SetActive(false);
+                }
             }
         }
     }
