@@ -42,6 +42,7 @@ public class EventInventoryUIController : MonoBehaviour
     private void Start()
     {
         UpdatePageDisplay();
+
     }
 
     public void CycleRight()
@@ -84,7 +85,6 @@ public class EventInventoryUIController : MonoBehaviour
             InventorySlotUI slot = page.uiSlots[i];
             if (slot == null) continue;
 
-            // Step 1: Default fallbacks if the player script doesn't exist in the scene yet
             int quantity = 0;
             string aName = "???";
             string aDesc = "???";
@@ -92,12 +92,13 @@ public class EventInventoryUIController : MonoBehaviour
             Sprite aIcon = null;
             Color aColor = Color.white;
             bool hasAsset = false;
+            bool isToothType = false;
 
             bool playerExists = (Player.Instance != null && Player.Instance.inventory != null);
 
-            // Step 2: Extract details based on the active page layout rules
             if (page.pageType == PageType.Items)
             {
+                isToothType = false;
                 if (i < page.pageItems.Count && page.pageItems[i] != null)
                 {
                     ItemData targetItem = page.pageItems[i];
@@ -116,6 +117,7 @@ public class EventInventoryUIController : MonoBehaviour
             }
             else if (page.pageType == PageType.Teeth)
             {
+                isToothType = true;
                 if (i < page.pageTeeth.Count && page.pageTeeth[i] != null)
                 {
                     Tooth targetTooth = page.pageTeeth[i];
@@ -133,8 +135,7 @@ public class EventInventoryUIController : MonoBehaviour
                 }
             }
 
-            // Step 3: Send everything down to feed the slot UI components directly!
-            slot.UpdateSlotDisplay(quantity, i, aName, aDesc, aId, aIcon, aColor, hasAsset, this);
+            slot.UpdateSlotDisplay(quantity, i, aName, aDesc, aId, aIcon, aColor, hasAsset, isToothType, this);
         }
     }
 
@@ -169,22 +170,21 @@ public class EventInventoryUIController : MonoBehaviour
                 ItemData targetItem = currentPage.pageItems[slotIndex];
                 if (Player.Instance.inventory.itemsPossessed.ContainsKey(targetItem) && Player.Instance.inventory.itemsPossessed[targetItem] > 0)
                 {
-                    Player.Instance.inventory.RemoveItem(targetItem, 1);
-                    UpdatePageDisplay();
+                    // 1. Consume the item backend data
+                    targetItem.UseItem(Player.Instance.gameObject);
+
+                    // 2. Clear any canvas race conditions by forcing Unity 
+                    // to wait until the end of the frame before drawing the numbers
+                    StartCoroutine(RefreshUIDelayed());
                 }
             }
         }
-        else if (currentPage.pageType == PageType.Teeth)
-        {
-            if (slotIndex < currentPage.pageTeeth.Count && currentPage.pageTeeth[slotIndex] != null)
-            {
-                Tooth targetTooth = currentPage.pageTeeth[slotIndex];
-                if (Player.Instance.inventory.teethPossessed.ContainsKey(targetTooth) && Player.Instance.inventory.teethPossessed[targetTooth] > 0)
-                {
-                    Player.Instance.inventory.RemoveTooth(targetTooth, 1);
-                    UpdatePageDisplay();
-                }
-            }
-        }
+    }
+
+    // Add this small helper coroutine at the bottom of the script
+    private System.Collections.IEnumerator RefreshUIDelayed()
+    {
+        yield return new WaitForEndOfFrame();
+        UpdatePageDisplay();
     }
 }

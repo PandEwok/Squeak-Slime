@@ -106,6 +106,36 @@ MonoBehaviour:
     skipIntroSeconds: 6
     playbackDelaySeconds: 0
     fadeInDuration: 1
+  - name: ShopTheme
+    clip: {fileID: 8300000, guid: c7dff7ad2c65e40479cafe49430cfa11, type: 3}
+    volume: 1
+    skipIntroSeconds: 5
+    playbackDelaySeconds: 0
+    fadeInDuration: 1
+  - name: EventScene
+    clip: {fileID: 8300000, guid: ca007aa8b2566b24e8cc4b01ce2a3cf5, type: 3}
+    volume: 0.6
+    skipIntroSeconds: 0
+    playbackDelaySeconds: 0
+    fadeInDuration: 0
+  - name: ForestBattle
+    clip: {fileID: 8300000, guid: 0e682d2328410dc41b79ba31be4f8c87, type: 3}
+    volume: 1
+    skipIntroSeconds: 0
+    playbackDelaySeconds: 0
+    fadeInDuration: 0
+  - name: CastleBattle
+    clip: {fileID: 8300000, guid: 374b240a33bc4a043ab9b48be2d1127d, type: 3}
+    volume: 1
+    skipIntroSeconds: 0
+    playbackDelaySeconds: 0
+    fadeInDuration: 0
+  - name: LabBattle
+    clip: {fileID: 8300000, guid: 87dc6d7f413d5544b8623d4053609837, type: 3}
+    volume: 1
+    skipIntroSeconds: 0
+    playbackDelaySeconds: 0
+    fadeInDuration: 0
   sfxSource: {fileID: 7455365996537922425}
   loopSfxSource: {fileID: 7438998512016560997}
   musicSource: {fileID: -1798797210430331739}

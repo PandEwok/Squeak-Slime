@@ -8,6 +8,15 @@ using Random = UnityEngine.Random;
 
 public class Combat_Logic : MonoBehaviour
 {
+    [Header("Audio Settings")]
+    [Tooltip("The exact name of your main menu track in the AudioManager database.")]
+    public string firstBiomeMusic = "ForestBattle";
+    public string secondBiomeMusic = "CastleBattle";
+    public string thirdBiomeMusic = "LabBattle";
+    public string bossMusic = "BossBattle";
+
+    public string musicTrackName = "ForestBattle";
+
     [SerializeField] private GameObject actionUI;
     bool playerTurn = true;
     bool switchingTurns = false;
@@ -67,6 +76,25 @@ public class Combat_Logic : MonoBehaviour
 
         Player.Instance.LoadPlayer(PlayerPosition.transform.position);
         actionUI = Player.Instance.uiManager.actionMenu;
+        switch(Player.Instance.currentBiome)
+        {
+            case Player.BiomeType.FOREST:
+                musicTrackName = firstBiomeMusic;
+                break;
+            case Player.BiomeType.CASTLE_EXTERIOR:
+                musicTrackName = secondBiomeMusic;
+                break;
+            case Player.BiomeType.RAT_LABORATORY:
+                musicTrackName = thirdBiomeMusic;
+                break;
+            //ajouter manquant boss
+            default:
+                break;
+        }
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
+        {
+            AudioManager.Instance.PlayMusic(musicTrackName);
+        }
     }
 
 
@@ -95,7 +123,7 @@ public class Combat_Logic : MonoBehaviour
         if (enemies.Count <= 0)
         {
             Debug.Log("All enemies defeated! Victory!");
-            EngameUIScript.Instance.Victory();
+            EndgameUIScript.Instance.Victory();
         }
     }
 

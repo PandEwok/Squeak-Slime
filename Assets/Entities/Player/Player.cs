@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public PlayerStats stats;
     [HideInInspector] public bool IsInBattle = false;
     [HideInInspector] public bool IsDead = false;
+    [HideInInspector] public string pendingEventID = "";
     public SpriteRenderer sprite;
     [Header("Scenes")]
     public int biome1scene = 9;

@@ -12,6 +12,7 @@ public class Cheese : ItemData
             inventory.RemoveItem(this, 1);
             playerS.stats.Heal((int)effectValue);
             Debug.Log("Le joueur a utilise un fromage");
+           
         }
     }
 }
