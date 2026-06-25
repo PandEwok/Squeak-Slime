@@ -248,6 +248,8 @@ MonoBehaviour:
   qteWarning: {fileID: 4969275292565051531}
   gradeDisplay: {fileID: 831087043188574043}
   spamIndicator: {fileID: 163966851448517439}
+  leftClickIndicator: {fileID: 2144800120513560560, guid: 0bf4bdd603a6ed34d9ab52300995fdbf, type: 3}
+  leftClickIndicatorPosition: {x: 8, y: 4, z: 1}
   waitColor: {r: 1, g: 0, b: 0, a: 1}
   readyColor: {r: 0, g: 1, b: 0, a: 1}
   statsUi: {fileID: 0}
