@@ -43,7 +43,7 @@ public class UiManager : MonoBehaviour
             {
                 qteSprite.color = waitColor;
             }
-            if (!isFireBall)
+            if (!isFireBall && isReady)
             {
                 DoShowLeftClickIndicator(true);
             }
