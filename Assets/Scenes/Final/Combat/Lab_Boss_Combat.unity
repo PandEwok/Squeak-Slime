@@ -3076,7 +3076,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8998726753592772742, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: SP
-      value: 15
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: -8998726753592772742, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: damage
@@ -3284,9 +3284,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2632974792085039172, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 4317796808065350776, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -3338,6 +3335,22 @@ PrefabInstance:
     - target: {fileID: 2566550971324738746, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3894280704068470764, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: databaseMusic.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3894280704068470764, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: databaseMusic.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: a8feee63e5e2a9540811a7f7695a8038, type: 3}
+    - target: {fileID: 3894280704068470764, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: databaseMusic.Array.data[6].name
+      value: BossBattle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3894280704068470764, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
+      propertyPath: databaseMusic.Array.data[6].volume
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7735029698625227493, guid: 3109d6fec69db444d95f64953e89cdc4, type: 3}
       propertyPath: m_Name

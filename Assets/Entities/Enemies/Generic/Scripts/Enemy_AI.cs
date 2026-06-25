@@ -64,6 +64,8 @@ public class Enemy_AI : MonoBehaviour
 
     [SerializeField] protected GameObject dropPF;
 
+    protected GameObject combatLogic;
+
     public enum attackDirection
     {
         NONE,
@@ -123,8 +125,11 @@ public class Enemy_AI : MonoBehaviour
 
     public void actionEmpower(EmpowerType type, float empowerAmount = 0.5f, int delay = 2, int duration = 2)
     {
-        empowerDelay = delay + 1; // Empower lasts for 2 turns
-        empowerDuration = duration + 1;
+        if (duration != permBuffID)
+        {
+            empowerDelay = delay + 1;
+            empowerDuration = duration + 1;
+        }
         Debug.Log($"type is {type}");
 
         addBuff(type, empowerAmount, duration);
@@ -143,6 +148,8 @@ public class Enemy_AI : MonoBehaviour
         ownIndex = enemies.IndexOf(this.gameObject);
 
         stats = GetComponent<Stats_System>();
+
+        combatLogic = GameObject.FindGameObjectWithTag("CombatLogic");
     }
 
     Vector2 getPos()
@@ -177,6 +184,7 @@ public class Enemy_AI : MonoBehaviour
     {
         delta = Time.deltaTime;
 
+        enemies = GameObject.Find("CombatLogic").GetComponent<Combat_Logic>().enemies;
         ownIndex = enemies.IndexOf(this.gameObject);
 
         particleSpawnTimer += Time.deltaTime;

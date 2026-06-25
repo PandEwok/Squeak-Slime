@@ -7,6 +7,10 @@ using System.Collections.Generic;
 
 public class SearchEvent : MonoBehaviour
 {
+    [Header("Audio Settings")]
+    [Tooltip("The exact name of your main menu track in the AudioManager database.")]
+    public string musicTrackName = "EventScene";
+
     [Header("UI & Animation References")]
     public TextMeshProUGUI dialogueText;
     public Animator exitButtonAnimator;
@@ -50,6 +54,11 @@ public class SearchEvent : MonoBehaviour
         }
 
         if (lootDisplayContainer != null) lootDisplayContainer.gameObject.SetActive(false);
+
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
+        {
+            AudioManager.Instance.PlayMusic(musicTrackName);
+        }
 
         lineToPrint = introText;
         typewriterCoroutine = StartCoroutine(TypeTextRoutine());
@@ -239,6 +248,7 @@ public class SearchEvent : MonoBehaviour
     {
         if (Player.Instance != null)
         {
+            Player.Instance.pendingEventID = "";
             // Advance progression floor
             Player.Instance.floor++;
 
@@ -263,7 +273,7 @@ public class SearchEvent : MonoBehaviour
             }
         }
 
-        SceneManager.LoadSceneAsync(nextSceneName);
+        Player.Instance.SwitchSceneInCaseOfVictory();
     }
 }
 

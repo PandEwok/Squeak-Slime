@@ -8,6 +8,15 @@ using Random = UnityEngine.Random;
 
 public class Combat_Logic : MonoBehaviour
 {
+    [Header("Audio Settings")]
+    [Tooltip("The exact name of your main menu track in the AudioManager database.")]
+    public string firstBiomeMusic = "ForestBattle";
+    public string secondBiomeMusic = "CastleBattle";
+    public string thirdBiomeMusic = "LabBattle";
+    public string bossMusic = "BossBattle";
+
+    public string musicTrackName = "ForestBattle";
+
     [SerializeField] private GameObject actionUI;
     bool playerTurn = true;
     bool switchingTurns = false;
@@ -21,6 +30,9 @@ public class Combat_Logic : MonoBehaviour
 
     public List<GameObject> enemies = new List<GameObject>();
     private List<GameObject> enemiesToDestroy = new List<GameObject>();
+
+    [HideInInspector] public List<GameObject> availableEnemyPos = new List<GameObject>();
+    [HideInInspector] public Dictionary<GameObject,GameObject> inpendingEnemySummon = new Dictionary<GameObject, GameObject>();
 
     public GameObject boss;
     public GameObject bossPosition;
@@ -64,6 +76,25 @@ public class Combat_Logic : MonoBehaviour
 
         Player.Instance.LoadPlayer(PlayerPosition.transform.position);
         actionUI = Player.Instance.uiManager.actionMenu;
+        switch(Player.Instance.currentBiome)
+        {
+            case Player.BiomeType.FOREST:
+                musicTrackName = firstBiomeMusic;
+                break;
+            case Player.BiomeType.CASTLE_EXTERIOR:
+                musicTrackName = secondBiomeMusic;
+                break;
+            case Player.BiomeType.RAT_LABORATORY:
+                musicTrackName = thirdBiomeMusic;
+                break;
+            //ajouter manquant boss
+            default:
+                break;
+        }
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
+        {
+            AudioManager.Instance.PlayMusic(musicTrackName);
+        }
     }
 
 
@@ -75,6 +106,7 @@ public class Combat_Logic : MonoBehaviour
         {
             if (index != -1)
             {
+                availableEnemyPos.Add(enemyPositions[index]);
                 enemyPositions.RemoveAt(index);
                 enemies.RemoveAt(index);
             }
@@ -91,7 +123,7 @@ public class Combat_Logic : MonoBehaviour
         if (enemies.Count <= 0)
         {
             Debug.Log("All enemies defeated! Victory!");
-            EngameUIScript.Instance.Victory();
+            EndgameUIScript.Instance.Victory();
         }
     }
 
@@ -231,7 +263,7 @@ public class Combat_Logic : MonoBehaviour
 
     public async void EnemyTurnSequence()
     {
-        foreach (GameObject enemy in enemies)
+        foreach (GameObject enemy in enemies) 
         {
             Enemy_AI enemyAI = enemy.GetComponent<Enemy_AI>();
             if (enemyAI != null)
@@ -249,6 +281,29 @@ public class Combat_Logic : MonoBehaviour
                 }
             }
         }
+        foreach (var elem in inpendingEnemySummon)
+        {
+            int initiativeIndex = 0;
+            for (int i = 0; i < enemyPositions.Count; i++)
+            {
+                if (enemyPositions[i].transform.position.y < elem.Value.transform.position.y)
+                {
+                    initiativeIndex = i; break;
+                }
+                else
+                {
+                    if (i == enemyPositions.Count - 1)
+                    {
+                        initiativeIndex = i + 1;
+                    }
+                    continue;
+                }
+            }
+
+            enemies.Insert(initiativeIndex, elem.Key);
+            enemyPositions.Insert(initiativeIndex, elem.Value);
+        }
+        inpendingEnemySummon.Clear();
 
         switchTurn();
     }

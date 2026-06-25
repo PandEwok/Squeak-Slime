@@ -158,8 +158,9 @@ public class PlayerStats : Stats_System
         if (health <= 0)
         {
             Debug.Log("Player has died. Game Over.");
-            EngameUIScript.Instance.GameOver();
+            EndgameUIScript.Instance.GameOver();
         }
+        blocking = false;
         return effectiveDamage;
     }
 

@@ -6,6 +6,10 @@ using UnityEngine.InputSystem;
 
 public class RestEvent : MonoBehaviour
 {
+    [Header("Audio Settings")]
+    [Tooltip("The exact name of your main menu track in the AudioManager database.")]
+    public string musicTrackName = "EventScene";
+
     [Header("UI & Animation")]
     public TextMeshProUGUI dialogueText;
     public Animator buttonAnimator;
@@ -39,6 +43,11 @@ public class RestEvent : MonoBehaviour
         if (Player.Instance != null)
         {
             Player.Instance.transform.position = playerDefPos;
+        }
+
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
+        {
+            AudioManager.Instance.PlayMusic(musicTrackName);
         }
 
         typewriterCoroutine = StartCoroutine(TypeTextRoutine());
@@ -141,6 +150,8 @@ public class RestEvent : MonoBehaviour
     {
         if (Player.Instance != null)
         {
+            // FIX: Clear the data tracking token out so it is fresh for the next encounter
+            Player.Instance.pendingEventID = "";
             // Advance progression
             Player.Instance.floor++;
 
@@ -165,6 +176,6 @@ public class RestEvent : MonoBehaviour
             }
         }
 
-        SceneManager.LoadSceneAsync(nextSceneName);
+        Player.Instance.SwitchSceneInCaseOfVictory();
     }
 }

@@ -20,6 +20,6 @@ public class StageAdvancer : MonoBehaviour
         }
 
         // 2. Load the next scene to continue the loop
-        SceneManager.LoadScene(nextSceneName);
+        Player.Instance.SwitchSceneInCaseOfVictory();
     }
 }

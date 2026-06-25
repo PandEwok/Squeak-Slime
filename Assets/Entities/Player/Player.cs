@@ -2,6 +2,7 @@ using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -9,8 +10,10 @@ public class Player : MonoBehaviour
     {
         FOREST = 1,
         CASTLE_EXTERIOR = 2,
-        RAT_LABORATORY = 3
+        RAT_LABORATORY = 3,
+        RAT_BATTLE = 4
     }
+
     public static Player Instance { get; private set; }
     [HideInInspector] public Vector3 originalPosition;
     [Header("Game scripts")]
@@ -23,8 +26,14 @@ public class Player : MonoBehaviour
     [HideInInspector] public PlayerStats stats;
     [HideInInspector] public bool IsInBattle = false;
     [HideInInspector] public bool IsDead = false;
+    [HideInInspector] public string pendingEventID = "";
     public SpriteRenderer sprite;
-    
+    [Header("Scenes")]
+    public int biome1scene = 9;
+    public int biome2scene = 11;
+    public int biome3scene = 12;
+    public int bossScene = 13;
+
     private void Awake()
     {
         if (Instance == null)
@@ -102,6 +111,8 @@ public class Player : MonoBehaviour
                 return "Exteriors of the castle";
             case BiomeType.RAT_LABORATORY:
                 return "Rat laboratory";
+            case BiomeType.RAT_BATTLE:
+                return "Rat battle";
             default:
                 return "Unknown";
         }
@@ -145,5 +156,27 @@ public class Player : MonoBehaviour
         IsDead = false;
         stats.ResetPlayerStats();
         uiManager.statsUi = GameObject.FindGameObjectWithTag("Canvas").GetComponent<StatsUI>();
+    }
+
+    public void SwitchSceneInCaseOfVictory()
+    {
+        switch (currentBiome)
+        {
+            case BiomeType.FOREST:
+                SceneManager.LoadSceneAsync(biome1scene);
+                break;
+            case BiomeType.CASTLE_EXTERIOR:
+                SceneManager.LoadSceneAsync(biome2scene);
+                break;
+            case BiomeType.RAT_LABORATORY:
+                SceneManager.LoadSceneAsync(biome3scene);
+                break;
+            case BiomeType.RAT_BATTLE:
+                SceneManager.LoadSceneAsync(bossScene);
+                break;
+            default:
+                Debug.LogError("Biome invalide");
+                break;
+        }
     }
 }

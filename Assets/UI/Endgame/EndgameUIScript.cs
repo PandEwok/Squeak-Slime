@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class EngameUIScript : MonoBehaviour
+public class EndgameUIScript : MonoBehaviour
 {
-    public static EngameUIScript Instance { get; private set; }
+    public static EndgameUIScript Instance { get; private set; }
     [Header("UI Elements")]
     public GameObject gameOverUI;
     public GameObject victoryUI;
@@ -10,13 +10,16 @@ public class EngameUIScript : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance == null)
         {
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            Debug.Log($"[Singleton] Doublon de {gameObject.name} détecté et détruit.");
             Destroy(gameObject);
             return;
         }
-
-        Instance = this;
 
     }
     void Start()

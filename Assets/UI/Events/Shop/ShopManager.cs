@@ -4,6 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class ShopManager : MonoBehaviour
 {
+
+    [Header("Audio Settings")]
+    [Tooltip("The exact name of your main menu track in the AudioManager database.")]
+    public string musicTrackName = "ShopTheme";
+
     [System.Serializable]
     public struct ItemRollConfig
     {
@@ -75,6 +80,10 @@ public class ShopManager : MonoBehaviour
             Player.Instance.transform.position = playerDefPos;
         }
         GenerateProgressionShop();
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
+        {
+            AudioManager.Instance.PlayMusic(musicTrackName);
+        }
     }
 
     void GenerateProgressionShop()
@@ -231,6 +240,14 @@ public class ShopManager : MonoBehaviour
             playerInv.AddItem(item, quantity);
             slotUI.MarkAsSold();
 
+            // ---> NEW CODE: Refresh the dashboard instantly! <---
+            ShopCurrencyDisplay currencyUI = FindObjectOfType<ShopCurrencyDisplay>();
+            if (currencyUI != null)
+            {
+                currencyUI.GenerateDynamicDisplay();
+            }
+            // ----------------------------------------------------
+
             if (shopkeeperScript != null && thankYouLines.Count > 0)
             {
                 shopkeeperScript.SayThankYou(thankYouLines[Random.Range(0, thankYouLines.Count)]);
@@ -320,6 +337,6 @@ public class ShopManager : MonoBehaviour
             }
         }
 
-        SceneManager.LoadSceneAsync(nextSceneName);
+        Player.Instance.SwitchSceneInCaseOfVictory();
     }
 }
