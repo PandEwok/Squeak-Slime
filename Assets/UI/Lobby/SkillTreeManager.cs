@@ -23,7 +23,7 @@ public class SkillTreeManager : MonoBehaviour
     public GameObject tooltipPanel;
     public TextMeshProUGUI tooltipTitleText;
     public TextMeshProUGUI tooltipDescText;
-
+    public int maxPurshase = 5;
     private Color originalTeethColor;
     private Coroutine errorFlashCoroutine;
 
@@ -88,11 +88,11 @@ public class SkillTreeManager : MonoBehaviour
 
         if (treeProgressText != null)
         {
-            int displayedProgress = Mathf.Min(totalPassivesBought, 5);
-            treeProgressText.text = displayedProgress + " / 5";
+            int displayedProgress = Mathf.Min(totalPassivesBought, maxPurshase);
+            treeProgressText.text = displayedProgress + " / " + maxPurshase;
         }
 
-        if (totalPassivesBought >= 5 && activeSkillButton != null)
+        if (totalPassivesBought >= maxPurshase && activeSkillButton != null)
         {
             activeSkillButton.GetComponent<UnityEngine.UI.Button>().interactable = true;
         }

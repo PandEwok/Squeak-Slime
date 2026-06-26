@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
 {
-    GameObject parent;
-    GameObject target;
-    Vector2 parentPos;
-    Vector2 targetPos;
+    protected GameObject parent;
+    protected GameObject target;
+    [HideInInspector] public Vector2 parentPos;
+    [HideInInspector] public Vector2 targetPos;
 
-    float timer = 0;
+    [HideInInspector] public float timer = 0;
+
+    [HideInInspector] public bool sentBack = false;
 
     Vector3 BezierQuadratic(Vector3 p0, Vector3 p1, Vector3 p2, float t)
     {
@@ -43,8 +45,13 @@ public class EnemyProjectile : MonoBehaviour
         
     }
 
+    protected virtual void ProjectileEffect()
+    {
+
+    }
+
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         timer += Time.deltaTime;
         float t = timer / 0.85f;
@@ -59,6 +66,7 @@ public class EnemyProjectile : MonoBehaviour
         if ( ( (transform.position.x <= targetPos.x + errorRange) && (transform.position.x >= targetPos.x - errorRange) ) &&
              ( (transform.position.y <= targetPos.y + errorRange) && (transform.position.y >= targetPos.y - errorRange) ) )
         {
+            ProjectileEffect();
             Destroy(this.gameObject);
         }
     }

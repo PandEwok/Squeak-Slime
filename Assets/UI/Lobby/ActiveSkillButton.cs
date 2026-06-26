@@ -93,7 +93,7 @@ public class ActiveSkillButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         string statusText = isUnlocked
             ? "<color=green>(Unlocked & Ready!)</color>"
-            : "<color=orange>(Locked - Requires 5 Passives)</color>";
+            : $"<color=orange>(Locked - Requires {treeManager.maxPurshase} Passives)</color>";
 
         return $"{skillDescription}\n\nStatus: {statusText}";
     }

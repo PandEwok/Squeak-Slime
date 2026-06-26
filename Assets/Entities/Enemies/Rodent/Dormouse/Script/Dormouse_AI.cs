@@ -19,10 +19,10 @@ public class Dormouse_AI : Rodent_AI
             {
                 await Task.Run(() =>
                 {
-                    actionEmpower(EmpowerType.DAMAGE, 1.2f, 2, 0);
+                    actionEmpower(EmpowerType.DAMAGE, 1.2f, 3, 1);
                 });
 
-                await distanceAttack(target);
+                //await distanceAttack(target);
             }
             else
             {

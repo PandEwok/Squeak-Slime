@@ -99,7 +99,7 @@ MonoBehaviour:
   powerEffect: {fileID: 4611226540976712192, guid: 5d2dd13aa922dbb419316f5fb9f71369, type: 3}
   empowerStrenght: 0.5
   projectilePF: {fileID: 34378606086738509, guid: 90ab660e8a2aa814ebdb09ad7c382d01, type: 3}
-  teethType: {fileID: 11400000, guid: ed97cad1ea983524c9f1c86ddd469139, type: 2}
+  teethType: {fileID: 11400000, guid: 64d14ef60dbd746479e70e3eb5030216, type: 2}
   dropPF: {fileID: 254843135583981822, guid: 2585d27f261b45b479460254090507c8, type: 3}
   directionalResistance: 0
   dResistanceAmount: 0
