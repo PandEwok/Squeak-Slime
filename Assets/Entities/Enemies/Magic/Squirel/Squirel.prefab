@@ -116,6 +116,6 @@ MonoBehaviour:
   empowerStrenght: 0.4
   projectilePF: {fileID: 0}
   teethType: {fileID: 11400000, guid: ed97cad1ea983524c9f1c86ddd469139, type: 2}
-  dropPF: {fileID: 254843135583981822, guid: 2585d27f261b45b479460254090507c8, type: 3}
+  dropPF: {fileID: 172453278433108743, guid: 17805039384f9f44aa24e2ec59210ade, type: 3}
   directionalResistance: 2
   dResistanceAmount: 0.35
