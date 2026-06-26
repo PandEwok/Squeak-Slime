@@ -179,7 +179,12 @@ MonoBehaviour:
   stats: {fileID: 0}
   IsInBattle: 0
   IsDead: 0
+  pendingEventID: 
   sprite: {fileID: 9030391165085133556}
+  biome1scene: 9
+  biome2scene: 11
+  biome3scene: 12
+  bossScene: 13
 --- !u!114 &-8998726753592772742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,10 +201,10 @@ MonoBehaviour:
   bloodPF: {fileID: 2114382830776690554, guid: 1cda0815d43215f40b41c548b80fc810, type: 3}
   firePF: {fileID: 6641741500042543266, guid: 455d860957c083f45ba4274448240134, type: 3}
   dizzyPF: {fileID: 7082761583480327981, guid: 4faee7cf16db2a04ca6173f6464106d1, type: 3}
-  health: 0
-  originalHealth: 100
-  damage: 10
-  defense: 2
+  health: 30
+  originalHealth: 30
+  damage: 9
+  defense: 0
   isBleeding: 0
   isOnFire: 0
   isDizzy: 0
@@ -212,8 +217,8 @@ MonoBehaviour:
   dizzyDuration: 1
   absorptionColor: {r: 0, g: 0, b: 0, a: 0}
   healEffect: {fileID: 4611226540976712192, guid: e37cd15439f124c4d8dd26902e621ee0, type: 3}
-  originalSP: 100
-  SP: 100
+  originalSP: 6
+  SP: 6
   attackBoostStrenght: 0.5
   defenseBoostStrenght: 0.5
   criticalHitBoost: 0.25
