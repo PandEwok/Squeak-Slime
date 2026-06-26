@@ -42,7 +42,71 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private void Start()
     {
+        switch (statToBoost)
+        {
+            case SkillStatType.MeleeDamage:
+                currentLevel = Player.Instance.stats.meleeDamageUD;
+                treeManager.totalPassivesBought = Player.Instance.stats.totalRodentUD;
+                break;
+            case SkillStatType.CriticalDamage:
+                currentLevel = Player.Instance.stats.criticalDamageUD;
+                treeManager.totalPassivesBought = Player.Instance.stats.totalRodentUD;
+                break;
+            case SkillStatType.CriticalChance:
+                currentLevel = Player.Instance.stats.criticalChanceUD;
+                treeManager.totalPassivesBought = Player.Instance.stats.totalRodentUD;
+                break;
+            case SkillStatType.MaxHealth:
+                currentLevel = Player.Instance.stats.maxHPGolemUD;
+                treeManager.totalPassivesBought = Player.Instance.stats.totalGolemUD;
+                break;
+            case SkillStatType.BaseDamage:
+                currentLevel = Player.Instance.stats.baseDamageUD;
+                treeManager.totalPassivesBought = Player.Instance.stats.totalMutantUD;
+                break;
+            case SkillStatType.RangedDamage:
+                currentLevel = Player.Instance.stats.rangedDamageUD;
+                treeManager.totalPassivesBought = Player.Instance.stats.totalMagicUD;
+                break;
+            case SkillStatType.BaseDefense:
+                if (boostPerLevel == 2)
+                {
+                    currentLevel = Player.Instance.stats.baseArmorGolemUD;
+                    treeManager.totalPassivesBought = Player.Instance.stats.totalGolemUD;
+                }
+                else
+                {
+                    currentLevel = Player.Instance.stats.baseArmorMutantUD;
+                    treeManager.totalPassivesBought = Player.Instance.stats.totalMutantUD;
+                }
+                    break;
+            case SkillStatType.DebuffResist:
+                currentLevel = Player.Instance.stats.debuffResistanceUD;
+                treeManager.totalPassivesBought = Player.Instance.stats.totalMagicUD;
+                break;
+            case SkillStatType.HealBetweenTwoTurns:
+                currentLevel = Player.Instance.stats.healEveryTwoTurnUD;
+                treeManager.totalPassivesBought = Player.Instance.stats.totalMagicUD;
+                break;
+            case SkillStatType.MaxSP:
+                if (boostPerLevel == 3)
+                {
+                    currentLevel = Player.Instance.stats.maxSPGolemUD;
+                    treeManager.totalPassivesBought = Player.Instance.stats.totalGolemUD;
+                }
+                else
+                {
+                    currentLevel = Player.Instance.stats.maxSPMutantUD;
+                    treeManager.totalPassivesBought = Player.Instance.stats.totalMutantUD;
+                }
+                break;
+            default:
+                break;
+
+        }
+        Debug.Log($"Total tree: {treeManager.totalPassivesBought}");
         UpdateNodeText();
+        treeManager.UpdateUI();
     }
 
     public void PurchaseUpgrade()
@@ -87,14 +151,28 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
                 Player.Instance.stats.IncreaseMaximumHealth((int)boostPerLevel);
                 break;
             case SkillStatType.MaxSP:
-                Player.Instance.stats.IncreaseMaximumSP((int)boostPerLevel);
-                break;
+                if(boostPerLevel == 3)
+                {
+                    Player.Instance.stats.IncreaseMaximumSP((int)boostPerLevel, PlayerStats.GolemOrMutant.GOLEM);
+                }
+                else
+                {
+                    Player.Instance.stats.IncreaseMaximumSP((int)boostPerLevel, PlayerStats.GolemOrMutant.MUTANT);
+                }
+                    break;
             case SkillStatType.BaseDamage:
                 Player.Instance.stats.IncreaseBaseDamage((int)boostPerLevel);
                 break;
             case SkillStatType.BaseDefense:
-                Player.Instance.stats.IncreaseBaseDefense((int)boostPerLevel);
-                break;
+                if(boostPerLevel == 2)
+                {
+                    Player.Instance.stats.IncreaseBaseDefense((int)boostPerLevel, PlayerStats.GolemOrMutant.GOLEM);
+                }
+                else
+                {
+                    Player.Instance.stats.IncreaseBaseDefense((int)boostPerLevel, PlayerStats.GolemOrMutant.MUTANT);
+                }
+                    break;
             case SkillStatType.DebuffResist:
                 Player.Instance.stats.DecreaseDebuffChance(boostPerLevel);
                 break;
@@ -105,6 +183,7 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
                 Player.Instance.stats.IncreaseHealBetweenTwoTurns((int)boostPerLevel);
                 break;
         }
+        Player.Instance.stats.UpdateTotalUpgrade();
     }
 
     private void UpdateNodeText()
