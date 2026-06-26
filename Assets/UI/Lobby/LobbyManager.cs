@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -25,22 +26,30 @@ public class LobbyManager : MonoBehaviour
     private float lastMaxHp;
     private float lastMaxSp;
 
+    private void Awake()
+    {
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
+        {
+            AudioManager.Instance.StopMusic();
+        }
+    }
     void Start()
     {
         Player.Instance.transform.position = playerDefPos;
         UpdateStatsUI();
-
-        if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
-        {
-            Debug.Log("Je suis dans la fonction looooooool");
-            AudioManager.Instance.StopMusic();
-            AudioManager.Instance.PlayMusic(musicTrackName);
-        }
-
+        
         Player.Instance.floor = 1;
         Player.Instance.currentBiome = Player.BiomeType.FOREST;
     }
-
+    private void OnEnable()
+    {
+        if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
+        {
+            Debug.Log("Je suis dans la fonction looooooool");
+            AudioManager.Instance.PlayMusic(musicTrackName);
+            Debug.Log("Toujours dans la fonction");
+        }
+    }
     void Update()
     {
         // Safety check to ensure the persistent player exists in the lobby

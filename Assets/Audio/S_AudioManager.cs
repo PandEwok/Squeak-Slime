@@ -106,13 +106,19 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(string musicName)
     {
+
         MusicTrack? music = FindMusic(musicName);
-        if (music == null) return;
+        if (music == null)
+        {
+            Debug.Log("Musique invalide");
+            return;
+        }
         if (musicSource.clip == music.Value.clip && musicSource.isPlaying) return;
 
         ResetMusicRoutines();
         currentActiveTrack = music;
         musicPlaybackCoroutine = StartCoroutine(MusicPlaybackSequence(music.Value));
+        Debug.Log($"Playing {music}");
     }
 
     public void StopMusic()
@@ -120,6 +126,7 @@ public class AudioManager : MonoBehaviour
         ResetMusicRoutines();
         currentActiveTrack = null;
         musicSource.Stop();
+        Debug.Log("Musique coupée");
     }
 
     // THE MISSING FUNCTION: This links to your MainMenuSettings.cs!

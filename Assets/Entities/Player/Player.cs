@@ -163,16 +163,20 @@ public class Player : MonoBehaviour
         switch (currentBiome)
         {
             case BiomeType.FOREST:
-                SceneManager.LoadSceneAsync(biome1scene);
+                SceneManager.LoadSceneAsync(9);
+                Debug.Log("Loading Forest");
                 break;
             case BiomeType.CASTLE_EXTERIOR:
-                SceneManager.LoadSceneAsync(biome2scene);
+                SceneManager.LoadSceneAsync(11);
+                Debug.Log("Loading castle exteriors");
                 break;
             case BiomeType.RAT_LABORATORY:
-                SceneManager.LoadSceneAsync(biome3scene);
+                SceneManager.LoadSceneAsync(12);
+                Debug.Log("Loading rat lab");
                 break;
             case BiomeType.RAT_BATTLE:
-                SceneManager.LoadSceneAsync(bossScene);
+                SceneManager.LoadSceneAsync(13);
+                Debug.Log("Loading boss battle");
                 break;
             default:
                 Debug.LogError("Biome invalide");

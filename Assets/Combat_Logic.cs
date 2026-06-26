@@ -88,7 +88,9 @@ public class Combat_Logic : MonoBehaviour
             case Player.BiomeType.RAT_LABORATORY:
                 musicTrackName = thirdBiomeMusic;
                 break;
-            //ajouter manquant boss
+            case Player.BiomeType.RAT_BATTLE:
+                musicTrackName = bossMusic;
+                break;
             default:
                 break;
         }

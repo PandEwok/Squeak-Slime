@@ -287,6 +287,11 @@ public class ShopManager : MonoBehaviour
                 // 50/50 Chance to penalty add +1 or +2 Price Inflation
                 priceModifier = (Random.value < 0.50f) ? 1 : 2;
                 permanentPetColor = badOutcomeColor;
+                if(AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.StopMusic();
+                    AudioManager.Instance.PlayMusic(musicTrackName + "Evil");
+                }
             }
 
             foreach (ShopItemUI slot in activeUISlots)

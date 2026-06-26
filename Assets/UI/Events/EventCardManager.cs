@@ -117,7 +117,7 @@ public class EventCardManager : MonoBehaviour
                         Debug.LogWarning("[Progression] Max Biome exceeded!");
                     }
                 }
-                SceneManager.LoadScene(selectedCard.sceneToLoad);
+                Player.Instance.SwitchSceneInCaseOfVictory();
             }
         }
         else if (selectedCard.sceneToLoad != 0)

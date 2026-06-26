@@ -136,6 +136,24 @@ MonoBehaviour:
     skipIntroSeconds: 0
     playbackDelaySeconds: 0
     fadeInDuration: 0
+  - name: LobbyTheme
+    clip: {fileID: 8300000, guid: b67f168a893aa6e489b80e51fe5fa0ed, type: 3}
+    volume: 1
+    skipIntroSeconds: 0
+    playbackDelaySeconds: 0
+    fadeInDuration: 0
+  - name: BossBattle
+    clip: {fileID: 8300000, guid: a8feee63e5e2a9540811a7f7695a8038, type: 3}
+    volume: 1
+    skipIntroSeconds: 0
+    playbackDelaySeconds: 0
+    fadeInDuration: 0
+  - name: ShopThemeEvil
+    clip: {fileID: 8300000, guid: 83e6208a4835af344b2d808b7691bb9c, type: 3}
+    volume: 1
+    skipIntroSeconds: 0
+    playbackDelaySeconds: 0
+    fadeInDuration: 0
   sfxSource: {fileID: 7455365996537922425}
   loopSfxSource: {fileID: 7438998512016560997}
   musicSource: {fileID: -1798797210430331739}

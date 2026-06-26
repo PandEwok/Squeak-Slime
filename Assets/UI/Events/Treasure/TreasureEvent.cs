@@ -267,7 +267,10 @@ public class TreasureEvent : MonoBehaviour
                 }
             }
         }
-
+        if(Player.Instance.stats.health <= 0)
+        {
+            Player.Instance.stats.health = 1;
+        }
         Player.Instance.SwitchSceneInCaseOfVictory();
     }
 }

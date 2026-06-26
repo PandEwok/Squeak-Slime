@@ -44,14 +44,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02d07e40c6eb9449b0da2d66e41d588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Combat_Logic
+  firstBiomeMusic: ForestBattle
+  secondBiomeMusic: CastleBattle
+  thirdBiomeMusic: LabBattle
+  bossMusic: BossBattle
+  musicTrackName: ForestBattle
   actionUI: {fileID: 0}
   enemiesToSpawn: []
-  EnemyPositions:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  enemyPositions: []
   enemyBiomeList:
   - {fileID: 5618129864621201268, guid: 2605f548356ca14469b9e7bc464ea829, type: 3}
+  enemySpawnChance: 
   PlayerPosition: {fileID: 0}
   enemies: []
+  availableEnemyPos: []
+  currentEnemyPlaying: {fileID: 0}
+  boss: {fileID: 0}
+  bossPosition: {fileID: 0}
   player: {fileID: 0}
