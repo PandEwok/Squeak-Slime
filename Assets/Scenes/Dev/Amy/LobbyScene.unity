@@ -3769,7 +3769,7 @@ MonoBehaviour:
   statToBoost: 2
   boostPerLevel: 0.05
   currentLevel: 0
-  maxLevel: 3
+  maxLevel: 5
 --- !u!114 &770906214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5671,7 +5671,7 @@ MonoBehaviour:
   statToBoost: 0
   boostPerLevel: 2
   currentLevel: 0
-  maxLevel: 3
+  maxLevel: 5
 --- !u!114 &1226721548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7190,7 +7190,7 @@ MonoBehaviour:
   statToBoost: 1
   boostPerLevel: 0.25
   currentLevel: 0
-  maxLevel: 3
+  maxLevel: 5
 --- !u!114 &1432262893
 MonoBehaviour:
   m_ObjectHideFlags: 0
