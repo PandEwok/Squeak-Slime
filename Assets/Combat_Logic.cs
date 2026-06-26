@@ -33,6 +33,7 @@ public class Combat_Logic : MonoBehaviour
 
     [HideInInspector] public List<GameObject> availableEnemyPos = new List<GameObject>();
     [HideInInspector] public Dictionary<GameObject,GameObject> inpendingEnemySummon = new Dictionary<GameObject, GameObject>();
+    [HideInInspector] public GameObject currentEnemyPlaying = null;
 
     public GameObject boss;
     public GameObject bossPosition;
@@ -265,6 +266,7 @@ public class Combat_Logic : MonoBehaviour
     {
         foreach (GameObject enemy in enemies) 
         {
+            currentEnemyPlaying = enemy;
             Enemy_AI enemyAI = enemy.GetComponent<Enemy_AI>();
             if (enemyAI != null)
             {
@@ -281,6 +283,7 @@ public class Combat_Logic : MonoBehaviour
                 }
             }
         }
+        currentEnemyPlaying = null;
         foreach (var elem in inpendingEnemySummon)
         {
             int initiativeIndex = 0;

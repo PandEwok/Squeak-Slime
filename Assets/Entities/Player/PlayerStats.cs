@@ -128,6 +128,22 @@ public class PlayerStats : Stats_System
 
             if (blocking)
             {
+                // if enemy is boss in phase 2
+                GameObject combatLogic = GameObject.FindGameObjectWithTag("CombatLogic");
+                GameObject currentEnemy = combatLogic.GetComponent<Combat_Logic>().currentEnemyPlaying;
+                if (currentEnemy != null)
+                {
+                    if (currentEnemy.GetComponent<Alchemist_AI>())
+                    {
+                        if (currentEnemy.GetComponent<Alchemist_AI>().GetCurrentPhase() == 2)
+                        {
+                            AudioManager.Instance.PlaySFX("Parade");
+                            blocking = false;
+                            return 0;
+                        }
+                    }
+                }
+
                 effectiveDamage /= 2;
                 AudioManager.Instance.PlaySFX("Parade");
                 Player.Instance.uiManager.DisplayGrade(GradeScript.Grade.Blocked, true);

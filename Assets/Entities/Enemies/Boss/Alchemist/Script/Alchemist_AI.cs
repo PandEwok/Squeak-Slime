@@ -61,6 +61,12 @@ public class Alchemist_AI : Boss_AI
         }
         else if (GetCurrentPhase() == 2)
         {
+            if (GetComponent<Stats_System>().isDizzy && !HasInvincibility())
+            {
+                actionEmpower(EmpowerType.DEFENSE, 1f, 0, permBuffID);
+                newPhase = false;
+            }
+
             if (!stats.isDizzy)
             {
                 GameObject projInstance = Instantiate(projectilePF, transform.position, Quaternion.identity, transform);
@@ -77,6 +83,30 @@ public class Alchemist_AI : Boss_AI
         await base.playTurn(target);
     }
 
+    bool HasInvincibility()
+    {
+        for (int i = 0; i < defBuffTimers.Count; i++)
+        {
+            if (defBuffTimers[i] == permBuffID)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void getDizzy()
+    {
+        for (int i = 0; i < defBuffTimers.Count; i++)
+        {
+            if (defBuffTimers[i] == permBuffID)
+            {
+                defBuffTimers.RemoveAt(i);
+                defBuffs.RemoveAt(i);
+            }
+        }
+    }
+
     public override void Update()
     {
         base.Update();
@@ -84,7 +114,7 @@ public class Alchemist_AI : Boss_AI
         GetCurrentPhase();   // for variable updating purpose
         if (newPhase)
         {
-            if (latestPhase == 2)
+            if (latestPhase == 2 && !HasInvincibility())
             {
                 actionEmpower(EmpowerType.DEFENSE, 1f, 0, permBuffID);
                 newPhase = false;
