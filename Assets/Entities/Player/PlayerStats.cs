@@ -28,6 +28,25 @@ public class PlayerStats : Stats_System
     [Header("Miscellaneous")]
     [SerializeField] private string slimeDamageSound = "Slime_Damage";
 
+    //Variables amelioration stats
+    [HideInInspector] public int meleeDamageUD = 0;
+    [HideInInspector] public int criticalChanceUD = 0;
+    [HideInInspector] public int criticalDamageUD = 0;
+    [HideInInspector] public int rangedDamageUD = 0;
+    [HideInInspector] public int healEveryTwoTurnUD = 0;
+    [HideInInspector] public int baseArmorGolemUD = 0;
+    [HideInInspector] public int maxSPGolemUD = 0;
+    [HideInInspector] public int maxHPGolemUD = 0;
+    [HideInInspector] public int debuffResistanceUD = 0;
+    [HideInInspector] public int baseArmorMutantUD = 0;
+    [HideInInspector] public int baseDamageUD = 0;
+    [HideInInspector] public int maxSPMutantUD = 0;
+    [HideInInspector] public int totalRodentUD = 0;
+    [HideInInspector] public int totalGolemUD = 0;
+    [HideInInspector] public int totalMagicUD = 0;
+    [HideInInspector] public int totalMutantUD = 0;
+    public enum GolemOrMutant { GOLEM, MUTANT };
+
     protected override void Start()
     {
         base.Start();
@@ -266,6 +285,7 @@ public class PlayerStats : Stats_System
     public void IncreaseMeleeAttackBoost(int amount)
     {
         meleeAttackBoost += amount;
+        meleeDamageUD++;
     }
 
     /// <summary>
@@ -275,6 +295,7 @@ public class PlayerStats : Stats_System
     public void IncreaseRangedAttackBoost(int amount)
     {
         rangedAttackBoost += amount;
+        rangedDamageUD++;
     }
 
     /// <summary>
@@ -284,6 +305,7 @@ public class PlayerStats : Stats_System
     public void DecreaseDebuffChance(float amount)
     {
         debuffChance -= amount;
+        debuffResistanceUD++;
     }
 
     /// <summary>
@@ -293,6 +315,7 @@ public class PlayerStats : Stats_System
     public void IncreaseHealBetweenTwoTurns(int amount)
     {
         healEveryTurn += amount;
+        healEveryTwoTurnUD++;
     }
 
     /// <summary>
@@ -303,16 +326,25 @@ public class PlayerStats : Stats_System
     {
         originalHealth += amount;
         health = originalHealth;
+        maxHPGolemUD++;
     }
 
     /// <summary>
     /// Augmente les SP max du joueur et restaure les SP.
     /// </summary>
     /// <param name="amount">Le nombre de SP max à augmenter.</param>
-    public void IncreaseMaximumSP(int amount)
+    public void IncreaseMaximumSP(int amount, GolemOrMutant type)
     {
         originalSP += amount;
         SP = originalSP;
+        if(type == GolemOrMutant.GOLEM)
+        {
+            maxSPGolemUD++;
+        }
+        else
+        {
+            maxSPMutantUD++;
+        }
     }
 
     /// <summary>
@@ -323,15 +355,24 @@ public class PlayerStats : Stats_System
     {
         baseDamage += amount;
         damage = baseDamage;
+        baseDamageUD++;
     }
     /// <summary>
     /// Augmente la défense de base du joueur.
     /// </summary>
     /// <param name="amount">Le nombre de points de defense de base à augmenter.</param>
-    public void IncreaseBaseDefense(int amount)
+    public void IncreaseBaseDefense(int amount, GolemOrMutant type)
     {
         baseDefense += amount;
         defense = baseDefense;
+        if(type == GolemOrMutant.GOLEM)
+        {
+            baseArmorGolemUD++;
+        }
+        else
+        {
+            baseArmorMutantUD++;
+        }
     }
 
     /// <summary>
@@ -341,6 +382,7 @@ public class PlayerStats : Stats_System
     public void IncreaseCriticalHitBoost(float amount)
     {
         criticalHitBoost += amount;
+        criticalDamageUD++;
     }
 
     /// <summary>
@@ -350,6 +392,7 @@ public class PlayerStats : Stats_System
     public void IncreaseCriticalHitChance(float amount)
     {
         criticalHitChance += amount;
+        criticalChanceUD++;
     }
 
     public void ResetPlayerStats()
@@ -377,5 +420,17 @@ public class PlayerStats : Stats_System
             Destroy(dizzyInstance);
         }
         GetComponentInChildren<SpriteRenderer>().color = originalColor;
+    }
+
+    public void UpdateTotalUpgrade()
+    {
+        totalRodentUD = meleeDamageUD + criticalChanceUD + criticalDamageUD;
+        totalGolemUD = maxSPGolemUD + baseArmorGolemUD + maxHPGolemUD;
+        totalMagicUD = debuffResistanceUD + healEveryTwoTurnUD + rangedDamageUD;
+        totalMutantUD = baseArmorMutantUD + baseDamageUD + maxSPMutantUD;
+        Debug.Log($"Total Rodent: {totalRodentUD}");
+        Debug.Log($"Total Golem: {totalGolemUD}");
+        Debug.Log($"Total Magic: {totalMagicUD}");
+        Debug.Log($"Total Mutant: {totalMutantUD}");
     }
 }

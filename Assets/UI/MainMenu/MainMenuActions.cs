@@ -12,7 +12,10 @@ public class MainMenuActions : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        Player.Instance.transform.position = playerDefPos;
+        if (Player.Instance  != null)
+        {
+            Player.Instance.transform.position = playerDefPos;
+        }
     }
     public void PlayGame()
     {
