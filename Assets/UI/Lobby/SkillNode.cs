@@ -47,14 +47,17 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             case SkillStatType.MeleeDamage:
                 currentLevel = Player.Instance.stats.meleeDamageUD;
                 treeManager.totalPassivesBought = Player.Instance.stats.totalRodentUD;
+                treeManager.maxPurshase = 8;
                 break;
             case SkillStatType.CriticalDamage:
                 currentLevel = Player.Instance.stats.criticalDamageUD;
                 treeManager.totalPassivesBought = Player.Instance.stats.totalRodentUD;
+                treeManager.maxPurshase = 8;
                 break;
             case SkillStatType.CriticalChance:
                 currentLevel = Player.Instance.stats.criticalChanceUD;
                 treeManager.totalPassivesBought = Player.Instance.stats.totalRodentUD;
+                treeManager.maxPurshase = 8;
                 break;
             case SkillStatType.MaxHealth:
                 currentLevel = Player.Instance.stats.maxHPGolemUD;
@@ -106,6 +109,7 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         }
         Debug.Log($"Total tree: {treeManager.totalPassivesBought}");
         UpdateNodeText();
+        
         treeManager.UpdateUI();
     }
 

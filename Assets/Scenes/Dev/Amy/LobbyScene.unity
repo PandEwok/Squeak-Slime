@@ -1867,6 +1867,7 @@ MonoBehaviour:
   tooltipPanel: {fileID: 255518586}
   tooltipTitleText: {fileID: 1306102294}
   tooltipDescText: {fileID: 211488227}
+  maxPurshase: 5
 --- !u!114 &378952267 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 512246852953892093, guid: 649522aa2f19d7149bed146748d3b102, type: 3}
@@ -2161,6 +2162,7 @@ MonoBehaviour:
   tooltipPanel: {fileID: 255518586}
   tooltipTitleText: {fileID: 1306102294}
   tooltipDescText: {fileID: 211488227}
+  maxPurshase: 5
 --- !u!114 &503617881 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 512246852953892093, guid: 649522aa2f19d7149bed146748d3b102, type: 3}
@@ -2368,7 +2370,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0/5
+  m_text: 0/8
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d4aa7a5e9cfb864f827bfd20a80ca0d, type: 2}
   m_sharedMaterial: {fileID: 5867979425879770906, guid: 4d4aa7a5e9cfb864f827bfd20a80ca0d, type: 2}
@@ -3058,7 +3060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingTeeth.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingTeeth.Array.data[0].tooth
@@ -3069,11 +3071,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 64d14ef60dbd746479e70e3eb5030216, type: 2}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[2].tooth
+      value: 
+      objectReference: {fileID: 11400000, guid: 64d14ef60dbd746479e70e3eb5030216, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[3].tooth
+      value: 
+      objectReference: {fileID: 11400000, guid: 64d14ef60dbd746479e70e3eb5030216, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingTeeth.Array.data[0].amount
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingTeeth.Array.data[1].amount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[2].amount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[3].amount
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8567076734609327451, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
@@ -4102,6 +4120,7 @@ MonoBehaviour:
   tooltipPanel: {fileID: 255518586}
   tooltipTitleText: {fileID: 1306102294}
   tooltipDescText: {fileID: 211488227}
+  maxPurshase: 5
 --- !u!1 &890235099
 GameObject:
   m_ObjectHideFlags: 0
@@ -10232,6 +10251,7 @@ MonoBehaviour:
   tooltipPanel: {fileID: 255518586}
   tooltipTitleText: {fileID: 1306102294}
   tooltipDescText: {fileID: 211488227}
+  maxPurshase: 5
 --- !u!1 &1974083739
 GameObject:
   m_ObjectHideFlags: 0
