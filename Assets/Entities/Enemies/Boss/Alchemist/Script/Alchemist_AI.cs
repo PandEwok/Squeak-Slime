@@ -1,7 +1,8 @@
-using UnityEngine;
-using Random = UnityEngine.Random;
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class Alchemist_AI : Boss_AI
 {
@@ -11,6 +12,11 @@ public class Alchemist_AI : Boss_AI
         DIZZY,
         BURN,
         NONE
+    }
+
+    protected override void DeathAction()
+    {
+        SceneManager.LoadSceneAsync(14);
     }
 
     public async override Task playTurn(GameObject target)

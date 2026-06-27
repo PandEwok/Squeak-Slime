@@ -164,7 +164,7 @@ public class Enemy_AI : MonoBehaviour
 
     protected virtual int dropTeeth()
     {
-        int teethDropped = Random.Range(1, 4);
+        int teethDropped = Random.Range(0, 3);
 
         PlayerInventory inv = player.GetComponent<PlayerInventory>();
         if (inv != null)
@@ -178,6 +178,11 @@ public class Enemy_AI : MonoBehaviour
         return teethDropped;
     }
 
+
+    protected virtual void DeathAction()
+    {
+        dropTeeth();
+    }
 
     // Update is called once per frame
     public virtual void Update()
@@ -194,7 +199,7 @@ public class Enemy_AI : MonoBehaviour
 
         if (gameObject.GetComponent<Stats_System>().health <= 0)
         {
-            if (player != null) { dropTeeth(); }
+            if (player != null) { DeathAction(); }
             if (this.gameObject == null)
             {
                 Debug.Log("enemy null");
