@@ -30,11 +30,15 @@ public class EventCardManager : MonoBehaviour
     public int nextSceneName = 9;
     private void Start()
     {
-        Player.Instance.transform.position = playerDefPos;
+        if (Player.Instance != null)
+        {
+            Player.Instance.transform.position = playerDefPos;
+            Player.Instance.StopAllCoroutines();
+        }
         HideTooltip();
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
         {
-            Debug.Log("Je suis dans la fonction looooooool");
+            AudioManager.Instance.StopLoopingSFX();
             AudioManager.Instance.StopMusic();
             AudioManager.Instance.PlayMusic(musicTrackName);
         }

@@ -14,6 +14,7 @@ public class UI_VictoryScript : MonoBehaviour
     private VisualElement victoryScreen;
     private Button goToLobbyButton;
     [SerializeField] private float duration = 0.2f;
+    private Vector3 playerDefPos = new Vector3(7777, 0, 0);
 
 
     private void Awake()
@@ -124,9 +125,17 @@ public class UI_VictoryScript : MonoBehaviour
 
     public void GoToLobbyV()
     {
+        if (Combat_Logic.Instance != null)
+        {
+            Combat_Logic.Instance.StopAllCoroutines();
+        }
+        
         Debug.Log("Exit button pressed in Victory UI");
         AudioManager.Instance.PlaySFX("Button_Pressed");
-        Player.Instance.inventory.ClearCurrentBattleTeeth();
+        if (Player.Instance != null)
+        {
+            Player.Instance.inventory.ClearCurrentBattleTeeth();
+        }
         SceneManager.LoadSceneAsync(3);
     }
 

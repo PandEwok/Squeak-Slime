@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class Combat_Logic : MonoBehaviour
 {
+    public static Combat_Logic Instance { get; private set; }
     [Header("Audio Settings")]
     [Tooltip("The exact name of your main menu track in the AudioManager database.")]
     public string firstBiomeMusic = "ForestBattle";
@@ -132,9 +133,12 @@ public class Combat_Logic : MonoBehaviour
 
     public void switchTurn()
     {
-        Debug.Log("Switching turns...");
-        switchingTurns = true;
-        StartCoroutine(SwitchTurnCoroutine());
+        if (enemies.Count > 0)
+        {
+            Debug.Log("Switching turns...");
+            switchingTurns = true;
+            StartCoroutine(SwitchTurnCoroutine());
+        }
     }
 
     public void playerAttack()
@@ -185,6 +189,10 @@ public class Combat_Logic : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
         player = GameObject.FindWithTag("Player");
 
         if (enemiesToSpawn.Count < enemyPositions.Count)

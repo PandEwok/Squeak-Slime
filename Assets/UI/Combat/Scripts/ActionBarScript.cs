@@ -24,11 +24,13 @@ public class ActionBarScript : MonoBehaviour
     private Button Absorption;
     [SerializeField] public Combat_Logic combatLogic;
     [SerializeField] private GameObject playerGameObject;
+    [SerializeField] private GameObject optionGear;
     [HideInInspector] public Player playerScript;
     private PlayerInventory playerInventory;
     private bool isSelectingEnnemy = false;
     private int targetCount = 0;
     private bool confirmedAttack = false;
+    
 
     enum AttackType { MELEE, RANGED, BITE, FRACTURE, NONE };
     AttackType attackType = AttackType.NONE;
@@ -415,6 +417,14 @@ public class ActionBarScript : MonoBehaviour
     }
     private void ToggleUiVisibility(bool mustDisplay)
     {
+        if (mustDisplay && optionGear != null)
+        {
+            optionGear.SetActive(true);
+        }
+        if(!mustDisplay &&  optionGear != null)
+        {
+            optionGear.SetActive(false);
+        }
         if (mustDisplay && playerGameObject.GetComponent<Stats_System>().health > 0 && combatLogic.enemies.Count > 0)
         {
             root.style.display = DisplayStyle.Flex;

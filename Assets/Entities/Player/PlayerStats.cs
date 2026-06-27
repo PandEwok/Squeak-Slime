@@ -433,4 +433,14 @@ public class PlayerStats : Stats_System
         Debug.Log($"Total Magic: {totalMagicUD}");
         Debug.Log($"Total Mutant: {totalMutantUD}");
     }
+
+    public void ResetBoosts()
+    {
+        damage = baseDamage;
+        defense = baseDefense;
+        empowerDelay = 0;
+        defenseBuffDelay = 0;
+        empowered = false;
+        defenseBuffed = false;
+    }
 }

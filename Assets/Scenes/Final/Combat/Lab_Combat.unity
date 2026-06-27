@@ -686,6 +686,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+--- !u!1 &625604588 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5053310076320023125, guid: f6f551a1bf7b52440a35b8449515b48e, type: 3}
+  m_PrefabInstance: {fileID: 625604587}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &635004857
 GameObject:
   m_ObjectHideFlags: 0
@@ -3050,6 +3055,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: optionGear
+      value: 
+      objectReference: {fileID: 625604588}
+    - target: {fileID: 3707221164572005520, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: combatLogic
       value: 
       objectReference: {fileID: 1044752080}
@@ -3167,9 +3176,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2632974792085039172, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 4317796808065350776, guid: 94f4d3376c915884bac1f9580e2b7ee4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
