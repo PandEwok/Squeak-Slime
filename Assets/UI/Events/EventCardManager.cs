@@ -17,6 +17,10 @@ public class EventCardManager : MonoBehaviour
     public List<EventCardUI> activeCardSlots;
     public TextMeshProUGUI globalTooltipText;
 
+    [Header("Player Stats UI Connections")]
+    public TextMeshProUGUI hpText;
+    public TextMeshProUGUI spText;
+
     [Header("Deal Animation Settings")]
     [Tooltip("How long it takes an individual card to finish its slide journey.")]
     public float cardSlideDuration = 0.4f;
@@ -26,8 +30,16 @@ public class EventCardManager : MonoBehaviour
 
     [Tooltip("Smooth physics ease curve. Create a small hill at the end for a bouncy layout snap!")]
     public AnimationCurve dealEaseCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
     private Vector3 playerDefPos = new Vector3(7777, 0, 0);
     public int nextSceneName = 9;
+
+    // Cache tracking variables to update UI live if values shift
+    private float lastHp;
+    private float lastMaxHp;
+    private float lastSp;
+    private float lastMaxSp;
+
     private void Start()
     {
         if (Player.Instance != null)
@@ -35,7 +47,12 @@ public class EventCardManager : MonoBehaviour
             Player.Instance.transform.position = playerDefPos;
             Player.Instance.StopAllCoroutines();
         }
+
         HideTooltip();
+
+        // Initial draw of the player statistics
+        UpdateStatsUI();
+
         if (AudioManager.Instance != null && !string.IsNullOrEmpty(musicTrackName))
         {
             AudioManager.Instance.StopLoopingSFX();
@@ -43,10 +60,44 @@ public class EventCardManager : MonoBehaviour
             AudioManager.Instance.PlayMusic(musicTrackName);
         }
 
-
-            // Switch to calling our new animated sequence engine
-            StartCoroutine(AnimateCardDealingSequence());
+        // Switch to calling our new animated sequence engine
+        StartCoroutine(AnimateCardDealingSequence());
     }
+
+    private void Update()
+    {
+        // Safety check to ensure the persistent player exists in the scene
+        if (Player.Instance == null || Player.Instance.stats == null) return;
+
+        // Automatically detect if Current or Max values change and update live
+        if (Player.Instance.stats.health != lastHp ||
+            Player.Instance.stats.originalHealth != lastMaxHp ||
+            Player.Instance.stats.SP != lastSp ||
+            Player.Instance.stats.originalSP != lastMaxSp)
+        {
+            UpdateStatsUI();
+        }
+    }
+
+    public void UpdateStatsUI()
+    {
+        if (Player.Instance == null || Player.Instance.stats == null) return;
+
+        // Cache current and original (max) values from the Player instance
+        lastHp = Player.Instance.stats.health;
+        lastMaxHp = Player.Instance.stats.originalHealth;
+        lastSp = Player.Instance.stats.SP;
+        lastMaxSp = Player.Instance.stats.originalSP;
+
+        // Format layouts as "Current / Max" (Example: "75 / 100")
+        if (hpText != null) hpText.text = $"{lastHp} / {lastMaxHp}";
+        if (spText != null) spText.text = $"{lastSp} / {lastMaxSp}";
+
+        // NOTE: If you prefer just the single number like the Lobby, swap the lines above for these:
+        // if (hpText != null) hpText.text = lastHp.ToString();
+        // if (spText != null) spText.text = lastSp.ToString();
+    }
+
     public IEnumerator AnimateCardDealingSequence()
     {
         if (allPossibleCards.Count < 3)
@@ -86,10 +137,6 @@ public class EventCardManager : MonoBehaviour
     {
         Debug.Log($"Selected: {selectedCard.cardName}");
 
-        // ==========================================
-        // NEW: Tell the persistent Player exactly what card was clicked 
-        // so the receiving scene knows what to draw.
-        // ==========================================
         if (Player.Instance != null)
         {
             Player.Instance.pendingEventID = selectedCard.cardName;
