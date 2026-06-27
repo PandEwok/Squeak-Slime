@@ -183,4 +183,12 @@ public class Player : MonoBehaviour
                 break;
         }
     }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 }

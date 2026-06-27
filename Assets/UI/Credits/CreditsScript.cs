@@ -10,6 +10,10 @@ public class CreditsScript : MonoBehaviour
 
     private void Awake()
     {
+        if (Player.Instance != null)
+        {
+            Destroy(Player.Instance.gameObject);
+        }
         if (uiDocument == null)
         {
             uiDocument = GetComponent<UIDocument>();
