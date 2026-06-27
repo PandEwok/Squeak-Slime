@@ -47,5 +47,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Final/Combat/Lab_Boss_Combat.unity
     guid: 46b463399818eed408f74b4aef5d56e6
+  - enabled: 1
+    path: Assets/Scenes/Final/Menus/Credits.unity
+    guid: 9d64fe51a0165e749b5b6486417668b8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
