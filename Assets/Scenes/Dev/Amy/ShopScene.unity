@@ -1687,6 +1687,9 @@ MonoBehaviour:
     - toothType: {fileID: 11400000, guid: 64d14ef60dbd746479e70e3eb5030216, type: 2}
       minPrice: 1
       maxPrice: 3
+    - toothType: {fileID: 11400000, guid: ed97cad1ea983524c9f1c86ddd469139, type: 2}
+      minPrice: 1
+      maxPrice: 3
     minSlotsToSpawn: 1
     maxSlotsToSpawn: 5
   - setupName: Laboratory (Biome 3)
