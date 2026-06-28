@@ -424,9 +424,9 @@ public class PlayerStats : Stats_System
 
     public void UpdateTotalUpgrade()
     {
-        totalRodentUD = meleeDamageUD + criticalChanceUD + criticalDamageUD;
-        totalGolemUD = maxSPGolemUD + baseArmorGolemUD + maxHPGolemUD;
-        totalMagicUD = debuffResistanceUD + healEveryTwoTurnUD + rangedDamageUD;
+        totalRodentUD = rangedDamageUD + maxHPGolemUD + criticalDamageUD;
+        totalGolemUD = maxSPGolemUD + baseArmorGolemUD + criticalChanceUD;
+        totalMagicUD = debuffResistanceUD + healEveryTwoTurnUD + meleeDamageUD;
         totalMutantUD = baseArmorMutantUD + baseDamageUD + maxSPMutantUD;
         Debug.Log($"Total Rodent: {totalRodentUD}");
         Debug.Log($"Total Golem: {totalGolemUD}");

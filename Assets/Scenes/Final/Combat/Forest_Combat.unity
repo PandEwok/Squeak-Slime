@@ -3168,8 +3168,44 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingInventory.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[0].tooth
+      value: 
+      objectReference: {fileID: 11400000, guid: 15d499bc3b9aa5d4cb08ee3276f15c10, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[1].tooth
+      value: 
+      objectReference: {fileID: 11400000, guid: 64d14ef60dbd746479e70e3eb5030216, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[2].tooth
+      value: 
+      objectReference: {fileID: 11400000, guid: ed97cad1ea983524c9f1c86ddd469139, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[3].tooth
+      value: 
+      objectReference: {fileID: 11400000, guid: 575ec03d3163faf448d3797bef882419, type: 2}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[0].amount
+      value: 272
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[1].amount
+      value: 272
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[2].amount
+      value: 272
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: startingTeeth.Array.data[3].amount
+      value: 272
       objectReference: {fileID: 0}
     - target: {fileID: 3077587344446119393, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: startingInventory.Array.data[0].item

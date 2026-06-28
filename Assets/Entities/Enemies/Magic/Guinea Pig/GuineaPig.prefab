@@ -22,11 +22,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1975262410362024240, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
       propertyPath: damage
-      value: 15
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1975262410362024240, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
       propertyPath: defense
-      value: 7
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3152000304185433993, guid: 4a0231fd65621114082e985c97f9aa28, type: 3}
       propertyPath: m_LocalPosition.x

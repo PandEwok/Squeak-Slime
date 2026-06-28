@@ -53,8 +53,16 @@ PrefabInstance:
       value: Alchemist
       objectReference: {fileID: 0}
     - target: {fileID: 3709212528827652864, guid: 14a20039b73c3e94e983561f581bbe1b, type: 3}
+      propertyPath: damage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709212528827652864, guid: 14a20039b73c3e94e983561f581bbe1b, type: 3}
       propertyPath: dizzyDuration
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709212528827652864, guid: 14a20039b73c3e94e983561f581bbe1b, type: 3}
+      propertyPath: originalHealth
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 4247845799534207049, guid: 14a20039b73c3e94e983561f581bbe1b, type: 3}
       propertyPath: m_LocalPosition.x

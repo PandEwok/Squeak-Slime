@@ -133,6 +133,7 @@ public class UI_GameoverScript : MonoBehaviour
         Debug.Log("Bouton gameover pressé !");
         AudioManager.Instance.PlaySFX("Button_Pressed");
         Player.Instance.inventory.ClearCurrentRunTeeth();
+        Player.Instance.inventory.ClearCurrentBattleTeeth();
         Player.Instance.inventory.itemsPossessed.Clear();
         Player.Instance.stats.ResetBoosts();
         SceneManager.LoadScene(8);

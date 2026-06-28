@@ -46,8 +46,7 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         {
             case SkillStatType.MeleeDamage:
                 currentLevel = Player.Instance.stats.meleeDamageUD;
-                treeManager.totalPassivesBought = Player.Instance.stats.totalRodentUD;
-                treeManager.maxPurshase = 8;
+                treeManager.totalPassivesBought = Player.Instance.stats.totalMagicUD;
                 break;
             case SkillStatType.CriticalDamage:
                 currentLevel = Player.Instance.stats.criticalDamageUD;
@@ -56,12 +55,12 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
                 break;
             case SkillStatType.CriticalChance:
                 currentLevel = Player.Instance.stats.criticalChanceUD;
-                treeManager.totalPassivesBought = Player.Instance.stats.totalRodentUD;
-                treeManager.maxPurshase = 8;
+                treeManager.totalPassivesBought = Player.Instance.stats.totalGolemUD;
                 break;
             case SkillStatType.MaxHealth:
                 currentLevel = Player.Instance.stats.maxHPGolemUD;
-                treeManager.totalPassivesBought = Player.Instance.stats.totalGolemUD;
+                treeManager.totalPassivesBought = Player.Instance.stats.totalRodentUD;
+                treeManager.maxPurshase = 8;
                 break;
             case SkillStatType.BaseDamage:
                 currentLevel = Player.Instance.stats.baseDamageUD;
@@ -69,7 +68,8 @@ public class SkillNode : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
                 break;
             case SkillStatType.RangedDamage:
                 currentLevel = Player.Instance.stats.rangedDamageUD;
-                treeManager.totalPassivesBought = Player.Instance.stats.totalMagicUD;
+                treeManager.totalPassivesBought = Player.Instance.stats.totalRodentUD;
+                treeManager.maxPurshase = 8;
                 break;
             case SkillStatType.BaseDefense:
                 if (boostPerLevel == 2)
