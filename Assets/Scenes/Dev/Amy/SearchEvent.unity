@@ -278,7 +278,7 @@ MonoBehaviour:
   - targetBiome: 1
     nothingChance: 35
     rareTwoItemChance: 40
-    maxDropQuantity: 3
+    maxDropQuantity: 2
     possibleSearchDrops:
     - type: 0
       itemData: {fileID: 11400000, guid: 963bc07877a904c44ab5a09afcd8f754, type: 2}
