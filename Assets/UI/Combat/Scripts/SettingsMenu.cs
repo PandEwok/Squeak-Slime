@@ -36,7 +36,7 @@ public class SettingsMenu : MonoBehaviour
     public void QuitGame()
     {
         Debug.Log("Quit button was clicked! Exiting game...");
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(0);
     }
 
     public void EndRun()
