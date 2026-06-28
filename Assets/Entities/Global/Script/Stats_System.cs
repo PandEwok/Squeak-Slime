@@ -1,11 +1,6 @@
-using System;
 using System.Collections;
 using TMPro;
-using Unity.Mathematics;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
-using UnityEditor.ShaderGraph;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Stats_System : MonoBehaviour
