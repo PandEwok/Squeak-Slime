@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7f425175f3c77344a9a356b9be01d3d, type: 3}
-  m_Name: Banana
+  m_Name: Super Banana
   m_EditorClassIdentifier: Assembly-CSharp::Banana
-  itemName: Banana
-  itemId: Banana
-  itemDescription: Restores 6 SP.
+  itemName: Super Banana
+  itemId: SBanana
+  itemDescription: Restores 12 SP.
   itemIcon: {fileID: -7477641686685662164, guid: 11c27f7eb5f80d948b36747c2894783d, type: 3}
-  defaultColor: {r: 1, g: 1, b: 0, a: 1}
-  effectValue: 6
+  defaultColor: {r: 0.23137255, g: 0.60784316, b: 1, a: 1}
+  effectValue: 12
   effectDuration: 0
   maxStackCapacity: 99

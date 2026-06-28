@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Cheese
   itemName: Cheese
   itemId: Cheese
-  itemDescription: Restores 50 HP.
+  itemDescription: Restores 15 HP.
   itemIcon: {fileID: 7632086461526717009, guid: 14997d0c5dc5575428bd2d7b8acf826c, type: 3}
   defaultColor: {r: 1, g: 0.85490197, b: 0.23137255, a: 1}
-  effectValue: 50
+  effectValue: 15
   effectDuration: 0
   maxStackCapacity: 99

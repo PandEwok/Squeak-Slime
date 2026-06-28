@@ -277,8 +277,8 @@ MonoBehaviour:
   biomeSearchTables:
   - targetBiome: 1
     nothingChance: 35
-    rareTwoItemChance: 10
-    maxDropQuantity: 1
+    rareTwoItemChance: 25
+    maxDropQuantity: 2
     possibleSearchDrops:
     - type: 0
       itemData: {fileID: 11400000, guid: 963bc07877a904c44ab5a09afcd8f754, type: 2}
@@ -293,7 +293,7 @@ MonoBehaviour:
       itemData: {fileID: 11400000, guid: 0f3b913957e4dc34b8c255ee7a7fdcc1, type: 2}
       toothData: {fileID: 0}
   - targetBiome: 2
-    nothingChance: 45
+    nothingChance: 35
     rareTwoItemChance: 15
     maxDropQuantity: 3
     possibleSearchDrops:
@@ -315,9 +315,12 @@ MonoBehaviour:
     - type: 0
       itemData: {fileID: 11400000, guid: 9a5ed72dbe9b3bd44a33a867be16feb7, type: 2}
       toothData: {fileID: 0}
+    - type: 0
+      itemData: {fileID: 11400000, guid: ab8abea27b646c441b216a4e5597bd81, type: 2}
+      toothData: {fileID: 0}
   - targetBiome: 3
-    nothingChance: 45
-    rareTwoItemChance: 25
+    nothingChance: 60
+    rareTwoItemChance: 50
     maxDropQuantity: 4
     possibleSearchDrops:
     - type: 0
@@ -344,6 +347,15 @@ MonoBehaviour:
     - type: 1
       itemData: {fileID: 0}
       toothData: {fileID: 11400000, guid: 64d14ef60dbd746479e70e3eb5030216, type: 2}
+    - type: 0
+      itemData: {fileID: 11400000, guid: 5888a4c740a4f5a42b4c13ad0d653100, type: 2}
+      toothData: {fileID: 0}
+    - type: 0
+      itemData: {fileID: 11400000, guid: ab8abea27b646c441b216a4e5597bd81, type: 2}
+      toothData: {fileID: 0}
+    - type: 0
+      itemData: {fileID: 11400000, guid: c50c6cf7a670c6a45b3637353a52e0cc, type: 2}
+      toothData: {fileID: 0}
   defaultFallbackSearch:
     targetBiome: 1
     nothingChance: 35

@@ -307,6 +307,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1522636355711820040, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
+      propertyPath: currentBiome
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8567076734609327451, guid: 9e63e1cfda607f24583f24a27c47d40d, type: 3}
       propertyPath: m_Name
       value: PlayerPrefab
@@ -1260,12 +1264,12 @@ MonoBehaviour:
   typeSpeed: 0.04
   biomeLootTables:
   - targetBiome: 1
-    successChance: 55
+    successChance: 45
     minSlotsDropped: 1
-    maxSlotsDropped: 3
-    maxDropQuantity: 2
-    minTrapDamage: 10
-    maxTrapDamage: 30
+    maxSlotsDropped: 4
+    maxDropQuantity: 4
+    minTrapDamage: 3
+    maxTrapDamage: 10
     possibleTreasureDrops:
     - type: 0
       itemData: {fileID: 11400000, guid: 8f7d7e19d4f968d4c8809daf9d0d6236, type: 2}
@@ -1282,13 +1286,19 @@ MonoBehaviour:
     - type: 1
       itemData: {fileID: 0}
       toothData: {fileID: 11400000, guid: 15d499bc3b9aa5d4cb08ee3276f15c10, type: 2}
+    - type: 1
+      itemData: {fileID: 0}
+      toothData: {fileID: 11400000, guid: 15d499bc3b9aa5d4cb08ee3276f15c10, type: 2}
+    - type: 0
+      itemData: {fileID: 11400000, guid: ab8abea27b646c441b216a4e5597bd81, type: 2}
+      toothData: {fileID: 0}
   - targetBiome: 2
-    successChance: 40
-    minSlotsDropped: 1
-    maxSlotsDropped: 3
-    maxDropQuantity: 3
-    minTrapDamage: 25
-    maxTrapDamage: 60
+    successChance: 35
+    minSlotsDropped: 2
+    maxSlotsDropped: 4
+    maxDropQuantity: 5
+    minTrapDamage: 10
+    maxTrapDamage: 25
     possibleTreasureDrops:
     - type: 0
       itemData: {fileID: 11400000, guid: 8f7d7e19d4f968d4c8809daf9d0d6236, type: 2}
@@ -1313,14 +1323,23 @@ MonoBehaviour:
       toothData: {fileID: 0}
     - type: 0
       itemData: {fileID: 11400000, guid: 9a5ed72dbe9b3bd44a33a867be16feb7, type: 2}
+      toothData: {fileID: 11400000, guid: 64d14ef60dbd746479e70e3eb5030216, type: 2}
+    - type: 1
+      itemData: {fileID: 11400000, guid: 9a5ed72dbe9b3bd44a33a867be16feb7, type: 2}
+      toothData: {fileID: 11400000, guid: 64d14ef60dbd746479e70e3eb5030216, type: 2}
+    - type: 0
+      itemData: {fileID: 11400000, guid: ab8abea27b646c441b216a4e5597bd81, type: 2}
+      toothData: {fileID: 0}
+    - type: 0
+      itemData: {fileID: 11400000, guid: 5888a4c740a4f5a42b4c13ad0d653100, type: 2}
       toothData: {fileID: 0}
   - targetBiome: 3
-    successChance: 30
+    successChance: 25
     minSlotsDropped: 2
-    maxSlotsDropped: 4
-    maxDropQuantity: 4
-    minTrapDamage: 40
-    maxTrapDamage: 75
+    maxSlotsDropped: 5
+    maxDropQuantity: 7
+    minTrapDamage: 15
+    maxTrapDamage: 35
     possibleTreasureDrops:
     - type: 0
       itemData: {fileID: 11400000, guid: 8f7d7e19d4f968d4c8809daf9d0d6236, type: 2}

@@ -667,7 +667,7 @@ MonoBehaviour:
   skillName: Fracture
   skillDescription: 'Sends an earth tremor towards an enemy, dealing 100% of damage
     and ignores armor. Costs 7 SP. '
-  skillType: 0
+  skillType: 1
 --- !u!1 &177871463
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,11 +1229,11 @@ MonoBehaviour:
   costText: {fileID: 1362342766}
   skillName: Melee+
   skillDescription: Increases melee damage by 2 per level.
-  toothCost: 1
-  statToBoost: 8
+  toothCost: 2
+  statToBoost: 0
   boostPerLevel: 2
   currentLevel: 0
-  maxLevel: 3
+  maxLevel: 5
 --- !u!114 &223176059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1583,11 +1583,11 @@ MonoBehaviour:
   costText: {fileID: 1720556675}
   skillName: Armor+
   skillDescription: Increases base armor by 2 per level.
-  toothCost: 1
+  toothCost: 2
   statToBoost: 6
   boostPerLevel: 2
   currentLevel: 0
-  maxLevel: 3
+  maxLevel: 5
 --- !u!114 &249788531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1867,7 +1867,7 @@ MonoBehaviour:
   tooltipPanel: {fileID: 255518586}
   tooltipTitleText: {fileID: 1306102294}
   tooltipDescText: {fileID: 211488227}
-  maxPurshase: 5
+  maxPurshase: 6
 --- !u!114 &378952267 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 512246852953892093, guid: 649522aa2f19d7149bed146748d3b102, type: 3}
@@ -3783,11 +3783,11 @@ MonoBehaviour:
   costText: {fileID: 1251686615}
   skillName: Buffier Slime
   skillDescription: Increases max HP by 5 per level.
-  toothCost: 1
-  statToBoost: 2
-  boostPerLevel: 0.05
+  toothCost: 4
+  statToBoost: 3
+  boostPerLevel: 5
   currentLevel: 0
-  maxLevel: 5
+  maxLevel: 10
 --- !u!114 &770906214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5197,12 +5197,12 @@ MonoBehaviour:
   levelText: {fileID: 195204800}
   costText: {fileID: 93781760}
   skillName: Self-Sustain
-  skillDescription: Every two turns, heal by +4 per level.
-  toothCost: 1
+  skillDescription: "Every two turns, heal by +5\n per level."
+  toothCost: 3
   statToBoost: 9
-  boostPerLevel: 4
+  boostPerLevel: 5
   currentLevel: 0
-  maxLevel: 3
+  maxLevel: 4
 --- !u!114 &1092742693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5687,10 +5687,10 @@ MonoBehaviour:
   skillName: Ranged+
   skillDescription: Increases ranged damage by 2 per level.
   toothCost: 1
-  statToBoost: 0
+  statToBoost: 8
   boostPerLevel: 2
   currentLevel: 0
-  maxLevel: 5
+  maxLevel: 6
 --- !u!114 &1226721548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7205,11 +7205,11 @@ MonoBehaviour:
   costText: {fileID: 1599526875}
   skillName: Critical Damage+
   skillDescription: Increases critical damage by 25% per level.
-  toothCost: 1
+  toothCost: 2
   statToBoost: 1
   boostPerLevel: 0.25
   currentLevel: 0
-  maxLevel: 5
+  maxLevel: 6
 --- !u!114 &1432262893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9296,10 +9296,10 @@ MonoBehaviour:
   levelText: {fileID: 688699066}
   costText: {fileID: 1010249679}
   skillName: More SP I
-  skillDescription: Increases max SP by 3 per level.
+  skillDescription: Increases max SP by 2 per level.
   toothCost: 1
   statToBoost: 4
-  boostPerLevel: 3
+  boostPerLevel: 2
   currentLevel: 0
   maxLevel: 3
 --- !u!114 &1806145535
@@ -9454,10 +9454,10 @@ MonoBehaviour:
   levelText: {fileID: 17304893}
   costText: {fileID: 1213800675}
   skillName: Armor++
-  skillDescription: Increases base armor by 1 per level.
-  toothCost: 1
+  skillDescription: Increases base armor by 2 per level.
+  toothCost: 3
   statToBoost: 6
-  boostPerLevel: 1
+  boostPerLevel: 2
   currentLevel: 0
   maxLevel: 3
 --- !u!114 &1856324960
@@ -10251,7 +10251,7 @@ MonoBehaviour:
   tooltipPanel: {fileID: 255518586}
   tooltipTitleText: {fileID: 1306102294}
   tooltipDescText: {fileID: 211488227}
-  maxPurshase: 5
+  maxPurshase: 4
 --- !u!1 &1974083739
 GameObject:
   m_ObjectHideFlags: 0
@@ -10560,7 +10560,7 @@ MonoBehaviour:
   skillDescription: Increases debuff resistance by 5% per level.
   toothCost: 1
   statToBoost: 7
-  boostPerLevel: 5
+  boostPerLevel: 0.05
   currentLevel: 0
   maxLevel: 3
 --- !u!114 &1981006073
@@ -10713,7 +10713,7 @@ MonoBehaviour:
   costText: {fileID: 926926079}
   skillName: More SP II
   skillDescription: Increases max SP by 4 per level.
-  toothCost: 1
+  toothCost: 3
   statToBoost: 4
   boostPerLevel: 4
   currentLevel: 0
@@ -11045,9 +11045,9 @@ MonoBehaviour:
   skillDescription: Increases ALL damage by 1 per level.
   toothCost: 3
   statToBoost: 5
-  boostPerLevel: 0
+  boostPerLevel: 1
   currentLevel: 0
-  maxLevel: 3
+  maxLevel: 5
 --- !u!114 &2015671000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11198,9 +11198,9 @@ MonoBehaviour:
   costText: {fileID: 1223403123}
   skillName: Critical Chance+
   skillDescription: Increases critical chance by 5% per level.
-  toothCost: 1
-  statToBoost: 3
-  boostPerLevel: 5
+  toothCost: 2
+  statToBoost: 2
+  boostPerLevel: 0.05
   currentLevel: 0
   maxLevel: 3
 --- !u!114 &2124892916

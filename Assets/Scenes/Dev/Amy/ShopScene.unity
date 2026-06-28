@@ -1643,8 +1643,11 @@ MonoBehaviour:
       maxStackQuantity: 3
     - item: {fileID: 11400000, guid: 38967c91c11066f47912838a21b1b161, type: 2}
       minStackQuantity: 0
-      maxStackQuantity: 1
+      maxStackQuantity: 2
     - item: {fileID: 11400000, guid: 0f3b913957e4dc34b8c255ee7a7fdcc1, type: 2}
+      minStackQuantity: 0
+      maxStackQuantity: 2
+    - item: {fileID: 11400000, guid: 9a5ed72dbe9b3bd44a33a867be16feb7, type: 2}
       minStackQuantity: 0
       maxStackQuantity: 1
     allowedTeeth:
@@ -1669,6 +1672,12 @@ MonoBehaviour:
       minStackQuantity: 0
       maxStackQuantity: 2
     - item: {fileID: 11400000, guid: 9a5ed72dbe9b3bd44a33a867be16feb7, type: 2}
+      minStackQuantity: 0
+      maxStackQuantity: 2
+    - item: {fileID: 11400000, guid: ab8abea27b646c441b216a4e5597bd81, type: 2}
+      minStackQuantity: 0
+      maxStackQuantity: 1
+    - item: {fileID: 11400000, guid: 5888a4c740a4f5a42b4c13ad0d653100, type: 2}
       minStackQuantity: 0
       maxStackQuantity: 1
     allowedTeeth:
@@ -1696,8 +1705,17 @@ MonoBehaviour:
       minStackQuantity: 1
       maxStackQuantity: 2
     - item: {fileID: 11400000, guid: 9a5ed72dbe9b3bd44a33a867be16feb7, type: 2}
+      minStackQuantity: 1
+      maxStackQuantity: 2
+    - item: {fileID: 11400000, guid: ab8abea27b646c441b216a4e5597bd81, type: 2}
       minStackQuantity: 0
       maxStackQuantity: 2
+    - item: {fileID: 11400000, guid: c50c6cf7a670c6a45b3637353a52e0cc, type: 2}
+      minStackQuantity: 0
+      maxStackQuantity: 1
+    - item: {fileID: 11400000, guid: 5888a4c740a4f5a42b4c13ad0d653100, type: 2}
+      minStackQuantity: 0
+      maxStackQuantity: 1
     allowedTeeth:
     - toothType: {fileID: 11400000, guid: 15d499bc3b9aa5d4cb08ee3276f15c10, type: 2}
       minPrice: 3
