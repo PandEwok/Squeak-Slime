@@ -167,14 +167,16 @@ public class Enemy_AI : MonoBehaviour
         int teethDropped = Random.Range(0, 3);
 
         PlayerInventory inv = player.GetComponent<PlayerInventory>();
-        if (inv != null)
+        if (teethDropped > 0)
         {
-            inv.AddTooth(teethType, teethDropped);
-            GameObject dropInstance = Instantiate(dropPF, transform.position, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
-            TextMeshProUGUI text = dropInstance.GetComponent<TextMeshProUGUI>();
-            text.SetText($"x{teethDropped}");
+            if (inv != null)
+            {
+                inv.AddTooth(teethType, teethDropped);
+                GameObject dropInstance = Instantiate(dropPF, transform.position, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
+                TextMeshProUGUI text = dropInstance.GetComponent<TextMeshProUGUI>();
+                text.SetText($"x{teethDropped}");
+            }
         }
-
         return teethDropped;
     }
 
