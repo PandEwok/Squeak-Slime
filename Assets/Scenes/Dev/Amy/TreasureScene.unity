@@ -1264,7 +1264,7 @@ MonoBehaviour:
   typeSpeed: 0.04
   biomeLootTables:
   - targetBiome: 1
-    successChance: 45
+    successChance: 50
     minSlotsDropped: 1
     maxSlotsDropped: 4
     maxDropQuantity: 4
@@ -1327,6 +1327,9 @@ MonoBehaviour:
     - type: 1
       itemData: {fileID: 11400000, guid: 9a5ed72dbe9b3bd44a33a867be16feb7, type: 2}
       toothData: {fileID: 11400000, guid: 64d14ef60dbd746479e70e3eb5030216, type: 2}
+    - type: 1
+      itemData: {fileID: 11400000, guid: 9a5ed72dbe9b3bd44a33a867be16feb7, type: 2}
+      toothData: {fileID: 11400000, guid: ed97cad1ea983524c9f1c86ddd469139, type: 2}
     - type: 0
       itemData: {fileID: 11400000, guid: ab8abea27b646c441b216a4e5597bd81, type: 2}
       toothData: {fileID: 0}
