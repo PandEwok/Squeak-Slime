@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 1522636355711820040}
   - component: {fileID: -8998726753592772742}
   - component: {fileID: 5943454176240992178}
+  - component: {fileID: -1210095892835213996}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -169,6 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 020d6cc7674eec54abf6b1f2ed991d7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
+  ACTIVER_CHEAT: 1
   originalPosition: {x: 0, y: 0, z: 0}
   combatLogic: {fileID: 0}
   inventory: {fileID: 3077587344446119393}
@@ -236,6 +238,22 @@ MonoBehaviour:
   debuffChance: 0.3
   healEveryTurn: 0
   slimeDamageSound: Slime_Damage
+  meleeDamageUD: 0
+  criticalChanceUD: 0
+  criticalDamageUD: 0
+  rangedDamageUD: 0
+  healEveryTwoTurnUD: 0
+  baseArmorGolemUD: 0
+  maxSPGolemUD: 0
+  maxHPGolemUD: 0
+  debuffResistanceUD: 0
+  baseArmorMutantUD: 0
+  baseDamageUD: 0
+  maxSPMutantUD: 0
+  totalRodentUD: 0
+  totalGolemUD: 0
+  totalMagicUD: 0
+  totalMutantUD: 0
 --- !u!114 &5943454176240992178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +276,44 @@ MonoBehaviour:
   waitColor: {r: 1, g: 0, b: 0, a: 1}
   readyColor: {r: 0, g: 1, b: 0, a: 1}
   statsUi: {fileID: 0}
+--- !u!114 &-1210095892835213996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8567076734609327451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bdcff21ff975e4fafa01f244fce4a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CheatManager
+  itemsCheatList:
+  - item: {fileID: 11400000, guid: 963bc07877a904c44ab5a09afcd8f754, type: 2}
+    amount: 99
+  - item: {fileID: 11400000, guid: 8f7d7e19d4f968d4c8809daf9d0d6236, type: 2}
+    amount: 99
+  - item: {fileID: 11400000, guid: 38967c91c11066f47912838a21b1b161, type: 2}
+    amount: 99
+  - item: {fileID: 11400000, guid: 0f3b913957e4dc34b8c255ee7a7fdcc1, type: 2}
+    amount: 99
+  - item: {fileID: 11400000, guid: ab8abea27b646c441b216a4e5597bd81, type: 2}
+    amount: 99
+  - item: {fileID: 11400000, guid: 9a5ed72dbe9b3bd44a33a867be16feb7, type: 2}
+    amount: 99
+  - item: {fileID: 11400000, guid: c50c6cf7a670c6a45b3637353a52e0cc, type: 2}
+    amount: 99
+  - item: {fileID: 11400000, guid: 5888a4c740a4f5a42b4c13ad0d653100, type: 2}
+    amount: 99
+  teethCheatList:
+  - tooth: {fileID: 11400000, guid: 64d14ef60dbd746479e70e3eb5030216, type: 2}
+    amount: 99
+  - tooth: {fileID: 11400000, guid: ed97cad1ea983524c9f1c86ddd469139, type: 2}
+    amount: 99
+  - tooth: {fileID: 11400000, guid: 575ec03d3163faf448d3797bef882419, type: 2}
+    amount: 99
+  - tooth: {fileID: 11400000, guid: 15d499bc3b9aa5d4cb08ee3276f15c10, type: 2}
+    amount: 99
 --- !u!1001 &2747501983277139162
 PrefabInstance:
   m_ObjectHideFlags: 0

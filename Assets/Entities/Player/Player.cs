@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private bool ACTIVER_CHEAT = false; //CE BOOLEEN DOIT ETRE IMPERATIVEMENT MIS A FALSE DANS LE PREFAB EN CAS DE SORTIE OFFICIELLE
+    public bool cheat => ACTIVER_CHEAT;
     public enum BiomeType
     {
         FOREST = 1,
@@ -58,42 +60,42 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        //Appuyez sur S pour save
-        if(Keyboard.current != null && Keyboard.current.sKey.wasPressedThisFrame)
-        {
-            FileManager.Instance.SaveGame(
-                stats.health,
-                stats.SP,
-                inventory.hasBite,
-                inventory.hasFireball,
-                inventory.hasFracture,
-                inventory.hasAbsorption,
-                inventory
-            );
-            Debug.Log("Sauvegarde effectuée !");
-        }
-        //Appuyez sur L pour charger les donnees
-        if (Keyboard.current != null && Keyboard.current.lKey.wasPressedThisFrame)
-        {
-            PlayerData data = FileManager.Instance.LoadGame();
-            if (data != null)
-            {
-                stats.health = data.HP;
-                stats.SP = data.SP;
-                inventory.hasBite = data.hasBite;
-                inventory.hasFireball = data.hasFireball;
-                inventory.hasFracture = data.hasFracture;
-                inventory.hasAbsorption = data.hasAbsorption;
-
-                inventory.LoadInventoryData(data);
-                Debug.Log("Chargement effectué !");
-            }
-        }
-        if(Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
-        {
-            FileManager.Instance.DeleteSave();
-            Debug.Log("Sauvegarde supprimée !");
-        }
+        ////Appuyez sur S pour save
+        //if(Keyboard.current != null && Keyboard.current.sKey.wasPressedThisFrame)
+        //{
+        //    FileManager.Instance.SaveGame(
+        //        stats.health,
+        //        stats.SP,
+        //        inventory.hasBite,
+        //        inventory.hasFireball,
+        //        inventory.hasFracture,
+        //        inventory.hasAbsorption,
+        //        inventory
+        //    );
+        //    Debug.Log("Sauvegarde effectuée !");
+        //}
+        ////Appuyez sur L pour charger les donnees
+        //if (Keyboard.current != null && Keyboard.current.lKey.wasPressedThisFrame)
+        //{
+        //    PlayerData data = FileManager.Instance.LoadGame();
+        //    if (data != null)
+        //    {
+        //        stats.health = data.HP;
+        //        stats.SP = data.SP;
+        //        inventory.hasBite = data.hasBite;
+        //        inventory.hasFireball = data.hasFireball;
+        //        inventory.hasFracture = data.hasFracture;
+        //        inventory.hasAbsorption = data.hasAbsorption;
+        //
+        //        inventory.LoadInventoryData(data);
+        //        Debug.Log("Chargement effectué !");
+        //    }
+        //}
+        //if(Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        //{
+        //    FileManager.Instance.DeleteSave();
+        //    Debug.Log("Sauvegarde supprimée !");
+        //}
     }
     public void SwitchingTurn()
     {
